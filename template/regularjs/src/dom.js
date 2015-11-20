@@ -177,6 +177,14 @@ dom.attr = function(node, name, value){
   }
 }
 
+// 针对ie9以下的checkbox和radio的change事件，转换成click事件
+function fixEventName(elem, name){
+  return (name === 'change'  &&  dom.msie < 9 && 
+      (elem && elem.tagName && elem.tagName.toLowerCase()==='input' && 
+        (elem.type === 'checkbox' || elem.type === 'radio')
+      )
+    )? 'click': name;
+}
 // 给节点绑定事件监听器
 dom.on = function(node, type, handler){
   var types = type.split(' ');
@@ -301,68 +309,72 @@ dom.hasClass = function(node, className){
 
 // simple Event wrap
 
-//http://stackoverflow.com/questions/11068196/ie8-ie7-onchange-event-is-emited-only-after-repeated-selection
-function fixEventName(elem, name){
-  return (name === 'change'  &&  dom.msie < 9 && 
-      (elem && elem.tagName && elem.tagName.toLowerCase()==='input' && 
-        (elem.type === 'checkbox' || elem.type === 'radio')
-      )
-    )? 'click': name;
-}
 
-var rMouseEvent = /^(?:click|dblclick|contextmenu|DOMMouseScroll|mouse(?:\w+))$/
+
+var rMouseEvent = /^(?:click|dblclick|contextmenu|DOMMouseScroll|mouse(?:\w+))$/; // 鼠标事件
 var doc = document;
+// 标准规范模式下使用document.documentElement
 doc = (!doc.compatMode || doc.compatMode === 'CSS1Compat') ? doc.documentElement : doc.body;
+// 封装Event类
 function Event(ev){
   ev = ev || window.event;
-  if(ev._fixed) return ev;
-  this.event = ev;
-  this.target = ev.target || ev.srcElement;
+  if(ev._fixed) return ev; // 已经是此类实例
+  this.event = ev; // 原始事件对象
+  this.target = ev.target || ev.srcElement; // 事件触发对象
 
-  var type = this.type = ev.type;
-  var button = this.button = ev.button;
+  var type = this.type = ev.type; // 原始事件类型
+  var button = this.button = ev.button; // 事件由哪个鼠标按键触发的
 
-  // if is mouse event patch pageX
-  if(rMouseEvent.test(type)){ //fix pageX
+  // 鼠标事件
+  if(rMouseEvent.test(type)){ 
+    // 修复鼠标事件中滚动pageX和pageY
     this.pageX = (ev.pageX != null) ? ev.pageX : ev.clientX + doc.scrollLeft;
     this.pageY = (ev.pageX != null) ? ev.pageY : ev.clientY + doc.scrollTop;
-    if (type === 'mouseover' || type === 'mouseout'){// fix relatedTarget
+    if (type === 'mouseover' || type === 'mouseout'){
+      // 修复mouseover和mouseout事件中的relatedTarget
       var related = ev.relatedTarget || ev[(type === 'mouseover' ? 'from' : 'to') + 'Element'];
       while (related && related.nodeType === 3) related = related.parentNode;
       this.relatedTarget = related;
     }
   }
-  // if is mousescroll
-  if (type === 'DOMMouseScroll' || type === 'mousewheel'){
-    // ff ev.detail: 3    other ev.wheelDelta: -120
+  
+  // 滚轮事件
+  if (type === 'DOMMouseScroll' || type === 'mousewheel'){、
+    // 修复火狐与其他浏览器滚动数值不相同的问题
+    // 火狐 - ev.detail: 3    
+    // 其他 - ev.wheelDelta: -120
     this.wheelDelta = (ev.wheelDelta) ? ev.wheelDelta / 120 : -(ev.detail || 0) / 3;
   }
-  
-  // fix which
+  // 修复which属性
   this.which = ev.which || ev.keyCode;
   if( !this.which && button !== undefined){
-    // http://api.jquery.com/event.which/ use which
+    // 修复鼠标点击事件时的which属性
     this.which = ( button & 1 ? 1 : ( button & 2 ? 3 : ( button & 4 ? 2 : 0 ) ) );
   }
-  this._fixed = true;
+  this._fixed = true; // 已修复标志
 }
 
+// 添加Event类的方法
 _.extend(Event.prototype, {
   immediateStop: _.isFalse,
   stop: function(){
+    // 阻断事件
     this.preventDefault().stopPropagation();
   },
   preventDefault: function(){
+    // 阻止默认事件
     if (this.event.preventDefault) this.event.preventDefault();
     else this.event.returnValue = false;
     return this;
   },
   stopPropagation: function(){
+    // 阻止事件冒泡
     if (this.event.stopPropagation) this.event.stopPropagation();
     else this.event.cancelBubble = true;
     return this;
   },
   stopImmediatePropagation: function(){
+    // 阻止事件冒泡并且阻止当前事件所在元素上的所有相同类型事件的事件处理函数的继续执行
     if(this.event.stopImmediatePropagation) this.event.stopImmediatePropagation();
   }
 })
@@ -371,7 +383,7 @@ _.extend(Event.prototype, {
 dom.nextFrame = (function(){
     var request = window.requestAnimationFrame ||
                   window.webkitRequestAnimationFrame ||
-                  window.mozRequestAnimationFrame|| 
+                  window.mozRequestAnimationFrame || 
                   function(callback){
                     setTimeout(callback, 16)
                   }
