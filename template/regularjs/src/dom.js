@@ -379,7 +379,7 @@ _.extend(Event.prototype, {
   }
 })
 
-
+// 动画
 dom.nextFrame = (function(){
     var request = window.requestAnimationFrame ||
                   window.webkitRequestAnimationFrame ||

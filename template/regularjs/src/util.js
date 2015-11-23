@@ -1,12 +1,10 @@
 require('./helper/shim.js')();
 var _  = module.exports;
-var entities = require('./helper/entities.js');
-var slice = [].slice;
-var o2str = ({}).toString;
 var win = typeof window !=='undefined'? window: global;
 
 
 _.noop = function(){};
+// 返回唯一id
 _.uid = (function(){
   var _uid=0;
   return function(){
@@ -14,22 +12,17 @@ _.uid = (function(){
   }
 })();
 
+// 扩展类
 _.extend = function( o1, o2, override ){
-  // if(_.typeOf(override) === 'array'){
-  //  for(var i = 0, len = override.length; i < len; i++ ){
-  //   var key = override[i];
-  //   o1[key] = o2[key];
-  //  } 
-  // }else{
   for(var i in o2){
     if( typeof o1[i] === "undefined" || override === true ){
       o1[i] = o2[i]
     }
   }
-  // }
   return o1;
 }
 
+// 返回对象的keys数组
 _.keys = function(obj){
   if(Object.keys) return Object.keys(obj);
   var res = [];
@@ -44,20 +37,19 @@ _.setName = 'p_';
 _.ctxName = 'c';
 _.extName = 'e';
 
+_.prefix = "var " + _.varName + "=" + _.ctxName + ".data;" +  _.extName  + "=" + _.extName + "||'';";
+
 _.rWord = /^[\$\w]+$/;
 _.rSimpleAccessor = /^[\$\w]+(\.[\$\w]+)*$/;
 
+// 执行完成其他任务后执行回调
 _.nextTick = typeof setImmediate === 'function'? 
   setImmediate.bind(win) : 
   function(callback) {
     setTimeout(callback, 0) 
   }
 
-
-
-_.prefix = "var " + _.varName + "=" + _.ctxName + ".data;" +  _.extName  + "=" + _.extName + "||'';";
-
-
+// 截取数组
 _.slice = function(obj, start, end){
   var res = [];
   for(var i = start || 0, len = end || obj.length; i < len; i++){
@@ -67,54 +59,10 @@ _.slice = function(obj, start, end){
   return res;
 }
 
+// 取数据类型
+var o2str = ({}).toString;
 _.typeOf = function (o) {
   return o == null ? String(o) :o2str.call(o).slice(8, -1).toLowerCase();
-}
-
-
-_.makePredicate = function makePredicate(words, prefix) {
-    if (typeof words === "string") {
-        words = words.split(" ");
-    }
-    var f = "",
-    cats = [];
-    out: for (var i = 0; i < words.length; ++i) {
-        for (var j = 0; j < cats.length; ++j){
-          if (cats[j][0].length === words[i].length) {
-              cats[j].push(words[i]);
-              continue out;
-          }
-        }
-        cats.push([words[i]]);
-    }
-    function compareTo(arr) {
-        if (arr.length === 1) return f += "return str === '" + arr[0] + "';";
-        f += "switch(str){";
-        for (var i = 0; i < arr.length; ++i){
-           f += "case '" + arr[i] + "':";
-        }
-        f += "return true}return false;";
-    }
-
-    // When there are more than three length categories, an outer
-    // switch first dispatches on the lengths, to save on comparisons.
-    if (cats.length > 3) {
-        cats.sort(function(a, b) {
-            return b.length - a.length;
-        });
-        f += "switch(str.length){";
-        for (var i = 0; i < cats.length; ++i) {
-            var cat = cats[i];
-            f += "case " + cat[0].length + ":";
-            compareTo(cat);
-        }
-        f += "}";
-
-        // Otherwise, simply generate a flat `switch` statement.
-    } else {
-        compareTo(words);
-    }
-    return new Function("str", f);
 }
 
 
@@ -189,11 +137,10 @@ _.escapeRegExp = function( str){// Credit: XRegExp 0.6.1 (c) 2007-2008 Steven Le
   });
 };
 
-
+// 替换字符实体
+var entities = require('./helper/entities.js');
 var rEntity = new RegExp("&(" + _.keys(entities).join('|') + ');', 'gi');
-
 _.convertEntity = function(chr){
-
   return ("" + chr).replace(rEntity, function(all, capture){
     return String.fromCharCode(entities[capture])
   });
@@ -201,16 +148,16 @@ _.convertEntity = function(chr){
 }
 
 
-// simple get accessor
-
+// 根据原型和属性创建对象
 _.createObject = function(o, props){
     function Foo() {}
     Foo.prototype = o;
-    var res = new Foo;
+    var res = new Foo();
     if(props) _.extend(res, props);
     return res;
 }
 
+// 创建原型
 _.createProto = function(fn, o){
     function Foo() { this.constructor = fn;}
     Foo.prototype = o;
@@ -218,35 +165,34 @@ _.createProto = function(fn, o){
 }
 
 
-
-/**
-clone
-*/
+// 浅克隆
 _.clone = function clone(obj){
-    var type = _.typeOf(obj);
-    if(type === 'array'){
-      var cloned = [];
-      for(var i=0,len = obj.length; i< len;i++){
-        cloned[i] = obj[i]
-      }
-      return cloned;
+  var type = _.typeOf(obj);
+  if(type === 'array'){
+    var cloned = [];
+    for(var i=0,len = obj.length; i< len;i++){
+      cloned[i] = obj[i]
     }
-    if(type === 'object'){
-      var cloned = {};
-      for(var i in obj) if(obj.hasOwnProperty(i)){
-        cloned[i] = obj[i];
-      }
-      return cloned;
-    }
-    return obj;
+    return cloned;
   }
+  if(type === 'object'){
+    var cloned = {};
+    for(var i in obj) if(obj.hasOwnProperty(i)){
+      cloned[i] = obj[i];
+    }
+    return cloned;
+  }
+  return obj;
+}
 
+// 判断两个数据是否相等
 _.equals = function(now, old){
   var type = typeof now;
   if(type === 'number' && typeof old === 'number'&& isNaN(now) && isNaN(old)) return true
   return now === old;
 }
 
+// 转换成驼峰式大写
 var dash = /-([a-z])/g;
 _.camelCase = function(str){
   return str.replace(dash, function(all, capture){
@@ -255,8 +201,8 @@ _.camelCase = function(str){
 }
 
 
-
-_.throttle = function throttle(func, wait){
+// 将短时间内重复触发的函数压缩成一次触发
+_.throttle = function(func, wait){
   var wait = wait || 100;
   var context, args, result;
   var timeout = null;
@@ -274,8 +220,8 @@ _.throttle = function throttle(func, wait){
     args = arguments;
     if (remaining <= 0 || remaining > wait) {
       clearTimeout(timeout);
-      timeout = null;
       previous = now;
+      timeout = null;
       result = func.apply(context, args);
       context = args = null;
     } else if (!timeout) {
@@ -285,8 +231,7 @@ _.throttle = function throttle(func, wait){
   };
 };
 
-// hogan escape
-// ==============
+// 转义
 _.escape = (function(){
   var rAmp = /&/g,
       rLt = /</g,
@@ -307,6 +252,7 @@ _.escape = (function(){
   }
 })();
 
+// 返回一个缓存对象，提供get和set等方法
 _.cache = function(max){
   max = max || 1000;
   var keys = [],
@@ -333,19 +279,12 @@ _.cache = function(max){
   };
 }
 
-// // setup the raw Expression
-// _.touchExpression = function(expr){
-//   if(expr.type === 'expression'){
-//   }
-//   return expr;
-// }
-
-
-// handle the same logic on component's `on-*` and element's `on-*`
-// return the fire object
+// 控制组件的on-*和元素的on-*中同样的逻辑，返回一个触发函数
+var slice = [].slice;
 _.handleEvent = function(value, type ){
   var self = this, evaluate;
-  if(value.type === 'expression'){ // if is expression, go evaluated way
+  if(value.type === 'expression'){
+    // 如果是表达式的话，直接走get方法
     evaluate = value.get;
   }
   if(evaluate){
@@ -366,7 +305,7 @@ _.handleEvent = function(value, type ){
   }
 }
 
-// only call once
+// 执行某函数，且只执行一次
 _.once = function(fn){
   var time = 0;
   return function(){
@@ -374,6 +313,7 @@ _.once = function(fn){
   }
 }
 
+// 修复不是以大括号开头的字符串
 _.fixObjStr = function(str){
   if(str.trim().indexOf('{') !== 0){
     return '{' + str + '}';
@@ -381,22 +321,66 @@ _.fixObjStr = function(str){
   return str;
 }
 
-
-
+// 打印日志
 _.log = function(msg, type){
   if(typeof console !== "undefined")  console[type || "log"](msg);
 }
 
+// 根据传入的关键字，返回对应的判断函数
+_.makePredicate = function makePredicate(words, prefix) {
+    if (typeof words === "string") {
+        words = words.split(" ");
+    }
+    var f = "",
+    cats = [];
+    // 将words按照字数的长度进行分类
+    out: for (var i = 0; i < words.length; ++i) {
+        for (var j = 0; j < cats.length; ++j){
+          if (cats[j][0].length === words[i].length) {
+              cats[j].push(words[i]);
+              continue out;
+          }
+        }
+        cats.push([words[i]]);
+    }
+    function compareTo(arr) {
+        // 如果只有一项，则不用switch
+        if (arr.length === 1) return f += "return str === '" + arr[0] + "';";
+        f += "switch(str){";
+        for (var i = 0; i < arr.length; ++i){
+           f += "case '" + arr[i] + "':";
+        }
+        f += "return true}return false;";
+    }
 
+    // 当分类数量大于3的时候，就在该分类外面包一层switch，以便比较
+    if (cats.length > 3) {
+        // 按数量多少排序，从多到少排列
+        cats.sort(function(a, b) {
+            return b.length - a.length;
+        });
+        f += "switch(str.length){";
+        for (var i = 0; i < cats.length; ++i) {
+            var cat = cats[i];
+            f += "case " + cat[0].length + ":";
+            compareTo(cat);
+        }
+        f += "}";
+    } else {
+        compareTo(words);
+    }
+    return new Function("str", f);
+}
 
-
-//http://www.w3.org/html/wg/drafts/html/master/single-page.html#void-elements
+// 是否是空标签
 _.isVoidTag = _.makePredicate("area base br col embed hr img input keygen link menuitem meta param source track wbr r-content");
+// 是否是布尔值属性，即可省略值的属性
 _.isBooleanAttr = _.makePredicate('selected checked disabled readonly required open autofocus controls autoplay compact loop defer multiple');
 
 _.isFalse - function(){return false}
 _.isTrue - function(){return true}
 
+// 判断是否是表达式
 _.isExpr = function(expr){
   return expr && expr.type === 'expression';
 }

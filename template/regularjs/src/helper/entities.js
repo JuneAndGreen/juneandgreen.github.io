@@ -1,4 +1,4 @@
-// http://stackoverflow.com/questions/1354064/how-to-convert-characters-to-html-entities-using-plain-javascript
+// 字符实体对应的码
 var entities = {
   'quot':34, 
   'amp':38, 

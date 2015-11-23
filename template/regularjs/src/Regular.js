@@ -22,6 +22,7 @@ var doc = dom.doc;
  * `Regular`是regularjs的命名空间和基类。所有组件都是从这里继承的。
  */
 var Regular = function(definition, options){
+  // 运行状态
   var prevRunning = env.isRunning;
   env.isRunning = true;
   var node, template;
@@ -229,6 +230,7 @@ _.extend(Regular, {
 
 });
 
+// 添加Regular和其子类的extend方法
 extend(Regular);
 
 Regular._addProtoInheritCache("component")

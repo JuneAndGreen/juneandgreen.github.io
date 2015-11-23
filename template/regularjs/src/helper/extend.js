@@ -1,18 +1,8 @@
-// (c) 2010-2014 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
-// Backbone may be freely distributed under the MIT license.
-// For all details and documentation:
-// http://backbonejs.org
-
-// klass: a classical JS OOP façade
-// https://github.com/ded/klass
-// License MIT (c) Dustin Diaz 2014
-  
-// inspired by backbone's extend and klass
 var _ = require("../util.js"),
   fnTest = /xy/.test(function(){"xy";}) ? /\bsupr\b/:/.*/,
   isFn = function(o){return typeof o === "function"};
 
-
+// 在函数外层封装一个supr方法，用来调用父类的同名方法
 function wrap(k, fn, supro) {
   return function () {
     var tmp = this.supr;
@@ -23,6 +13,7 @@ function wrap(k, fn, supro) {
   }
 }
 
+// 扩展其他属性方法
 function process( what, o, supro ) {
   for ( var k in o ) {
     if (o.hasOwnProperty(k)) {
@@ -33,38 +24,50 @@ function process( what, o, supro ) {
   }
 }
 
-// if the property is ["events", "data", "computed"] , we should merge them
+
 var merged = ["events", "data", "computed"], mlen = merged.length;
 module.exports = function extend(o){
+  // o是需扩展的对象或者是构造函数
+  // supr是自身，即基类
+  // supro是自身的原型，即基类的原型
+  // fn是继承了自身的类
+  // proto是继承了自身的类的原型
   o = o || {};
   var supr = this, proto,
     supro = supr && supr.prototype || {};
 
-  if(typeof o === 'function'){
+  if(typeof o === 'function'){、
+    // 针对Regular构造函数的扩展，即o是构造函数
     proto = o.prototype;
     o.implement = implement;
+    // 给类添加extend方法
     o.extend = extend;
     return o;
   } 
+
+  // 以下为针对对象的扩展，即o为需扩展的属性
   
+  // 类构造器
   function fn() {
     supr.apply(this, arguments);
   }
 
+  // 构造原型
   proto = _.createProto(fn, supro);
 
+  // 扩展基类的属性方法
   function implement(o){
-    // we need merge the merged property
     var len = mlen;
     for(;len--;){
       var prop = merged[len];
       if(o.hasOwnProperty(prop) && proto.hasOwnProperty(prop)){
+        // 如果属性里有events、data或computed，则需要合并覆盖到原型中
         _.extend(proto[prop], o[prop], true) 
         delete o[prop];
       }
     }
 
-
+    // 扩展其他属性方法
     process(proto, o, supro); 
     return this;
   }
