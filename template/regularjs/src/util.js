@@ -112,6 +112,7 @@ _.trackErrorPos = (function (){
 
 
 var ignoredRef = /\((\?\!|\?\:|\?\=)/g;
+// 获取正则字符串中可被捕获的子串数量
 _.findSubCapture = function (regStr) {
   var left = 0,
     right = 0,
@@ -122,16 +123,17 @@ _.findSubCapture = function (regStr) {
   for (; len--;) {
     var letter = regStr.charAt(len);
     if (len === 0 || regStr.charAt(len - 1) !== "\\" ) { 
+      // 如果正则表达式字符串到了头或者遇到转义字符
       if (letter === "(") left++;
       if (letter === ")") right++;
     }
   }
-  if (left !== right) throw "RegExp: "+ regStr + "'s bracket is not marched";
-  else return left - ignored;
+  if (left !== right) throw "RegExp: "+ regStr + "'s bracket is not marched"; // 正则不合法
+  else return left - ignored; // 返回正则字符串中可被捕获的子串数量
 };
 
-
-_.escapeRegExp = function( str){// Credit: XRegExp 0.6.1 (c) 2007-2008 Steven Levithan <http://stevenlevithan.com/regex/xregexp/> MIT License
+// 将字符串转义成可用正则表达式字符串
+_.escapeRegExp = function( str){
   return str.replace(/[-[\]{}()*+?.\\^$|,#\s]/g, function(match){
     return '\\' + match;
   });

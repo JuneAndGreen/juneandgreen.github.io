@@ -27,10 +27,10 @@ function process( what, o, supro ) {
 
 var merged = ["events", "data", "computed"], mlen = merged.length;
 module.exports = function extend(o){
-  // o是需扩展的对象或者是构造函数
+  // o是需扩展的对象或者是构造函数（包含属性方法）
   // supr是自身，即基类
   // supro是自身的原型，即基类的原型
-  // fn是继承了自身的类
+  // fn是继承了自身的类，即扩展了o的类
   // proto是继承了自身的类的原型
   o = o || {};
   var supr = this, proto,
@@ -74,10 +74,14 @@ module.exports = function extend(o){
 
 
 
-  fn.implement = implement
-  fn.implement(o)
+  fn.implement = implement;
+  // 扩展属性方法，相当于继承
+  fn.implement(o);
+
   if(supr.__after__) supr.__after__.call(fn, supr, o);
+  // 为子类添加extend方法，为了实现链式继承
   fn.extend = extend;
+  // 返回子类
   return fn;
 }
 

@@ -130,24 +130,25 @@ _.extend(Regular, {
 
   },
   /**
-   * Define a directive
-   *
-   * @method directive
-   * @return {Object} Copy of ...
+   * 对组件的指令进行操作
    */  
   directive: function(name, cfg){
-
     if(_.typeOf(name) === "object"){
+      // 假如传入的是个对象，则进行批处理
       for(var k in name){
         if(name.hasOwnProperty(k)) this.directive(k, name[k]);
       }
       return this;
     }
+
     var type = _.typeOf(name);
     var directives = this._directives, directive;
     if(cfg == null){
+      // 取指令
+      // 指令名是字符串
       if( type === "string" && (directive = directives[name]) ) return directive;
       else{
+        // 指令名是正则表达式
         var regexp = directives.__regexp__;
         for(var i = 0, len = regexp.length; i < len ; i++){
           directive = regexp[i];
@@ -158,19 +159,25 @@ _.extend(Regular, {
       return undefined;
     }
     if(typeof cfg === 'function') cfg = { link: cfg } 
+    // 指令名是字符串
     if(type === 'string') directives[name] = cfg;
+    // 指令名是正则表达式
     else if(type === 'regexp'){
       cfg.regexp = name;
       directives.__regexp__.push(cfg)
     }
     return this
   },
+  // 对组件的插件进行操作
   plugin: function(name, fn){
     var plugins = this._plugins;
+    // 取插件
     if(fn == null) return plugins[name];
+    // 设置插件
     plugins[name] = fn;
     return this;
   },
+  // 执行插件或函数
   use: function(fn){
     if(typeof fn === "string") fn = Regular.plugin(fn);
     if(typeof fn !== "function") return this;
@@ -203,13 +210,16 @@ _.extend(Regular, {
     Regular[name] = function(key, cfg){
       var cache = this[cacheKey];
 
+      // 假如传入的是个对象，则进行批处理
       if(typeof key === "object"){
         for(var i in key){
           if(key.hasOwnProperty(i)) this[name](i, key[i]);
         }
         return this;
       }
+      // 取
       if(cfg == null) return cache[key];
+      // 设置
       cache[key] = transform? transform(cfg) : cfg;
       return this;
     }
@@ -516,6 +526,7 @@ Regular.implement({
   }
 });
 
+// 兼容$inject和inject方法
 Regular.prototype.inject = function(){
   _.log("use $inject instead of inject", "error");
   return this.$inject.apply(this, arguments);

@@ -1,33 +1,37 @@
-// simplest event emitter 60 lines
-// ===============================
 var slice = [].slice, _ = require("../util.js");
 var API = {
+  // 监听某个事件并添加回调
   $on: function(event, fn) {
+    // 假如传入的是对象，则进行批处理
     if(typeof event === "object"){
       for (var i in event) {
         this.$on(i, event[i]);
       }
     }else{
-      // @patch: for list
       var context = this;
       var handles = context._handles || (context._handles = {}),
         calls = handles[event] || (handles[event] = []);
       calls.push(fn);
     }
+    // 返回自身，为了链式方法调用
     return this;
   },
+  // 删除某个事件的监听回调
   $off: function(event, fn) {
     var context = this;
     if(!context._handles) return;
+    // 清空所有监听回调
     if(!event) this._handles = {};
     var handles = context._handles,
       calls;
 
     if (calls = handles[event]) {
       if (!fn) {
+        // 清空该事件的所有监听回调
         handles[event] = [];
         return context;
       }
+      // 遍历，删除监听回调
       for (var i = 0, len = calls.length; i < len; i++) {
         if (fn === calls[i]) {
           calls.splice(i, 1);
@@ -35,11 +39,11 @@ var API = {
         }
       }
     }
+    // 返回自身，为了链式方法调用
     return context;
   },
-  // bubble event
+  // 触发某个事件
   $emit: function(event){
-    // @patch: for list
     var context = this;
     var handles = context._handles, calls, args, type;
     if(!event) return;
@@ -56,7 +60,7 @@ var API = {
     for (var i = 0, len = calls.length; i < len; i++) {
       calls[i].apply(context, args)
     }
-    // if(calls.length) context.$update();
+    // 返回自身，为了链式方法调用
     return context;
   },
   // capture  event
@@ -64,10 +68,11 @@ var API = {
     
 }
 }
-// container class
+// 构建Event类
 function Event() {}
 _.extend(Event.prototype, API)
 
+// 类方法，将obj转换成Event类或Event实例
 Event.mixTo = function(obj){
   obj = typeof obj === "function" ? obj.prototype : obj;
   _.extend(obj, API)
