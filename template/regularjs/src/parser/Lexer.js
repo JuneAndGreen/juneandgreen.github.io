@@ -1,7 +1,7 @@
 /* 
          ————词法分析器————
         
-  <div>{x}<div>    
+  <div>{x}</div>    
 
         ||
 
@@ -26,17 +26,13 @@
       "type": "END",
       "pos": 7
     },{
-      "type": "TAG_OPEN",
+      "type": "TAG_CLOSE",
       "value": "div",
       "pos": 8
     },{
-      "type": ">",
-      "value": ">",
-      "pos": 12
-    },{
       "type": "EOF"
     }
-]
+  ]
 
  */
 
@@ -65,7 +61,7 @@ function Lexer(input, opts){
   this.states = ["INIT"];
   if(opts && opts.expression){
      this.states.push("JST");
-     this.expression = true;
+     this.expression = true; // true表示不支持表达式
   }
 }
 
@@ -130,6 +126,7 @@ lo._process = function(args, split,str){
     }
   }
   if(!marched){
+    // 如果未捕获到任何东西
     switch(str.charAt(0)){
       case "<":
         // 进入标签解析状态
@@ -161,7 +158,7 @@ lo.leave = function(state){
   if(!state || states[states.length-1] === state) states.pop()
 }
 
-
+// 构建对应的规则
 Lexer.setup = function(){
   // 将语句开始结束符放到常量中
   macro.END = config.END;
@@ -279,131 +276,159 @@ function setup(map){
 }
 
 var rules = {
+  // 格式为数组
+  // 0 - 正则
+  // 1 - 句柄，如果是字符串，则为该规则类别，即返回对象的type字段
+  // 2 - 规则类别，默认为INIT，包括TAG和JST
+
+  // 根据规则生成的的返回对象如下结构
+  /*
+    {
+      type: '', // 当前被匹配到的字段的类型
+      value: '', // 当前被匹配到的字段的值
+      escape: false, 
+      pos: 0 // 当前被匹配到的字段在模板中的位置
+    }
+
+    其中type包含: TEXT NAME TAG_OPEN TAG_CLOSE UNQ STRING OPEN END CLOSE EXPR_OPEN NUMBER INDENT 以及各种特殊符号
+  */
 
   // 1. INIT
+  // 用于匹配模板解析开始时的文本
   // ---------------
 
   // mode1的模板开始
   ENTER_JST: [/[^\x00<]*?(?={BEGIN})/, function(all){
-    this.enter('JST');
-    if(all) return {type: 'TEXT', value: all}
+    this.enter('JST'); // 进入JST状态
+    if(all) return {type: 'TEXT', value: all}; // 语句开始符号前的文本（去掉<部分，为了匹配标签开始的情况）
   }],
 
   // mode2的模板开始
   ENTER_JST2: [/[^\x00]*?(?={BEGIN})/, function(all){
-    this.enter('JST');
-    if(all) return {type: 'TEXT', value: all}
+    this.enter('JST'); // 进入JST状态
+    if(all) return {type: 'TEXT', value: all}; // 语句开始符号前的文本
   }],
 
-  // 进入标签
+  // 标签开始
   ENTER_TAG: [/[^\x00]*?(?=<[\w\/\!])/, function(all){ 
-    this.enter('TAG');
-    if(all) return {type: 'TEXT', value: all}
+    this.enter('TAG'); // 进入标签状态
+    if(all) return {type: 'TEXT', value: all}; // 标签开始符号前的文本
   }],
 
-  // 文本内容，任意字符
+  // 文本内容开始，任意字符
   TEXT: [/[^\x00]+/, 'TEXT' ],
 
   // 2. TAG类，标签相关
   // --------------------
-  // 标签名
+  // 标签中的属性名
   TAG_NAME: [/{NAME}/, 'NAME', 'TAG'],
+  // 标签中的值
+  // 非 \ { } & " ' = > < ` 换行符 换页符 等特殊符号
   TAG_UNQ_VALUE: [/[^\{}&"'=><`\r\n\f ]+/, 'UNQ', 'TAG'],
   // 标签开始
   TAG_OPEN: [/<({NAME})\s*/, function(all, one){
-    return {type: 'TAG_OPEN', value: one}
+    return {type: 'TAG_OPEN', value: one}; // 返回标签名作为值
   }, 'TAG'],
   // 标签结束
   TAG_CLOSE: [/<\/({NAME})[\r\n\f ]*>/, function(all, one){
-    this.leave();
+    this.leave(); // 结束当前状态
     return {type: 'TAG_CLOSE', value: one }
   }, 'TAG'],
-
-    // mode2's JST ENTER RULE
+  // mode2中标签进入模板语句
   TAG_ENTER_JST: [/(?={BEGIN})/, function(){
-    this.enter('JST');
+    this.enter('JST'); // 进入JST状态
   }, 'TAG'],
-
-
+  // 标签中的特殊符号
+  // > / = &
   TAG_PUNCHOR: [/[\>\/=&]/, function(all){
-    if(all === '>') this.leave();
-    return {type: all, value: all }
+    if(all === '>') this.leave(); // 如果是标签结束符，退出当前状态
+    return {type: all, value: all }; // 返回当前符号作为类型
   }, 'TAG'],
+  // 标签中的字符串
   TAG_STRING:  [ /'([^']*)'|"([^"]*)\"/, /*'*/  function(all, one, two){ 
     var value = one || two || "";
-
-    return {type: 'STRING', value: value}
+    return {type: 'STRING', value: value}; // 返回字符串内容作为值
   }, 'TAG'],
-
+  // 换行换页等空格
   TAG_SPACE: [/{SPACE}+/, null, 'TAG'],
+  // html注释
   TAG_COMMENT: [/<\!--([^\x00]*?)--\>/, function(all){
-    this.leave()
+    this.leave(); // 离开当前状态
   } ,'TAG'],
 
   // 3. JST类，模板语句
   // -------------------
-  // 语句开始
+  // 语句开始，如{#if} {#list} 等
   JST_OPEN: ['{BEGIN}#{SPACE}*({IDENT})', function(all, name){
-    return {
-      type: 'OPEN',
-      value: name
-    }
+    return {type: 'OPEN', value: name}; // 返回语句内容作为值
   }, 'JST'],
-  // 语句结束
+  // 语句结束，包含语句的结束和表达式的结束
   JST_LEAVE: [/{END}/, function(all){
-    if(this.markEnd === all && this.expression) return {type: this.markEnd, value: this.markEnd};
+    if(this.markEnd === all && this.expression)
+      // 不支持表达式
+      return {type: this.markEnd, value: this.markEnd};
     if(!this.markEnd || !this.marks ){
+      // 离开表达式
       this.firstEnterStart = false;
-      this.leave('JST');
+      this.leave('JST'); // 离开JST状态
       return {type: 'END'}
     }else{
+      // 已经在表达式，匹配到结束符号当作特殊符号对待
       this.marks--;
       return {type: this.markEnd, value: this.markEnd}
     }
   }, 'JST'],
+  // 结束语句
   JST_CLOSE: [/{BEGIN}\s*\/({IDENT})\s*{END}/, function(all, one){
-    this.leave('JST');
-    return {
-      type: 'CLOSE',
-      value: one
-    }
+    this.leave('JST'); // 离开当前状态
+    return {type: 'CLOSE', value: one}; // 返回语句内容作为值
   }, 'JST'],
+  // 注释语句
   JST_COMMENT: [/{BEGIN}\!([^\x00]*?)\!{END}/, function(){
-    this.leave();
+    this.leave(); // 离开当前状态
   }, 'JST'],
+  // 语句表达式开始，如{x.xa}
   JST_EXPR_OPEN: ['{BEGIN}',function(all, one){
     if(all === this.markStart){
-      if(this.expression) return { type: this.markStart, value: this.markStart };
+      if(this.expression) 
+        // 不支持表达式
+        return { type: this.markStart, value: this.markStart };
       if(this.firstEnterStart || this.marks){
+        // 已经在表达式内，匹配到开始符当作特殊符号对待
         this.marks++
         this.firstEnterStart = false;
         return { type: this.markStart, value: this.markStart };
       }else{
+        // 进入表达式
         this.firstEnterStart = true;
+        return {type: 'EXPR_OPEN', escape: false};
       }
-    }
-    return {
-      type: 'EXPR_OPEN',
-      escape: false
+    } else {
+      return {type: 'EXPR_OPEN', escape: false};
     }
 
   }, 'JST'],
+  // 表达式或语句内变量相关的内容
   JST_IDENT: ['{IDENT}', 'IDENT', 'JST'],
+  // 语句中的换行换页等空格字符
   JST_SPACE: [/[ \r\n\f]+/, null, 'JST'],
+  // 各种特殊表达式符号
+  // (== === !==) (-= >= <= += *= /= %= != =) (||) (&&) (@() (..) (< > [ ] ( ) - | { } + * / % ? : . ! ,) 
   JST_PUNCHOR: [/[=!]?==|[-=><+*\/%\!]?\=|\|\||&&|\@\(|\.\.|[<\>\[\]\(\)\-\|\{}\+\*\/%?:\.!,]/, function(all){
-    return { type: all, value: all }
+    return { type: all, value: all }; // 返回表达式符号作为类型
   },'JST'],
-
-  JST_STRING:  [ /'([^']*)'|"([^"]*)"/, function(all, one, two){ //"'
-    return {type: 'STRING', value: one || two || ""}
+  // 语句中的字符串
+  JST_STRING:  [ /'([^']*)'|"([^"]*)"/, function(all, one, two){
+    return {type: 'STRING', value: one || two || ""}; // 返回字符串内容作为值
   }, 'JST'],
+  // 语句中的数字
   JST_NUMBER: [/(?:[0-9]*\.[0-9]+|[0-9]+)(e\d+)?/, function(all){
     return {type: 'NUMBER', value: parseFloat(all, 10)};
   }, 'JST']
 }
 
 
-// setup when first config
+// 第一次配置即完成规则构建
 Lexer.setup();
 
 

@@ -1,3 +1,30 @@
+/* 
+         ————语法分析器————
+        
+  <div>{x}</div>    
+
+        ||
+
+[
+  {
+    "type": "element",
+    "tag": "div",
+    "attrs": [],
+    "children": [
+      {
+        "type": "expression",
+        "body": "c._sg_('x', d, e)",
+        "constant": false,
+        "setbody": "c._ss_('x',p_,d, '=', 1)"
+      }
+    ]
+  }
+]
+
+
+ */
+
+
 var _ = require("../util.js");
 
 var config = require("../config.js");
@@ -7,39 +34,46 @@ var varName = _.varName;
 var ctxName = _.ctxName;
 var extName = _.extName;
 var isPath = _.makePredicate("STRING IDENT NUMBER");
+// 是否是关键字判断函数
 var isKeyWord = _.makePredicate("true false undefined null this Array Date JSON Math NaN RegExp decodeURI decodeURIComponent encodeURI encodeURIComponent parseFloat parseInt Object");
 
 
 
-
+// 构建解析器类
 function Parser(input, opts){
   opts = opts || {};
 
-  this.input = input;
-  this.tokens = new Lexer(input, opts).lex();
+  this.input = input; // 输入的模板
+  this.tokens = new Lexer(input, opts).lex(); // 词法分析结果
   this.pos = 0;
-  this.length = this.tokens.length;
+  this.length = this.tokens.length; // 词法分析结果长度
 }
 
-
+// 给解析器类添加原型方法
 var op = Parser.prototype;
 
-
+// 解析模板
 op.parse = function(){
   this.pos = 0;
-  var res= this.program();
+  var res= this.program(); // 执行解析
   if(this.ll().type === 'TAG_CLOSE'){
     this.error("You may got a unclosed Tag")
   }
   return res;
 }
 
+// 返回词法分析结果，默认返回当前下标对应结果，如果带偏移量参数，则返回当前下标与偏移量做计算好的下标对应结果
+// 参数为1等于不传参数，返回当前
+// 参数为0等于参数为-1，返回上一个
+// 参数为2返回下一个
+// 参数为-2返回上上一个
 op.ll =  function(k){
   k = k || 1;
   if(k < 0) k = k + 1;
   var pos = this.pos + k - 1;
   if(pos > this.length - 1){
-      return this.tokens[this.length-1];
+    // 假如下标超过边界的话，取最后一个
+    return this.tokens[this.length-1];
   }
   return this.tokens[pos];
 }
@@ -63,54 +97,60 @@ op.error = function(msg, pos){
   throw new Error(msg);
 }
 
+// 修改下标，默认指向下一个，接收偏移量作为参数
 op.next = function(k){
   k = k || 1;
   this.pos += k;
 }
+
+// 获取符合某条件的当前结果，并把下标指向下一个
 op.eat = function(type, value){
   var ll = this.ll();
   if(typeof type !== 'string'){
+    // 数组类型
     for(var len = type.length ; len--;){
       if(ll.type === type[len]) {
-        this.next();
+        this.next(); // 修改下标
         return ll;
       }
     }
   }else{
+    // 字符串类型
     if( ll.type === type && (typeof value === 'undefined' || ll.value === value) ){
-       this.next();
+       this.next(); // 修改下标
        return ll;
     }
   }
   return false;
 }
 
-// program
+// 执行解析过程
 //  :EOF
 //  | (statement)* EOF
 op.program = function(){
-  var statements = [],  ll = this.ll();
+  var statements = [],  ll = this.ll(); // 取词法分析结果
+  // 循环遍历词法分析结果
   while(ll.type !== 'EOF' && ll.type !=='TAG_CLOSE'){
-
-    statements.push(this.statement());
-    ll = this.ll();
+    // 当前结果不是模板结束或者标签解析结束
+    statements.push(this.statement()); // 进行语法解析并进行语法树构建
+    ll = this.ll(); // 取词法分析结果
   }
-  // if(ll.type === 'TAG_CLOSE') this.error("You may have unmatched Tag")
   return statements;
 }
 
-// statement
+// 构建语法树
 //  : xml
 //  | jst
 //  | text
 op.statement = function(){
   var ll = this.ll();
   switch(ll.type){
-    case 'NAME':
-    case 'TEXT':
+    case 'NAME': // 标签中的属性名
+    case 'TEXT': // 模板起始部分的文本
       var text = ll.value;
-      this.next();
+      this.next(); // 修改下标
       while(ll = this.eat(['NAME', 'TEXT'])){
+        // 如果有连着的NAME或TEXT类型的结果
         text += ll.value;
       }
       return node.text(text);
@@ -195,7 +235,7 @@ op.attvalue = function(mdf){
     case "NAME":
     case "UNQ":
     case "STRING":
-      this.next();
+      this.next(); // 修改下标
       var value = ll.value;
       if(~value.indexOf(config.BEGIN) && ~value.indexOf(config.END) && mdf!=='cmpl'){
         var constant = true;
@@ -215,7 +255,7 @@ op.attvalue = function(mdf){
       return this.interplation();
     // case "OPEN":
     //   if(ll.value === 'inc' || ll.value === 'include'){
-    //     this.next();
+    //     this.next(); // 修改下标
     //     return this.inc();
     //   }else{
     //     this.error('attribute value only support inteplation and {#inc} statement')
@@ -230,7 +270,7 @@ op.attvalue = function(mdf){
 // {{#}}
 op.directive = function(){
   var name = this.ll().value;
-  this.next();
+  this.next(); // 修改下标
   if(typeof this[name] === 'function'){
     return this[name]()
   }else{
@@ -271,11 +311,11 @@ op["if"] = function(tag){
       switch( ll.value ){
         case 'else':
           container = alternate;
-          this.next();
+          this.next(); // 修改下标
           this.match( 'END' );
           break;
         case 'elseif':
-          this.next();
+          this.next(); // 修改下标
           alternate.push( this["if"](tag) );
           return node['if']( test, consequent, alternate );
         default:
@@ -644,13 +684,13 @@ op.primary = function(){
       return this.paren();
     // literal or ident
     case 'STRING':
-      this.next();
+      this.next(); // 修改下标
       return this.getset("'" + ll.value + "'")
     case 'NUMBER':
-      this.next();
+      this.next(); // 修改下标
       return this.getset(""+ll.value);
     case "IDENT":
-      this.next();
+      this.next(); // 修改下标
       if(isKeyWord(ll.value)){
         return this.getset( ll.value );
       }
