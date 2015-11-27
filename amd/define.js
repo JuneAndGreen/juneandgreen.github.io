@@ -1,12 +1,8 @@
 (function(d, p) {
-  var __xqueue = [];
-  // item:{n:'filename',d:[/* dependency list */],f:function}
-  var __scache = {};
-  // uri:STATE   0-loading  1-waiting  2-defined
-  var __rcache = {};
-  // uri:RESULT
-  var __stack = [];
-  // for define stack
+  var __xqueue = []; // 存放依赖加载相关的参数，item:{n:'filename',d:[/* dependency list */],f:function}
+  var __scache = {}; // 存放依赖加载的状态，uri:STATE   0-loading  1-waiting  2-defined
+  var __rcache = {}; // 存放依赖加载后的结果，uri:RESULT
+  var __stack = []; // 定义依赖时的缓存栈
   /*
    * 文件初始化
    */
@@ -23,7 +19,6 @@
   };
   /*
    * 解析文件类型
-   * @param  {String} uri 地址
    */
   var doParseType = (function() {
     var _pmap = {
@@ -312,8 +307,7 @@
   })();
 
   /*
-   * 搜索循环引用
-   * @return {Object} 需解环项
+   * 搜索循环引用，传入需解锁环
    */
   var doFindCircularRef = (function() {
     var result;
@@ -346,7 +340,7 @@
     };
     return function() {
       result = [];
-      // check from begin to end
+      // 遍历检查
       var item = loop(__xqueue[0]);
       return item;
     };
@@ -418,7 +412,6 @@
   };
   /*
    * 清理函数定义缓存栈
-   * @return {Void}
    */
   var doClearStack = function() {
     var args = __stack.pop();

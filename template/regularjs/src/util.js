@@ -32,7 +32,8 @@ _.keys = function(obj){
   return res;
 }
 
-_.varName = 'd';
+// 自动生成函数中的变量名
+_.varName = 'd'; 
 _.setName = 'p_';
 _.ctxName = 'c';
 _.extName = 'e';

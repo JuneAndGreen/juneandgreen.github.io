@@ -82,25 +82,16 @@ op.la = function(k){
   return (this.ll(k) || '').type;
 }
 
-op.match = function(type, value){
-  var ll;
-  if(!(ll = this.eat(type, value))){
-    ll  = this.ll();
-    this.error('expect [' + type + (value == null? '':':'+ value) + ']" -> got "[' + ll.type + (value==null? '':':'+ll.value) + ']', ll.pos)
-  }else{
-    return ll;
-  }
-}
-
-op.error = function(msg, pos){
-  msg =  "\n【 parse failed 】 " + msg +  ':\n\n' + _.trackErrorPos(this.input, typeof pos === 'number'? pos: this.ll().pos||0);
-  throw new Error(msg);
-}
-
 // 修改下标，默认指向下一个，接收偏移量作为参数
 op.next = function(k){
   k = k || 1;
   this.pos += k;
+}
+
+// 打印解析错误信息
+op.error = function(msg, pos){
+  msg =  "\n【 parse failed 】 " + msg +  ':\n\n' + _.trackErrorPos(this.input, typeof pos === 'number'? pos: this.ll().pos||0);
+  throw new Error(msg);
 }
 
 // 获取符合某条件的当前结果，并把下标指向下一个
@@ -124,6 +115,17 @@ op.eat = function(type, value){
   return false;
 }
 
+// 获取符合某条件的当前结果，并把下标指向下一个和打印日志，相当于包装了一层eat
+op.match = function(type, value){
+  var ll;
+  if(!(ll = this.eat(type, value))){
+    ll  = this.ll();
+    this.error('expect [' + type + (value == null? '':':'+ value) + ']" -> got "[' + ll.type + (value==null? '':':'+ll.value) + ']', ll.pos)
+  }else{
+    return ll;
+  }
+}
+
 // 执行解析过程
 //  :EOF
 //  | (statement)* EOF
@@ -131,7 +133,7 @@ op.program = function(){
   var statements = [],  ll = this.ll(); // 取词法分析结果
   // 循环遍历词法分析结果
   while(ll.type !== 'EOF' && ll.type !=='TAG_CLOSE'){
-    // 当前结果不是模板结束或者标签解析结束
+    // 当前结果不是模板结束或者标签解析结束（为了递归调用生成子节点）
     statements.push(this.statement()); // 进行语法解析并进行语法树构建
     ll = this.ll(); // 取词法分析结果
   }
@@ -139,9 +141,7 @@ op.program = function(){
 }
 
 // 构建语法树
-//  : xml
-//  | jst
-//  | text
+//  按照文本、xml或html结构、模板语句三大类型进行构建
 op.statement = function(){
   var ll = this.ll();
   switch(ll.type){
@@ -154,33 +154,36 @@ op.statement = function(){
         text += ll.value;
       }
       return node.text(text);
-    case 'TAG_OPEN':
+    case 'TAG_OPEN': // 标签开始
       return this.xml();
-    case 'OPEN': 
+    case 'OPEN': // 语句开始
       return this.directive();
-    case 'EXPR_OPEN':
+    case 'EXPR_OPEN': // 表达式开始
       return this.interplation();
     default:
       this.error('Unexpected token: '+ this.la())
   }
 }
 
-// xml 
+// 构建xml或html语法结构的语法树
 // stag statement* TAG_CLOSE?(if self-closed tag)
 op.xml = function(){
   var name, attrs, children, selfClosed;
   name = this.match('TAG_OPEN').value;
-  attrs = this.attrs();
-  selfClosed = this.eat('/')
-  this.match('>');
+  attrs = this.attrs(); // 获取标签属性
+  selfClosed = this.eat('/'); // 自结束符，即空标签
+  this.match('>'); // 假如当前的标签结束符，则跳到下一个
   if( !selfClosed && !_.isVoidTag(name) ){
-    children = this.program();
-    if(!this.eat('TAG_CLOSE', name)) this.error('expect </'+name+'> got'+ 'no matched closeTag')
+    // 如果没有遇到自结束符且自身不是空标签
+    children = this.program(); // 递归生成子节点
+    if(!this.eat('TAG_CLOSE', name)) 
+      // 没有匹配到结束标签
+      this.error('expect </'+name+'> got'+ 'no matched closeTag')
   }
   return node.element(name, attrs, children);
 }
 
-// xentity
+// 生成单个属性节点
 //  -rule(wrap attribute)
 //  -attribute
 //
@@ -194,47 +197,30 @@ op.xentity = function(ll){
   var name = ll.value, value, modifier;
   if(ll.type === 'NAME'){
     //@ only for test
-    if(~name.indexOf('.')){
+    if(~name.indexOf('.')){ // 相当于if(name.indexOf('.') !== -1) 
       var tmp = name.split('.');
       name = tmp[0];
-      modifier = tmp[1]
-
+      modifier = tmp[1];
     }
     if( this.eat("=") ) value = this.attvalue(modifier);
     return node.attribute( name, value, modifier );
   }else{
-    if( name !== 'if') this.error("current version. ONLY RULE #if #else #elseif is valid in tag, the rule #" + name + ' is invalid');
+    if( name !== 'if') 
+      this.error("current version. ONLY RULE #if #else #elseif is valid in tag, the rule #" + name + ' is invalid');
     return this['if'](true);
   }
 
 }
 
-// stag     ::=    '<' Name (S attr)* S? '>'  
-// attr    ::=     Name Eq attvalue
-op.attrs = function(isAttribute){
-  var eat
-  if(!isAttribute){
-    eat = ["NAME", "OPEN"]
-  }else{
-    eat = ["NAME"]
-  }
-
-  var attrs = [], ll;
-  while (ll = this.eat(eat)){
-    attrs.push(this.xentity( ll ))
-  }
-  return attrs;
-}
-
-// attvalue
+// 获取单个属性的值
 //  : STRING  
 //  | NAME
 op.attvalue = function(mdf){
   var ll = this.ll();
   switch(ll.type){
-    case "NAME":
-    case "UNQ":
-    case "STRING":
+    case "NAME": // 当前属性是无值属性
+    case "UNQ": // 非字符串值
+    case "STRING": // 字符串
       this.next(); // 修改下标
       var value = ll.value;
       if(~value.indexOf(config.BEGIN) && ~value.indexOf(config.END) && mdf!=='cmpl'){
@@ -251,19 +237,32 @@ op.attvalue = function(mdf){
         value = node.expression(body, null, constant);
       }
       return value;
-    case "EXPR_OPEN":
+    case "EXPR_OPEN": // 表达式
       return this.interplation();
-    // case "OPEN":
-    //   if(ll.value === 'inc' || ll.value === 'include'){
-    //     this.next(); // 修改下标
-    //     return this.inc();
-    //   }else{
-    //     this.error('attribute value only support inteplation and {#inc} statement')
-    //   }
-    //   break;
     default:
       this.error('Unexpected token: '+ this.la())
   }
+}
+
+// 获取当前节点属性节点列表
+// stag     ::=    '<' Name (S attr)* S? '>'  
+// attr    ::=     Name Eq attvalue
+op.attrs = function(isAttribute){
+  var eat
+  if(!isAttribute){
+    // 非纯属性时，即可能包含语句时
+    eat = ["NAME", "OPEN"]
+  }else{
+    // 纯属性时
+    eat = ["NAME"]
+  }
+
+  var attrs = [], ll;
+  while (ll = this.eat(eat)){
+    // 逐个属性生成
+    attrs.push(this.xentity( ll ))
+  }
+  return attrs;
 }
 
 
@@ -394,7 +393,7 @@ op.expr = function(){
 }
 
 
-// filter
+// 获取表达式和过滤器内容和生成器
 // assign ('|' filtername[':' args]) * 
 op.filter = function(){
   var left = this.assign();
@@ -405,13 +404,35 @@ op.filter = function(){
     tmp = "";
 
   if(ll){
+    // 如果存在过滤器分隔符
     if(set) setBuffer = [];
+
+    /*
+      body(取值):
+
+      (function(attr) {
+        attr = context._f_('过滤器名').get.call(context, attr);
+        return attr  
+      })(context._sg_('变量名', varname, extname))
+    */
+
+    /*
+      setbody(设值):
+
+      context._ss_('变量名', (function(attr) {
+        attr = context._f_('过滤器名').set.call(context, attr);
+        return attr
+      })(setname), varname, '=', 1)
+    */
+
 
     prefix = "(function(" + attr + "){";
 
+    // 遍历过滤器，拼接过滤器取值函数字符串
     do{
       tmp = attr + " = " + ctxName + "._f_('" + this.match('IDENT').value+ "' ).get.call( "+_.ctxName +"," + attr ;
       if(this.eat(':')){
+        // 过滤器带有其他参数的情况
         tmp +=", "+ this.arguments("|").join(",") + ");"
       }else{
         tmp += ');'
@@ -420,31 +441,44 @@ op.filter = function(){
       setBuffer && setBuffer.unshift( tmp.replace(" ).get.call", " ).set.call") );
 
     }while(ll = this.eat('|'));
+
     buffer.push("return " + attr );
     setBuffer && setBuffer.push("return " + attr);
 
-    get =  prefix + buffer.join("") + "})("+left.get+")";
+    get =  prefix + buffer.join("") + "})("+left.get+")"; // 取值函数字符串
     // we call back to value.
     if(setBuffer){
       // change _ss__(name, _p_) to _s__(name, filterFn(_p_));
       set = set.replace(_.setName, 
-        prefix + setBuffer.join("") + "})("+　_.setName　+")" );
+        prefix + setBuffer.join("") + "})("+　_.setName　+")" ); // 设值函数字符串
 
     }
-    // the set function is depend on the filter definition. if it have set method, the set will work
-    return this.getset(get, set);
+    // 设值函数依赖于过滤器的定义。如果过滤器拥有set方法，设值函数就可用
+    return this.getset(get, set); // 返回 {get: get, set: set}
+  } else {
+    return left; // 直接返回表达式节点对象
   }
-  return left;
 }
 
-// assign
+// 表达式声明，以倒推的方式，由外到里进行
+// 赋值语句 -> 三目表达式 ->  -> -> -> -> -> ->
 // left-hand-expr = condition
 op.assign = function(){
   var left = this.condition(), ll;
   if(ll = this.eat(['=', '+=', '-=', '*=', '/=', '%='])){
-    if(!left.set) this.error('invalid lefthand expression in assignment expression');
+    if(!left.set) 
+      // 左边的表达式不合法
+      this.error('invalid lefthand expression in assignment expression');
+
+    /*
+      返回:
+      {
+        get: ,
+        set: 
+      }
+
+    */
     return this.getset( left.set.replace( "," + _.setName, "," + this.condition().get ).replace("'='", "'"+ll.type+"'"), left.set);
-    // return this.getset('(' + left.get + ll.type  + this.condition().get + ')', left.set);
   }
   return left;
 }
@@ -753,6 +787,7 @@ op.paren = function(){
   return res;
 }
 
+// 包装get和set函数
 op.getset = function(get, set){
   return {
     get: get,
