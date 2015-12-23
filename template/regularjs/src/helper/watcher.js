@@ -94,21 +94,24 @@ var methods = {
    *                  Regular's parser extract the dependencies, in future maybe it will change to dirty-check combine with path-aware update;
    * @return {Void}   
    */
-
+  // 脏检查
   $digest: function(){
     if(this.$phase === 'digest' || this._mute) return;
+
     this.$phase = 'digest';
+
     var dirty = false, n =0;
     while(dirty = this._digest()){
-
-      if((++n) > 20){ // max loop
+      if((++n) > 20){ 
+        // 最大循环数为20，超过则抛循环依赖异常
         throw Error('there may a circular dependencies reaches')
       }
     }
     if( n > 0 && this.$emit) this.$emit("$update");
+
     this.$phase = null;
   },
-  // private digest logic
+  // 执行脏检查
   _digest: function(){
 
     var watchers = this._watchers;
@@ -116,6 +119,7 @@ var methods = {
     if(watchers && watchers.length){
       for(var i = 0, len = watchers.length;i < len; i++){
         watcher = watchers[i];
+        // 逐个watcher检查
         watcherDirty = this._checkSingleWatch(watcher, i);
         if(watcherDirty) dirty = true;
       }
@@ -131,7 +135,7 @@ var methods = {
     }
     return dirty;
   },
-  // check a single one watcher 
+  // 检查单个watcher
   _checkSingleWatch: function(watcher, i){
     var dirty = false;
     if(!watcher) return;
@@ -233,7 +237,7 @@ var methods = {
       rootParent = rootParent.$parent;
     } while(rootParent)
 
-    rootParent.$digest();
+    rootParent.$digest(); // 执行脏检查
   },
   // auto collect watchers for logic-control.
   _record: function(){

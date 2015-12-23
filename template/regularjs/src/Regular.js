@@ -27,6 +27,7 @@ var Regular = function(definition, options){
   env.isRunning = true;
   var node, template;
 
+  // 合并初始化数据
   definition = definition || {};
   options = options || {};
 
@@ -38,30 +39,34 @@ var Regular = function(definition, options){
   if(this.events) _.extend(definition.events, this.events);
 
   _.extend(this, definition, true);
+  // 容器节点
   if(this.$parent){
      this.$parent._append(this);
   }
   this._children = [];
   this.$refs = {};
 
+  // 组件模板
   template = this.template;
-
-  // template is a string (len < 16). we will find it container first
+  // 如果模板是长度小于16的字符串，则作为选择器来获取模板
   if((typeof template === 'string' && template.length < 16) && (node = dom.find(template))) {
     template = node.innerHTML;
   }
-  // if template is a xml
+  // 如果模板是dom节点
   if(template && template.nodeType) template = template.innerHTML;
+  // 构建语法树
   if(typeof template === 'string') this.template = new Parser(template).parse();
 
-  this.computed = handleComputed(this.computed);
+  this.computed = handleComputed(this.computed); // 计算属性
   this.$root = this.$root || this;
-  // if have events
+  // 事件
   if(this.events){
     this.$on(this.events);
   }
+  // 执行config方法
   this.$emit("$config");
   this.config && this.config(this.data);
+
   if(this._body && this._body.length){
     this.$body = _.getCompileFn(this._body, this.$parent, {
       outer: this,
@@ -80,6 +85,8 @@ var Regular = function(definition, options){
 
   if(!this.$parent) this.$update();
   this.$ready = true;
+
+  // 执行init方法
   this.$emit("$init");
   if( this.init ) this.init(this.data);
 
@@ -240,7 +247,7 @@ _.extend(Regular, {
 
 });
 
-// 添加Regular和其子类的extend方法
+// 添加Regular和其子类的extend方法，即添加继承相关的特性
 extend(Regular);
 
 Regular._addProtoInheritCache("component")
@@ -251,6 +258,8 @@ Regular._addProtoInheritCache("filter", function(cfg){
 
 
 events.mixTo(Regular);
+
+// 添加Regular和其子类的$update方法，即添加变量脏检查和模板更新相关的特性
 Watcher.mixTo(Regular);
 
 Regular.implement({
@@ -276,7 +285,7 @@ Regular.implement({
   },
 
   /**
-   * compile a block ast ; return a group;
+   * 编译一块语法树，返回对应的组（group）
    * @param  {Array} parsed ast
    * @param  {[type]} record
    * @return {[type]}
@@ -284,6 +293,7 @@ Regular.implement({
   $compile: function(ast, options){
     options = options || {};
     if(typeof ast === 'string'){
+      // 如果模板未解析过，则构建对应语法树
       ast = new Parser(ast).parse()
     }
     var preExt = this.__ext__,

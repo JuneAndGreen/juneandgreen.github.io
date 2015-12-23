@@ -33,7 +33,6 @@ var Lexer = require("./Lexer.js");
 var varName = _.varName;
 var ctxName = _.ctxName;
 var extName = _.extName;
-var isPath = _.makePredicate("STRING IDENT NUMBER");
 // 是否是关键字判断函数
 var isKeyWord = _.makePredicate("true false undefined null this Array Date JSON Math NaN RegExp decodeURI decodeURIComponent encodeURI encodeURIComponent parseFloat parseInt Object");
 
@@ -239,8 +238,6 @@ op.xentity = function(ll){
 }
 
 // 获取单个属性的值
-//  : STRING  
-//  | NAME
 op.attvalue = function(mdf){
   var ll = this.ll();
   switch(ll.type){
@@ -274,7 +271,6 @@ op.attvalue = function(mdf){
 }
 
 // 执行解析表达式
-// {{}}
 op.interplation = function(){
   this.match('EXPR_OPEN');
   var res = this.expression(true); // 解析表达式内容
@@ -309,7 +305,7 @@ op.expr = function(){
 }
 
 
-// {{#}}
+// 模板语句解析
 op.directive = function(){
   var name = this.ll().value;
   this.next(); // 修改下标
@@ -329,13 +325,14 @@ op.inc = op.include = function(){
   return node.template(content);
 }
 
-// {{#if}}
+// if语句解析
 op["if"] = function(tag){
   var test = this.expression();
   var consequent = [], alternate=[];
 
   var container = consequent;
-  var statement = !tag? "statement" : "attrs";
+  // 针对标签间的语句和标签内的语句使用不同的解析方式
+  var statement = !tag? "statement" : "attrs"; 
 
   this.match('END');
 
@@ -346,28 +343,30 @@ op["if"] = function(tag){
       switch( ll.value ){
         case 'else':
           container = alternate;
-          this.next(); // 修改下标
+          this.next(); 
           this.match( 'END' );
           break;
         case 'elseif':
-          this.next(); // 修改下标
+          // 将elseif语句当成else语句里的if语句解析
+          this.next(); 
           alternate.push( this["if"](tag) );
           return node['if']( test, consequent, alternate );
         default:
+          // 解析条件判断内的内容
           container.push( this[statement](true) );
       }
     }else{
       container.push(this[statement](true));
     }
   }
-  // if statement not matched
+  // 没有匹配到对应的结束语句
   if(close.value !== "if") this.error('Unmatched if directive')
   return node["if"](test, consequent, alternate);
 }
 
 
+// list语句解析
 // @mark   mustache syntax have natrure dis, canot with expression
-// {{#list}}
 op.list = function(){
   // sequence can be a list or hash
   var sequence = this.expression(), variable, ll, track;
@@ -384,7 +383,7 @@ op.list = function(){
     }else{
       track = this.expression();
       if(track.constant){
-        // true is means constant, we handle it just like xxx_index.
+        // true代表是常量，通常定义成xxx_index
         track = true;
       }
     }
@@ -394,6 +393,7 @@ op.list = function(){
 
   while( !(ll = this.eat('CLOSE')) ){
     if(this.eat('OPEN', 'else')){
+      // 列表为空时
       container =  alternate;
       this.match('END');
     }else{
@@ -474,8 +474,8 @@ op.filter = function(){
 }
 
 // 获取表达式解析结果，以倒推的方式，由外到里进行
-// 赋值语句 -> 三目表达式 ->  -> -> -> -> -> -> 不带操作符的基础变量
-// left-hand-expr = condition
+// 赋值相关解析
+// condition = condition
 op.assign = function(){
   var left = this.condition(), ll;
   if(ll = this.eat(['=', '+=', '-=', '*=', '/=', '%='])){
@@ -483,19 +483,12 @@ op.assign = function(){
       // 左边的表达式不合法
       this.error('invalid lefthand expression in assignment expression');
 
-    /*
-      返回:
-      {
-        get: ,
-        set: 
-      }
-
-    */
     return this.getset( left.set.replace( "," + _.setName, "," + this.condition().get ).replace("'='", "'"+ll.type+"'"), left.set);
   }
   return left;
 }
 
+// 三目表达式解析
 // or
 // or ? assign : assign
 op.condition = function(){
@@ -510,8 +503,9 @@ op.condition = function(){
   return test;
 }
 
+// 或解析
 // and
-// and && or
+// and && and
 op.or = function(){
   var left = this.and();
   if(this.eat('||')){
@@ -520,8 +514,10 @@ op.or = function(){
 
   return left;
 }
+
+// 与解析
 // equal
-// equal && and
+// equal && equal
 op.and = function(){
   var left = this.equal();
   if(this.eat('&&')){
@@ -529,12 +525,13 @@ op.and = function(){
   }
   return left;
 }
+
+// 相等解析
 // relation
-// 
-// equal == relation
-// equal != relation
-// equal === relation
-// equal !== relation
+// relation == relation
+// relation != relation
+// relation === relation
+// relation !== relation
 op.equal = function(){
   var left = this.relation(), ll;
   // @perf;
@@ -543,6 +540,7 @@ op.equal = function(){
   }
   return left
 }
+// 关系运算符
 // relation < additive
 // relation > additive
 // relation <= additive
@@ -595,7 +593,7 @@ op.range = function(){
 
 
 
-// lefthand
+// 元操作运算
 // + unary
 // - unary
 // ~ unary
@@ -609,14 +607,20 @@ op.unary = function(){
   }
 }
 
+// 判断是否是值类型
+var isPath = _.makePredicate("STRING IDENT NUMBER");
 // 解析变量成员，如a[b]，a.b，a(b)
 op.member = function(base, last, pathes, prevBase){
+  // base - 这个变量表达式的getter_str
+  // last - 当前解析到的变量getset对象
+  // pathes - 当前变量解析的前置解析列表
+  // prevBase - 这个变量表达式上一层解析出的getter_str
   var ll, path, extValue;
 
   var onlySimpleAccessor = false;
   if(!base){ 
     // 初次进来
-    path = this.primary();
+    path = this.primary(); // 解析基础变量
     var type = typeof path;
     if(type === 'string'){ 
       // 变量名
@@ -626,7 +630,8 @@ op.member = function(base, last, pathes, prevBase){
       extValue = extName + "." + path
       base = ctxName + "._sg_('" + path + "', " + varName + ", " + extName + ")";
       onlySimpleAccessor = true;
-    }else{ //Primative Type
+    }else{
+      // getset对象
       if(path.get === 'this'){
         base = ctxName;
         pathes = ['this'];
@@ -649,22 +654,20 @@ op.member = function(base, last, pathes, prevBase){
   if(ll = this.eat(['[', '.', '('])){
     switch(ll.type){
       case '.':
-        // member(object, property, computed)
-        var tmpName = this.match('IDENT').value;
+        var tmpName = this.match('IDENT').value; // 直接取点号后的值
         prevBase = base;
         if( this.la() !== "(" ){ 
+          // 针对a.name的情况，再包装一层getter_str以维护变量表达式的上下文，保证通过getter_str能获取正确的值，并且能够知晓在获取undefined的变量时所报的异常
           base = ctxName + "._sg_('" + tmpName + "', " + base + ")";
         }else{
           base += "['" + tmpName + "']";
         }
         return this.member( base, tmpName, pathes,  prevBase);
       case '[':
-        // member(object, property, computed)
-        path = this.assign();
+        path = this.assign(); // 针对中括号里面的表达式进行解析
         prevBase = base;
-        if( this.la() !== "(" ){ 
-        // means function call, we need throw undefined error when call function
-        // and confirm that the function call wont lose its context
+        if( this.la() !== "(" ){
+          // 同上
           base = ctxName + "._sg_(" + path.get + ", " + base + ")";
         }else{
           base += "[" + path.get + "]";
@@ -727,14 +730,17 @@ op.primary = function(){
   }
 }
 
-
 // 大括号，即对象
-/*
-  {
-    'aa': aa_getter_str,
-    'bb': bb_getter_str
-  }
-*/
+// object
+//  {propAssign [, propAssign] * [,]}
+
+// propAssign
+//  prop : assign
+
+// prop
+//  STRING
+//  IDENT
+//  NUMBER
 op.object = function(){
   var code = [this.match('{').type];
   var ll = this.eat( ['STRING', 'IDENT', 'NUMBER'] );
@@ -750,9 +756,7 @@ op.object = function(){
 }
 
 // 中括号，即数组
-/*
-  [a_getter_str, b_getter_str, ...]
-*/
+// [ assign[,assign]*]
 op.array = function(){
   var code = [this.match('[').type], item;
   if( this.eat("]") ){
@@ -771,9 +775,7 @@ op.array = function(){
 }
 
 // 小括号
-/*
-  (aa_getter_filter_str)
-*/
+// '(' expression ')'
 op.paren = function(){
   this.match('(');
   var res = this.filter()

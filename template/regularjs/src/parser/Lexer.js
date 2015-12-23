@@ -57,7 +57,7 @@ function Lexer(input, opts){
 
   this.input = (input||"").trim(); // 输入的模板
   this.opts = opts || {}; // 配置项
-  this.map = this.opts.mode !== 2?  map1: map2; // 映射表
+  this.map = this.opts.mode !== 2?  map1: map2; // 映射表，mode为2的时候，只解析表达式和语句相关
   this.states = ["INIT"];
   if(opts && opts.expression){
      this.states.push("JST");

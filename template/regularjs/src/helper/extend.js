@@ -27,11 +27,11 @@ function process( what, o, supro ) {
 
 var merged = ["events", "data", "computed"], mlen = merged.length;
 module.exports = function extend(o){
-  // o是需扩展的对象或者是构造函数（包含属性方法）
-  // supr是自身，即基类
-  // supro是自身的原型，即基类的原型
-  // fn是继承了自身的类，即扩展了o的类
-  // proto是继承了自身的类的原型
+  // o - 需扩展的对象或者是构造函数（包含属性方法）
+  // supr - 自身，即基类
+  // supro - 自身的原型，即基类的原型
+  // fn - 继承了自身的类，即扩展了o的类
+  // proto - 继承了自身的类的原型
   o = o || {};
   var supr = this, proto,
     supro = supr && supr.prototype || {};

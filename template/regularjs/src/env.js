@@ -9,5 +9,5 @@ exports.svg = (function(){
 // 返回document的nodeType（9）
 exports.browser = typeof document !== "undefined" && document.nodeType;
 // whether have component in initializing
-exports.exprCache = _.cache(1000);
+exports.exprCache = _.cache(1000); // 表达式缓存，最大值为1000
 exports.isRunning = false;

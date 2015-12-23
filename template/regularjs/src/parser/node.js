@@ -21,19 +21,19 @@ module.exports = {
   "if": function(test, consequent, alternate){
     return {
       type: 'if',
-      test: test,
-      consequent: consequent,
-      alternate: alternate
+      test: test, // 判断条件
+      consequent: consequent, // 条件为true时的内容
+      alternate: alternate // 条件为false时的内容
     }
   },
   // 列表语句结点
   list: function(sequence, variable, body, alternate, track){
     return {
       type: 'list',
-      sequence: sequence,
-      alternate: alternate,
-      variable: variable,
-      body: body,
+      sequence: sequence, // 被遍历列表
+      alternate: alternate, // 列表为空时的内容
+      variable: variable, // 每次遍历时注入的变量
+      body: body, // 列表语句内的内容
       track: track
     }
   },

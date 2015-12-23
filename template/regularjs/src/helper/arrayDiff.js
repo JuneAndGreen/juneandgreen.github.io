@@ -1,4 +1,4 @@
-
+// 简单比较两个数组是否相同，如果数组项如果是引用类型，则直接比较是否是同一个引用
 function simpleDiff(now, old){
   var nlen = now.length;
   var olen = old.length;
@@ -14,7 +14,15 @@ function simpleDiff(now, old){
 
 function equals(a,b){
   return a === b;
-}
+} 
+/*
+  array1 = ['a', 'b', 'c'] || array2 = ['a', 'z']
+
+  0   1  2  3
+    ----------
+  1 | 0  1  2
+  2 | 1  2  3
+*/
 function ld(array1, array2){
   var n = array1.length;
   var m = array2.length;
@@ -32,7 +40,7 @@ function ld(array1, array2){
       }else{
         matrix[i][j] = Math.min(
           matrix[i-1][j]+1, //delete
-          matrix[i][j-1]+1//add
+          matrix[i][j-1]+1  //add
           )
       }
     }
@@ -41,7 +49,9 @@ function ld(array1, array2){
 }
 function whole(arr2, arr1, indexTrack) {
   if(indexTrack) return simpleDiff(arr2, arr1);
+
   var matrix = ld(arr1, arr2)
+  
   var n = arr1.length;
   var i = n;
   var m = arr2.length;
