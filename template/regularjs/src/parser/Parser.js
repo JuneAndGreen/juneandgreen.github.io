@@ -62,11 +62,7 @@ op.parse = function(){
   return res;
 }
 
-// 返回词法分析结果，默认返回当前下标对应结果，如果带偏移量参数，则返回当前下标与偏移量做计算好的下标对应结果
-// 参数为1等于不传参数，返回当前
-// 参数为0等于参数为-1，返回上一个
-// 参数为2返回下一个
-// 参数为-2返回上上一个
+// 返回词法分析结果，默认返回当前下标对应结果，如果带偏移量参数，则返回当前下标与偏移量做计算好的下标对应结果，默认不带参数返回当前
 op.ll =  function(k){
   k = k || 1;
   if(k < 0) k = k + 1;
@@ -77,7 +73,8 @@ op.ll =  function(k){
   }
   return this.tokens[pos];
 }
-  // lookahead
+
+// lookahead
 op.la = function(k){
   return (this.ll(k) || '').type;
 }
@@ -94,7 +91,7 @@ op.error = function(msg, pos){
   throw new Error(msg);
 }
 
-// 获取符合某条件的当前结果，并把下标指向下一个
+// 获取符合某条件的当前结果，并把下标指向下一个，如果未获取到，则不修改下标
 op.eat = function(type, value){
   var ll = this.ll();
   if(typeof type !== 'string'){
@@ -145,7 +142,7 @@ op.program = function(){
 op.statement = function(){
   var ll = this.ll();
   switch(ll.type){
-    case 'NAME': // 标签中的属性名
+    case 'NAME': // 标签中的属性名(暂未清楚为何此处留有此项)
     case 'TEXT': // 模板起始部分的文本
       var text = ll.value;
       this.next(); // 修改下标
@@ -153,7 +150,7 @@ op.statement = function(){
         // 如果有连着的NAME或TEXT类型的结果
         text += ll.value;
       }
-      return node.text(text);
+      return node.text(text); // 返回文本结点
     case 'TAG_OPEN': // 标签开始
       return this.xml();
     case 'OPEN': // 语句开始
@@ -170,78 +167,20 @@ op.statement = function(){
 op.xml = function(){
   var name, attrs, children, selfClosed;
   name = this.match('TAG_OPEN').value;
+
   attrs = this.attrs(); // 获取标签属性
+
   selfClosed = this.eat('/'); // 自结束符，即空标签
   this.match('>'); // 假如当前的标签结束符，则跳到下一个
   if( !selfClosed && !_.isVoidTag(name) ){
     // 如果没有遇到自结束符且自身不是空标签
     children = this.program(); // 递归生成子节点
+
     if(!this.eat('TAG_CLOSE', name)) 
       // 没有匹配到结束标签
       this.error('expect </'+name+'> got'+ 'no matched closeTag')
   }
-  return node.element(name, attrs, children);
-}
-
-// 生成单个属性节点
-//  -rule(wrap attribute)
-//  -attribute
-//
-// __example__
-//  name = 1 |  
-//  ng-hide |
-//  on-click={{}} | 
-//  {{#if name}}on-click={{xx}}{{#else}}on-tap={{}}{{/if}}
-
-op.xentity = function(ll){
-  var name = ll.value, value, modifier;
-  if(ll.type === 'NAME'){
-    //@ only for test
-    if(~name.indexOf('.')){ // 相当于if(name.indexOf('.') !== -1) 
-      var tmp = name.split('.');
-      name = tmp[0];
-      modifier = tmp[1];
-    }
-    if( this.eat("=") ) value = this.attvalue(modifier);
-    return node.attribute( name, value, modifier );
-  }else{
-    if( name !== 'if') 
-      this.error("current version. ONLY RULE #if #else #elseif is valid in tag, the rule #" + name + ' is invalid');
-    return this['if'](true);
-  }
-
-}
-
-// 获取单个属性的值
-//  : STRING  
-//  | NAME
-op.attvalue = function(mdf){
-  var ll = this.ll();
-  switch(ll.type){
-    case "NAME": // 当前属性是无值属性
-    case "UNQ": // 非字符串值
-    case "STRING": // 字符串
-      this.next(); // 修改下标
-      var value = ll.value;
-      if(~value.indexOf(config.BEGIN) && ~value.indexOf(config.END) && mdf!=='cmpl'){
-        var constant = true;
-        var parsed = new Parser(value, { mode: 2 }).parse();
-        if(parsed.length === 1 && parsed[0].type === 'expression') return parsed[0];
-        var body = [];
-        parsed.forEach(function(item){
-          if(!item.constant) constant=false;
-          // silent the mutiple inteplation
-            body.push(item.body || "'" + item.text.replace(/'/g, "\\'") + "'");        
-        });
-        body = "[" + body.join(",") + "].join('')";
-        value = node.expression(body, null, constant);
-      }
-      return value;
-    case "EXPR_OPEN": // 表达式
-      return this.interplation();
-    default:
-      this.error('Unexpected token: '+ this.la())
-  }
+  return node.element(name, attrs, children); // 返回文档结点
 }
 
 // 获取当前节点属性节点列表
@@ -265,6 +204,110 @@ op.attrs = function(isAttribute){
   return attrs;
 }
 
+// 生成单个属性节点
+//  -rule(wrap attribute)
+//  -attribute
+//
+// __example__
+//  name = 1 |  
+//  ng-hide |
+//  on-click={{}} | 
+//  {{#if name}}on-click={{xx}}{{#else}}on-tap={{}}{{/if}}
+
+op.xentity = function(ll){
+  var name = ll.value, value, modifier;
+  if(ll.type === 'NAME'){
+    // 纯属性，不带语句
+    //@ only for test
+    if(~name.indexOf('.')){ // 相当于if(name.indexOf('.') !== -1) 
+      var tmp = name.split('.');
+      name = tmp[0];
+      modifier = tmp[1];
+    }
+    if( this.eat("=") )
+      // 遇到=号，取属性值
+      value = this.attvalue(modifier);
+    return node.attribute( name, value, modifier ); // 返回属性结点
+  }else{
+    // 属性被语句所包含的情况，如<a {#if a}class="a"{/if}></a>
+    // 目前仅支持if、else和elseif
+    if( name !== 'if') 
+      this.error("current version. ONLY RULE #if #else #elseif is valid in tag, the rule #" + name + ' is invalid');
+    return this['if'](true);
+  }
+
+}
+
+// 获取单个属性的值
+//  : STRING  
+//  | NAME
+op.attvalue = function(mdf){
+  var ll = this.ll();
+  switch(ll.type){
+    case "NAME": // 非值类型
+    case "UNQ": // 非字符串值，如数值，布尔值等
+    case "STRING": // 字符串
+      this.next(); // 修改下标
+      var value = ll.value;
+      if(~value.indexOf(config.BEGIN) && ~value.indexOf(config.END) && mdf!=='cmpl'){
+        // 属性值里包含表达式，如<div r-class="{a}"></div>
+        var constant = true;
+        var parsed = new Parser(value, { mode: 2 }).parse(); // 不需要解析标签，所以使用mode2
+
+        if(parsed.length === 1 && parsed[0].type === 'expression') return parsed[0];
+
+        var body = [];
+        parsed.forEach(function(item){
+          if(!item.constant) constant=false;
+          // 合并结果
+          body.push(item.body || "'" + item.text.replace(/'/g, "\\'") + "'");        
+        });
+        body = "[" + body.join(",") + "].join('')";
+        value = node.expression(body, null, constant);
+      }
+      return value;
+    case "EXPR_OPEN": // 属性值本身是表达式
+      return this.interplation();
+    default:
+      this.error('Unexpected token: '+ this.la())
+  }
+}
+
+// 执行解析表达式
+// {{}}
+op.interplation = function(){
+  this.match('EXPR_OPEN');
+  var res = this.expression(true); // 解析表达式内容
+  this.match('END');
+  return res;
+}
+
+// 解析表达式
+op.expression = function(){
+  var expression;
+  if(this.eat('@(')){ 
+    //once bind，即单次绑定
+    expression = this.expr();
+    expression.once = true;
+    this.match(')')
+  }else{
+    // 普通表达式
+    expression = this.expr();
+  }
+  return expression;
+}
+
+// 解析表达式内容
+op.expr = function(){
+  this.depend = [];
+
+  var buffer = this.filter()
+
+  var body = buffer.get || buffer;
+  var setbody = buffer.set;
+  return node.expression(body, setbody, !this.depend.length); // 返回表达式结点
+}
+
 
 // {{#}}
 op.directive = function(){
@@ -278,13 +321,6 @@ op.directive = function(){
 }
 
 
-// {{}}
-op.interplation = function(){
-  this.match('EXPR_OPEN');
-  var res = this.expression(true);
-  this.match('END');
-  return res;
-}
 
 // {{~}}
 op.inc = op.include = function(){
@@ -370,33 +406,10 @@ op.list = function(){
 }
 
 
-op.expression = function(){
-  var expression;
-  if(this.eat('@(')){ //once bind
-    expression = this.expr();
-    expression.once = true;
-    this.match(')')
-  }else{
-    expression = this.expr();
-  }
-  return expression;
-}
-
-op.expr = function(){
-  this.depend = [];
-
-  var buffer = this.filter()
-
-  var body = buffer.get || buffer;
-  var setbody = buffer.set;
-  return node.expression(body, setbody, !this.depend.length);
-}
-
-
 // 获取表达式和过滤器内容和生成器
 // assign ('|' filtername[':' args]) * 
 op.filter = function(){
-  var left = this.assign();
+  var left = this.assign(); // 获取过滤器之前的表达式解析结果
   var ll = this.eat('|');
   var buffer = [], setBuffer, prefix,
     attr = "t", 
@@ -460,8 +473,8 @@ op.filter = function(){
   }
 }
 
-// 表达式声明，以倒推的方式，由外到里进行
-// 赋值语句 -> 三目表达式 ->  -> -> -> -> -> ->
+// 获取表达式解析结果，以倒推的方式，由外到里进行
+// 赋值语句 -> 三目表达式 ->  -> -> -> -> -> -> 不带操作符的基础变量
 // left-hand-expr = condition
 op.assign = function(){
   var left = this.condition(), ll;
@@ -486,7 +499,6 @@ op.assign = function(){
 // or
 // or ? assign : assign
 op.condition = function(){
-
   var test = this.or();
   if(this.eat('?')){
     return this.getset([test.get + "?", 
@@ -501,9 +513,7 @@ op.condition = function(){
 // and
 // and && or
 op.or = function(){
-
   var left = this.and();
-
   if(this.eat('||')){
     return this.getset(left.get + '||' + this.or().get);
   }
@@ -513,9 +523,7 @@ op.or = function(){
 // equal
 // equal && and
 op.and = function(){
-
   var left = this.equal();
-
   if(this.eat('&&')){
     return this.getset(left.get + '&&' + this.and().get);
   }
@@ -601,20 +609,17 @@ op.unary = function(){
   }
 }
 
-// call[lefthand] :
-// member args
-// member [ expression ]
-// member . ident  
-
+// 解析变量成员，如a[b]，a.b，a(b)
 op.member = function(base, last, pathes, prevBase){
   var ll, path, extValue;
 
-
   var onlySimpleAccessor = false;
-  if(!base){ //first
+  if(!base){ 
+    // 初次进来
     path = this.primary();
     var type = typeof path;
     if(type === 'string'){ 
+      // 变量名
       pathes = [];
       pathes.push( path );
       last = path;
@@ -630,7 +635,8 @@ op.member = function(base, last, pathes, prevBase){
         base = path.get;
       }
     }
-  }else{ // not first enter
+  }else{ 
+    // 非初次进来
     if(typeof last === 'string' && isPath( last) ){ // is valid path
       pathes.push(last);
     }else{
@@ -638,10 +644,12 @@ op.member = function(base, last, pathes, prevBase){
       pathes = null;
     }
   }
+
+  // 当存在成员的情况，如a[name]、a.name和a(2)
   if(ll = this.eat(['[', '.', '('])){
     switch(ll.type){
       case '.':
-          // member(object, property, computed)
+        // member(object, property, computed)
         var tmpName = this.match('IDENT').value;
         prevBase = base;
         if( this.la() !== "(" ){ 
@@ -651,7 +659,7 @@ op.member = function(base, last, pathes, prevBase){
         }
         return this.member( base, tmpName, pathes,  prevBase);
       case '[':
-          // member(object, property, computed)
+        // member(object, property, computed)
         path = this.assign();
         prevBase = base;
         if( this.la() !== "(" ){ 
@@ -671,9 +679,14 @@ op.member = function(base, last, pathes, prevBase){
         return this.member(base, null, pathes);
     }
   }
-  if( pathes && pathes.length ) this.depend.push( pathes );
+
+  if( pathes && pathes.length ) {
+    // 加入依赖
+    this.depend.push( pathes );
+  }
   var res =  {get: base};
   if(last){
+    // setter_str
     res.set = ctxName + "._ss_(" + 
         (last.get? last.get : "'"+ last + "'") + 
         ","+ _.setName + ","+ 
@@ -681,6 +694,91 @@ op.member = function(base, last, pathes, prevBase){
         ", '=', "+ ( onlySimpleAccessor? 1 : 0 ) + ")";
   
   }
+  return res;
+}
+
+// 解析基础变量，不带任何操作符
+op.primary = function(){
+  var ll = this.ll();
+  switch(ll.type){
+    case "{": // 对象
+      return this.object();
+    case "[": // 数组
+      return this.array();
+    case "(": // 变量，可带过滤器
+      return this.paren();
+    // literal or ident
+    case 'STRING': //字符串
+      this.next();
+      return this.getset("'" + ll.value + "'")
+    case 'NUMBER': // 数字
+      this.next();
+      return this.getset(""+ll.value);
+    case "IDENT": // 其他类型
+      this.next();
+      if(isKeyWord(ll.value)){
+        // 关键字
+        return this.getset( ll.value );
+      }
+      // 非关键字
+      return ll.value;
+    default: 
+      this.error('Unexpected Token: ' + ll.type);
+  }
+}
+
+
+// 大括号，即对象
+/*
+  {
+    'aa': aa_getter_str,
+    'bb': bb_getter_str
+  }
+*/
+op.object = function(){
+  var code = [this.match('{').type];
+  var ll = this.eat( ['STRING', 'IDENT', 'NUMBER'] );
+  while(ll){
+    code.push("'" + ll.value + "'" + this.match(':').type);
+    var get = this.assign().get;
+    code.push(get);
+    ll = null;
+    if(this.eat(",") && (ll = this.eat(['STRING', 'IDENT', 'NUMBER'])) ) code.push(",");
+  }
+  code.push(this.match('}').type);
+  return {get: code.join("")}
+}
+
+// 中括号，即数组
+/*
+  [a_getter_str, b_getter_str, ...]
+*/
+op.array = function(){
+  var code = [this.match('[').type], item;
+  if( this.eat("]") ){
+    // 空数组
+    code.push("]");
+  } else {
+    while(item = this.assign()){
+      // 逐个变量解析
+      code.push(item.get);
+      if(this.eat(',')) code.push(",");
+      else break;
+    }
+    code.push(this.match(']').type);
+  }
+  return {get: code.join("")};
+}
+
+// 小括号
+/*
+  (aa_getter_filter_str)
+*/
+op.paren = function(){
+  this.match('(');
+  var res = this.filter()
+  res.get = '(' + res.get + ')';
+  this.match(')');
   return res;
 }
 
@@ -696,95 +794,6 @@ op.arguments = function(end){
     }
   }while( this.eat(','));
   return args
-}
-
-
-// primary :
-// this 
-// ident
-// literal
-// array
-// object
-// ( expression )
-
-op.primary = function(){
-  var ll = this.ll();
-  switch(ll.type){
-    case "{":
-      return this.object();
-    case "[":
-      return this.array();
-    case "(":
-      return this.paren();
-    // literal or ident
-    case 'STRING':
-      this.next(); // 修改下标
-      return this.getset("'" + ll.value + "'")
-    case 'NUMBER':
-      this.next(); // 修改下标
-      return this.getset(""+ll.value);
-    case "IDENT":
-      this.next(); // 修改下标
-      if(isKeyWord(ll.value)){
-        return this.getset( ll.value );
-      }
-      return ll.value;
-    default: 
-      this.error('Unexpected Token: ' + ll.type);
-  }
-}
-
-// object
-//  {propAssign [, propAssign] * [,]}
-
-// propAssign
-//  prop : assign
-
-// prop
-//  STRING
-//  IDENT
-//  NUMBER
-
-op.object = function(){
-  var code = [this.match('{').type];
-
-  var ll = this.eat( ['STRING', 'IDENT', 'NUMBER'] );
-  while(ll){
-    code.push("'" + ll.value + "'" + this.match(':').type);
-    var get = this.assign().get;
-    code.push(get);
-    ll = null;
-    if(this.eat(",") && (ll = this.eat(['STRING', 'IDENT', 'NUMBER'])) ) code.push(",");
-  }
-  code.push(this.match('}').type);
-  return {get: code.join("")}
-}
-
-// array
-// [ assign[,assign]*]
-op.array = function(){
-  var code = [this.match('[').type], item;
-  if( this.eat("]") ){
-
-     code.push("]");
-  } else {
-    while(item = this.assign()){
-      code.push(item.get);
-      if(this.eat(',')) code.push(",");
-      else break;
-    }
-    code.push(this.match(']').type);
-  }
-  return {get: code.join("")};
-}
-
-// '(' expression ')'
-op.paren = function(){
-  this.match('(');
-  var res = this.filter()
-  res.get = '(' + res.get + ')';
-  this.match(')');
-  return res;
 }
 
 // 包装get和set函数

@@ -164,6 +164,19 @@ Lexer.setup = function(){
   macro.END = config.END;
   macro.BEGIN = config.BEGIN;
   
+  // 生成结构类似于
+  /*
+    {
+      INIT: ｛
+        TRUNK: 合并后的RegExp,
+        curIndex: 偏移量
+        links: [[偏移量，自身子串，处理函数],[xxx...]],
+        rules: [[RegExp, 处理函数],[yyy...]]
+      },
+      JST: {},
+      TAG: {}
+    }
+  */
   map1 = genMap([
     // INIT
     rules.ENTER_JST,
@@ -195,7 +208,7 @@ Lexer.setup = function(){
     rules.JST_COMMENT
     ])
 
-  // 无视标签相关的词法分析
+  // 无视标签相关的词法分析，用于属性值内的特殊模板
   map2 = genMap([
     // INIT no < restrict
     rules.ENTER_JST2,
