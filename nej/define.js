@@ -1,3 +1,7 @@
+/*
+ *  网易NEJ框架definejs源码注释，去掉部分配置相关逻辑
+ */
+
 (function(d, p) {
   var __xqueue = []; // 存放依赖加载相关的参数，item:{n:'filename',d:[/* dependency list */],f:function}
   var __scache = {}; // 存放依赖加载的状态，uri:STATE   0-loading  1-waiting  2-defined

@@ -77,6 +77,7 @@ var Regular = function(definition, options){
     this._body = null;
   }
   // handle computed
+  // 编译语法树
   if(template){
     this.group = this.$compile(this.template, {namespace: options.namespace});
     combine.node(this);
