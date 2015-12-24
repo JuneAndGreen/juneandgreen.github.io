@@ -174,7 +174,7 @@ _.extend(Regular, {
       cfg.regexp = name;
       directives.__regexp__.push(cfg)
     }
-    return this
+    return this;
   },
   // 对组件的插件进行操作
   plugin: function(name, fn){
@@ -416,8 +416,10 @@ Regular.implement({
     // sync the component's state to called's state
     expr2.set(component, expr1.get(this));
   },
+  // 遍历语法树
   _walk: function(ast, arg1){
     if( _.typeOf(ast) === 'array' ){
+      // 如果是数组则逐个遍历
       var res = [];
 
       for(var i = 0, len = ast.length; i < len; i++){
@@ -426,7 +428,7 @@ Regular.implement({
 
       return new Group(res);
     }
-    if(typeof ast === 'string') return doc.createTextNode(ast)
+    if(typeof ast === 'string') return doc.createTextNode(ast); // 文本节点
     return walkers[ast.type || "default"].call(this, ast, arg1);
   },
   _append: function(component){

@@ -149,7 +149,7 @@ op.statement = function(){
         // 如果有连着的NAME或TEXT类型的结果
         text += ll.value;
       }
-      return node.text(text); // 返回文本结点
+      return node.text(text); // 返回文本节点
     case 'TAG_OPEN': // 标签开始
       return this.xml();
     case 'OPEN': // 语句开始
@@ -179,7 +179,7 @@ op.xml = function(){
       // 没有匹配到结束标签
       this.error('expect </'+name+'> got'+ 'no matched closeTag')
   }
-  return node.element(name, attrs, children); // 返回文档结点
+  return node.element(name, attrs, children); // 返回文档节点
 }
 
 // 获取当前节点属性节点列表
@@ -226,7 +226,7 @@ op.xentity = function(ll){
     if( this.eat("=") )
       // 遇到=号，取属性值
       value = this.attvalue(modifier);
-    return node.attribute( name, value, modifier ); // 返回属性结点
+    return node.attribute( name, value, modifier ); // 返回属性节点
   }else{
     // 属性被语句所包含的情况，如<a {#if a}class="a"{/if}></a>
     // 目前仅支持if、else和elseif
@@ -301,7 +301,7 @@ op.expr = function(){
 
   var body = buffer.get || buffer;
   var setbody = buffer.set;
-  return node.expression(body, setbody, !this.depend.length); // 返回表达式结点
+  return node.expression(body, setbody, !this.depend.length); // 返回表达式节点
 }
 
 

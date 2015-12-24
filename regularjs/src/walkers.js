@@ -281,6 +281,7 @@ var eventReg = /^on-(.+)$/
 
 /**
  * walkers element (contains component)
+ * 遍历dom节点，包含组件 
  */
 walkers.element = function(ast, options){
   var attrs = ast.attrs, self = this,
@@ -306,18 +307,22 @@ walkers.element = function(ast, options){
   // @Deprecated: may be removed in next version, use {#inc } instead
   
   if( children && children.length ){
+    // 编译子节点
     group = this.$compile(children, {outer: options.outer,namespace: namespace, extra: extra });
   }
 
-  element = dom.create(tag, namespace, attrs);
+  element = dom.create(tag, namespace, attrs); // 构建节点
 
   if(group && !_.isVoidTag(tag)){
+    // 如果存在子节点并且当前节点不是空标签
     dom.inject( combine.node(group) , element)
   }
 
   // sort before
   if(!ast.touched){
+    // 当未排过序时则先进行排序
     attrs.sort(function(a1, a2){
+      // 指令放到数组后面
       var d1 = Constructor.directive(a1.name),
         d2 = Constructor.directive(a2.name);
       if( d1 && d2 ) return (d2.priority || 1) - (d1.priority || 1);
