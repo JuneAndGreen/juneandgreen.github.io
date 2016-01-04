@@ -65,7 +65,6 @@ walkers.list = function(ast, options){
       if(insert.parentNode){
         animate.inject(combine.node(section),insert, 'after');
       }
-      // insert.parentNode.insertBefore(combine.node(section), insert.nextSibling);
       group.children.splice( o + 1 , 0, section);
     }
   }
