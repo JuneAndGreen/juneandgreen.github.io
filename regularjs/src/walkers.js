@@ -12,14 +12,16 @@ var walkers = module.exports = {};
 walkers.list = function(ast, options){
 
   var Regular = walkers.Regular;  
-  var placeholder = document.createComment("Regular list"),
+  var placeholder = document.createComment("Regular list"), // 注释占位
     namespace = options.namespace,
     extra = options.extra;
   var self = this;
-  var group = new Group([placeholder]);
+  var group = new Group([placeholder]); // 组对象
+
   var indexName = ast.variable + '_index';
   var variable = ast.variable;
   var alternate = ast.alternate;
+
   var track = ast.track, keyOf, extraObj;
   if( track && track !== true ){
     track = this._touchExpr(track);
@@ -31,20 +33,26 @@ walkers.list = function(ast, options){
     }
   }
   function removeRange(index, rlen){
-    for(var j = 0; j< rlen; j++){ //removed
-      var removed = group.children.splice( index + 1, 1)[0];
+    // index - 开始移除的位置
+    // rlen - 需要移除的数目
+    for(var j = 0; j< rlen; j++){
+      // 移除
+      var removed = group.children.splice( index + 1, 1)[0]; // 移除多出来的项
       if(removed) removed.destroy(true);
     }
   }
   function addRange(index, end, newValue){
-    for(var o = index; o < end; o++){ //add
-      // prototype inherit
+    // index - 开始增加的位置
+    // end - 增加到结束的位置
+    // newValue - 需要增加的值
+    for(var o = index; o < end; o++){ 
+      // 增加
       var item = newValue[o];
       var data = {};
       data[indexName] = o;
       data[variable] = item;
 
-      data = _.createObject(extra, data);
+      data = _.createObject(extra, data); // 通过以extra为原型的方式创建data对象
       var section = self.$compile(ast.body, {
         extra: data,
         namespace:namespace,
@@ -63,10 +71,11 @@ walkers.list = function(ast, options){
   }
 
   function updateRange(start, end, newValue){
-    for(var k = start; k < end; k++){ // no change
+    for(var k = start; k < end; k++){
+      // 没有变化
       var sect = group.get( k + 1 );
-      sect.data[ indexName ] = k;
-      sect.data[ variable ] = newValue[k];
+      sect.data[ indexName ] = k; // 添加list语句中的索引变量，即xxx_index
+      sect.data[ variable ] = newValue[k]; // 添加list语句中的单项变量，即{#list aa as xxx}中的xxx
     }
   }
 
@@ -134,18 +143,22 @@ walkers.list = function(ast, options){
     var mlen = Math.min(nlen, olen);
 
 
-    updateRange(0, mlen, newValue)
-    if(nlen < olen){ //need add
+    updateRange(0, mlen, newValue); // 重新注入单项变量xxx和单项变量索引xxx_index到list语句块中
+    if(nlen < olen){ 
+      // 需要删除节点
       removeRange(nlen, olen-nlen);
     }else if(nlen > olen){
+      // 需要增加节点
       addRange(olen, nlen, newValue);
     }
   }
 
+  // 更新回调
   function update(newValue, oldValue, splices){
     var nlen = newValue && newValue.length;
     var olen = oldValue && oldValue.length;
     if( !olen && nlen && group.get(1)){
+      // 销毁已经生成的节点
       var altGroup = group.children.pop();
       if(altGroup.destroy)  altGroup.destroy(true);
     }
@@ -156,7 +169,7 @@ walkers.list = function(ast, options){
       updateLD(newValue, oldValue, splices)
     }
 
-    // @ {#list} {#else}
+    // 针对list数组为空的情况，即list语法中的else语句
     if( !nlen && alternate && alternate.length){
       var section = self.$compile(alternate, {
         extra: extra,
@@ -170,20 +183,24 @@ walkers.list = function(ast, options){
       }
     }
   }
+  // 监听列表相关变量
   this.$watch(ast.sequence, update, { init: true, indexTrack: track === true });
   return group;
 }
-// {#include } or {#inc template}
+
+// 遍历include语句（即inc语句）
 walkers.template = function(ast, options){
   var content = ast.content, compiled;
-  var placeholder = document.createComment('inlcude');
+  var placeholder = document.createComment('inlcude'); // 注释占位
   var compiled, namespace = options.namespace, extra = options.extra;
-  var group = new Group([placeholder]);
+  var group = new Group([placeholder]); // 组对象
   if(content){
     var self = this;
+    // 对模板内容变量进行监听
     this.$watch(content, function(value){
       var removed = group.get(1), type= typeof value;
       if( removed){
+        // 对已经生成的节点进行销毁
         removed.destroy(true); 
         group.children.pop();
       }
@@ -201,19 +218,24 @@ walkers.template = function(ast, options){
 
 
 // how to resolve this problem
+// 遍历if语句
 var ii = 0;
 walkers['if'] = function(ast, options){
   var self = this, consequent, alternate, extra = options.extra;
-  if(options && options.element){ // attribute inteplation
+  if(options && options.element){
+    // 针对节点内的if语句，如<div {#if test}class="ss"{/#if}></div>
     var update = function(nvalue){
       if(!!nvalue){
+        // if条件为真
         if(alternate) combine.destroy(alternate)
         if(ast.consequent) consequent = self.$compile(ast.consequent, {record: true, element: options.element , extra:extra});
       }else{
+        // if条件为假
         if(consequent) combine.destroy(consequent)
         if(ast.alternate) alternate = self.$compile(ast.alternate, {record: true, element: options.element, extra: extra});
       }
     }
+    // 对if里的条件进行监听
     this.$watch(ast.test, update, { force: true });
     return {
       destroy: function(){
@@ -224,8 +246,8 @@ walkers['if'] = function(ast, options){
   }
 
   var test, consequent, alternate, node;
-  var placeholder = document.createComment("Regular if" + ii++);
-  var group = new Group();
+  var placeholder = document.createComment("Regular if" + ii++); // 注释占位
+  var group = new Group(); // 组对象
   group.push(placeholder);
   var preValue = null, namespace= options.namespace;
 
@@ -235,19 +257,21 @@ walkers['if'] = function(ast, options){
     if(value === preValue) return;
     preValue = value;
     if(group.children[1]){
+      // 对已经生成的节点进行销毁
       group.children[1].destroy(true);
       group.children.pop();
     }
-    if(value){ //true
+    if(value){
+      // if条件为真
       if(ast.consequent && ast.consequent.length){
         consequent = self.$compile( ast.consequent , {record:true, outer: options.outer,namespace: namespace, extra:extra })
-        // placeholder.parentNode && placeholder.parentNode.insertBefore( node, placeholder );
         group.push(consequent);
         if(placeholder.parentNode){
           animate.inject(combine.node(consequent), placeholder, 'before');
         }
       }
-    }else{ //false
+    }else{ 
+      // if条件为假
       if(ast.alternate && ast.alternate.length){
         alternate = self.$compile(ast.alternate, {record:true, outer: options.outer,namespace: namespace, extra:extra});
         group.push(alternate);
@@ -257,19 +281,23 @@ walkers['if'] = function(ast, options){
       }
     }
   }
+  // 对if里的条件进行监听
   this.$watch(ast.test, update, {force: true, init: true});
 
   return group;
 }
 
-
+// 遍历表达式
 walkers.expression = function(ast, options){
   var node = document.createTextNode("");
+  // 监听表达式变化
   this.$watch(ast, function(newval){
     dom.text(node, "" + (newval == null? "": "" + newval) );
   })
   return node;
 }
+
+// 遍历文本
 walkers.text = function(ast, options){
   var node = document.createTextNode(_.convertEntity(ast.text));
   return node;
@@ -280,7 +308,6 @@ walkers.text = function(ast, options){
 var eventReg = /^on-(.+)$/
 
 /**
- * walkers element (contains component)
  * 遍历dom节点，包含组件 
  */
 walkers.element = function(ast, options){
@@ -303,24 +330,24 @@ walkers.element = function(ast, options){
     return walkers.component.call(this, ast, options)
   }
 
+  // @Deprecated: 在将来也许会被移除, 请使用{#inc }代替
   if(tag === 'svg') namespace = "svg";
-  // @Deprecated: may be removed in next version, use {#inc } instead
   
   if( children && children.length ){
-    // 编译子节点
+    // 遍历并编译子节点
     group = this.$compile(children, {outer: options.outer,namespace: namespace, extra: extra });
   }
 
-  element = dom.create(tag, namespace, attrs); // 构建节点
+  // 构建节点
+  element = dom.create(tag, namespace, attrs);
 
   if(group && !_.isVoidTag(tag)){
     // 如果存在子节点并且当前节点不是空标签
     dom.inject( combine.node(group) , element)
   }
 
-  // sort before
   if(!ast.touched){
-    // 当未排过序时则先进行排序
+    // 当属性未排过序时则先进行排序
     attrs.sort(function(a1, a2){
       // 指令放到数组后面
       var d1 = Constructor.directive(a1.name),
@@ -334,18 +361,20 @@ walkers.element = function(ast, options){
     ast.touched = true;
   }
   // may distinct with if else
+  // 遍历属性
   var destroies = walkAttributes.call(this, attrs, element, extra);
 
   return {
     type: "element",
     group: group,
     node: function(){
-      return element;
+      return element; // 返回结点
     },
     last: function(){
       return element;
     },
     destroy: function(first){
+      // 销毁
       if( first ){
         animate.remove( element, group? group.destroy.bind( group ): _.noop );
       }else if(group) {
@@ -499,6 +528,7 @@ walkers.component = function(ast, options){
   return component;
 }
 
+// 遍历全部属性
 function walkAttributes(attrs, element, extra){
   var bindings = []
   for(var i = 0, len = attrs.length; i < len; i++){
@@ -507,7 +537,7 @@ function walkAttributes(attrs, element, extra){
   }
   return bindings;
 }
-
+// 遍历属性
 walkers.attribute = function(ast ,options){
 
   var attr = ast;
@@ -516,7 +546,7 @@ walkers.attribute = function(ast ,options){
   var constant = value.constant;
   var Component = this.constructor;
   var directive = Component.directive(name);
-  var element = options.element;
+  var element = options.element; // 节点
   var self = this;
 
 
@@ -525,15 +555,20 @@ walkers.attribute = function(ast ,options){
   if(constant) value = value.get(this);
 
   if(directive && directive.link){
+    // 对指令进行处理
     var binding = directive.link.call(self, element, value, name, options.attrs);
+    // 返回对应可销毁指令对象
     if(typeof binding === 'function') binding = {destroy: binding}; 
     return binding;
   } else{
+    // 对属性进行处理
     if(value.type === 'expression' ){
+      // 属性值是表达式，则对该属性值进行监听
       this.$watch(value, function(nvalue, old){
         dom.attr(element, name, nvalue);
       }, {init: true});
     }else{
+      // 属性值是其他类型
       if(_.isBooleanAttr(name)){
         dom.attr(element, name, true);
       }else{
@@ -541,6 +576,7 @@ walkers.attribute = function(ast ,options){
       }
     }
     if(!options.fromElement){
+      // 如果是暂时不需要附着在节点上的属性，则返回对应可销毁属性对象
       return {
         destroy: function(){
           dom.attr(element, name, null);

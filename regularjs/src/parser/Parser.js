@@ -317,8 +317,7 @@ op.directive = function(){
 }
 
 
-
-// {{~}}
+// include语句解析
 op.inc = op.include = function(){
   var content = this.expression();
   this.match('END');
@@ -378,6 +377,7 @@ op.list = function(){
   variable = this.match('IDENT').value;
 
   if(this.eat('IDENT', 'by')){
+    // 当出现自定义的下标变量时
     if(this.eat('IDENT',variable + '_index')){
       track = true;
     }else{

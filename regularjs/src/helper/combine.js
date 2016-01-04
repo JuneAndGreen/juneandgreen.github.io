@@ -15,6 +15,7 @@ var combine = module.exports = {
     if(typeof item.nodeType === "number") return item;
     if(item.group) return combine.node(item.group)
     if(children = item.children){
+      // 如果存在子节点
       if(children.length === 1){
         return combine.node(children[0]);
       }

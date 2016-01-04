@@ -304,6 +304,7 @@ Regular.implement({
     if(options.extra) this.__ext__ = options.extra;
 
     if(record) this._record();
+    // 遍历语法树
     var group = this._walk(ast, options);
     if(record){
       records = this._release();
@@ -419,7 +420,7 @@ Regular.implement({
   // 遍历语法树
   _walk: function(ast, arg1){
     if( _.typeOf(ast) === 'array' ){
-      // 如果是数组则逐个遍历
+      // 如果是数组则逐个遍历，并组合成组(group)
       var res = [];
 
       for(var i = 0, len = ast.length; i < len; i++){
@@ -429,7 +430,7 @@ Regular.implement({
       return new Group(res);
     }
     if(typeof ast === 'string') return doc.createTextNode(ast); // 文本节点
-    return walkers[ast.type || "default"].call(this, ast, arg1);
+    return walkers[ast.type || "default"].call(this, ast, arg1); // 其他节点使用对应的遍历方式
   },
   _append: function(component){
     this._children.push(component);
