@@ -44,7 +44,7 @@ walkers.list = function(ast, options){
   function addRange(index, end, newValue){
     // index - 开始增加的位置
     // end - 增加到结束的位置
-    // newValue - 需要增加的值
+    // newValue - 新值
     for(var o = index; o < end; o++){ 
       // 增加
       var item = newValue[o];
@@ -70,6 +70,9 @@ walkers.list = function(ast, options){
   }
 
   function updateRange(start, end, newValue){
+    // start - 开始更新的位置
+    // end - 结束更新的位置
+    // newValue - 新值
     for(var k = start; k < end; k++){
       // 没有变化
       var sect = group.get( k + 1 );
@@ -162,6 +165,7 @@ walkers.list = function(ast, options){
       if(altGroup.destroy)  altGroup.destroy(true);
     }
 
+    // 更新
     if(track === true){
       updateSimple(newValue, oldValue, splices)
     }else{

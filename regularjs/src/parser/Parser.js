@@ -377,7 +377,7 @@ op.list = function(){
   variable = this.match('IDENT').value;
 
   if(this.eat('IDENT', 'by')){
-    // 当出现自定义的下标变量时
+    // 当出现自定义的下标变量时，即使用了by语法
     if(this.eat('IDENT',variable + '_index')){
       track = true;
     }else{
