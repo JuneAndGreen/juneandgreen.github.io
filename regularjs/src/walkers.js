@@ -9,6 +9,7 @@ var _ = require('./util');
 
 var walkers = module.exports = {};
 
+// 遍历list语句
 walkers.list = function(ast, options){
 
   var Regular = walkers.Regular;  
@@ -135,7 +136,7 @@ walkers.list = function(ast, options){
     }
   }
 
-  // if the track is constant test.
+  // 带有track变量，即是#{list XXX as XX by XX}的语法
   function updateSimple(newValue, oldValue){
     newValue = newValue || [];
     oldValue  = oldValue || [];
