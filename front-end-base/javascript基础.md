@@ -17,8 +17,7 @@ ES6追加了一种：Symbol（表示是唯一数据的一种类型）
 
 ### 引用类型
 
-base value/referenced name/strict reference flag
-
+base value/referenced name/strict reference flag（严格模式下对引用的使用方式）
 ### 类型转换
 
 * 字符串转数字：parseInt/parseFloat
@@ -196,6 +195,8 @@ function changeColor() {
 
 ### 函数创建和调用时执行上下文的信息
 
+TODO
+
 ### 特殊语句及函数的性能影响
 
 * with：with在作用域链上增加了一个新作用域，而原本的作用域处于作用域链中第二个位置
@@ -344,6 +345,8 @@ if(event.stopPropagation) {
 
 ### 可信任事件（非脚本创建，不触发默认行为[除click/DOMActivate]）
 
+TODO
+
 ### 自定义事件
 
 先存储事件句柄，待触发事件时遍历事件句柄并逐个调用
@@ -483,6 +486,8 @@ PS：document.domain只可修改成和当前一样或更高级的父域。如a.c
 PS：window.name可以在同一个窗口内一直保存，所以在iframe中修改了window.name，然后将iframe的src改成同域的，父亲就可以通过iframe.contentWindow.name获取。
 
 ### 文件上传
+
+TODO
 
 ### 长连接技术
 
@@ -671,7 +676,37 @@ localStorage.removeItem('xxx');
 localStorage.clear();
 ```
 
-### 离线应用缓存（manifest文件）
+### 离线应用缓存
+
+使用manifest文件：
+
+```html
+<html manifest = "XX.manifest">
+```
+
+```
+#xx.manifest内容如下
+CACHE MANIFEST
+# 在此标题下列出的文件将在首次下载后进行缓存
+# 2016-03-18 v1.0.0
+/theme.css
+/logo.gif
+/main.js
+
+NETWORK:
+# 在此标题下列出的文件需要与服务器的连接，且不会被缓存
+login.asp
+
+FALLBACK:
+# 在此标题下列出的文件规定当页面无法访问时的回退页面（比如 404 页面）
+/404.html
+```
+
+特点：
+
+* manifest有变化才更新，所以文件有变化要修改manifest文件（如修改manifest文件中的时间版本信息）。
+* 一次更新manifest中的所有文件（有一个文件更新失败则全部回撤）。
+* 此次更新下次才生效。
 
 ### 历史记录管理
 
@@ -787,9 +822,13 @@ dragend：拖拽源在拖拽操作结束将得到dragend事件对象，不管操
 
 ### 性能相关API
 
+TODO
+
 ### Canvas
 
-### Web Messaging（PostMessage/onMessage）
+TODO
+
+### Web Messaging
 
 postMessage/onMessage通常用于当前窗口与iframe、frame或window.open打开的窗口之间的通信，可跨域。
 
@@ -829,32 +868,32 @@ onmessage = function(event) {
 
 ## 性能优化
 
-*减少HTTP请求
-*使用CDN
-*禁止src/href指定空值
-*HTTP caching（缓存相关Header）
-*gzip资源/原理/实现
-*CSS sprites原理
-*样式置顶/脚本置底
-*禁用CSS表达式（expression）
-*外联脚本/样式
-*分解资源载入（并行）/减少DNS查找
-*精简脚本/样式
-*禁止重定向
-*删除重复脚本/样式
-*使用GET方式的Ajax请求
-*减少DOM节点数量
-*减少Cookie大小
-*Cookie-Free域加载资源
-*减少DOM操作
-*优化图片/不要拉伸图片
-*禁用滤镜
-*用link替换@import载入样式
-*优化事件监听
-*减少IFrame数量
-*资源预加载/延时资源加载
-*网站安全
-*同源策略/CORS规范
-*Injection/XSS/CSRF攻击原理及防范（OWASP）
-*Session/Cookie/Headers
+* 减少HTTP请求
+* 使用CDN
+* 禁止src/href指定空值
+* HTTP caching（缓存相关Header）
+* gzip资源/原理/实现
+* CSS sprites原理
+* 样式置顶/脚本置底
+* 禁用CSS表达式（expression）
+* 外联脚本/样式
+* 分解资源载入（并行）/减少DNS查找
+* 精简脚本/样式
+* 禁止重定向
+* 删除重复脚本/样式
+* 使用GET方式的Ajax请求
+* 减少DOM节点数量
+* 减少Cookie大小
+* Cookie-Free域加载资源
+* 减少DOM操作
+* 优化图片/不要拉伸图片
+* 禁用滤镜
+* 用link替换@import载入样式
+* 优化事件监听
+* 减少IFrame数量
+* 资源预加载/延时资源加载
+* 网站安全
+* 同源策略/CORS规范
+* Injection/XSS/CSRF攻击原理及防范（OWASP）
+* Session/Cookie/Headers
 
