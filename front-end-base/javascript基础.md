@@ -20,10 +20,10 @@ ES6追加了一种：Symbol（表示是唯一数据的一种类型）
 base value/referenced name/strict reference flag（严格模式下对引用的使用方式）
 ### 类型转换
 
-* 字符串转数字：parseInt/parseFloat
-* 其它类型转字符串：xxx.toString()/''+sth
-* 其他类型转布尔值：!!sth
-* 其他类型转数字：~~sth
+* 字符串转数字：`parseInt`/`parseFloat`
+* 其它类型转字符串：`xxx.toString()`/`''+sth`
+* 其他类型转布尔值：`!!sth`
+* 其他类型转数字：`~~sth`
 
 ### 相等比较
 
@@ -255,7 +255,7 @@ ps:当单击一次鼠标左键的时候，将同时触发onclick、onmousedown�
 
 #### 键盘事件
 
-````
+```
 onkeypress | 某个键按下以后触发
 onkeydown  | 某个键按下时触发
 onkeyup    | 某个键被释放时触发
@@ -276,7 +276,7 @@ onunload | 页面将被卸载时触发
 
 #### 表单事件
 
-````
+```
 onblur   | 元素失去焦点时触发
 onchange | 元素失去焦点并且元素内容改变时触发
 onfocus  | 元素获得焦点时触发
@@ -343,9 +343,9 @@ if(event.stopPropagation) {
 }
 ```
 
-### 可信任事件（非脚本创建，不触发默认行为[除click/DOMActivate]）
+### 可信任事件
 
-TODO
+如果一个事件是由设备本身（如浏览器）触发的，而不是通过JavaScript模拟合成的，那个这个事件被称为可信任的，通过`event.isTrusted`可以得知。
 
 ### 自定义事件
 
@@ -410,7 +410,7 @@ xhr.onreadystatechange = function() {
 		// 进行其他操作
 	}
 };
- 
+
 //readyState:0表示初始化，1表示连接，2表示接收，3表示处理，4表示完成；
 //status:200表示OK，404表示未找到页面；
 ```
@@ -422,7 +422,7 @@ xhr.onreadystatechange = function() {
 //Get请求
 xhr.open('GET', url, true); //第二个参数是请求url，第三个参数是指是否采用异步
 xhr.send();
- 
+
 //Post请求
 xhr.open('POST', url, true); //同上
 xhr.setRequestHeader(header, value); //设置表头，一般我们提交的form是用xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
@@ -617,7 +617,7 @@ if(navigator.geolocation) {
 		// 失败
 		// errer.code 可能为以下四种：
 		// error.PERMISSION_DENIED：用户不允许地理定位
-		// error.POSITION_UNAVAILABLE：无法获取当前地址 
+		// error.POSITION_UNAVAILABLE：无法获取当前地址
 		// error.TIMEOUT：操作超时
 		// error.UNKNOWN_ERROR：未知错误
 	});
@@ -721,7 +721,7 @@ history.length; // 历史记录栈中有多少条记录
 /* html5中添加 */
 history.pushState(stateObj, title, url); // 添加历史记录，常用于单页系统中
 history.replaceState(stateObj, title, url); // 替换历史记录，常用于无刷新修改url
-window.onpopstate = function() {}; // 历史记录变化时触发的事件 
+window.onpopstate = function() {}; // 历史记录变化时触发的事件
 ```
 
 ### 拖拽
@@ -794,7 +794,7 @@ dragend：拖拽源在拖拽操作结束将得到dragend事件对象，不管操
 	function mouseMove(e) { // 移动鼠标时
 		var e = e||event;
 		var div = document.getElementById('haha');
-		
+
 		if(position.isMouseDown==0) return;
 
 		div.style.left = e.clientX - position.ox + 'px';
@@ -896,4 +896,3 @@ onmessage = function(event) {
 * 同源策略/CORS规范
 * Injection/XSS/CSRF攻击原理及防范（OWASP）
 * Session/Cookie/Headers
-
