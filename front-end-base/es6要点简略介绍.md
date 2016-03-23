@@ -1,12 +1,3 @@
-title: es6要点简略介绍
-date: 2015-11-19 20:50:44
-categories:
-- 前端
-tags:
-- 前端
-- es6
-- 语法
----
 ## 变量声明
 
 ### let
@@ -30,8 +21,8 @@ console.log(b); // 报错，let支持块级作用域
 
 ```javascript
 var c = 7;
-console.log(window.c); // 输出7 
-let d = 8; 
+console.log(window.c); // 输出7
+let d = 8;
 console.log(window.d); // 输出undefined，let声明的顶级变量不会作为window或者global的属性存在
 ```
 
