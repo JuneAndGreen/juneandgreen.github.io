@@ -459,7 +459,9 @@ getAllResponseHeaders()      | 以键值对形式返回所有头部信息
 
 #### CORS
 
-http提供的一个允许跨域请求的方法，只有高版本浏览器支持。主要通过设置请求头和相应头来实现，主要用到的头信息是`Access-Control-Allow-Origin`。
+http提供的一个允许跨域请求的方法，只有高版本浏览器支持。主要通过设置请求头和相应头来实现，一般前端无需做什么特殊操作，浏览器会把相应的字段追加到请求上去，工作主要集中在服务器端。其中主要用到的头信息是`origin`和`Access-Control-Allow-Origin`。
+
+具体流程可阅读阮大神的[文章](http://www.ruanyifeng.com/blog/2016/04/cors.html)学习。
 
 #### JSONP
 
