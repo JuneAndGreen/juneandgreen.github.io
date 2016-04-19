@@ -485,7 +485,47 @@ PS：window.name可以在同一个窗口内一直保存，所以在iframe中修�
 
 ### 文件上传
 
-TODO
+#### 传统方式
+
+```html
+	<form action="xxx.do" method="post" enctype="multipart/form-data" >
+		<input type="file" id="yyy" name="yyy">
+		<input type="submit" value="上传">
+	</form>
+```
+
+以上方式是同步提交，如过想要实现异步提交的话，可用iframe来做。
+
+#### HTML5
+
+使用formData来构建一个虚拟表单，然后使用ajax提交。
+
+```javascript
+if(window.FormData) {
+	var formData = new FormData();
+	// 添加要上传的文件
+　formData.append('upload', document.getElementById('yyy').files[0]);
+
+	var xhr = new XMLHttpRequest();
+	xhr.open('POST', 'xxx.do');
+	xhr.onload = function () {
+		if(xhr.status === 200) {
+			// success
+		} else {
+			// error
+		}
+	};
+	xhr.send(formData);
+
+	// 监听上传进度
+	xhr.upload.onprogress = function(event) {
+		if(event.lengthComputable) {
+			// evnet.loaded - 已上传
+			// event.total - 总共
+		}
+	};
+}
+```
 
 ### 长连接技术
 
