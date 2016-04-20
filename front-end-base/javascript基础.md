@@ -860,11 +860,109 @@ dragend：拖拽源在拖拽操作结束将得到dragend事件对象，不管操
 
 ### 性能相关API
 
-TODO
+```javascript
+var timing = Performance.timing; // 只读，是一个PerformanceTiming对象，包含了页面加载时间相关的性能信息。
+var navinfo = Performance.navigation; // 只读，是一个PerformanceNavigation对象，代表了页面浏览上下文的导航信息，比如大量获取资源的重定向。
+
+Performance.now(); // 返回一个 DOMHighResTimeStamp 类实例表示距离页面开始请求到现在相差的毫秒数（即 Date.now() - Performance.timing.navigationStart ）。
+```
 
 ### Canvas
 
-TODO
+画布相关，允许我们在页面上绘制图形。画布的坐标已画布左上角为起始点，以像素为单位计算。
+
+```html
+<canvas id="canvas" width="800" height="800">这里会显示当不支持canvas时的文字</canvas>
+```
+
+ps: width和height最好在此处指明。
+
+```javascript
+var ctx = canvas.getContext('2d'); // 获取画布上下文
+
+/* 绘制矩形 */
+ctx.fillRect(x, y, width, height); // 绘制一个填充的矩形
+ctx.strokeRect(x, y, width, height); // 绘制一个矩形的边框
+ctx.clearRect(x, y, width, height); // 清除指定矩形区域，让清除部分完全透明。
+ctx.rect(x, y, width, height); // 绘制一个左上角坐标为（x,y），宽高为width以及height的矩形到当前路径中。当该方法执行的时候，moveTo()方法自动设置坐标参数（0,0）。也就是说，当前笔触自动重置会默认坐标。
+
+/* 绘制填充直线图形 */
+ctx.beginPath(); // 开始路径
+ctx.moveTo(x, y); // 移动
+ctx.lineTo(x1, y1); // 画线
+ctx.lineTo(x2, y2);
+ctx.fill(); // 填充封闭图形,所有没有闭合的形状都会自动闭合
+
+/* 绘制非填充直线图形 */
+ctx.beginPath();
+ctx.moveTo(x, y);
+ctx.lineTo(x1, y1);
+ctx.lineTo(x2, y2);
+ctx.closePath(); // 闭合路径，会把结束点和开始点连接上
+ctx.stroke(); // 描线
+
+/* 绘制圆弧 */
+ctx.arc(x, y, radius, startAngle, endAngle, anticlockwise); // 画一个以（x,y）为圆心的以radius为半径的圆弧（圆），从startAngle开始到endAngle结束，按照anticlockwise给定的方向（默认为顺时针，即值为true）来生成。注意此处的angle不是角度而是弧度，一个圆的弧度是2*Math.PI
+ctx.arcTo(x1, y1, x2, y2, radius); // 根据给定的控制点和半径画一段圆弧，再以直线连接两个控制点。
+
+/* 绘制贝塞尔曲线 */
+ctx.quadraticCurveTo(cp1x, cp1y, x, y); // 绘制二次贝塞尔曲线，x,y为结束点，cp1x,cp1y为控制点。
+ctx.bezierCurveTo(cp1x, cp1y, cp2x, cp2y, x, y); // 绘制三次贝塞尔曲线，x,y为结束点，cp1x,cp1y为控制点一，cp2x,cp2y为控制点二。
+
+/* 使用Path2D对象来缓存或记录绘画命令 */
+var circle = Path2D(); // 会返回一个新初始化的Path2D对象（可能将某一个路径作为变量——创建一个它的副本，或者将一个包含SVG path数据的字符串作为变量）
+circle.moveTo(125, 35);
+circle.arc(100, 35, 25, 0, 2 * Math.PI);
+
+ctx.fill(circle);
+
+/* 颜色 */
+ctx.fillStyle = color; // 设置图形的填充颜色。
+ctx.strokeStyle = color; // 设置图形轮廓的颜色。
+
+/* 透明度 */
+ctx.globalAlpha = 0.2;
+
+/* 线条样式 */
+ctx.lineWidth = value; // 设置线条宽度，默认为1.0。
+ctx.lineCap = type; // 设置线条末端样式，值可为butt，round 和 square，默认是butt。
+ctx.lineJoin = type; // 设定线条与线条间接合处的样式，值为round, bevel 和 miter，默认是miter。
+ctx.miterLimit = value; // 限制当两条线相交时交接处最大长度；所谓交接处长度（斜接长度）是指线条交接处内角顶点到外角顶点的长度。
+ctx.getLineDash(); // 返回一个包含当前虚线样式，长度为非负偶数的数组。
+ctx.setLineDash(segments); // 设置当前虚线样式。
+ctx.lineDashOffset = value; // 设置虚线样式的起始偏移量。
+
+/* 渐变 */
+var linear = ctx.createLinearGradient(x1, y1, x2, y2); // createLinearGradient 方法接受 4 个参数，表示渐变的起点 (x1,y1) 与终点 (x2,y2)。
+var radial = ctx.createRadialGradient(x1, y1, r1, x2, y2, r2); // createRadialGradient 方法接受 6 个参数，前三个定义一个以 (x1,y1) 为原点，半径为 r1 的圆，后三个参数则定义另一个以 (x2,y2) 为原点，半径为 r2 的圆。
+linear.addColorStop(position, color); // addColorStop 方法接受 2 个参数，position 参数必须是一个 0.0 与 1.0 之间的数值，表示渐变中颜色所在的相对位置。例如，0.5 表示颜色会出现在正中间。color 参数必须是一个有效的 CSS 颜色值（如 #FFF， rgba(0,0,0,1)，等等）。
+
+/* 图案 */
+var ptrn = ctx.createPattern(image, type); // 该方法接受两个参数。Image 可以是一个 Image 对象的引用，或者另一个 canvas 对象。Type 必须是下面的字符串值之一：repeat，repeat-x，repeat-y 和 no-repeat。
+ctx.fillStyle = ptrn; // 以该图案为背景填充
+ctx.fillRect(0, 0, 150, 150);
+
+/* 阴影 */
+ctx.shadowOffsetX = float; // shadowOffsetX 和 shadowOffsetY 用来设定阴影在 X 和 Y 轴的延伸距离，它们是不受变换矩阵所影响的。负值表示阴影会往上或左延伸，正值则表示会往下或右延伸，它们默认都为 0。
+ctx.shadowOffsetY = float; // shadowOffsetX 和 shadowOffsetY 用来设定阴影在 X 和 Y 轴的延伸距离，它们是不受变换矩阵所影响的。负值表示阴影会往上或左延伸，正值则表示会往下或右延伸，它们默认都为 0。
+ctx.shadowBlur = float; // shadowBlur 用于设定阴影的模糊程度，其数值并不跟像素数量挂钩，也不受变换矩阵的影响，默认为 0。
+ctx.shadowColor = color; // shadowColor 是标准的 CSS 颜色值，用于设定阴影颜色效果，默认是全透明的黑色。
+
+/* 绘制文本 */
+ctx.fillText(text, x, y [, maxWidth]); // 在指定的(x,y)位置填充指定的文本，绘制的最大宽度是可选的。
+ctx.strokeText(text, x, y [, maxWidth]); // 在指定的(x,y)位置绘制文本边框，绘制的最大宽度是可选的。
+ctx.font = value; // 当前我们用来绘制文本的样式. 这个字符串使用和 CSS font 属性相同的语法. 默认的字体是 10px sans-serif。
+ctx.textAlign = value; // 文本对齐选项. 可选的值包括：start, end, left, right or center. 默认值是 start。
+ctx.textBaseline = value; // 基线对齐选项. 可选的值包括：top, hanging, middle, alphabetic, ideographic, bottom。默认值是 alphabetic。
+ctx.direction = value; // 文本方向。可能的值包括：ltr, rtl, inherit。默认值是 inherit。
+ctx.measureText('text'); // 将返回一个 TextMetrics对象的宽度、所在像素，这些体现文本特性的属性。
+
+/* 绘制图片 */
+ctx.drawImage(image, x, y[, width, height]); // 其中 image 是 image 或者 canvas 对象，x 和 y 是其在目标 canvas 里的起始坐标。可传width和height来指明缩放大小。
+ctx.drawImage(image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight); // 用于切片绘制，第一个参数和其它的是相同的，都是一个图像或者另一个 canvas 的引用。其它8个参数中，前4个是定义图像源的切片位置和大小，后4个则是定义切片的目标显示位置和大小。
+```
+
+当然，canvas的api可不止有这么点，具体可参考[mdn上的教程](https://developer.mozilla.org/zh-CN/docs/Web/API/Canvas_API)。
 
 ### Web Messaging
 
