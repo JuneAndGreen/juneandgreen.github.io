@@ -351,7 +351,7 @@ if(event.stopPropagation) {
 
 ### 样式表操作
 
-方法有三种：
+方法有六种：
 
 ```javascript
 /* 第一种 */
@@ -372,6 +372,27 @@ window.getComputedStyle('元素', '伪类').getPropertyValue('样式名'); // �
 element.currentStyle; // 同getComputedStyle接口
 element.currentStyle.getAttribute('样式名'); // 同getPropertyValue接口，唯一不同的是传入的样式名需要用驼峰形式，如font-size需传入fontSize
 
+/* 第五种 */
+// 高版本浏览器和IE10以上才支持
+element.classList.add('xxx'); // 添加一个class
+element.classList.remove('xxx'); // 删除一个class
+element.classList.toggle('xxx'); // 切换一个class
+
+/* 第六种 */
+// 此方法属于直接修改页面中的样式
+var sheet = document.styleSheets[0];
+if(sheet) {
+	var selector = '.box';
+	var rule = 'background: red;'
+	var index = 0; // 插入位置
+	if(sheet.insertRule) {
+		sheet.insertRule(selector + '{' + rules + '}', index);
+	}	else {
+		sheet.addRule(selector, rules, index);
+	}
+	// 删除样式
+	sheet.deleteRule(index);
+}
 ```
 
 ### 响应式网站布局
@@ -990,6 +1011,8 @@ myWorker.onmessage = function(event) {
 };
 
 myWorker.postMessage(''); // 发送数据
+
+myWorker.terminate(); // 终止worker
 ```
 
 task.js里的内容：
