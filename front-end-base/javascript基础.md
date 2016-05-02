@@ -1040,6 +1040,18 @@ onmessage = function(event) {
 };
 ```
 
+### WebRTC
+
+TODO
+
+### 全屏接口
+
+TODO
+
+### page visibility
+
+TODO
+
 ## 性能优化
 
 * 减少HTTP请求
