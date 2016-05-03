@@ -1040,17 +1040,35 @@ onmessage = function(event) {
 };
 ```
 
-### WebRTC
-
-TODO
-
 ### 全屏接口
 
-TODO
+```javascript
+// 进入全屏
+var func = elem.requestFullscreen || elem.mozRequestFullScreen || elem.webkitRequestFullscreen;
+if(func) func.call(elem);
 
-### page visibility
+// 退出全屏
+var func = document.cancelFullScreen || document.mozCancelFullScreen || document.webkitCancelFullScreen;
+if(func) func.call(document);
 
-TODO
+// 获取状态
+var elem = document.fullscreenElement || document.mozFullScreenElement || document.webkitFullscreenElement; // 正处于全屏状态的元素
+var canFullScreen = document.fullscreenEnabled || document.mozFullscreenEnabled || document.webkitFullscreenEnabled; // 能否进入全屏状态
+```
+
+### Page Visibility
+
+```javascript
+document.hidden; // 值为true或false，表示当前页面是否被激活
+
+// hidden：当浏览器最小化、切换tab、电脑锁屏时visibilityState值是hidden
+// visible：当document至少显示在一个屏幕（screen）当中时，返回visible；当浏览器窗口没有最小化，但是浏览器被其他应用遮挡时，visibilityState值也是visible
+// prerender：文档加载离屏或者不可见时返回prerender，浏览器可选择性的支持这个属性
+// unloaded：当document将要被unload时返回unloaded，浏览器可选择性的支持这个属性
+document.visibilityState; // 值可为以上四个，不过多数浏览器并未支持完全
+
+// document上会添加visibilitychange事件，ducument可见性改变时触发
+```
 
 ## 性能优化
 
