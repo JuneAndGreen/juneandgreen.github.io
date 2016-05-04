@@ -400,6 +400,54 @@ if(sheet) {
 
 使用媒体查询实现，可以多端共用一套页面，不过需要多端页面结构必须一致，对于移动端可能需要冗余一些请求。
 
+## Cookie操作
+
+```javascript
+// 取Cookies
+function getCookie(name) {
+  var value = document.cookie.match(new RegExp('(^| )' + name + '=([^;]*)(;|$)'));
+  if(value != null) return unescape(value[2]); // unescape函数进行解码
+
+  return null;
+}
+
+// 存Cookies
+function setCookie(name, value, date, domain, path) { // date为过期时间对象
+	var arr = [];
+
+	arr.push(name + '=' + escape(value));
+	if(domain) arr.push('domain=' + escape(domain));
+	if(path) arr.push('path=' + escape(path));
+	arr.push('expires=' + date.toGMTString());
+
+  document.cookie = arr.join(';');
+}
+
+// 删Cookies
+function delCookie(name, domain, path) {
+  var dateLine = new Date();
+  dateLine.setDate(dateLine.getDate() - 1); // 设置过期日期为已过去的时间
+
+  var dvalue = getCookie(name);
+  if(dvalue != null) {
+		var arr = [];
+
+		arr.push(name + '=' + escape(dvalue));
+		if(domain) arr.push('domain=' + escape(domain));
+		if(path) arr.push('path=' + escape(path));
+		arr.push('expires=' + dateLine.toGMTString());
+
+    document.cookie = arr.join(';');
+  }
+}
+```
+
+### 设置Cookie
+
+```javascript
+
+```
+
 ## 垃圾回收
 
 ### 引用计数
