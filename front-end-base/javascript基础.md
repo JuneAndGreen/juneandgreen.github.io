@@ -192,7 +192,7 @@ function changeColor() {
 
 ### 闭包
 
-返回值为函数，主要用于保存数据的引用和保护作用域。
+返回值为函数（相当于函数嵌套函数），主要用于保存数据的引用和保护作用域。
 
 ### 特殊语句及函数的性能影响
 
@@ -1068,6 +1068,53 @@ document.hidden; // 值为true或false，表示当前页面是否被激活
 document.visibilityState; // 值可为以上四个，不过多数浏览器并未支持完全
 
 // document上会添加visibilitychange事件，ducument可见性改变时触发
+```
+
+### js延迟加载
+
+#### defer（只支持IE）
+
+defer规定对脚本的加载进行延迟，直到页面加载完。故脚本不改变文档的内容的话，可用此方法。
+
+```html
+<script type="text/javascript" defer="defer"></script>
+```
+
+#### async（HTML5属性）
+
+async规定一旦脚本可用，则异步执行。（仅能用于外部脚本）
+
+```html
+<script type="text/javascript" src="XX.js" async="async"></script>
+```
+
+#### 动态追加脚本
+
+创建script标签，插入到Dom中，加载完毕后callback
+
+```javascript
+function loadScript(url, callback) {
+  var script = document.creatElement('script');  //创建script节点
+  script.type = 'text/javascript';
+
+  if(script.readyState) {
+		// IE
+    script.onreadystatechange = function() {
+      if(script.readyState == 'loaded' || script.readyState == 'complete') {
+        script.onreadystatechange = null;
+        callback(); // 回调
+      }
+    };
+  } else {
+		// 其他浏览器
+    script.onload = function() {
+      callback(); // 回调
+    }
+  }
+
+  script.src = url;
+  document.body.appendChild(script); // 添加到Dom中
+}
 ```
 
 ## 性能优化

@@ -17,6 +17,7 @@
 * 定义页面相关设置：如设置charset。
 * 操作cookie：如定义http-equiv为Set-Cookie的属性。
 * 操作缓存：如定义http-equiv为Cache-Control、Pragma或expires的属性。
+* 禁止转码：http-equiv为Cache-Control，content为no-siteapp
 
 ## 重排和重绘
 
@@ -472,9 +473,59 @@ flex实现：
 
 TODO
 
-#### 描述多背景、动画、弹性布局、栅格布局等的语法
+#### 弹性布局
 
 TODO
+
+#### 多背景
+
+```css
+.myclass {
+  /* 第一个背景在最上面，最后一个背景在最下面，依次叠加 */
+  background: background1, background2, ..., backgroundN;
+}
+```
+
+#### 过渡
+
+当页面中存在样式变化，如hover改变样式时，可给样式的变化添加过渡效果：
+
+```css
+.tran {
+  /* 针对浏览器的支持情况，可能需要追加前缀，如 -webkit-transition，-moz-transition，-o-transition */
+  /* property表示需要加过渡效果的属性，duration是过渡时间，timing-function是时间变化曲线，delay是过渡延迟播放时间 */
+  transition: property duration [[timing-function] delay];
+}
+```
+
+#### 动画
+
+定义动画：
+
+```css
+/* 针对浏览器的支持情况，可能需要追加前缀，如 @-webkit-keyframes、@-moz-keyframes，@-o-keyframes */
+@keyframes animation_name {
+  from { /* 样式 */ }
+  to { /* 样式 */ }
+}
+
+/* 也可以定义关键帧 */
+@keyframes animation_name {
+  5% { /* 样式 */ }
+  50% { /* 样式 */ }
+  100% { /* 样式 */ }
+}
+```
+
+使用动画：
+
+```css
+.ani {
+  /* 针对浏览器的支持情况，可能需要追加前缀，如 -webkit-animation，-moz-animation，-o-animation */
+  /* animation_name是动画名，duration是动画持续时间，timing-function是时间变化曲线，delay是动画延迟播放时间，iteration-count是动画播放次数，direction是动画是否需要轮流反向播放 */
+  animation: animation_name duration [[[[timing-function] delay] iteration-count] direction];
+}
+```
 
 #### 变换
 
