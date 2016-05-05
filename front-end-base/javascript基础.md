@@ -442,11 +442,60 @@ function delCookie(name, domain, path) {
 }
 ```
 
-### 设置Cookie
+## 正则
+
+关于正则表达式，支持的方法有：
+
+* 字符串的`match`、`search`、`replace`和`split`
+* 正则表达式对象的`exec`和`test`
+
+### 声明正则
 
 ```javascript
+// 方法一
+var reg = /d(\w+)/ig;
 
+// 方法二
+var reg = new RegExp('d(\\w+)', 'ig');
 ```
+
+### exec
+
+当声明的正则带有g属性时，表示全局搜索，那么每次执行exec都会返回下一次匹配到的结果数组，没有则返回null。
+
+```javascript
+var reg = /b(d+)/ig;
+reg.exec('abdcbddtbdddg'); // 返回['bd', 'd']
+reg.exec('abdcbddtbdddg'); // 返回['bdd', 'dd']
+reg.exec('abdcbddtbdddg'); // 返回['bddd', 'ddd']
+reg.exec('abdcbddtbdddg'); // 返回null
+
+// exec方法是根据reg.lastIndex来获取下一次匹配的起始位置
+```
+
+### match
+
+字符串方法，当声明的正则带有g属性时，返回匹配到的所有子串，否则返回匹配到的第一个子串。
+
+```javascript
+var reg = /b(d+)/ig;
+'abdcbddtbdddg'.match(reg); // 返回['bd', 'bdd', 'bddd']
+```
+
+### replace
+
+字符串方法，用于替换字符串的某些内容。
+
+```javascript
+var reg = /(\w+)\s(\w+)/ig;
+'aa bb'.replace(reg, '$2 $1'); // 返回'bb aa'
+'aa bb'.replace(reg, function(all, $1, $2) {
+	// all表示整个串，$1表示第一个捕获，$2表示第二个捕获
+	// 返回'bb aa'
+	return $2 + ' ' + $1;
+});
+```
+
 
 ## 垃圾回收
 
