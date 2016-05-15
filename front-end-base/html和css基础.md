@@ -1,4 +1,4 @@
-## HTML标签
+## HTML
 
 ### 标签
 
@@ -29,7 +29,7 @@
 * src：指向外部资源的位置，指向的内容会嵌入到文档中当前标签所在位置。在请求src资源时会将其指向的资源下载并应用到文档内，会阻塞页面渲染。
 * href：指向网络资源所在位置，建立和当前元素（锚点）或当前文档（链接）之间的连接，不会阻塞页面渲染。
 
-## 重排和重绘
+### 重排和重绘
 
 浏览器渲染出页面的简单流程：
 
@@ -43,7 +43,7 @@ PS：Render Tree和Dom Tree并不是一一对应的，比如display为none的节
 
 其中当对DOM进行操作时，就可能会引起重排（回流，重新计算位置大小信息）和重绘（重新渲染页面）。DOM操作的耗时就主要在于查询和重排重绘。
 
-### 发生情景
+#### 发生情景
 
 * 添加或删除可见的Dom元素
 * 元素位置改变
@@ -56,16 +56,18 @@ PS：对于js修改Dom元素属性，大多数浏览器会通过队列化修改�
 
 PS：动画，如使用requestAnimationFrame方法，每一帧都会引起重排和重绘。
 
-### 优化方法
+#### 优化方法
 
 * 尽量不要再布局信息改变时做查询（会导致渲染队列强制刷新）
 * 同一个Dom的多个属性改变可以写在一起（减少Dom访问，同时把强制渲染队列刷新的风险降为0）
 * 如果要批量添加Dom，可以先让元素脱离文档流，操作完后再带入文档流，这样只会触发一次重排（fragment元素的应用）
 * 将需要多次重排的元素，position属性设为absolute或fixed，这样此元素就脱离了文档流，它的变化不会影响到其他元素。例如有动画效果的元素就最好设置为绝对定位。
 
-## CSS盒模型
+## CSS
 
-### 简述
+### CSS盒模型
+
+#### 简述
 
 ```
                 outline
@@ -89,11 +91,11 @@ PS：动画，如使用requestAnimationFrame方法，每一帧都会引起重排
 
 PS：W3C盒模型高宽是指content的高宽。IE盒模型高宽是指content+padding+border的高宽。
 
-### 背景色区域
+#### 背景色区域
 
 content + padding + border
 
-### 更改盒模型
+#### 更改盒模型
 
 ```css
 /* W3C盒子模型 */
@@ -106,15 +108,15 @@ content + padding + border
 }
 ```
 
-## CSS属性和值
+### CSS属性和值
 
 	display有哪些值、position有哪些值
 	哪些属性有缩，说明缩写方法
 	float的默认值是什么、background的默认值是什么
 
-## 选择器
+### 选择器
 
-### 种类
+#### 种类
 
 * ID选择器：#id {}
 * 类选择器：.class {}
@@ -125,7 +127,7 @@ content + padding + border
 * 伪元素选择器：element::before {}等
 * 属性选择器：element[attribute=value] {}等
 
-### 选择器等级
+#### 选择器等级
 
 * a = 行内样式style。
 * b = ID选择器的数量。
@@ -148,7 +150,7 @@ content + padding + border
 | div p {}                 | 0,0,0,2       |
 | p {}                     | 0,0,0,1       |
 
-### 属性选择器的匹配规则
+#### 属性选择器的匹配规则
 
 | 选择器             | 例子             | 例子描述                                       |
 |--------------------|-----------------|------------------------------------------------|
@@ -160,149 +162,24 @@ content + padding + border
 | [attribute$=value] | a[src$=".pdf"]  | 选择其 src 属性以 ".pdf" 结尾的所有 <a> 元素。   |
 | [attribute*=value] | a[src*="abc"]   | 选择其 src 属性中包含 "abc" 子串的每个 <a> 元素。 |
 
-### 伪类和伪元素
+#### 伪类和伪元素
 
 伪类：`:active`、`:visited`、`:link`、`:focus`、`:hover`、`:lang(xx)`、`:first-child`、`:last-child`、`:nth-child(xx)`、`:empty`、`:disabled`、`:checked`等。
 伪元素：`::first-line`、`::before`、`::after`、`::first-letter`、`::selection`等。
-
-## 切图基础
-
-### PS切图方法
-
-* 成图：使用切片工具
-* PSD稿：找到需要切的图层，复制到新图层，然后裁剪保存。
-
-### 图片类型及应用场景
-
-#### gif
-
-体积小，有着极好的压缩效果，支持动画，并且支持透明效果，但色彩效果最低（只有256种颜色）。
-
-适用情景：动图，只有单调色彩、没有渐变色的图片或者小图标。
-
-#### jpg
-
-色彩还原好，可以再照片不明显失真的情况下大幅降低体积，但不支持透明。
-
-适用情景：照片之类的图片，颜色复杂、光影复杂的图片。
-
-#### png
-
-清晰，无损压缩，压缩比例高，可渐变透明（具备几乎所有gif的优点），但不如jpg的颜色丰富，同样的图片体积也比jpg略大。png-8和gif一样，只有256色，不支持半透明。
-
-适用场景：logo类的网页图片（带透明效果）、在编码过程中的图片或复杂的图片。
-
-ps：png的另一个优点——逐次逼近显示：先显示模糊，逐渐变清晰。
-
-#### 综合比较
-
-* 大小：png ≈ jpg > gif
-* 透明：png > gif > jpg
-* 色彩丰富程度：jpg > png > gif
-* 兼容程度：gif ≈ jpg > png（png在IE6下不透明，使用hack可解决）
-
-#### 新技术
-
-科普一下Webp：WebP格式，谷歌（google）开发的一种旨在加快图片加载速度的图片格式。图片压缩体积大约只有JPEG的2/3，并能节省大量的服务器带宽资源和数据空间。Facebook Ebay等知名网站已经开始测试并使用WebP格式。
-
-在质量相同的情况下，Webp格式图像的体积要比JPEG格式图像小40%。
-
-ps：bmp（位图）体积大，一般不考虑。
-
-## 兼容技术
-
-### 浏览器内核
-
-* 使用Trident内核的浏览器：IE。
-* 使用Gecko内核的浏览器：FireFox。
-* 使用Presto内核的浏览器：Opera。
-* 使用Webkit内核的浏览器：Safari、Chrome。
-* 使用Blink内核的浏览器：Chrome、Opera。
-
-### IE中的bug及其解决方案
-
-* 盒模型
-* IE6浮动双边距问题：第一个左浮动元素的margin-left加倍（右浮动同样），使用`display: inline;`解决。
-* IE6浮动3px问题：给浮动元素天界3px的负外边距解决。
-* IE6绝对定位元素消失问题：绝对定位元素在浮动元素前后会消失，当浮动元素在前时，给绝对定位元素添加`clear: both;`解决，当浮动元素在后时，给浮动元素添加`margin-right: -3px;`解决。
-* IE6定位1px问题：IE6下容器宽高为奇数时，绝对定位元素设置了位置为0或100%时，仍会有1px的空隙，此时应将容器宽高设为偶数解决。
-* IE6定位错误问题：当容器为相对定位时，绝对定位元素的定位会错乱。可以通过给相对定位容器添加`zoom: 1;`来触发haslayout。
-* IE67定位溢出问题：当容器可滚动，相对定位元素会溢出容器并且不可跟随滚动而滚动。可以给容器添加`position: relative;`来解决。
-* IE67表单元素偏移问题：当某些表单元素的父元素上触发了haslayout后，这些表单元素会以祖先元素上的margin-left值偏离。通过给该表单元素或该表单元素的父元素外再套一个触发haslayout的div即可。
-* IE67图片链接无效问题：对于`<a><span><img></span></a>`这种结构，如果span触发了haslayout，则链接无效。可通过给a设置`cursor: pointer;`，再给img设置`position: relative;z-index: -1;`解决。
-
-在IE6，IE7中，每个元素都有haslayout这个属性，可以设置为true或者false。如果设置为true，元素就必须去自我布局和渲染，因此元素会扩展去包含它溢出的内容，例如浮动或没截断的单词。如果haslayout没有被设置成true，那么元素需依靠某个祖先元素来渲染它。这就是很多的ie bugs诞生的地方。IE浏览器下的很多bug都是`haslayout = false`引起的。而我们当需要触发haslayout时，可以通过追加`zoom:1;`来触发。
-
-### IE下的hack
-
-#### 样式hack
-
-```css
-.cnt {
-  /* 所有识别 */
-  background: green;
-  /* IE6，7，8，9，10，11识别 */
-  background: black\0;
-  /* IE8，9，10识别 */
-  background: grey\9;
-  /* IE6，7识别 */
-  *background: blue;
-  +background: blue;
-  /* IE6识别 */
-  _background: red;
-}
-```
-
-#### 条件注释
-
-```html
-<!-- 针对所有IE -->
-
-<!-- [ if IE ]> 代码 <! [ endif ] -->
-
-<!-- 针对IE6以下 -->
-
-<!-- [ if lt IE7 ]> 代码 <! [ endif ] -->
-```
-
-### 浏览器对CSS支持情况
-
-善用网站[CANIUSE](http://caniuse.com/)
-
-### 主流浏览器的私有前缀
-
-```css
-.cnt {
-  /* chrome、safari */
-  -webkit-xxx: yyy;
-  /* 老版本safari */
-  -khtml-xxx: yyy;
-  /* ff */
-  -moz-xxx: yyy;
-  /* IE */
-  -ms-xxx: yyy;
-  /* opera */
-  -o-xxx: yyy;
-  /* 标准 */
-  xxx: yyy;
-}
-```
-
-特殊需求解决技巧
 
 ### 清除浮动
 
 ```css
 .clear {
-	zoom: 1;
+  zoom: 1;
 }
 .clear::after {
-	display: block;
-	clear: both;
-	visibility: hidden;
-	height: 0;
-	overflow: hidden;
-	content:".";
+  display: block;
+  clear: both;
+  visibility: hidden;
+  height: 0;
+  overflow: hidden;
+  content:".";
 }
 ```
 
@@ -443,11 +320,132 @@ flex实现：
 }
 ```
 
-## 前沿技术
+## 切图
 
-### HTML5
+### PS切图方法
 
-#### 新增标签
+* 成图：使用切片工具
+* PSD稿：找到需要切的图层，复制到新图层，然后裁剪保存。
+
+### 图片类型及应用场景
+
+#### gif
+
+体积小，有着极好的压缩效果，支持动画，并且支持透明效果，但色彩效果最低（只有256种颜色）。
+
+适用情景：动图，只有单调色彩、没有渐变色的图片或者小图标。
+
+#### jpg
+
+色彩还原好，可以再照片不明显失真的情况下大幅降低体积，但不支持透明。
+
+适用情景：照片之类的图片，颜色复杂、光影复杂的图片。
+
+#### png
+
+清晰，无损压缩，压缩比例高，可渐变透明（具备几乎所有gif的优点），但不如jpg的颜色丰富，同样的图片体积也比jpg略大。png-8和gif一样，只有256色，不支持半透明。
+
+适用场景：logo类的网页图片（带透明效果）、在编码过程中的图片或复杂的图片。
+
+ps：png的另一个优点——逐次逼近显示：先显示模糊，逐渐变清晰。
+
+#### 综合比较
+
+* 大小：png ≈ jpg > gif
+* 透明：png > gif > jpg
+* 色彩丰富程度：jpg > png > gif
+* 兼容程度：gif ≈ jpg > png（png在IE6下不透明，使用hack可解决）
+
+#### 新技术
+
+科普一下Webp：WebP格式，谷歌（google）开发的一种旨在加快图片加载速度的图片格式。图片压缩体积大约只有JPEG的2/3，并能节省大量的服务器带宽资源和数据空间。Facebook Ebay等知名网站已经开始测试并使用WebP格式。
+
+在质量相同的情况下，Webp格式图像的体积要比JPEG格式图像小40%。
+
+ps：bmp（位图）体积大，一般不考虑。
+
+## 兼容技术
+
+### 浏览器内核
+
+* 使用Trident内核的浏览器：IE。
+* 使用Gecko内核的浏览器：FireFox。
+* 使用Presto内核的浏览器：Opera。
+* 使用Webkit内核的浏览器：Safari、Chrome。
+* 使用Blink内核的浏览器：Chrome、Opera。
+
+### IE中的bug及其解决方案
+
+* 盒模型
+* IE6浮动双边距问题：第一个左浮动元素的margin-left加倍（右浮动同样），使用`display: inline;`解决。
+* IE6浮动3px问题：给浮动元素天界3px的负外边距解决。
+* IE6绝对定位元素消失问题：绝对定位元素在浮动元素前后会消失，当浮动元素在前时，给绝对定位元素添加`clear: both;`解决，当浮动元素在后时，给浮动元素添加`margin-right: -3px;`解决。
+* IE6定位1px问题：IE6下容器宽高为奇数时，绝对定位元素设置了位置为0或100%时，仍会有1px的空隙，此时应将容器宽高设为偶数解决。
+* IE6定位错误问题：当容器为相对定位时，绝对定位元素的定位会错乱。可以通过给相对定位容器添加`zoom: 1;`来触发haslayout。
+* IE67定位溢出问题：当容器可滚动，相对定位元素会溢出容器并且不可跟随滚动而滚动。可以给容器添加`position: relative;`来解决。
+* IE67表单元素偏移问题：当某些表单元素的父元素上触发了haslayout后，这些表单元素会以祖先元素上的margin-left值偏离。通过给该表单元素或该表单元素的父元素外再套一个触发haslayout的div即可。
+* IE67图片链接无效问题：对于`<a><span><img></span></a>`这种结构，如果span触发了haslayout，则链接无效。可通过给a设置`cursor: pointer;`，再给img设置`position: relative;z-index: -1;`解决。
+
+在IE6，IE7中，每个元素都有haslayout这个属性，可以设置为true或者false。如果设置为true，元素就必须去自我布局和渲染，因此元素会扩展去包含它溢出的内容，例如浮动或没截断的单词。如果haslayout没有被设置成true，那么元素需依靠某个祖先元素来渲染它。这就是很多的ie bugs诞生的地方。IE浏览器下的很多bug都是`haslayout = false`引起的。而我们当需要触发haslayout时，可以通过追加`zoom:1;`来触发。
+
+### IE下的hack
+
+#### 样式hack
+
+```css
+.cnt {
+  /* 所有识别 */
+  background: green;
+  /* IE6，7，8，9，10，11识别 */
+  background: black\0;
+  /* IE8，9，10识别 */
+  background: grey\9;
+  /* IE6，7识别 */
+  *background: blue;
+  +background: blue;
+  /* IE6识别 */
+  _background: red;
+}
+```
+
+#### 条件注释
+
+```html
+<!-- 针对所有IE -->
+
+<!-- [ if IE ]> 代码 <! [ endif ] -->
+
+<!-- 针对IE6以下 -->
+
+<!-- [ if lt IE7 ]> 代码 <! [ endif ] -->
+```
+
+### 浏览器对CSS支持情况
+
+善用网站[CANIUSE](http://caniuse.com/)
+
+### 主流浏览器的私有前缀
+
+```css
+.cnt {
+  /* chrome、safari */
+  -webkit-xxx: yyy;
+  /* 老版本safari */
+  -khtml-xxx: yyy;
+  /* ff */
+  -moz-xxx: yyy;
+  /* IE */
+  -ms-xxx: yyy;
+  /* opera */
+  -o-xxx: yyy;
+  /* 标准 */
+  xxx: yyy;
+}
+```
+
+## HTML5
+
+### 新增标签
 
 * 脚本：template。
 * 章节：section、nav、article、header、footed、main。
@@ -458,7 +456,7 @@ flex实现：
 * 交互元素：details、summary、menu、menuitem。
 
 
-#### 标签语义化
+### 标签语义化
 
 ```
  ____________________________________
@@ -477,11 +475,11 @@ flex实现：
 --------------------------------------
 ```
 
-### CSS3
+## CSS3
 
-#### flex
+### flex
 
-一、flex容器
+#### flex容器
 
 ```css
 .flexbox {
@@ -546,7 +544,7 @@ flex实现：
 }
 ```
 
-一、flex元素
+#### flex元素
 
 ```css
 .flexbox {
@@ -575,7 +573,7 @@ flex实现：
 }
 ```
 
-#### 多背景
+### 多背景
 
 ```css
 .myclass {
@@ -584,7 +582,7 @@ flex实现：
 }
 ```
 
-#### 过渡
+### 过渡
 
 当页面中存在样式变化，如hover改变样式时，可给样式的变化添加过渡效果：
 
@@ -596,9 +594,9 @@ flex实现：
 }
 ```
 
-#### 动画
+### 动画
 
-定义动画：
+#### 定义动画
 
 ```css
 /* 针对浏览器的支持情况，可能需要追加前缀，如 @-webkit-keyframes、@-moz-keyframes，@-o-keyframes */
@@ -615,7 +613,7 @@ flex实现：
 }
 ```
 
-使用动画：
+#### 使用动画
 
 ```css
 .ani {
@@ -625,9 +623,9 @@ flex实现：
 }
 ```
 
-#### 变换
+### 变换
 
-一、2D变换
+#### 2D变换
 
 ```css
 .box {
@@ -643,15 +641,15 @@ flex实现：
 }
 ```
 
-二、3D变换
+#### 3D变换
 
 3D变换相对复杂，写法和2D变换相似，只不过xxx方法要使用3D方法，如translate3d，scale3d，rotate3d等。
 
 另外还可以通过定义perspective来设置到3d视图的视角距离。
 
-#### 阴影
+### 阴影
 
-一、盒子阴影
+#### 盒子阴影
 
 ```css
 .box {
@@ -661,7 +659,7 @@ flex实现：
 
 其中h-shadow和v-shadow是必需的，表示水平和垂直阴影的位置。blur表示模糊距离，spread表示阴影尺寸。inset表示是内部阴影，默认是外部阴影。
 
-二、文本阴影
+#### 文本阴影
 
 ```css
 .box {
@@ -671,7 +669,7 @@ flex实现：
 
 其中h-shadow和v-shadow是必需的，表示水平和垂直阴影的位置。blur表示模糊距离。
 
-#### 多列
+### 多列
 
 文本本身可被拆分成多列显示，如：
 
@@ -689,7 +687,7 @@ flex实现：
 }
 ```
 
-#### 圆角
+### 圆角
 
 ```css
 .box {
@@ -698,9 +696,9 @@ flex实现：
 }
 ```
 
-#### 透明和渐变
+### 透明和渐变
 
-一、透明
+#### 透明
 
 ```css
 .transparent_class {
@@ -714,7 +712,7 @@ flex实现：
 ps：数值越低表示透明度越高，100或1表示不透明。
 ps：子元素会继承透明性，且不可取消继承。
 
-二、渐变
+#### 渐变
 
 ```css
 .gradient_class {
@@ -737,7 +735,7 @@ ps：子元素会继承透明性，且不可取消继承。
 
 ps：低版本可以用color-stop ( 0.5 , #... )，高版本可用把 50% , #... 添加到参数后面，以决定中间渐变色。
 
-#### 背景显示
+### 背景显示
 
 背景的默认显示区域是`padding + content + right border + bottom border`。即`background-clip`的值默认为`border-box`。
 
@@ -752,7 +750,7 @@ ps：低版本可以用color-stop ( 0.5 , #... )，高版本可用把 50% , #...
 }
 ```
 
-#### 媒体查询
+### 媒体查询
 
 语法：
 
@@ -802,22 +800,95 @@ PS：sRule为兼容样式表，only限定某种设备（一般可省略，常用
 }
 ```
 
-## 优化技术
+## 性能优化
 
-CSS优化技术
-例举CSS优化方法
-SEO优化技术
-例举SEO优化技术
+### HTML
 
-3.	新技术专题
+#### 避免使用iframe
 
-图像图像（Canvas/WebGL/SVG）
-Web forms 2.0
-离线应用（Offline web applications）
-平台适配（Viewport/MediaQuery）
-JS
-触摸事件(Touch events)
-文件操作（File API/FileReader API/Filesystem&FileWriter API）
-本地存储（Web Storage - name/value pairs/IndexedDB）
-动画（requestAnimationFrame）
-XMLHttpRequest 2
+* 虽然iframe能模拟多线程，但主流浏览器的同域名并行下载是固定的。
+* iframe会阻塞onload事件的触发，并且有些浏览器在未触发onload事件时无法触发unonload事件（可用js动态加载iframe或设src，不兼容IE6-8）。
+* iframe占用资源庞大。
+
+#### 避免空链接
+
+* IE6-8中img标签的空地址会解析为页面地址目录。
+* 早些版本的webkit和Firefox会将空地址解析为页面地址。
+* 如今主流浏览器对iframe的空地址会解析为“about：blank”。
+
+#### 避免Dom树节点深层嵌套
+
+#### 缩减HTML文档大小
+
+* 删除无用空格空行和注释。
+* 避免table。
+* 使用HTML5.
+
+#### 显示指定文档字符集
+
+若无指定，浏览器一般在页面渲染前缓存字节流，再搜索可进行解析的字符集或以默认字符集来解析。
+
+#### 显示图片的宽高（行内样式或css）
+
+若无指定，浏览器会在图片下载完成后再“回溯”该图片并重新显示，从而浪费时间。
+
+#### 避免脚本阻塞
+
+* 异步加载js。
+* 把script标签放到body标签末尾。
+
+### CSS
+
+#### 避免使用@impor
+
+@import不能并行加载，link可并行下载。
+
+#### 避免alphaImageLoader滤镜
+
+会阻塞页面渲染，应使用png8格式来代替或用filter来针对IE6。
+
+#### 避免css表达式
+
+技术频率大，在页面显示、缩放、滚动或移动鼠标都会重新计算。
+
+#### 选择器优化
+
+css选择器匹配规则为从右往左，右边的规则往往决定了向左移匹配的工作量。
+
+* 避免使用通配选择器。
+* 避免使用关键选择器（即最右的选择器）是单规则选择器的选择器。
+
+#### 避免使用正则的属性选择器（匹配慢）
+
+#### 移除无匹配的样式
+
+* 减少css大小。
+* 移动无匹配规则，减少索引项，加快浏览器查找速度。
+
+### JS
+
+#### 使用事件代理
+
+给父元素增加事件捕捉。
+
+```javascript
+// 获取触发事件元素
+var element = e.srcElement ? e.srcElement : e.target;
+```
+
+#### 缓存选择器查询结果
+
+#### 避免频繁的IO操作
+
+应减少对Cookies或localStorage的操作，因为对它们进行操作的API是同步的。而它们是多个tab页面间共享的，多页面同时操作的话，会存在同步加锁机制。
+
+#### 避免频繁的Dom操作
+
+* 缓存查询打的元素。
+* 更新完元素再添加到Dom树中。
+* 避免使用js改变页面布局。
+
+#### 使用微类库
+
+
+
