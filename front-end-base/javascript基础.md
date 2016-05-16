@@ -96,7 +96,7 @@ function a() {
 
 function b() {
   a(); // 输出b函数
-} 
+}
 ```
 
 ### 原型/原型链
@@ -350,7 +350,26 @@ if(event.stopPropagation) {
 
 ### 自定义事件
 
-先存储事件句柄，待触发事件时遍历事件句柄并逐个调用
+先存储事件句柄，待触发事件时遍历事件句柄并逐个调用。
+
+```javascript
+// 创建事件
+var evt = new Event('xxx');
+// 创建携带更多信息的事件
+var evt = new CustomEvent('xxx', {'aa': 1});
+// 过时的方法创建事件
+var evt = document.createEvent('Event');
+evt.initEvent('xxx', true, true);
+// ie8以下创建事件
+var evt = document.createEventObject();
+
+// 触发事件
+elem.dispatchEvent(evt);
+// ie8以下触发事件
+elem.fireEvent('onxxx', evt);
+
+// 事件监听，和其他事件监听方式一样
+```
 
 ## 样式
 
