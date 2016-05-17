@@ -222,9 +222,20 @@ function changeColor() {
 
 ### 节点属性操作
 
+#### attribute
+
+attribute由HTML来定义，并不存在于DOM中，即：只要是HTML标签内定义的都是attribute，attribute只能是String类型。
+
 * 增加：setAttribute
 * 删除：removeAttribute
-* 查找（getAttribute）
+* 查找：getAttribute
+
+#### property
+
+property属于DOM，DOM的本质就是JS中的一个object。我们可以像操作普通Object一样读取、设置property，property可以是任意类型。通常通过`elem.xxx`来修改或获取property。
+
+PS：非自定义attribute，如id、class、titile等，都会有对应的property映射，并且变化是联动的。但是自定义的attribute和property则互不相干（IE6-7除外）。
+PS：另外带有默认值的attribute不会随property变化而变化，如`<input value="foo">`中的value属性。
 
 ### DOM树遍历
 
@@ -453,12 +464,12 @@ function delCookie(name, domain, path) {
 
   var dvalue = getCookie(name);
   if(dvalue != null) {
-		var arr = [];
+    var arr = [];
 
-		arr.push(name + '=' + escape(dvalue));
-		if(domain) arr.push('domain=' + escape(domain));
-		if(path) arr.push('path=' + escape(path));
-		arr.push('expires=' + dateLine.toGMTString());
+    arr.push(name + '=' + escape(dvalue));
+    if(domain) arr.push('domain=' + escape(domain));
+    if(path) arr.push('path=' + escape(path));
+    arr.push('expires=' + dateLine.toGMTString());
 
     document.cookie = arr.join(';');
   }
@@ -578,6 +589,9 @@ xhr.send();
 //Post请求
 xhr.open('POST', url, true); //同上
 xhr.setRequestHeader(header, value); //设置表头，一般我们提交的form是用xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+xhr.send({
+  xxx: 'xxx'
+});
 ```
 
 #### 其他
@@ -966,19 +980,19 @@ dragend：拖拽源在拖拽操作结束将得到dragend事件对象，不管操
 <body>
 	<div id="haha" style="left:0;top:0;" onMouseDown=mouseDown() onMouseUp=mouseUp() onMouseMove=mouseMove() onMouseOut=mouseOut() onMouseOver=mouseOver()></div>
 	<script type="text/javascript">
-	window.onload = function(){ // 将div设置在屏幕中间
+	window.onload = function() { // 将div设置在屏幕中间
 		var div = document.getElementById('haha');
 		div.style.left = document.documentElement.clientWidth/2 + 'px';
 		div.style.top = document.documentElement.clientHeight/2 + 'px';
 	}
 
 	var position = {
-		'isMouseDown':0, // 鼠标是否被按下，0表示未被按下，1表示被按下
-		'ox':0, // 鼠标按下位置和div左上角的横向位移偏移
-		'oy':0, // 鼠标按下位置和div左上角的纵向位移偏移
+		'isMouseDown': 0, // 鼠标是否被按下，0表示未被按下，1表示被按下
+		'ox': 0, // 鼠标按下位置和div左上角的横向位移偏移
+		'oy': 0, // 鼠标按下位置和div左上角的纵向位移偏移
 	}
 	function mouseDown(e) { // 按下鼠标时
-		var e= e||event;
+		var e = e || event;
 		var div = document.getElementById('haha');
 		position.isMouseDown = 1; // 将鼠标状态置为按下
 		//记录偏移位置
@@ -986,7 +1000,7 @@ dragend：拖拽源在拖拽操作结束将得到dragend事件对象，不管操
 		position.oy = e.clientY - parseInt(div.style.top);
 	}
 	function mouseMove(e) { // 移动鼠标时
-		var e = e||event;
+		var e = e || event;
 		var div = document.getElementById('haha');
 
 		if(position.isMouseDown==0) return;
