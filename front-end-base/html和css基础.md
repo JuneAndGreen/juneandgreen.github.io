@@ -486,8 +486,8 @@ ps：bmp（位图）体积大，一般不考虑。
   /* 设为flex布局以后，子元素的float、clear和vertical-align属性将失效 */
   display: flex | inline-flex;
 
-  /* 
-    主轴方向，即flex元素的排列方向 
+  /*
+    主轴方向，即flex元素的排列方向
 
     row（默认值）：主轴为水平方向，起点在左端。
     row-reverse：主轴为水平方向，起点在右端。
@@ -519,7 +519,7 @@ ps：bmp（位图）体积大，一般不考虑。
   */
   justify-content: flex-start | flex-end | center | space-between | space-around;
 
-  /* 
+  /*
     flex元素在侧轴上如何对齐
 
     flex-start：交叉轴的起点对齐。
@@ -863,7 +863,7 @@ css选择器匹配规则为从右往左，右边的规则往往决定了向左�
 #### 移除无匹配的样式
 
 * 减少css大小。
-* 移动无匹配规则，减少索引项，加快浏览器查找速度。
+* 移除无匹配规则，减少索引项，加快浏览器查找速度。
 
 ### JS
 
@@ -889,6 +889,3 @@ var element = e.srcElement ? e.srcElement : e.target;
 * 避免使用js改变页面布局。
 
 #### 使用微类库
-
-
-
