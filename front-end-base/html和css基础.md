@@ -814,7 +814,7 @@ PS：sRule为兼容样式表，only限定某种设备（一般可省略，常用
 
 * IE6-8中img标签的空地址会解析为页面地址目录。
 * 早些版本的webkit和Firefox会将空地址解析为页面地址。
-* 如今主流浏览器对iframe的空地址会解析为“about：blank”。
+* 如今主流浏览器对iframe的空地址会解析为“about:blank”。
 
 #### 避免Dom树节点深层嵌套
 

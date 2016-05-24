@@ -12,19 +12,15 @@ ES6追加了一种：Symbol（表示是唯一数据的一种类型）
 
 ### typeof
 
-可能非返回值：undefined/boolean/string/number/object/function
+可能的返回值：undefined/boolean/string/number/object/function
 其中对null和array使用typeof都会返回object，而ES6中对Symbol使用typeof返回symbol
-
-### 引用类型
-
-base value/referenced name/strict reference flag（严格模式下对引用的使用方式）
 
 ### 类型转换
 
 * 字符串转数字：`parseInt`/`parseFloat`
 * 其它类型转字符串：`xxx.toString()`/`''+sth`
 * 其他类型转布尔值：`!!sth`
-* 其他类型转数字：`~~sth`
+* 其他类型转整型数字：`~~sth`
 
 ### 相等比较
 
@@ -39,7 +35,7 @@ if/switch/for/for-in/while/do-while/continue/break…
 
 ### 声明语句
 
-var/function（声明会提前）
+var/function（声明会提前，其中function声明优先于var声明）
 
 ### 语句块
 
@@ -47,19 +43,19 @@ js中本身无块级作用域，在ES6中加入let和const，可产生块级作�
 
 ### 逻辑表达式
 
-相与相或会出现 短路情况：假如是相与，遇到值为假即返回，假如是相或，遇到值为真即返回。
+相与相或会出现短路情况：假如是相与，遇到值为假即返回，假如是相或，遇到值为真即返回。
 
 ### 关键字运算符
 
 * delete：删除某个对象的某个属性
 * typeof：判断变量的类型
-* void：计算表达式，但不返回值。如`void 0`或`void(0)`
+* void：计算表达式，返回undefined。如`void 0`或`void(0)`
 * instanceof：判断变量是否属于某个类的实例
 
 ### 运算符优先级
 
 * `.`、`[]`和`()`
-* 自增 自减 delete new typeof void 等
+* 自增、自减、delete、new、typeof、void等
 * 乘除取模
 * 加减
 * 其他等
@@ -82,7 +78,7 @@ this表示当前上下文，即当前函数的调用者，可以使用bind/call/
 
 ### arguments
 
-伪数组，存储当前执行函数的信息，包括函数名，当前函数的引用和参数等
+伪数组，存储当前执行函数的信息，包括函数名，当前函数的引用和参数等。使用`[].slice.call(arguments)`可转成数组。
 
 * arguments.name: 当前函数名
 * arguments.callee：当前函数的引用
@@ -201,7 +197,7 @@ function changeColor() {
 ### 特殊语句及函数的性能影响
 
 * with：with在作用域链上增加了一个新作用域，而原本的作用域处于作用域链中第二个位置
-* cache：同with语句，会增加新作用域
+* catch：同with语句，会增加新作用域
 * eval：会创造新的执行环境
 * 使用尾调用或尾递归可以在当前作用域出栈后再进入新的作用域，对代码执行进行优化
 
@@ -329,6 +325,7 @@ if(window.removeEventListener) {
 
 ```javascript
 function(event) {
+  // IE8以下只能通过window.event获取，旧版本ff只能通过传入的event获取
 	event = event || window.event;
 }
 ```
@@ -371,12 +368,12 @@ var evt = new CustomEvent('xxx', {'aa': 1});
 // 过时的方法创建事件
 var evt = document.createEvent('Event');
 evt.initEvent('xxx', true, true);
-// ie8以下创建事件
+// IE8以下创建事件
 var evt = document.createEventObject();
 
 // 触发事件
 elem.dispatchEvent(evt);
-// ie8以下触发事件
+// IE8以下触发事件
 elem.fireEvent('onxxx', evt);
 
 // 事件监听，和其他事件监听方式一样
