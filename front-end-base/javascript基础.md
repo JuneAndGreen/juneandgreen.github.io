@@ -387,7 +387,7 @@ elem.fireEvent('onxxx', evt);
 
 ```javascript
 /* 第一种 */
-element.cssName = 'xxx';
+element.className = 'xxx';
 
 /* 第二种 */
 element.style.cssText = 'xxx:xxx;xxx:xxx;';
