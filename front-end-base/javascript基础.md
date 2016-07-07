@@ -586,9 +586,7 @@ xhr.send();
 //Post请求
 xhr.open('POST', url, true); //同上
 xhr.setRequestHeader(header, value); //设置表头，一般我们提交的form是用xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-xhr.send({
-  xxx: 'xxx'
-});
+xhr.send('xxx=xxx&aa=aaa');
 ```
 
 #### 其他
