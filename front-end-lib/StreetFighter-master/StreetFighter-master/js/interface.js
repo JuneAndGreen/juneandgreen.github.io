@@ -1,18 +1,12 @@
+var Event = function() {
+	let obj = {};
 
-
-
-
-
-var Event = function(){
-
-	var obj = {};
-
-	var listen = function( key, eventfn, type ){
-		obj[ key ] || ( obj[ key ] = Interfaces.Queue() );
-		if ( type === 1 ){
-			obj[ key ].clean();
+	let listen = function(key, eventfn, type) {
+		obj[key] || (obj[key] = Interfaces.Queue());
+		if(type === 1) {
+			obj[key].clean();
 		}
-		obj[ key ].add( eventfn );		
+		obj[key].add(eventfn);		
 	}
 
 	var removeListen = function( key ){
@@ -24,13 +18,11 @@ var Event = function(){
 	}
 	
 	return {
-		listen: listen,
-		removeListen: removeListen,
-		fireEvent: fireEvent	
-	}
-
-	
-}
+		listen,
+		removeListen,
+		fireEvent	
+	};
+};
 
 
 

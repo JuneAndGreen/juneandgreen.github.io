@@ -171,7 +171,7 @@ class Game {
 	
 		window.map = Map.init(); // 初始化地图
 				
-		window.Stage = Stage();
+		window.Stage = Stage(); // 场地
 		Spirit.interface('Stage', Stage);
 
 		player1.init(280, 240, 1);   //left, top, direction

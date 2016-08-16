@@ -113,46 +113,45 @@ class Spirit extends Base {
 		this.enemy = enemy;
 	}
 
+	/**
+	 * 执行某个状态
+	 */
 	play(state, force) {
-	
-		if ( this.statusManage.isCrouch() && ( state === 'wait' || state === 'force_wait' ) ){  //蹲下的状态站起来.	
+		if(this.statusManage.isCrouch() && (state === 'wait' || state === 'force_wait')) {  
+			// 蹲下的状态站起来
 			return this.play( 'stand_up', true );
 		}
 
-		if ( this.jump_combo( state ) && state !== 'force_wait' ) return;  //空中组合技
+		if(this.jump_combo(state) && state !== 'force_wait') return; // 空中组合技
 	
-
-		if ( this.defense( state ) ) return;  //是否在防御状态
+		if(this.defense(state)) return; // 是否在防御状态
 		
-		var lock_level = Config.play[ state ].lock || 0;			
+		let lock_level = Config.play[state].lock || 0;			
 		
-		var old_lock_leval = this.lock.getLevel() || 0;
+		let old_lock_leval = this.lock.getLevel() || 0;
 		
 
-		if ( !force ){
-
-			if ( state === this.state || ( this.lock.locked() && old_lock_leval >= lock_level ) ) {	
+		if(!force) {
+			if(state === this.state || (this.lock.locked() && old_lock_leval >= lock_level)) {	
 				return;
 			}
-
 		}
 		
-		
-		this.lock.lock( lock_level );   //级别, 解锁延迟.
+		this.lock.lock(lock_level); // 级别, 解锁延迟
 
 		this.queue.clean();
 
-		var composes = Config.play[ state ].compose;  //组合states
+		let composes = Config.play[state].compose; // 组合states
 
-		for ( var i = 0, c; c = composes[i++]; ){
-			var s = Util.copy( this.states[ c ] );
+		for(let i = 0, c; c = composes[i++]; ) {
+			let s = Util.copy(this.states[c]);
 			s.currState = c;
 			this.queue.add( s );
 		}
 
 		this.state = state;
 
-		if ( state === 'light_wave_boxing' || state === 'heavy_wave_boxing' ){
+		if(state === 'light_wave_boxing' || state === 'heavy_wave_boxing') {
 			if ( this.waveBoxing.firing ){
 				this.queue.clean();
 				this.lock.lock(0);
@@ -163,7 +162,7 @@ class Spirit extends Base {
 
 		this.fireFrames();
 		
-		this.animate.event.fireEvent( 'playStart' );
+		this.animate.event.fireEvent('playStart');
 	}
 
 
@@ -204,27 +203,27 @@ class Spirit extends Base {
 		return true;
 	}
 
-	defense( state ){
-
-		if ( state === 'back' ){
-			if ( this.enemy.waveBoxing.firing || ( this.enemy.statusManage.get().attack_type === 'attack' && this.statusManage.get().enemy_distance_type !== 'furthest' ) ){
-				if ( this.statusManage.get().attack_type === 'wait' ){
-					this.play( 'stand_up_defense' );   //防御状态
-					this.statusManage.set_attack_type( 1 );
+	/**
+	 * 防守
+	 */
+	defense(state) {
+		if(state === 'back') {
+			// 退防的状态
+			if(this.enemy.waveBoxing.firing || (this.enemy.statusManage.get().attack_type === 'attack' && this.statusManage.get().enemy_distance_type !== 'furthest')) {
+				if(this.statusManage.get().attack_type === 'wait') {
+					this.play('stand_up_defense');   //防御状态
+					this.statusManage.set_attack_type(1);
 				}
 				return true;
 			}
-		}
-
-		else if ( state === 'stand_crouch_defense' ){
-			if ( !this.enemy.waveBoxing.firing && ( this.enemy.statusManage.get().attack_type !== 'attack' || this.statusManage.get().enemy_distance_type === 'furthest' ) ){
-				this.play( 'crouch' );   //防御状态
-				this.statusManage.set_attack_type( 0 );
+		} else if (state === 'stand_crouch_defense') {
+			// 蹲防的状态
+			if(!this.enemy.waveBoxing.firing && ( this.enemy.statusManage.get().attack_type !== 'attack' || this.statusManage.get().enemy_distance_type === 'furthest')) {
+				this.play('crouch');   //防御状态
+				this.statusManage.set_attack_type(0);
 				return true;
 			}
-				
 		}
-		
 	}
 
 

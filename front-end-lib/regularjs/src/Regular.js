@@ -1,4 +1,3 @@
-
 var env = require('./env.js');
 var Lexer = require("./parser/Lexer.js");
 var Parser = require("./parser/Parser.js");
@@ -21,11 +20,12 @@ var doc = dom.doc;
 /**
  * `Regular`是regularjs的命名空间和基类。所有组件都是从这里继承的。
  */
-var Regular = function(definition, options){
+var Regular = function(definition, options) {
   // 运行状态
   var prevRunning = env.isRunning;
   env.isRunning = true;
-  var node, template;
+  var node;
+  var template;
 
   // 合并初始化数据
   definition = definition || {};
@@ -39,6 +39,7 @@ var Regular = function(definition, options){
   if(this.events) _.extend(definition.events, this.events);
 
   _.extend(this, definition, true);
+
   // 容器节点
   if(this.$parent){
      this.$parent._append(this);
@@ -555,39 +556,44 @@ module.exports = Regular;
 
 
 
-var handleComputed = (function(){
-  // wrap the computed getter;
-  function wrapGet(get){
-    return function(context){
-      return get.call(context, context.data );
+var handleComputed = (function() {
+  // 包装计算属性的get方法
+  function wrapGet(get) {
+    return function(context) {
+      return get.call(context, context.data);
     }
   }
-  // wrap the computed setter;
-  function wrapSet(set){
-    return function(context, value){
-      set.call( context, value, context.data );
+  // 包装计算属性的set方法
+  function wrapSet(set) {
+    return function(context, value) {
+      set.call(context, value, context.data);
       return value;
     }
   }
 
-  return function(computed){
+  return function(computed) {
     if(!computed) return;
-    var parsedComputed = {}, handle, pair, type;
-    for(var i in computed){
-      handle = computed[i]
+    var parsedComputed = {};
+    var handle;
+    var pair;
+    var type;
+    // 遍历每一个计算属性
+    for(var i in computed) {
+      handle = computed[i];
       type = typeof handle;
 
-      if(handle.type === 'expression'){
+      if(handle.type === 'expression') {
         parsedComputed[i] = handle;
         continue;
       }
-      if( type === "string" ){
+      if(type === "string") {
+        // 表达式
         parsedComputed[i] = parse.expression(handle)
       }else{
         pair = parsedComputed[i] = {type: 'expression'};
-        if(type === "function" ){
+        if(type === "function") {
           pair.get = wrapGet(handle);
-        }else{
+        } else {
           if(handle.get) pair.get = wrapGet(handle.get);
           if(handle.set) pair.set = wrapSet(handle.set);
         }
