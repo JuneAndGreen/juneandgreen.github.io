@@ -1,0 +1,67 @@
+body {
+	position: relative;
+	top: 20px;
+	overflow: hidden;
+	background-color: #A0AAB2;
+}
+
+/* 功能性类 */
+.f-dn {
+	display: none !important;
+}
+
+/* loading相关 */
+.loading_title {
+	position: absolute;
+	top: 200px;
+	left: 450px;
+	font-size: 45px;
+	color: #fff;
+	width: 500px;
+	height: 100px;
+}
+
+.loading_info {
+	position: absolute;
+	top: 300px;
+	left: 450px;
+	font-size: 35px;
+	color: #fff;
+	width: 500px;
+	height: 500px;
+}
+
+/* 背景 */
+.bg {
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 910px;
+	height: 490px;
+	overflow: hidden;
+	border: 10px ridge #EEE;
+}
+
+/* 血条 */
+.blood_bar_cnt {
+	position: absolute;
+	width: 720px;
+	height: 32px;
+	top: 35px;
+	left: 96px;
+	z-index: 9998;
+}
+
+.blood_bar_bg {
+	width: 720px;
+	height: 32px;
+}
+
+.left_bar, .right_bar {
+	position : absolute;
+	top: 40px;
+	height: 21px;
+	z-index: 9999;
+	background: yellow;
+	border: 1px #fff solid;
+}
