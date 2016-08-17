@@ -1,11 +1,7 @@
-
-
 var Util = {
-
 	isArray: function( ary ){
 		return Object.prototype.toString.call( ary ) === '[object Array]';
 	},
-	
 	copy: function( _obj ){
 		var obj = {};
 		for ( var i in _obj ){
@@ -17,17 +13,9 @@ var Util = {
 		}
 		return obj;
 	},
-
 	imgObj: {},
-	
-	getImage: function( name ){
-		return this.imgObj[ name ];
-	},
 	audioObj: {},
-
-	
-	
-}
+};
 
 
 

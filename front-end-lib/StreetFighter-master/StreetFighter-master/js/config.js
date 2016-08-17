@@ -1,7 +1,7 @@
 
 var Config = {
 
-	fps: 17,
+	fps: 17, // 帧数
 
 	key_fps: 800,
 

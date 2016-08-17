@@ -1,6 +1,6 @@
 ﻿'use strict';
 
-var mode = 1, ready = false;
+var mode = 1;
 
 const images = {
 	g: [ 'behind.gif', 'fighterShadow.gif', 'front.gif' ],

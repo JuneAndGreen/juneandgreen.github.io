@@ -1,16 +1,16 @@
+/**
+ * 地图
+ */
 var Map = (function() {
 	let map = Config.map;
-	let ctx;
-	let frontWidth = map.stateWidth;
-	let windowLeft
-	let stage;
 	let spirits = [];
 
 	let spirit;
 
-	let init = function(){
+	let init = function() {
 		spirits = Array.prototype.slice.call(arguments, 0);
 
+		// 创建canvas
 		canvas = document.body.appendChild(document.createElement('canvas'));		
 		canvas.style.cssText = `
 			position: absolute;
@@ -20,19 +20,19 @@ var Map = (function() {
 		Map.width = canvas.width = 900 || map.windowWidth;
 		Map.height = canvas.height = 490 || map.height;
 
-		ctx = canvas.getContext( '2d' );
+		let ctx = canvas.getContext( '2d' );
 
 		Timer.push(() => {
 			ctx.clearRect(0, 0, canvas.width, canvas.height);
 		});
 		
 		setTimeout(() => {
+			// 开启bgm
 			var audio = Interfaces.Audio();
 			audio.loop();
 			audio.play('sound/china.mp3');
 		}, 100);
 		
-		ctx.stage = stage;
 		return ctx;
 	};
 
@@ -47,7 +47,9 @@ var Map = (function() {
 })();
 
 
-
+/**
+ * 场景
+ */
 var Stage = function(s) {
 	let spirits = s;
 
@@ -59,11 +61,8 @@ var Stage = function(s) {
 	bg.appendChild( ft1 );
 	bg.appendChild( ft );
 
-	let f_left = 250;
-	let f_scrollLeft = f_left;
-
 	bg.className = 'bg';
-	bg.scrollLeft = f_left;
+	bg.scrollLeft = 250;
 
 	ft1.style.position = 'absolute';
 	ft1.width = 1400;
@@ -76,7 +75,10 @@ var Stage = function(s) {
 	ft.src = Util.imgObj[Config.map.bgFront].obj.src;
 
 	return function() {
-		let self = this, old_scrollLeft = bg.scrollLeft, scrolling = false, dis;
+		let self = this;
+		let old_scrollLeft = bg.scrollLeft;
+		let scrolling = false;
+		let dis;
 
 		let start = function() {
 			old_scrollLeft = bg.scrollLeft;

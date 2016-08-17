@@ -41,8 +41,8 @@ class Time {
 
 		// 开启帧数控制
 		this.t = setInterval(() => {
-			if(this.slowTimer !== 1 ) {
-				if(this.index++ % this.slowTimer !== 0 ) {
+			if(this.slowTimer !== 1) {
+				if(this.index++ % this.slowTimer !== 0) {
 					return;
 				}
 			}

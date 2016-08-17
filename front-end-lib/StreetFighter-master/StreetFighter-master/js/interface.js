@@ -4,18 +4,21 @@ var Event = function() {
 	let listen = function(key, eventfn, type) {
 		obj[key] || (obj[key] = Interfaces.Queue());
 		if(type === 1) {
+			// 清空事件句柄再监听
 			obj[key].clean();
 		}
 		obj[key].add(eventfn);		
-	}
+	};
 
-	var removeListen = function( key ){
-		obj[ key ] && obj[ key ].clean();
-	}
+	let removeListen = function(key) {
+		// 清空事件句柄
+		obj[key] && obj[key].clean();
+	};
 
-	var fireEvent = function( key ){
-		obj[ key ] && obj[ key ].fireEach.apply( this, Array.prototype.slice.call( arguments, 1 ) );
-	}
+	let fireEvent = function(key) {
+		// 触发事件句柄
+		obj[key] && obj[key].fireEach.apply(this, Array.prototype.slice.call(arguments, 1));
+	};
 	
 	return {
 		listen,
@@ -24,12 +27,7 @@ var Event = function() {
 	};
 };
 
-
-
-
-
 var Interfaces = {
-	
 	Lock: function(){
 
 		var flag = false, timer, lock_delay, lock_level = 0;
@@ -56,60 +54,60 @@ var Interfaces = {
 			getLevel: getLevel
 		}
 	},
+	/**
+	 * 生成队列
+	 */
+	Queue: function() {
+		let stack = [];
 
-	Queue: function(){
-
-		var stack = [];
-
-		var add = function( obj ){
-			if ( Util.isArray( obj ) ){
-				return stack = stack.concat( obj );
+		let add = function(obj) {
+			if(Util.isArray(obj)) {
+				return stack = stack.concat(obj);
 			}
 			stack.push( obj );
 			return stack;
-		}
+		};
 
-		var unshift = function( obj ){
-			stack.unshift( obj );	
-		}
+		let unshift = function( obj ){
+			stack.unshift(obj);	
+		};
 	
-		var dequeue = function(){
+		let dequeue = function(){
 			return stack.length && stack.shift();
-		}
+		};
 
-		var clean = function(){
+		let clean = function(){
 			return stack.length = 0;	
-		}
+		};
 		
-		var isEmpty = function(){
+		let isEmpty = function(){
 			return stack.length === 0;	
-		}
+		};
 
-		var fireEach = function(){
+		let fireEach = function(){
 			for ( var i = 0, c; c = stack[i++]; ){
 				c.apply( this, Array.prototype.slice.call( arguments, 0 ) );
 			}
-		}
+		};
 
-		var get = function(){
+		let get = function(){
 			return stack;	
-		}
+		};
 
-		var last = function(){
+		let last = function(){
 			return stack.length && 	stack[ stack.length - 1 ];
-		}
+		};
 		
 		return {
-			add: add,
-			unshift: unshift,
-			dequeue: dequeue,
-			clean: clean,
-			isEmpty: isEmpty,
-			fireEach: fireEach,
-			get: get,
-			last: last
-		}
-
+			add,
+			unshift,
+			dequeue,
+			clean,
+			isEmpty,
+			fireEach,
+			get,
+			last
+		};
 	},
 
 
