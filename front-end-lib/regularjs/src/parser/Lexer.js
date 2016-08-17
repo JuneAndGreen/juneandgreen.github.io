@@ -36,26 +36,28 @@
 
  */
 
-var _ = require("../util.js");
-var config = require("../config.js");
+var _ = require('../util.js');
+var config = require('../config.js');
 
 // 一些标签在词法分析过程中可能会产生冲突
-var conflictTag = {"}": "{", "]": "["}, map1, map2;
+var conflictTag = {'}': '{', ']': '['};
+var map1;
+var map2;
 // 词法分析器的一些常量
 var macro = {
   'NAME': /(?:[:_A-Za-z][-\.:_0-9A-Za-z]*)/, 
   'IDENT': /[\$_A-Za-z][_0-9A-Za-z\$]*/, 
   'SPACE': /[\r\n\f ]/
-}
+};
 
 // 构造Lexer类，初始化一些自身属性
-function Lexer(input, opts){
-  if(conflictTag[config.END]){
+function Lexer(input, opts) {
+  if(conflictTag[config.END]) {
     this.markStart = conflictTag[config.END]; // 语句开始符号
     this.markEnd = config.END; // 语句结束符号
   }
 
-  this.input = (input||"").trim(); // 输入的模板
+  this.input = (input||'').trim(); // 输入的模板
   this.opts = opts || {}; // 配置项
   this.map = this.opts.mode !== 2?  map1: map2; // 映射表，mode为2的时候，只解析表达式和语句相关
   this.states = ["INIT"];

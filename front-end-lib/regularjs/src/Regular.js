@@ -4,7 +4,7 @@ var Parser = require("./parser/Parser.js");
 var config = require("./config.js");
 var _ = require('./util');
 var extend = require('./helper/extend.js');
-if(env.browser){
+if(env.browser) {
   var combine = require('./helper/combine.js');
   var dom = require("./dom.js");
   var walkers = require('./walkers.js');
@@ -58,47 +58,47 @@ var Regular = function(definition, options) {
   // 构建语法树
   if(typeof template === 'string') this.template = new Parser(template).parse();
 
-  this.computed = handleComputed(this.computed); // 计算属性
+  this.computed = handleComputed(this.computed); // 处理计算属性
   this.$root = this.$root || this;
+
   // 事件
-  if(this.events){
+  if(this.events) {
     this.$on(this.events);
   }
+
   // 执行config方法
-  this.$emit("$config");
+  this.$emit('$config');
   this.config && this.config(this.data);
 
-  if(this._body && this._body.length){
+  if(this._body && this._body.length) {
     this.$body = _.getCompileFn(this._body, this.$parent, {
       outer: this,
       namespace: options.namespace,
       extra: options.extra,
       record: true
-    })
+    });
     this._body = null;
   }
-  // handle computed
+
   // 编译语法树
-  if(template){
+  if(template) {
     this.group = this.$compile(this.template, {namespace: options.namespace});
     combine.node(this);
   }
 
-
   if(!this.$parent) this.$update();
+
   this.$ready = true;
 
   // 执行init方法
-  this.$emit("$init");
-  if( this.init ) this.init(this.data);
+  this.$emit('$init');
+  if(this.init) this.init(this.data);
 
   // @TODO: remove, maybe , there is no need to update after init; 
   // if(this.$root === this) this.$update();
+  
   env.isRunning = prevRunning;
-
-  // children is not required;
 }
-
 
 walkers && (walkers.Regular = Regular);
 
@@ -141,22 +141,25 @@ _.extend(Regular, {
   /**
    * 对组件的指令进行操作
    */  
-  directive: function(name, cfg){
-    if(_.typeOf(name) === "object"){
+  directive: function(name, cfg) {
+    if(_.typeOf(name) === 'object') {
       // 假如传入的是个对象，则进行批处理
-      for(var k in name){
+      for(var k in name) {
         if(name.hasOwnProperty(k)) this.directive(k, name[k]);
       }
       return this;
     }
 
     var type = _.typeOf(name);
-    var directives = this._directives, directive;
-    if(cfg == null){
-      // 取指令
-      // 指令名是字符串
-      if( type === "string" && (directive = directives[name]) ) return directive;
-      else{
+    var directives = this._directives;
+    var directive;
+
+    if(cfg == null) {
+      // 获取指令
+      if(type === 'string' && (directive = directives[name])) {
+        // 指令名是字符串
+        return directive;
+      } else {
         // 指令名是正则表达式
         var regexp = directives.__regexp__;
         for(var i = 0, len = regexp.length; i < len ; i++){
@@ -167,17 +170,21 @@ _.extend(Regular, {
       }
       return undefined;
     }
-    if(typeof cfg === 'function') cfg = { link: cfg } 
-    // 指令名是字符串
-    if(type === 'string') directives[name] = cfg;
-    // 指令名是正则表达式
-    else if(type === 'regexp'){
+
+    if(typeof cfg === 'function') cfg = {link: cfg}; 
+    if(type === 'string') {
+      // 指令名是字符串
+      directives[name] = cfg;
+    } else if(type === 'regexp') {
+      // 指令名是正则表达式
       cfg.regexp = name;
       directives.__regexp__.push(cfg)
     }
     return this;
   },
-  // 对组件的插件进行操作
+  /**
+   * 对组件的插件进行操作
+   */
   plugin: function(name, fn){
     var plugins = this._plugins;
     // 取插件
@@ -186,7 +193,9 @@ _.extend(Regular, {
     plugins[name] = fn;
     return this;
   },
-  // 执行插件或函数
+  /**
+   * 执行插件或函数
+   */
   use: function(fn){
     if(typeof fn === "string") fn = Regular.plugin(fn);
     if(typeof fn !== "function") return this;
@@ -555,7 +564,6 @@ Regular.filter(filter);
 module.exports = Regular;
 
 
-
 var handleComputed = (function() {
   // 包装计算属性的get方法
   function wrapGet(get) {
@@ -583,22 +591,25 @@ var handleComputed = (function() {
       type = typeof handle;
 
       if(handle.type === 'expression') {
+        // 传入的是表达式对象
         parsedComputed[i] = handle;
         continue;
       }
       if(type === "string") {
-        // 表达式
+        // 传入字符串，当成表达式处理，解析成表达式对象
         parsedComputed[i] = parse.expression(handle)
-      }else{
+      } else {
         pair = parsedComputed[i] = {type: 'expression'};
         if(type === "function") {
+          // 传一个函数，当成get方法处理
           pair.get = wrapGet(handle);
         } else {
+          // 包装get和set方法成表达式对象
           if(handle.get) pair.get = wrapGet(handle.get);
           if(handle.set) pair.set = wrapSet(handle.set);
         }
       } 
     }
     return parsedComputed;
-  }
+  };
 })();

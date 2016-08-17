@@ -13,9 +13,9 @@ _.uid = (function(){
 })();
 
 // 扩展类
-_.extend = function( o1, o2, override ){
-  for(var i in o2){
-    if( typeof o1[i] === "undefined" || override === true ){
+_.extend = function(o1, o2, override) {
+  for(var i in o2) {
+    if(typeof o1[i] === "undefined" || override === true) {
       o1[i] = o2[i]
     }
   }
@@ -23,10 +23,10 @@ _.extend = function( o1, o2, override ){
 }
 
 // 返回对象的keys数组
-_.keys = function(obj){
+_.keys = function(obj) {
   if(Object.keys) return Object.keys(obj);
   var res = [];
-  for(var i in obj) if(obj.hasOwnProperty(i)){
+  for(var i in obj) if(obj.hasOwnProperty(i)) {
     res.push(i);
   }
   return res;
