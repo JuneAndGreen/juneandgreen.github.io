@@ -422,19 +422,18 @@ function filterPaeth(scanline, bytesPerPixel, bytesPerRow, offset) {
 到这里，解析的工作就做完了，上面代码里的`pixelsBuffer`数组里存的就是像素的数据了，不过我们要如何获取具体某个像素的数据呢？方式可参考下面代码：
 
 ```js
+let palette; // PLTE数据块内容，即调色板内容
+let colorType; // 解析IHDR数据块时得到的颜色类型
+
 function getPixel(x, y) {
-    if(x < 0 || x >= this.width || y < 0 || y >= this.height) {
+    if(x < 0 || x >= width || y < 0 || y >= height) {
         throw new Error('x或y的值超出了图像边界！');
     }
 
-    if(this.pixels && this.pixels[x][y]) return this.pixels[x][y];
+    let bytesPerPixel = Math.max(1, colors * bitDepth / 8); // 每像素字节数
+    let index = bytesPerPixel * ( y * width + x);
 
-    let bytesPerPixel = Math.max(1, this.colors * this.bitDepth / 8); // 每像素字节数
-    let index = bytesPerPixel * ( y * this.width + x);
-
-    let pixelsBuffer = this.pixelsBuffer;
-
-    switch(this.colorType) {
+    switch(colorType) {
         case 0: 
             // 灰度图像
             return [pixelsBuffer[index], pixelsBuffer[index], pixelsBuffer[index], 255];
@@ -443,7 +442,7 @@ function getPixel(x, y) {
             return [pixelsBuffer[index], pixelsBuffer[index + 1], pixelsBuffer[index + 2], 255];
         case 3: 
             // 索引颜色图像
-            return [this.palette[pixelsBuffer[index] * 3 + 0], this.palette[pixelsBuffer[index] * 3 + 1], this.palette[pixelsBuffer[index] * 3 + 2], 255];
+            return [palette[pixelsBuffer[index] * 3 + 0], palette[pixelsBuffer[index] * 3 + 1], palette[pixelsBuffer[index] * 3 + 2], 255];
         case 4: 
             // 灰度图像 + alpha通道
             return [pixelsBuffer[index], pixelsBuffer[index], pixelsBuffer[index], pixelsBuffer[index + 1]];
