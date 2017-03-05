@@ -1,0 +1,636 @@
+</DOCTYPE html>
+<html>
+<head>
+    <title>demo</title>
+    <style type="text/css">
+        html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    font-weight: inherit;
+    font-style: inherit;
+    font-family: inherit;
+    font-size: 100%;
+    vertical-align: baseline;
+}
+
+body {
+    line-height: 1;
+
+    font-family: "microsoft yahei",Arial,Helvetica,sans-serif;
+    font-size: 100%;
+    background: #fff;
+    color: #817c7c;
+    line-height: 1.5;
+}
+
+* {
+    -webkit-margin-before: 0;
+    -webkit-margin-after: 0;
+}
+
+.container {
+    width: 1000px;
+    margin: 0 auto;
+    overflow: hidden;
+    line-height: 1.8;
+    font-size: 14px;
+}
+
+.article-content {
+    padding: 1.5em 4% 5em;
+    color: #413f3f;
+    font-size: 100%;
+}
+
+caption,th,td {
+    text-align: left;
+    font-weight: normal;
+    vertical-align: middle;
+}
+
+a img {
+    border: none;
+}
+
+small {
+    font-size: 80%;
+}
+
+sub,sup {
+    font-size: 75%;
+    line-height: 0;
+    position: relative;
+    vertical-align: baseline;
+}
+
+sup {
+    top: -.5em;
+    padding-left: .3em;
+}
+
+sub {
+    bottom: -.25em;
+}
+
+a {
+    text-decoration: none;
+    color: #2ca6cb;
+}
+
+a:hover {
+    color: #d14;
+}
+
+h1 {
+    font-size: 200%;
+    line-height: 1.5em;
+    padding-bottom: .3em;
+    border-bottom: 2px solid #dbdbdb;
+}
+
+h2 {
+    margin-top: 2.6em;
+    padding-left: 20px;
+    font-size: 160%;
+    line-height: 1.2em;
+    border-left: 4px solid #2ca6cb;
+}
+
+h2:first-child {
+  margin-top: 1.5em;
+}
+
+h3 {
+    font-size: 140%;
+    line-height: 1em;
+    margin-top: 1.3em;
+}
+
+h1, h2 {
+    position: relative;
+    margin-top: 1.5em;
+    margin-bottom: 1em;
+}
+
+h4 {
+  font-weight: bold;
+  font-size: 110%;
+}
+
+h4, h5, h6 {
+    margin-top: .8em;
+    font-size: 130%;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: #333;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+h1 >code, h2 >code, h3 >code, h4 >code, h5 >code, h6 >code {
+    color: #a3a3a3;
+}
+
+hr {
+    border: 1px solid #dbdbdb;
+}
+
+strong {
+    font-weight: bold;
+}
+
+em {
+    font-style: italic;
+}
+
+acronym, abbr {
+    border-bottom: 1px dotted;
+}
+
+blockquote {
+    border-left: .2em solid #aaa;
+    margin: 1em;
+    padding: .7em;
+    line-height: 1.5;
+    font-size: 100%;
+    color: #808080;
+    background-color: #f8f8f8;
+}
+
+blockquote footer {
+    background: #fafafa;
+    padding: 0;
+    margin: 0;
+    font-size: 80%;
+    line-height: 1em;
+}
+
+blockquote cite {
+    font-style: italic;
+    padding-left: .5em;
+}
+
+blockquote p {
+    margin: 0;
+}
+
+ul, ol {
+    list-style: none;
+    padding-left: 3em;
+    font-size: 105%;
+    padding-top: .7em;
+}
+
+ul li {
+    list-style: disc;
+    text-align: match-parent;
+}
+
+ol li {
+    list-style-type: decimal;
+}
+
+dl dt {
+    font-weight: blod;
+}
+
+ul li>code, ol li>code, p code, strong code, em code, table th>code, table td>code {
+    font-family: Monaco,Menlo,Consolas,Courier New,monospace;
+    background: #eee;
+    color: #d14;
+    border: 1px solid #d6d6d6;
+    padding: 0 5px;
+    margin: 0 2px;
+    font-size: 90%;
+    white-space: nowrap;
+    text-shadow: 0 1px #fff;
+    -webkit-border-radius: .25em;
+    -webkit-border-radius: .25em;
+    border-radius: .25em;
+}
+
+p {
+    line-height: 1.5;
+    margin-top: .7em;
+    font-size: 110%;
+    letter-spacing: 1px;
+}
+
+p.image-wrapper {
+    text-align: left;
+}
+
+img, video, figure img {
+    margin: 10px 0;
+    max-width: 100%;
+    height: auto;
+    vertical-align: middle;
+    margin-top: .5em;
+
+    border-radius: 5px;
+    box-shadow: 2px 2px 7px 1px #aaa;
+}
+
+table {    
+    vertical-align: middle;
+    max-width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+    margin-top: 1em;
+    border: 2px solid #cbcbcb;
+    color: #413f3f;
+}
+
+table tbody tr:nth-child(odd) {
+    background-color: #f8f8f8;
+}
+
+table th {
+    font-weight: bold;
+    border: 1px solid #cbcbcb;
+    border-bottom: 2px solid #cbcbcb;
+    padding: .8em;
+    line-height: 1.3em;
+}
+
+table td {
+    border: 1px solid #cbcbcb;
+    padding: .8em;
+    line-height: 1.3em;
+}
+
+pre {
+    background: #2d2d2d;
+    margin: .5em 0;
+    padding: .5em 2%;
+    color: #ccc;
+    line-height: 1.5;
+    font-size: .8em;
+    -webkit-border-radius: .35em;
+    -webkit-border-radius: .35em;
+    border-radius: .35em;
+    word-wrap: break-word;
+    font-family: Monaco,Menlo,Consolas,Courier New,monospace;
+    overflow-x: auto;
+}
+
+
+pre::-webkit-scrollbar, pre::-webkit-scrollbar-track {
+    height: 8px;
+    background-color: transparent;
+}
+pre::-webkit-scrollbar-thumb {
+    height: 8px;
+    background-color: #ddd;
+    border-radius: 4px;
+}
+
+
+.hljs {
+  display: block;
+  overflow-x: auto;
+  padding: 0.5em;
+  color: #abb2bf;
+  background: #282c34;
+}
+
+.hljs-comment,
+.hljs-quote {
+  color: #5c6370;
+  font-style: italic;
+}
+
+.hljs-doctag,
+.hljs-keyword,
+.hljs-formula {
+  color: #c678dd;
+}
+
+.hljs-section,
+.hljs-name,
+.hljs-selector-tag,
+.hljs-deletion,
+.hljs-subst {
+  color: #e06c75;
+}
+
+.hljs-literal {
+  color: #56b6c2;
+}
+
+.hljs-string,
+.hljs-regexp,
+.hljs-addition,
+.hljs-attribute,
+.hljs-meta-string {
+  color: #98c379;
+}
+
+.hljs-built_in,
+.hljs-class .hljs-title {
+  color: #e6c07b;
+}
+
+.hljs-attr,
+.hljs-variable,
+.hljs-template-variable,
+.hljs-type,
+.hljs-selector-class,
+.hljs-selector-attr,
+.hljs-selector-pseudo,
+.hljs-number {
+  color: #d19a66;
+}
+
+.hljs-symbol,
+.hljs-bullet,
+.hljs-link,
+.hljs-meta,
+.hljs-selector-id,
+.hljs-title {
+  color: #61aeee;
+}
+
+.hljs-emphasis {
+  font-style: italic;
+}
+
+.hljs-strong {
+  font-weight: bold;
+}
+
+.hljs-link {
+  text-decoration: underline;
+}
+
+
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="article-content">
+        <h1 id="-c-c-nodejs-">使用c或c++开发nodejs模块</h1>
+<h2 id="-">简介</h2>
+<p>nodejs提供了一个调用c/c++模块的方法，因为nodejs本身是使用单线程异步回调机制，针对一些密集计算和系统底层逻辑操作效率比较低下，所以我们可以使用用c/c++来编写相关模块，然后供nodejs调用。</p>
+<p>c/c++模块的调用在nodejs的api中叫<code>c/c++ addons</code>，方法也很简单，以下就以一个hello world的例子来简要介绍下（c和c++调用方法类似，以下仅用c++调用举例）。</p>
+<h2 id="-">准备</h2>
+<p>首先我们要调用c/c++模块，我们就需要c/c++编译器将代码编译成二进制文件，最终我们在nodejs中调用的c/c++模块其实就是编译后的二进制文件。</p>
+<p>然后还要安装<code>node-gyp</code>模块，具体命令如下：</p>
+<pre><code class="lang-bash">npm install -g <span class="hljs-keyword">node</span><span class="hljs-title">-gyp</span>
+</code></pre>
+<p>有关<code>node-gyp</code>更详细的信息请戳<a href="https://github.com/nodejs/node-gyp#installation">这里</a>。</p>
+<h2 id="-">步骤</h2>
+<p>首先，我们先搭建好hello world项目的目录。目录结构如下：</p>
+<pre><code>|<span class="hljs-string">- helloWorld
+</span>|<span class="hljs-string">     </span>|<span class="hljs-string">- binding.gyp  
+</span>|<span class="hljs-string">     </span>|<span class="hljs-string">- hello.cc
+</span>|<span class="hljs-string">     </span>|<span class="hljs-string">- hello.js</span>
+</code></pre><p>其中hello.cc是我们要调用的c++模块源码，hello.js则是这个项目的入口文件，c++模块的调用者。</p>
+<p>假设c++模块的名字叫addon，并且提供一个hello方法，我们调用hello方法可以输出world这个单词，因此我们可以在hello.js里这样写：</p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">const</span> addon = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./build/Release/addon'</span>); <span class="hljs-comment">// 这里是依赖的c++模块，名字叫addon</span>
+
+<span class="hljs-built_in">console</span>.log(addon.hello()); <span class="hljs-comment">// 这里调用addon模块的hello方法，输出world这个单词</span>
+</code></pre>
+<p>看来这里应该明了，c/c++模块的调用方法和其他普通nodejs模块一样，简单易用，接下来我们就来编写hello.cc，即c++模块的源码：</p>
+<pre><code class="lang-c++"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;node.h&gt;</span></span>
+
+<span class="hljs-keyword">namespace</span> demo {
+    <span class="hljs-keyword">using</span> v8::FunctionCallbackInfo;
+    <span class="hljs-keyword">using</span> v8::Isolate;
+    <span class="hljs-keyword">using</span> v8::Local;
+    <span class="hljs-keyword">using</span> v8::Object;
+    <span class="hljs-keyword">using</span> v8::String;
+    <span class="hljs-keyword">using</span> v8::Value;
+
+    <span class="hljs-comment">/* hello方法声明 */</span>
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">Method</span><span class="hljs-params">(<span class="hljs-keyword">const</span> FunctionCallbackInfo&lt;Value&gt;&amp; args)</span> </span>{
+        Isolate* isolate = args.GetIsolate();
+        args.GetReturnValue().Set(String::NewFromUtf8(isolate, <span class="hljs-string">"world"</span>)); <span class="hljs-comment">// 设置返回值world</span>
+    }
+
+    <span class="hljs-comment">/* 模块初始化方法 */</span>
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">init</span><span class="hljs-params">(Local&lt;Object&gt; exports)</span> </span>{
+        NODE_SET_METHOD(exports, <span class="hljs-string">"hello"</span>, Method); <span class="hljs-comment">// hello方法到模块中</span>
+    }
+
+    NODE_MODULE(addon, init) <span class="hljs-comment">// 声明addon模块，注意，此处是没有分号的</span>
+
+}
+</code></pre>
+<h2 id="-">编译</h2>
+<p>至此，c++模块已经写好了，我们要调用，还需要将该模块编译成addon.node文件，即我们需要的二进制文件。为此，我们需要一个配置文件binding.gyp：</p>
+<pre><code class="lang-json">{
+  <span class="hljs-attr">"targets"</span>: [
+    {
+      <span class="hljs-attr">"target_name"</span>: <span class="hljs-string">"addon"</span>,
+      <span class="hljs-attr">"sources"</span>: [ <span class="hljs-string">"hello.cc"</span> ]
+    }
+  ]
+}
+</code></pre>
+<p>其中<code>targets</code>字段是要编译的模块列表，<code>target_name</code>字段是要编译的模块名，<code>sources</code>是模块的源代码。</p>
+<p>然后我们执行以下命令先进行配置：</p>
+<pre><code class="lang-bash"><span class="hljs-keyword">node</span><span class="hljs-title">-gyp</span> configure
+</code></pre>
+<p>再执行以下命令进行编译：</p>
+<pre><code class="lang-bash"><span class="hljs-keyword">node</span><span class="hljs-title">-gyp</span> build
+</code></pre>
+<p>之后，我们就可以看到项目目录下多了一个build文件夹，我们需要调用的二进制文件addon.node就在路径<code>./build/Release/</code>下面，这也就是为什么我们在hello.js中引入addon模块的路径是<code>./build/Release/addon</code>。</p>
+<p>tips：c/c++模块的路径是取决于其如何编译的，有时候可能会在<code>./build/Debug/</code>目录下，故我们可以使用try和catch来进行引入模块：</p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">try</span> {
+  <span class="hljs-function"><span class="hljs-keyword">return</span> <span class="hljs-title">require</span><span class="hljs-params">(<span class="hljs-string">'./build/Release/addon.node'</span>)</span></span>;
+} <span class="hljs-keyword">catch</span> (err) {
+  <span class="hljs-function"><span class="hljs-keyword">return</span> <span class="hljs-title">require</span><span class="hljs-params">(<span class="hljs-string">'./build/Debug/addon.node'</span>)</span></span>;
+}
+</code></pre>
+<h2 id="-">其他</h2>
+<p>c/c++模块不止是可以返回字符串参数而已，关于参数相关可参阅下面例子：</p>
+<h3 id="-">传参</h3>
+<pre><code class="lang-c++">// addon.cc
+<span class="hljs-comment">#include &lt;node.h&gt;</span>
+
+namespace demo {
+
+    <span class="hljs-keyword">using</span> v8<span class="hljs-type">::</span><span class="hljs-built_in">Exception</span>;
+    <span class="hljs-keyword">using</span> v8<span class="hljs-type">::</span>FunctionCallbackInfo;
+    <span class="hljs-keyword">using</span> v8<span class="hljs-type">::</span>Isolate;
+    <span class="hljs-keyword">using</span> v8<span class="hljs-type">::</span>Local;
+    <span class="hljs-keyword">using</span> v8<span class="hljs-type">::</span><span class="hljs-built_in">Number</span>;
+    <span class="hljs-keyword">using</span> v8<span class="hljs-type">::</span>Object;
+    <span class="hljs-keyword">using</span> v8<span class="hljs-type">::</span><span class="hljs-built_in">String</span>;
+    <span class="hljs-keyword">using</span> v8<span class="hljs-type">::</span>Value;
+
+    // add方法实现
+    // 输入的参数我们通过 <span class="hljs-keyword">const</span> FunctionCallbackInfo&lt;Value&gt;&amp; args 来传递
+    void Add(<span class="hljs-keyword">const</span> FunctionCallbackInfo&lt;Value&gt;&amp; args) {
+      Isolate* isolate = args.GetIsolate();
+
+      // 检查参数数量
+      <span class="hljs-keyword">if</span> (args.Length() &lt; <span class="hljs-number">2</span>) {
+        // Throw an Error that is passed back to JavaScript
+        isolate-&gt;ThrowException(<span class="hljs-built_in">Exception</span><span class="hljs-type">::</span><span class="hljs-built_in">TypeError</span>(
+            <span class="hljs-built_in">String</span><span class="hljs-type">::</span>NewFromUtf8(isolate, <span class="hljs-string">"Wrong number of arguments"</span>)));
+        <span class="hljs-keyword">return</span>;
+      }
+
+      // 检查参数类型
+      <span class="hljs-keyword">if</span> (!args[<span class="hljs-number">0</span>]-&gt;IsNumber() || !args[<span class="hljs-number">1</span>]-&gt;IsNumber()) {
+        isolate-&gt;ThrowException(<span class="hljs-built_in">Exception</span><span class="hljs-type">::</span><span class="hljs-built_in">TypeError</span>(
+            <span class="hljs-built_in">String</span><span class="hljs-type">::</span>NewFromUtf8(isolate, <span class="hljs-string">"Wrong arguments"</span>)));
+        <span class="hljs-keyword">return</span>;
+      }
+
+      // 做加法运算
+      double value = args[<span class="hljs-number">0</span>]-&gt;NumberValue() + args[<span class="hljs-number">1</span>]-&gt;NumberValue();
+      Local&lt;<span class="hljs-built_in">Number</span>&gt; num = <span class="hljs-built_in">Number</span><span class="hljs-type">::</span>New(isolate, value);
+
+      // 设置返回值
+      args.GetReturnValue().<span class="hljs-built_in">Set</span>(num);
+    }
+
+    void Init(Local&lt;Object&gt; exports) {
+      NODE_SET_METHOD(exports, <span class="hljs-string">"add"</span>, Add);
+    }
+
+    NODE_MODULE(addon, Init)
+
+}
+</code></pre>
+<pre><code class="lang-javascript"><span class="hljs-comment">// add.js</span>
+<span class="hljs-keyword">const</span> addon = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./build/Release/addon'</span>);
+
+<span class="hljs-built_in">console</span>.log(<span class="hljs-string">'This should be eight:'</span>, addon.add(<span class="hljs-number">3</span>,<span class="hljs-number">5</span>));
+</code></pre>
+<h3 id="-">回调</h3>
+<pre><code class="lang-c++"><span class="hljs-comment">// addon.cc</span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;node.h&gt;</span></span>
+
+<span class="hljs-keyword">namespace</span> demo {
+
+    <span class="hljs-keyword">using</span> v8::Function;
+    <span class="hljs-keyword">using</span> v8::FunctionCallbackInfo;
+    <span class="hljs-keyword">using</span> v8::Isolate;
+    <span class="hljs-keyword">using</span> v8::Local;
+    <span class="hljs-keyword">using</span> v8::Null;
+    <span class="hljs-keyword">using</span> v8::Object;
+    <span class="hljs-keyword">using</span> v8::String;
+    <span class="hljs-keyword">using</span> v8::Value;
+
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">RunCallback</span><span class="hljs-params">(<span class="hljs-keyword">const</span> FunctionCallbackInfo&lt;Value&gt;&amp; args)</span> </span>{
+      Isolate* isolate = args.GetIsolate();
+      Local&lt;Function&gt; cb = Local&lt;Function&gt;::Cast(args[<span class="hljs-number">0</span>]); <span class="hljs-comment">// 声明回调函数</span>
+
+      <span class="hljs-keyword">const</span> <span class="hljs-keyword">unsigned</span> argc = <span class="hljs-number">1</span>;
+      Local&lt;Value&gt; argv[argc] = { String::NewFromUtf8(isolate, <span class="hljs-string">"hello world"</span>) }; <span class="hljs-comment">// 设置回调的参数值</span>
+
+      cb-&gt;Call(Null(isolate), argc, argv);
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">Init</span><span class="hljs-params">(Local&lt;Object&gt; exports, Local&lt;Object&gt; <span class="hljs-keyword">module</span>)</span> </span>{
+      NODE_SET_METHOD(<span class="hljs-keyword">module</span>, <span class="hljs-string">"exports"</span>, RunCallback);
+    }
+
+    NODE_MODULE(addon, Init)
+
+}
+</code></pre>
+<pre><code class="lang-javascript"><span class="hljs-comment">// test.js</span>
+<span class="hljs-keyword">const</span> addon = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./build/Release/addon'</span>);
+
+addon(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">msg</span>) </span>{
+  <span class="hljs-built_in">console</span>.log(msg); <span class="hljs-comment">// 输出'hello world'</span>
+});
+</code></pre>
+<h3 id="-">生成对象</h3>
+<pre><code class="lang-c++"><span class="hljs-comment">// addon.cc</span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;node.h&gt;</span></span>
+
+<span class="hljs-keyword">namespace</span> demo {
+
+    <span class="hljs-keyword">using</span> v8::FunctionCallbackInfo;
+    <span class="hljs-keyword">using</span> v8::Isolate;
+    <span class="hljs-keyword">using</span> v8::Local;
+    <span class="hljs-keyword">using</span> v8::Object;
+    <span class="hljs-keyword">using</span> v8::String;
+    <span class="hljs-keyword">using</span> v8::Value;
+
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">CreateObject</span><span class="hljs-params">(<span class="hljs-keyword">const</span> FunctionCallbackInfo&lt;Value&gt;&amp; args)</span> </span>{
+      Isolate* isolate = args.GetIsolate();
+
+      Local&lt;Object&gt; obj = Object::New(isolate); <span class="hljs-comment">// 声明返回对象</span>
+      obj-&gt;Set(String::NewFromUtf8(isolate, <span class="hljs-string">"msg"</span>), args[<span class="hljs-number">0</span>]-&gt;ToString()); \\ 设置msg属性
+
+      args.GetReturnValue().Set(obj);
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">Init</span><span class="hljs-params">(Local&lt;Object&gt; exports, Local&lt;Object&gt; <span class="hljs-keyword">module</span>)</span> </span>{
+      NODE_SET_METHOD(<span class="hljs-keyword">module</span>, <span class="hljs-string">"exports"</span>, CreateObject);
+    }
+
+    NODE_MODULE(addon, Init)
+
+}
+</code></pre>
+<pre><code class="lang-javascript"><span class="hljs-comment">// test.js</span>
+<span class="hljs-keyword">const</span> addon = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./build/Release/addon'</span>);
+
+<span class="hljs-keyword">var</span> obj1 = addon(<span class="hljs-string">'hello'</span>);
+<span class="hljs-keyword">var</span> obj2 = addon(<span class="hljs-string">'world'</span>);
+<span class="hljs-built_in">console</span>.log(obj1.msg+<span class="hljs-string">' '</span>+obj2.msg); <span class="hljs-comment">// 输出'hello world'</span>
+</code></pre>
+<h3 id="-">生成函数</h3>
+<pre><code class="lang-c++"><span class="hljs-comment">// addon.cc</span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;node.h&gt;</span></span>
+
+<span class="hljs-keyword">namespace</span> demo {
+
+    <span class="hljs-keyword">using</span> v8::Function;
+    <span class="hljs-keyword">using</span> v8::FunctionCallbackInfo;
+    <span class="hljs-keyword">using</span> v8::FunctionTemplate;
+    <span class="hljs-keyword">using</span> v8::Isolate;
+    <span class="hljs-keyword">using</span> v8::Local;
+    <span class="hljs-keyword">using</span> v8::Object;
+    <span class="hljs-keyword">using</span> v8::String;
+    <span class="hljs-keyword">using</span> v8::Value;
+
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">MyFunction</span><span class="hljs-params">(<span class="hljs-keyword">const</span> FunctionCallbackInfo&lt;Value&gt;&amp; args)</span> </span>{
+      Isolate* isolate = args.GetIsolate();
+      args.GetReturnValue().Set(String::NewFromUtf8(isolate, <span class="hljs-string">"hello world"</span>));
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">CreateFunction</span><span class="hljs-params">(<span class="hljs-keyword">const</span> FunctionCallbackInfo&lt;Value&gt;&amp; args)</span> </span>{
+      Isolate* isolate = args.GetIsolate();
+
+      Local&lt;FunctionTemplate&gt; tpl = FunctionTemplate::New(isolate, MyFunction); <span class="hljs-comment">// 声明函数模板</span>
+      Local&lt;Function&gt; fn = tpl-&gt;GetFunction(); <span class="hljs-comment">// 声明函数</span>
+
+      <span class="hljs-comment">// 匿名实现函数</span>
+      fn-&gt;SetName(String::NewFromUtf8(isolate, <span class="hljs-string">"theFunction"</span>));
+
+      args.GetReturnValue().Set(fn);
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">Init</span><span class="hljs-params">(Local&lt;Object&gt; exports, Local&lt;Object&gt; <span class="hljs-keyword">module</span>)</span> </span>{
+      NODE_SET_METHOD(<span class="hljs-keyword">module</span>, <span class="hljs-string">"exports"</span>, CreateFunction);
+    }
+
+    NODE_MODULE(addon, Init)
+
+}
+</code></pre>
+<pre><code class="lang-javascript"><span class="hljs-comment">// test.js</span>
+const addon = require('./build/Release/addon');
+
+var <span class="hljs-function"><span class="hljs-keyword">fn</span> = addon<span class="hljs-params">()</span></span>;
+console.<span class="hljs-built_in">log</span>(<span class="hljs-function"><span class="hljs-keyword">fn</span><span class="hljs-params">()</span>)</span>; <span class="hljs-comment">// 输出'hello world'</span>
+</code></pre>
+<h2 id="-">尾声</h2>
+<p>其他例子还有很多，以上内容主要来自nodejs官方api，更多例子请戳<a href="https://nodejs.org/api/addons.html">这里</a></p>
+          
+    </div>
+</div>
+</body>
+</html>

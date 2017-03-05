@@ -462,5 +462,4 @@ function getPixel(x, y) {
 * [https://www.w3.org/TR/PNG/](https://www.w3.org/TR/PNG/)
 * [http://www.libpng.org/pub/png/](http://www.libpng.org/pub/png/)
 * [https://en.wikipedia.org/wiki/Portable_Network_Graphics](https://en.wikipedia.org/wiki/Portable_Network_Graphics)
-* [pngjs](https://github.com/arian/pngjs)
 

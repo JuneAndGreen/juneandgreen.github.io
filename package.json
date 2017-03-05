@@ -1,0 +1,8 @@
+{
+  "name": "mynote",
+  "version": "0.0.1",
+  "author": "june_01",
+  "dependencies": {
+    "gomd": "0.0.8"
+  }
+}

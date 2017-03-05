@@ -1,0 +1,502 @@
+</DOCTYPE html>
+<html>
+<head>
+    <title>demo</title>
+    <style type="text/css">
+        html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    font-weight: inherit;
+    font-style: inherit;
+    font-family: inherit;
+    font-size: 100%;
+    vertical-align: baseline;
+}
+
+body {
+    line-height: 1;
+
+    font-family: "microsoft yahei",Arial,Helvetica,sans-serif;
+    font-size: 100%;
+    background: #fff;
+    color: #817c7c;
+    line-height: 1.5;
+}
+
+* {
+    -webkit-margin-before: 0;
+    -webkit-margin-after: 0;
+}
+
+.container {
+    width: 1000px;
+    margin: 0 auto;
+    overflow: hidden;
+    line-height: 1.8;
+    font-size: 14px;
+}
+
+.article-content {
+    padding: 1.5em 4% 5em;
+    color: #413f3f;
+    font-size: 100%;
+}
+
+caption,th,td {
+    text-align: left;
+    font-weight: normal;
+    vertical-align: middle;
+}
+
+a img {
+    border: none;
+}
+
+small {
+    font-size: 80%;
+}
+
+sub,sup {
+    font-size: 75%;
+    line-height: 0;
+    position: relative;
+    vertical-align: baseline;
+}
+
+sup {
+    top: -.5em;
+    padding-left: .3em;
+}
+
+sub {
+    bottom: -.25em;
+}
+
+a {
+    text-decoration: none;
+    color: #2ca6cb;
+}
+
+a:hover {
+    color: #d14;
+}
+
+h1 {
+    font-size: 200%;
+    line-height: 1.5em;
+    padding-bottom: .3em;
+    border-bottom: 2px solid #dbdbdb;
+}
+
+h2 {
+    margin-top: 2.6em;
+    padding-left: 20px;
+    font-size: 160%;
+    line-height: 1.2em;
+    border-left: 4px solid #2ca6cb;
+}
+
+h2:first-child {
+  margin-top: 1.5em;
+}
+
+h3 {
+    font-size: 140%;
+    line-height: 1em;
+    margin-top: 1.3em;
+}
+
+h1, h2 {
+    position: relative;
+    margin-top: 1.5em;
+    margin-bottom: 1em;
+}
+
+h4 {
+  font-weight: bold;
+  font-size: 110%;
+}
+
+h4, h5, h6 {
+    margin-top: .8em;
+    font-size: 130%;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: #333;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+h1 >code, h2 >code, h3 >code, h4 >code, h5 >code, h6 >code {
+    color: #a3a3a3;
+}
+
+hr {
+    border: 1px solid #dbdbdb;
+}
+
+strong {
+    font-weight: bold;
+}
+
+em {
+    font-style: italic;
+}
+
+acronym, abbr {
+    border-bottom: 1px dotted;
+}
+
+blockquote {
+    border-left: .2em solid #aaa;
+    margin: 1em;
+    padding: .7em;
+    line-height: 1.5;
+    font-size: 100%;
+    color: #808080;
+    background-color: #f8f8f8;
+}
+
+blockquote footer {
+    background: #fafafa;
+    padding: 0;
+    margin: 0;
+    font-size: 80%;
+    line-height: 1em;
+}
+
+blockquote cite {
+    font-style: italic;
+    padding-left: .5em;
+}
+
+blockquote p {
+    margin: 0;
+}
+
+ul, ol {
+    list-style: none;
+    padding-left: 3em;
+    font-size: 105%;
+    padding-top: .7em;
+}
+
+ul li {
+    list-style: disc;
+    text-align: match-parent;
+}
+
+ol li {
+    list-style-type: decimal;
+}
+
+dl dt {
+    font-weight: blod;
+}
+
+ul li>code, ol li>code, p code, strong code, em code, table th>code, table td>code {
+    font-family: Monaco,Menlo,Consolas,Courier New,monospace;
+    background: #eee;
+    color: #d14;
+    border: 1px solid #d6d6d6;
+    padding: 0 5px;
+    margin: 0 2px;
+    font-size: 90%;
+    white-space: nowrap;
+    text-shadow: 0 1px #fff;
+    -webkit-border-radius: .25em;
+    -webkit-border-radius: .25em;
+    border-radius: .25em;
+}
+
+p {
+    line-height: 1.5;
+    margin-top: .7em;
+    font-size: 110%;
+    letter-spacing: 1px;
+}
+
+p.image-wrapper {
+    text-align: left;
+}
+
+img, video, figure img {
+    margin: 10px 0;
+    max-width: 100%;
+    height: auto;
+    vertical-align: middle;
+    margin-top: .5em;
+
+    border-radius: 5px;
+    box-shadow: 2px 2px 7px 1px #aaa;
+}
+
+table {    
+    vertical-align: middle;
+    max-width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+    margin-top: 1em;
+    border: 2px solid #cbcbcb;
+    color: #413f3f;
+}
+
+table tbody tr:nth-child(odd) {
+    background-color: #f8f8f8;
+}
+
+table th {
+    font-weight: bold;
+    border: 1px solid #cbcbcb;
+    border-bottom: 2px solid #cbcbcb;
+    padding: .8em;
+    line-height: 1.3em;
+}
+
+table td {
+    border: 1px solid #cbcbcb;
+    padding: .8em;
+    line-height: 1.3em;
+}
+
+pre {
+    background: #2d2d2d;
+    margin: .5em 0;
+    padding: .5em 2%;
+    color: #ccc;
+    line-height: 1.5;
+    font-size: .8em;
+    -webkit-border-radius: .35em;
+    -webkit-border-radius: .35em;
+    border-radius: .35em;
+    word-wrap: break-word;
+    font-family: Monaco,Menlo,Consolas,Courier New,monospace;
+    overflow-x: auto;
+}
+
+
+pre::-webkit-scrollbar, pre::-webkit-scrollbar-track {
+    height: 8px;
+    background-color: transparent;
+}
+pre::-webkit-scrollbar-thumb {
+    height: 8px;
+    background-color: #ddd;
+    border-radius: 4px;
+}
+
+
+.hljs {
+  display: block;
+  overflow-x: auto;
+  padding: 0.5em;
+  color: #abb2bf;
+  background: #282c34;
+}
+
+.hljs-comment,
+.hljs-quote {
+  color: #5c6370;
+  font-style: italic;
+}
+
+.hljs-doctag,
+.hljs-keyword,
+.hljs-formula {
+  color: #c678dd;
+}
+
+.hljs-section,
+.hljs-name,
+.hljs-selector-tag,
+.hljs-deletion,
+.hljs-subst {
+  color: #e06c75;
+}
+
+.hljs-literal {
+  color: #56b6c2;
+}
+
+.hljs-string,
+.hljs-regexp,
+.hljs-addition,
+.hljs-attribute,
+.hljs-meta-string {
+  color: #98c379;
+}
+
+.hljs-built_in,
+.hljs-class .hljs-title {
+  color: #e6c07b;
+}
+
+.hljs-attr,
+.hljs-variable,
+.hljs-template-variable,
+.hljs-type,
+.hljs-selector-class,
+.hljs-selector-attr,
+.hljs-selector-pseudo,
+.hljs-number {
+  color: #d19a66;
+}
+
+.hljs-symbol,
+.hljs-bullet,
+.hljs-link,
+.hljs-meta,
+.hljs-selector-id,
+.hljs-title {
+  color: #61aeee;
+}
+
+.hljs-emphasis {
+  font-style: italic;
+}
+
+.hljs-strong {
+  font-weight: bold;
+}
+
+.hljs-link {
+  text-decoration: underline;
+}
+
+
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="article-content">
+        <h1 id="-">博客搭建-速成大法</h1>
+<h2 id="-">选择</h2>
+<p>现在搭建一个博客的方法有很多，像wordpress或者Jekyll，形式也各种各样。在此我选择了Github Pages和hexo来搭建我的站点，所以本篇文章也是以此为出发点进行的。</p>
+<h3 id="-github-pages-">为何选择Github Pages？</h3>
+<ul>
+<li>免费</li>
+<li>使用者多，证明已经受过考验</li>
+<li>Github本身就是一个开源的分布式版本控制系统，功能完备，省去了很多麻烦的部署步骤</li>
+<li>可自我定制页面</li>
+<li>有现成的工具可用，比如hexo</li>
+<li>可以绑定你的域名</li>
+</ul>
+<h3 id="-hexo-">那为何又选择hexo呢？</h3>
+<ul>
+<li>hexo是基于nodejs的</li>
+<li>我是一名前端，不使用nodejs，天理不容</li>
+<li>用起来很简单</li>
+<li>很多酷炫的主题供你选择</li>
+<li>支持markdown</li>
+</ul>
+<h2 id="github">Github</h2>
+<h3 id="-">准备</h3>
+<p>既然选择了Github，那么一个可用的Github帐号是必须的，这个没什么好说明的，前往<a href="https://github.com/">官网</a>注册，然后配置好自己的ssh-key，当然你也可以使用https，就看你嫌不嫌麻烦而已。</p>
+<p>不会注册或者配置的可以<a href="/">戳这里</a>。</p>
+<h3 id="-">快速开始</h3>
+<p>Github环境弄好后，接下来就要创建仓库了。在这里我们先创建两个仓库，一个是作为站点使用，一个是作为你的博客搭建项目使用。   </p>
+<p><strong>1.作为站点使用的仓库</strong></p>
+<p>过程很简单，故在此不赘述，步骤如下：</p>
+<blockquote>
+<ol>
+<li>我们先创建一个名为testforhexo的仓库，这个名字是我随便起的，你可已起个自己喜欢的名字。</li>
+<li>然后点击仓库首页右边的<code>setting</code>按钮，进入该仓库的setting页面。</li>
+<li>点击GitHub Pages栏目下的<code>Launch automatic page generator</code>按钮，进入站点信息表单页面。</li>
+<li>在<code>project Name</code>一栏中填写你的站点名称，即username.github.io，username是你的用户名，以后这个站点名称也就是你的站点地址。之后点击<code>Continue to layouts</code>按钮，进入主题选择页面。</li>
+<li>随便选择一个主题，点击<code>Publish pages</code>按钮，发布站点。</li>
+</ol>
+</blockquote>
+<p><strong>2.作为博客搭建项目使用的仓库</strong></p>
+<p>跟普通仓库一样，创建完毕后，直接<code>clone</code>到你的本地即可。假设我在这里创建的仓库名叫myblog，则执行如下指令即可<code>clone</code>到你的本地：</p>
+<pre><code class="lang-bash">git <span class="hljs-keyword">clone</span> <span class="hljs-title">git</span>@github.com:username/myblog.git
+</code></pre>
+<h3 id="-">之后</h3>
+<p>进入myblog目录下，便可以开始你的工作了。</p>
+<p>至此，我们的个人博客便已经搭建好了，接下来你可以自己制作自己的博客，你也可以使用任意工具。我选择了hexo，以下便讲解如何使用hexo来搭建一个酷炫的站点。</p>
+<h2 id="hexo">hexo</h2>
+<h3 id="-">准备</h3>
+<p>上面已经提到，hexo是基于nodejs的工具，所以你必须先装好你的nodejs，至于如何安装和使用，请访问<a href="https://nodejs.org/en/">官网</a>。</p>
+<h3 id="-">快速开始</h3>
+<p><strong>1.安装与构建</strong></p>
+<p>首先，我们先安装hexo到全局上：</p>
+<pre><code class="lang-bash">npm <span class="hljs-keyword">install</span> -g hexo
+</code></pre>
+<p>然后，我们使用hexo构建一个博客目录，因为事先我们已经创建了一个名为myblog的项目，所以我们直接进入myblog目录下执行以下指令：</p>
+<pre><code class="lang-bash"><span class="hljs-attribute">hexo init</span>
+</code></pre>
+<p>至此，hexo会把整个博客结构给搭建出来，目录如下：</p>
+<pre><code>├── _config.yml  ——&gt; 配置文件，填写你的站点信息
+├── <span class="hljs-keyword">package</span>.json
+├── scaffolds  ——&gt; 模板文件夹，里面存放着用来生成文章的模板
+├── scripts  ——&gt; 脚本文件夹，扩展hexo使用
+├── <span class="hljs-keyword">source</span>  ——&gt; 资源文件夹，存放用户资源的地方，生成静态文件时，会把md或html文件解析到<span class="hljs-keyword">public</span>文件夹中，其他则自动拷贝过去
+|   ├── _drafts
+|   └── _posts
+└── themes  ——&gt; 放置站点的主题资源
+</code></pre><p>关于配置文件的详细配置项，可以<a href="https://hexo.io/zh-cn/docs/configuration.html">戳这里</a>，需要注意的有一点，就是在部署时可能会出现如下错误：</p>
+<pre><code><span class="hljs-keyword">error </span>deployer not found:github
+</code></pre><p>对于此错误，是因为hexo在更新到3.0之后，有个配置项的值需要改变，即deploy那一栏中的<code>type</code>的值要从github改成git，然后安装如下包即可解决：</p>
+<pre><code class="lang-bash">npm <span class="hljs-keyword">install</span> hexo-deployer-git <span class="hljs-comment">--save</span>
+</code></pre>
+<p><strong>2.更换皮肤</strong></p>
+<p>更换皮肤就再简单不过了，首先你可以去找一个皮肤或者自己制作一个皮肤，当然像我这么懒的人必然是找现成的，戳这个<a href="https://github.com/hexojs/hexo/wiki/Themes">皮肤大全</a>，可以去挑选一个自己喜欢的皮肤来。</p>
+<p>找到喜欢的皮肤后就可以下载下来，放到themes目录下。比如我找到了一个名字叫xxx的皮肤，我clone到themes目录下，这时我的themes目录下有两个目录，一个叫landscape，一个叫xxx，landscape是我的默认目录，而xxx就是我将要使用的皮肤目录。</p>
+<p>之后，在_config.yml文件中<code>theme</code>的值改为xxx即可</p>
+<p><strong>3.新建文章</strong></p>
+<p>命令如下：</p>
+<pre><code class="lang-bash">hexo <span class="hljs-keyword">new</span> articalname
+</code></pre>
+<p>articalname即为你的文章题目。</p>
+<p>文章的语法有二：</p>
+<blockquote>
+<ol>
+<li>基本信息：包括标题，发布日期，分类目录，标签等</li>
+<li>正文：markdown</li>
+</ol>
+</blockquote>
+<p>基本信息相关语法可戳<a href="https://hexo.io/zh-cn/docs/front-matter.html">这里</a>。
+正文语法可查看markdown文档，请戳<a href="http://www.markdown.cn/">这里</a>。</p>
+<p>如果想要修改文件的话，可以进入source目录下修改，文章均存储在该目录下。</p>
+<p><strong>4.生成静态文件</strong></p>
+<p>命令只有一条，如下：</p>
+<pre><code class="lang-bash">hexo <span class="hljs-keyword">generate</span>
+</code></pre>
+<p><strong>5.启动本地服务</strong></p>
+<p>命令也只有一条，如下：</p>
+<pre><code class="lang-bash">hexo <span class="hljs-keyword">server</span>
+</code></pre>
+<p>之后你在浏览器访问<code>localhost:4000</code>即可看到你当前博客的情况。</p>
+<p><strong>6.部署站点</strong></p>
+<p>当你完成你的文章后，你必须部署你的博客到你的线上站点。部署的参数在_config.yml文件中的deploy一栏。我们将那一栏的配置改为：</p>
+<pre><code><span class="hljs-attribute">deploy</span>:
+  <span class="hljs-attribute">type</span>: git
+  <span class="hljs-attribute">repo</span>: git<span class="hljs-variable">@github</span>.<span class="hljs-attribute">com</span>:username/username.github.io.git
+  <span class="hljs-attribute">message</span>: website deploy
+</code></pre><p>其中message为部署时提交的信息，repo为部署时需要提交到的仓库</p>
+<p>然后执行以下命令即可部署上线：</p>
+<pre><code class="lang-bash"><span class="hljs-attribute">hexo deploy</span>
+</code></pre>
+<h3 id="-">常见配置项</h3>
+<p><strong>1.RSS订阅</strong></p>
+<p>可以直接使用现成的插件：</p>
+<pre><code class="lang-bash">npm <span class="hljs-keyword">install</span> hexo-generator-feed <span class="hljs-comment">--save</span>
+</code></pre>
+<p><strong>2.Sitemap站长地图</strong></p>
+<p>同样可以直接使用现成的插件：</p>
+<pre><code class="lang-bash">npm <span class="hljs-keyword">install</span> hexo-generator-sitemap <span class="hljs-comment">--save</span>
+</code></pre>
+<p><strong>3.评论系统</strong></p>
+<p>一般在主题中会有集成有一部分评论系统，通常他们需要我们在配置项上添加一个字段即可：</p>
+<pre><code class="lang-bash"><span class="hljs-symbol">xxx_shortname:</span> your_shortname
+</code></pre>
+<h2 id="-">结束</h2>
+<p>还有什么不解的可以参考官方文档：<a href="https://hexo.io/zh-cn/">hexo官网</a>
+到这里是不是发现，<code>hexo</code> + <code>Github pages</code> + <code>markdown</code> 这样的组合简直不能更爽？:D</p>
+          
+    </div>
+</div>
+</body>
+</html>

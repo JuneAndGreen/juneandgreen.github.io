@@ -1,0 +1,701 @@
+</DOCTYPE html>
+<html>
+<head>
+    <title>demo</title>
+    <style type="text/css">
+        html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    font-weight: inherit;
+    font-style: inherit;
+    font-family: inherit;
+    font-size: 100%;
+    vertical-align: baseline;
+}
+
+body {
+    line-height: 1;
+
+    font-family: "microsoft yahei",Arial,Helvetica,sans-serif;
+    font-size: 100%;
+    background: #fff;
+    color: #817c7c;
+    line-height: 1.5;
+}
+
+* {
+    -webkit-margin-before: 0;
+    -webkit-margin-after: 0;
+}
+
+.container {
+    width: 1000px;
+    margin: 0 auto;
+    overflow: hidden;
+    line-height: 1.8;
+    font-size: 14px;
+}
+
+.article-content {
+    padding: 1.5em 4% 5em;
+    color: #413f3f;
+    font-size: 100%;
+}
+
+caption,th,td {
+    text-align: left;
+    font-weight: normal;
+    vertical-align: middle;
+}
+
+a img {
+    border: none;
+}
+
+small {
+    font-size: 80%;
+}
+
+sub,sup {
+    font-size: 75%;
+    line-height: 0;
+    position: relative;
+    vertical-align: baseline;
+}
+
+sup {
+    top: -.5em;
+    padding-left: .3em;
+}
+
+sub {
+    bottom: -.25em;
+}
+
+a {
+    text-decoration: none;
+    color: #2ca6cb;
+}
+
+a:hover {
+    color: #d14;
+}
+
+h1 {
+    font-size: 200%;
+    line-height: 1.5em;
+    padding-bottom: .3em;
+    border-bottom: 2px solid #dbdbdb;
+}
+
+h2 {
+    margin-top: 2.6em;
+    padding-left: 20px;
+    font-size: 160%;
+    line-height: 1.2em;
+    border-left: 4px solid #2ca6cb;
+}
+
+h2:first-child {
+  margin-top: 1.5em;
+}
+
+h3 {
+    font-size: 140%;
+    line-height: 1em;
+    margin-top: 1.3em;
+}
+
+h1, h2 {
+    position: relative;
+    margin-top: 1.5em;
+    margin-bottom: 1em;
+}
+
+h4 {
+  font-weight: bold;
+  font-size: 110%;
+}
+
+h4, h5, h6 {
+    margin-top: .8em;
+    font-size: 130%;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: #333;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+h1 >code, h2 >code, h3 >code, h4 >code, h5 >code, h6 >code {
+    color: #a3a3a3;
+}
+
+hr {
+    border: 1px solid #dbdbdb;
+}
+
+strong {
+    font-weight: bold;
+}
+
+em {
+    font-style: italic;
+}
+
+acronym, abbr {
+    border-bottom: 1px dotted;
+}
+
+blockquote {
+    border-left: .2em solid #aaa;
+    margin: 1em;
+    padding: .7em;
+    line-height: 1.5;
+    font-size: 100%;
+    color: #808080;
+    background-color: #f8f8f8;
+}
+
+blockquote footer {
+    background: #fafafa;
+    padding: 0;
+    margin: 0;
+    font-size: 80%;
+    line-height: 1em;
+}
+
+blockquote cite {
+    font-style: italic;
+    padding-left: .5em;
+}
+
+blockquote p {
+    margin: 0;
+}
+
+ul, ol {
+    list-style: none;
+    padding-left: 3em;
+    font-size: 105%;
+    padding-top: .7em;
+}
+
+ul li {
+    list-style: disc;
+    text-align: match-parent;
+}
+
+ol li {
+    list-style-type: decimal;
+}
+
+dl dt {
+    font-weight: blod;
+}
+
+ul li>code, ol li>code, p code, strong code, em code, table th>code, table td>code {
+    font-family: Monaco,Menlo,Consolas,Courier New,monospace;
+    background: #eee;
+    color: #d14;
+    border: 1px solid #d6d6d6;
+    padding: 0 5px;
+    margin: 0 2px;
+    font-size: 90%;
+    white-space: nowrap;
+    text-shadow: 0 1px #fff;
+    -webkit-border-radius: .25em;
+    -webkit-border-radius: .25em;
+    border-radius: .25em;
+}
+
+p {
+    line-height: 1.5;
+    margin-top: .7em;
+    font-size: 110%;
+    letter-spacing: 1px;
+}
+
+p.image-wrapper {
+    text-align: left;
+}
+
+img, video, figure img {
+    margin: 10px 0;
+    max-width: 100%;
+    height: auto;
+    vertical-align: middle;
+    margin-top: .5em;
+
+    border-radius: 5px;
+    box-shadow: 2px 2px 7px 1px #aaa;
+}
+
+table {    
+    vertical-align: middle;
+    max-width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+    margin-top: 1em;
+    border: 2px solid #cbcbcb;
+    color: #413f3f;
+}
+
+table tbody tr:nth-child(odd) {
+    background-color: #f8f8f8;
+}
+
+table th {
+    font-weight: bold;
+    border: 1px solid #cbcbcb;
+    border-bottom: 2px solid #cbcbcb;
+    padding: .8em;
+    line-height: 1.3em;
+}
+
+table td {
+    border: 1px solid #cbcbcb;
+    padding: .8em;
+    line-height: 1.3em;
+}
+
+pre {
+    background: #2d2d2d;
+    margin: .5em 0;
+    padding: .5em 2%;
+    color: #ccc;
+    line-height: 1.5;
+    font-size: .8em;
+    -webkit-border-radius: .35em;
+    -webkit-border-radius: .35em;
+    border-radius: .35em;
+    word-wrap: break-word;
+    font-family: Monaco,Menlo,Consolas,Courier New,monospace;
+    overflow-x: auto;
+}
+
+
+pre::-webkit-scrollbar, pre::-webkit-scrollbar-track {
+    height: 8px;
+    background-color: transparent;
+}
+pre::-webkit-scrollbar-thumb {
+    height: 8px;
+    background-color: #ddd;
+    border-radius: 4px;
+}
+
+
+.hljs {
+  display: block;
+  overflow-x: auto;
+  padding: 0.5em;
+  color: #abb2bf;
+  background: #282c34;
+}
+
+.hljs-comment,
+.hljs-quote {
+  color: #5c6370;
+  font-style: italic;
+}
+
+.hljs-doctag,
+.hljs-keyword,
+.hljs-formula {
+  color: #c678dd;
+}
+
+.hljs-section,
+.hljs-name,
+.hljs-selector-tag,
+.hljs-deletion,
+.hljs-subst {
+  color: #e06c75;
+}
+
+.hljs-literal {
+  color: #56b6c2;
+}
+
+.hljs-string,
+.hljs-regexp,
+.hljs-addition,
+.hljs-attribute,
+.hljs-meta-string {
+  color: #98c379;
+}
+
+.hljs-built_in,
+.hljs-class .hljs-title {
+  color: #e6c07b;
+}
+
+.hljs-attr,
+.hljs-variable,
+.hljs-template-variable,
+.hljs-type,
+.hljs-selector-class,
+.hljs-selector-attr,
+.hljs-selector-pseudo,
+.hljs-number {
+  color: #d19a66;
+}
+
+.hljs-symbol,
+.hljs-bullet,
+.hljs-link,
+.hljs-meta,
+.hljs-selector-id,
+.hljs-title {
+  color: #61aeee;
+}
+
+.hljs-emphasis {
+  font-style: italic;
+}
+
+.hljs-strong {
+  font-weight: bold;
+}
+
+.hljs-link {
+  text-decoration: underline;
+}
+
+
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="article-content">
+        <h1 id="-">实现一个简单的模板引擎</h1>
+<h2 id="-">简介</h2>
+<p>模板引擎，其实就是一个根据模板和数据输出结果的一个工具。</p>
+<p>我们要开发一个将模板文件转换成我们实际要使用的内容的工具，这个工具就是模板引擎。我们把模板文件里的内容当成字符串传入到模板引擎中，然后模板引擎根据一定语法对该字符串进行解析处理，然后返回一个函数，之后我们在执行函数时把数据传输进去，即可拿到根据模板和数据得到的新字符串。最后我们想怎么处理该字符串就看需求了，如果用于前端模板生成的话，则可以用dom的innerHTML这个属性来追加内容。</p>
+<p>目前前端的模板引擎多得数不胜数，语法特性也花样百出，用行内的话来说，我们要实现的是一种基于字符串的模板引擎。</p>
+<p>简要概述流程如下：</p>
+<pre><code><span class="hljs-comment">模板</span> <span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span>&gt; <span class="hljs-comment">输入到模板引擎</span> <span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span>&gt; <span class="hljs-comment">生成函数</span> <span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span>&gt; <span class="hljs-comment">把数据当成参数，执行该函数</span> <span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span>&gt; <span class="hljs-comment">输出结果</span>
+</code></pre><h2 id="-">优劣</h2>
+<ul>
+<li>此模板引擎可用于任意一端，前端后端即插即用，不局限于生成内容的语法，只要生成内容为字符串文本即可。比如在合并Sprite图工具中要根据图片大小位置生成对应的css定位文件，我们也可以用该引擎生成而不需要另外再写一套引擎。</li>
+<li>此模板引擎对于数据的更改，需要重新渲染一遍模板，所以在初次渲染和之后的模板更新需要耗费同样的资源。</li>
+<li>应用于前端时，此模板引擎依赖于innerHTML，存在注入问题。</li>
+</ul>
+<h2 id="-">需求</h2>
+<p>我们希望提供的使用方式尽可能简单，比如类似如下的方式：</p>
+<pre><code class="lang-javascript"><span class="hljs-comment">// 前端</span>
+<span class="hljs-keyword">var</span> html = <span class="hljs-built_in">window</span>.parse(<span class="hljs-string">'&lt;div&gt;<span class="hljs-subst">${content}</span>&lt;/div&gt;'</span>, {
+  content: <span class="hljs-string">'june'</span>
+});
+
+<span class="hljs-comment">// 后端</span>
+<span class="hljs-keyword">const</span> parse = require(<span class="hljs-string">'tpl'</span>);
+<span class="hljs-keyword">var</span> html = parse(<span class="hljs-string">'&lt;div&gt;<span class="hljs-subst">${content}</span>&lt;/div&gt;'</span>, {
+  content: <span class="hljs-string">'june'</span>
+});
+</code></pre>
+<p>并且希望至少提供以下四种语法：</p>
+<h3 id="-">条件判断</h3>
+<pre><code>{<span class="hljs-keyword">if</span> condition1}
+  <span class="hljs-comment">// code1</span>
+{<span class="hljs-keyword">elseif</span> condition2}
+  <span class="hljs-comment">// code2</span>
+{<span class="hljs-keyword">else</span>}
+  <span class="hljs-comment">// code3</span>
+{/<span class="hljs-keyword">if</span>}
+</code></pre><h3 id="-">数组遍历</h3>
+<pre><code>{list<span class="hljs-built_in"> array </span>as item}
+  // code
+  // PS：里面注入了一个变量item_index，指向item在遍历过程中的序号
+{/list}
+</code></pre><h3 id="-">变量定义</h3>
+<pre><code>{<span class="hljs-built_in">var</span> <span class="hljs-built_in">var1</span> = <span class="hljs-number">1</span>}
+</code></pre><h3 id="-">插值</h3>
+<pre><code><span class="hljs-regexp">//</span> 直接插值
+<span class="hljs-variable">${var1}</span>
+
+<span class="hljs-regexp">//</span> 使用过滤器插值的方式
+<span class="hljs-variable">${var1|filter1|filter2:var2, var3}</span>
+</code></pre><h2 id="-">开工</h2>
+<h3 id="step-1">STEP 1</h3>
+<p>按照前面定下的需求，我们先实现一个对外的接口，代码如下：</p>
+<pre><code class="lang-javascript"><span class="hljs-meta">'use strict'</span>;
+
+<span class="hljs-keyword">var</span> __PARSE__  = (<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+
+  <span class="hljs-comment">/**
+   * 默认的过滤器
+   */</span>
+  <span class="hljs-keyword">const</span> defaultFilter = {
+    <span class="hljs-comment">// some code</span>
+  };
+
+  <span class="hljs-comment">/*
+   * 解析模板
+   */</span>
+  <span class="hljs-keyword">let</span> doParseTemplate(content, data, filter) {
+    <span class="hljs-comment">// some code</span>
+  };
+
+  <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">content, data, filter</span>) </span>{
+    <span class="hljs-keyword">try</span> {
+      data = data||{};
+      filter = <span class="hljs-built_in">Object</span>.assign({}, defaultFilter, filter);
+      <span class="hljs-comment">// 解析模板生成代码生成器</span>
+      <span class="hljs-keyword">let</span> f = doParseTemplate(content, data, filter);
+      <span class="hljs-keyword">return</span> f(data, filter);
+    } <span class="hljs-keyword">catch</span>(ex) {
+      <span class="hljs-keyword">return</span> ex.stack;
+    }
+  };
+})();
+
+<span class="hljs-keyword">if</span>(<span class="hljs-keyword">typeof</span> <span class="hljs-built_in">module</span> !== <span class="hljs-string">'undefined'</span> &amp;&amp; <span class="hljs-keyword">typeof</span> exports === <span class="hljs-string">'object'</span>) {
+  <span class="hljs-built_in">module</span>.exports = __PARSE__;
+} <span class="hljs-keyword">else</span> {
+  <span class="hljs-built_in">window</span>.parse = __PARSE__;
+}
+</code></pre>
+<p>此处，<code>f</code>即是我们生成的函数，而生成该函数的函数我命名为<code>doParseTemplate</code>，接收三个参数，<code>content</code>是我们输入的模板文件的字符串内容，<code>data</code>是我们要传入的数据，而<code>filter</code>即为模板中可传入的过滤器。目前<code>doParseTemplate</code>这个函数还未实现，接下来就来实现此函数。</p>
+<h3 id="step-2">STEP 2</h3>
+<p>为了生成一个可用的函数，我们要通过<code>new Function(&#39;DATA&#39;, &#39;FILTER&#39;, content);</code>这样的方法来构造一个函数，其中<code>content</code>即是函数体的字符串内容。</p>
+<p>我们先设定要生成的函数<code>f</code>的结构如下：</p>
+<pre><code class="lang-javascript"><span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">DATA, FILTER</span>) </span>{
+  <span class="hljs-keyword">try</span> {
+    <span class="hljs-keyword">var</span> OUT = [];
+    <span class="hljs-comment">// 处理变量</span>
+    <span class="hljs-comment">// some code</span>
+    <span class="hljs-comment">// 处理过滤器</span>
+    <span class="hljs-comment">// some code</span>
+    <span class="hljs-comment">// 处理内容</span>
+    <span class="hljs-comment">// other code</span>
+    <span class="hljs-keyword">return</span> OUT.join(<span class="hljs-string">''</span>);
+  } <span class="hljs-keyword">catch</span>(e) {
+    <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(<span class="hljs-string">'parse template error!'</span>);
+  }
+}
+</code></pre>
+<p>事实上，注释中处理变量、处理过滤器和处理内容这部分是由外部传入决定的，所以只有这部分是可变的，其余的代码都是固定的。为此我们可以使用数组来存放相关的内容，然后在可变部分留一个占位符，在解析到处理变量、处理过滤器和处理内容部分时再把语句塞进去即可。代码如下：</p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">let</span> doParseTemplate = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">content, data, filter</span>) </span>{
+  content = content.replace(<span class="hljs-regexp">/\t/g</span>, <span class="hljs-string">'  '</span>).replace(<span class="hljs-regexp">/\n/g</span>, <span class="hljs-string">'\\n'</span>).replace(<span class="hljs-regexp">/\r/g</span>, <span class="hljs-string">'\\r'</span>);
+
+  <span class="hljs-comment">// 初始化模板生成器结构</span>
+  <span class="hljs-keyword">var</span> struct = [
+    <span class="hljs-string">'try { var OUT = [];'</span>,
+    <span class="hljs-string">''</span>, <span class="hljs-comment">//放置模板生成器占位符</span>
+    <span class="hljs-string">'return OUT.join(\'\'); } catch(e) { throw new Error("parse template error!"); }'</span>
+  ];
+
+  <span class="hljs-comment">// some code</span>
+
+  <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Function</span>(<span class="hljs-string">'DATA'</span>, <span class="hljs-string">'FILTER'</span>, struct.join(<span class="hljs-string">''</span>));
+}
+</code></pre>
+<p>现在固定结构有了，接下来我们要处理模板相关的内容，即在放置生成器占位符的那个位置上追加内容。首先，我们要先把输入的变量和过滤器处理好，即在占位符的位置加入诸如<code>var a = 1;</code>这样的内容：</p>
+<pre><code class="lang-javascript">doParseTemplate = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">content, data</span>) </span>{
+  content = content.replace(<span class="hljs-regexp">/\t/g</span>, <span class="hljs-string">'  '</span>).replace(<span class="hljs-regexp">/\n/g</span>, <span class="hljs-string">'\\n'</span>).replace(<span class="hljs-regexp">/\r/g</span>, <span class="hljs-string">'\\r'</span>);
+
+  <span class="hljs-comment">// 初始化模板生成器结构</span>
+  <span class="hljs-keyword">let</span> out = [];
+  <span class="hljs-keyword">let</span> struct = [
+    <span class="hljs-string">'try { var OUT = [];'</span>,
+    <span class="hljs-string">''</span>, <span class="hljs-comment">//放置模板生成器占位符</span>
+    <span class="hljs-string">'return OUT.join(\'\'); } catch(e) { throw e; }'</span>
+  ];
+
+  <span class="hljs-comment">// 初始化模板变量</span>
+  <span class="hljs-keyword">let</span> vars = [];
+  <span class="hljs-built_in">Object</span>.keys(data).forEach(<span class="hljs-function">(<span class="hljs-params">name</span>) =&gt;</span> {
+    vars.push(<span class="hljs-string">`var <span class="hljs-subst">${name}</span> = DATA['<span class="hljs-subst">${name}</span>'];`</span>);
+  });
+  out.push(vars.join(<span class="hljs-string">''</span>));
+
+  <span class="hljs-comment">// 初始化过滤器</span>
+  <span class="hljs-keyword">let</span> filters = [<span class="hljs-string">'var FILTERS = {};'</span>];
+  <span class="hljs-built_in">Object</span>.keys(filter).forEach(<span class="hljs-function">(<span class="hljs-params">name</span>) =&gt;</span> {
+    <span class="hljs-keyword">if</span>(<span class="hljs-keyword">typeof</span> filter[name] === <span class="hljs-string">'function'</span>) {
+      filters.push(<span class="hljs-string">`FILTERS['<span class="hljs-subst">${name}</span>'] = FILTER['<span class="hljs-subst">${name}</span>'];`</span>);
+    }
+  });
+  out.push(filters.join(<span class="hljs-string">''</span>));
+
+  <span class="hljs-comment">// some code for parse content</span>
+
+  <span class="hljs-comment">// 合并内容</span>
+  struct[<span class="hljs-number">1</span>] = out.join(<span class="hljs-string">''</span>);
+  <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Function</span>(<span class="hljs-string">'DATA'</span>, <span class="hljs-string">'FILTER'</span>, struct.join(<span class="hljs-string">''</span>));
+}
+</code></pre>
+<p>如上，在处理变量和过滤器时需要的值直接从传入的<code>DATA</code>和<code>FILTER</code>变量里获取，需要注意的点就是过滤器我们单独存在一个<code>FILTERS</code>对象里面去，主要是为了防止传入的<code>FILTER</code>对象变化带来的一些不必要的影响。之后我们要对模板内容进行解析，鉴于代码越来越长，接下来直接贴上面注释<code>some code for parse content</code>里面的内容，其他部分暂且省略。</p>
+<pre><code class="lang-javascript"><span class="hljs-comment">// 解析模板内容</span>
+<span class="hljs-keyword">let</span> beg = <span class="hljs-number">0</span>; <span class="hljs-comment">// 解析文段起始位置</span>
+<span class="hljs-keyword">let</span> stmbeg = <span class="hljs-number">0</span>;  <span class="hljs-comment">// 表达式起始位置</span>
+<span class="hljs-keyword">let</span> stmend = <span class="hljs-number">0</span>; <span class="hljs-comment">// 表达式结束位置</span>
+<span class="hljs-keyword">let</span> len = content.length;
+<span class="hljs-keyword">let</span> preCode = <span class="hljs-string">''</span>; <span class="hljs-comment">// 表达式前的代码</span>
+<span class="hljs-keyword">let</span> endCode = <span class="hljs-string">''</span>; <span class="hljs-comment">// 最后一段代码</span>
+<span class="hljs-keyword">let</span> stmJs = <span class="hljs-string">''</span>; <span class="hljs-comment">// 表达式</span>
+<span class="hljs-keyword">while</span>(beg &lt; len) {
+  <span class="hljs-comment">/* 开始符 */</span>
+  stmbeg = content.indexOf(<span class="hljs-string">'{'</span>, beg);
+  <span class="hljs-keyword">while</span>(content.charAt(stmbeg - <span class="hljs-number">1</span>) === <span class="hljs-string">'\\'</span>) {
+    <span class="hljs-comment">// 遇到转义的情况</span>
+    stmbeg = content.indexOf(<span class="hljs-string">'{'</span>, stmbeg + <span class="hljs-number">1</span>);
+  }
+  <span class="hljs-keyword">if</span>(stmbeg === <span class="hljs-number">-1</span>) {
+    <span class="hljs-comment">// 到达最后一段代码</span>
+    endCode = content.substr(beg);
+    out.push(<span class="hljs-string">'OUT.push(\''</span> + endCode + <span class="hljs-string">'\');'</span>);
+    <span class="hljs-keyword">break</span>;
+  }
+
+  <span class="hljs-comment">/* 结束符 */</span>
+  stmend = content.indexOf(<span class="hljs-string">'}'</span>, stmbeg);
+  <span class="hljs-keyword">while</span>(content.charAt(stmend - <span class="hljs-number">1</span>) === <span class="hljs-string">'\\'</span>) {
+    <span class="hljs-comment">// 遇到转义的情况</span>
+    stmend = content.indexOf(<span class="hljs-string">'}'</span>, stmend + <span class="hljs-number">1</span>);
+  }
+  <span class="hljs-keyword">if</span>(stmend === <span class="hljs-number">-1</span>) {
+    <span class="hljs-comment">// 没有结束符</span>
+    <span class="hljs-keyword">break</span>;
+  }
+
+  <span class="hljs-comment">// 开始符之前代码 </span>
+  preCode = content.substring(beg, stmbeg);
+
+  <span class="hljs-keyword">if</span>(content.charAt(stmbeg - <span class="hljs-number">1</span>) === <span class="hljs-string">'$'</span>) {
+    <span class="hljs-comment">// 针对变量取值</span>
+    out.push(<span class="hljs-string">`OUT.push(\'<span class="hljs-subst">${preCode.substr(<span class="hljs-number">0</span>, preCode.length<span class="hljs-number">-1</span>)}</span>\');`</span>);
+    stmJs = content.substring(stmbeg + <span class="hljs-number">1</span>, stmend);
+
+    <span class="hljs-comment">// 处理过滤器</span>
+    <span class="hljs-keyword">let</span> tmp = <span class="hljs-string">''</span>;
+    stmJs.split(<span class="hljs-string">'|'</span>).forEach(<span class="hljs-function">(<span class="hljs-params">item, index</span>) =&gt;</span> {
+      <span class="hljs-keyword">if</span>(index === <span class="hljs-number">0</span>) {
+        <span class="hljs-comment">// 变量，强制转码</span>
+        tmp = item;
+      } <span class="hljs-keyword">else</span> {
+        <span class="hljs-comment">// 过滤器</span>
+        <span class="hljs-keyword">let</span> farr = item.split(<span class="hljs-string">':'</span>);
+        tmp = <span class="hljs-string">`FILTERS['<span class="hljs-subst">${farr[<span class="hljs-number">0</span>]}</span>'](<span class="hljs-subst">${tmp}</span>`</span>;
+
+        <span class="hljs-keyword">if</span>(farr[<span class="hljs-number">1</span>]) {
+          <span class="hljs-comment">// 带变量的过滤器</span>
+          farr[<span class="hljs-number">1</span>].split(<span class="hljs-string">','</span>).forEach(<span class="hljs-function">(<span class="hljs-params">fitem</span>) =&gt;</span> {
+            tmp = <span class="hljs-string">`<span class="hljs-subst">${tmp}</span>, <span class="hljs-subst">${fitem}</span>`</span>;
+          }); 
+        }
+
+        tmp = <span class="hljs-string">`<span class="hljs-subst">${tmp}</span>)`</span>; <span class="hljs-comment">// 追加结尾</span>
+      }
+    });
+
+    out.push(<span class="hljs-string">`OUT.push((<span class="hljs-subst">${tmp}</span>).toString());`</span>);
+  } <span class="hljs-keyword">else</span> {
+    <span class="hljs-comment">// 针对js语句</span>
+    out.push(<span class="hljs-string">`OUT.push(\'<span class="hljs-subst">${preCode}</span>\');`</span>);
+    stmJs = content.substring(stmbeg + <span class="hljs-number">1</span>, stmend);
+    out.push(transStm(stmJs));
+  }
+  beg = stmend + <span class="hljs-number">1</span>;
+}
+</code></pre>
+<p>对于模板内容的解析，因为语法相对简单，此处直接使用while循环遍历。在我们上面定义的语法中，有关结构相关的语法都用<code>{</code>和<code>}</code>来包围，插值则是<code>${</code>和<code>}</code>，因此针对这两种语法需要分开处理。整个流程的判断如下：</p>
+<ol>
+<li>搜索语句开始符<code>{</code>；</li>
+<li>判断<code>{</code>前面是否有转义符<code>\</code>；</li>
+<li>搜索语句结束符<code>}</code>；</li>
+<li>判断<code>}</code>前面是否有转义符<code>\</code>；</li>
+<li>判断<code>{</code>前面是否带有取值符号<code>$</code>；</li>
+<li>提取语句内容，即<code>{</code>和<code>}</code>里面的内容；</li>
+<li>将语句之前，即<code>{</code>或<code>${</code>之前未放入缓存区的内容放入缓存区；</li>
+<li>解析语句，并把解析结果放入缓存区；</li>
+<li>循环上述1-8的过程，直到搜索不到语句开始符<code>{</code>，则判断为结尾，把剩下的内容放入缓存区；</li>
+<li>把目前缓存区的的内容存到需要输出的数组中。</li>
+</ol>
+<p>以上提到的缓存区，即是上面代码中的<code>out</code>数组。当遍历完模板内容后，把缓存区合并成一个字符串，然后追加到占位符末尾。其中关于语句的解析用到的函数<code>transStm</code>目前接下来将要实现。</p>
+<h3 id="step-3">STEP 3</h3>
+<p><code>transStm</code>函数实现比较简单，因为我们需求中设定的语法也不复杂。代码如下：</p>
+<pre><code class="lang-javascript"><span class="hljs-comment">/*
+ * 转换模板语句
+ */</span>
+<span class="hljs-symbol">let</span> transStm = <span class="hljs-meta">function</span>(<span class="hljs-keyword">stmJs) </span>{
+  <span class="hljs-keyword">stmJs </span>= <span class="hljs-keyword">stmJs.trim();
+</span>  for(let <span class="hljs-keyword">item </span>of regmap) {
+    <span class="hljs-meta">if</span>(<span class="hljs-keyword">item.reg.test(stmJs)) </span>{
+      return (typeof <span class="hljs-keyword">item.val </span>=== <span class="hljs-string">'function'</span>) ? <span class="hljs-keyword">stmJs.replace(item.reg, </span><span class="hljs-keyword">item.val) </span>: <span class="hljs-keyword">item.val;
+</span>    }
+  }
+}<span class="hljs-comment">;</span>
+</code></pre>
+<p>如上，其实只是把语句中的内容逐一用正则去匹配，当匹配到属于某种规则的语句，则针对性处理并返回结果。比如我有一个语句<code>{if a &gt; 1}</code>，然后正则去匹配，会匹配出是条件判断中的if语句，然后会处理成js代码<code>if(a &gt; 1) {</code>并返回。而语句<code>{/if}</code>则会处理成<code>}</code>并返回。因此如下代码：</p>
+<pre><code class="lang-html">{<span class="hljs-keyword">if</span> <span class="hljs-selector-tag">a</span> &gt; <span class="hljs-number">1</span>}.css{<span class="hljs-attribute">margin</span>: <span class="hljs-number">0</span>;}{/<span class="hljs-keyword">if</span>}
+</code></pre>
+<p>会处理成：</p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">if</span><span class="hljs-comment">(a &gt; 1)</span> {
+  out.push<span class="hljs-comment">('.css{margin: 0;}')</span>; <span class="hljs-comment">// 此处是输出模板内容</span>
+}
+</code></pre>
+<p>其中关于语法匹配的正则和返回处理如下：</p>
+<pre><code class="lang-javascript"><span class="hljs-comment">/*
+ * 语法正则
+ */</span>
+<span class="hljs-keyword">const</span> regmap = [
+  <span class="hljs-comment">// if语句开始</span>
+  {<span class="hljs-keyword">reg</span>: /^<span class="hljs-keyword">if</span>\s+(.+)/i, val: (all, condition) =&gt; {<span class="hljs-keyword">return</span> `<span class="hljs-keyword">if</span>(<span class="hljs-variable">${condition}</span>) {`;}},
+  <span class="hljs-comment">// elseif 语句开始</span>
+  {<span class="hljs-keyword">reg</span>: /^elseif\s+(.+)/i, val: (all, condition) =&gt; {<span class="hljs-keyword">return</span> `} <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(<span class="hljs-variable">${condition}</span>) {`}},
+  <span class="hljs-comment">// else语句结束</span>
+  {<span class="hljs-keyword">reg</span>: /^<span class="hljs-keyword">else</span>/i, val: '} <span class="hljs-keyword">else</span> {'},
+  <span class="hljs-comment">// if语句结束</span>
+  {<span class="hljs-keyword">reg</span>: /^\/\s*<span class="hljs-keyword">if</span>/i, val: '}'},
+  <span class="hljs-comment">// list语句开始</span>
+  {<span class="hljs-keyword">reg</span>: /^<span class="hljs-keyword">list</span>\s+([\S]+)\s+<span class="hljs-keyword">as</span>\s+([\S]+)/i, val: (all, arr, item) =&gt; {<span class="hljs-keyword">return</span> `<span class="hljs-keyword">for</span>(<span class="hljs-keyword">var</span> __INDEX__=0;__INDEX__&lt;<span class="hljs-variable">${arr}</span>.length;__INDEX__++) {<span class="hljs-keyword">var</span> <span class="hljs-variable">${item}</span>=<span class="hljs-variable">${arr}</span>[__INDEX__];<span class="hljs-keyword">var</span> <span class="hljs-variable">${item}</span>_index=__INDEX__;`;}},
+  <span class="hljs-comment">// list语句结束</span>
+  {<span class="hljs-keyword">reg</span>: /^\/\s*<span class="hljs-keyword">list</span>/i, val: '}'},
+  <span class="hljs-comment">// var 语句</span>
+  {<span class="hljs-keyword">reg</span>: /^<span class="hljs-keyword">var</span>\s+(.+)/i, val: (all, expr) =&gt; {<span class="hljs-keyword">return</span> `<span class="hljs-keyword">var</span> <span class="hljs-variable">${expr}</span>;`;}}
+];
+</code></pre>
+<p>其中<code>reg</code>字段是正则表达式，若匹配成功，则执行或直接返回<code>val</code>字段的值。</p>
+<h3 id="step-4">STEP 4</h3>
+<p>如果有仔细看前面贴出来的代码，发现上面有用到一个变量<code>defaultFilter</code>，这是用来定义模板引擎需要自带的过滤器的。常用ejs的朋友们估计就会清楚，ejs里就自带了很多很实用的过滤器，我在下面例子就贴出一个常用的过滤器方法：</p>
+<pre><code class="lang-javascript"><span class="hljs-comment">/**
+ * 默认的过滤器
+ */</span>
+<span class="hljs-keyword">const</span> defaultFilter = {
+  <span class="hljs-comment">// 防注入用</span>
+  <span class="hljs-built_in">escape</span>: <span class="hljs-function">(<span class="hljs-params">str</span>) =&gt;</span> {
+    <span class="hljs-comment">// 防注入转码映射表</span>
+    <span class="hljs-keyword">var</span> escapeMap = {
+      <span class="hljs-string">'&lt;'</span>: <span class="hljs-string">'&amp;lt;'</span>,
+      <span class="hljs-string">'&gt;'</span>: <span class="hljs-string">'&amp;gt;'</span>,
+      <span class="hljs-string">'&amp;'</span>: <span class="hljs-string">'&amp;amp;'</span>,
+      <span class="hljs-string">' '</span>: <span class="hljs-string">'&amp;nbsp;'</span>,
+      <span class="hljs-string">'"'</span>: <span class="hljs-string">'&amp;quot;'</span>,
+      <span class="hljs-string">"'"</span>: <span class="hljs-string">'&amp;#39;'</span>,
+      <span class="hljs-string">'\n'</span>: <span class="hljs-string">'&lt;br/&gt;'</span>,
+      <span class="hljs-string">'\r'</span>: <span class="hljs-string">''</span>
+    };
+
+    <span class="hljs-keyword">return</span> str.replace(<span class="hljs-regexp">/\&lt;|\&gt;|\&amp;|\r|\n|\s|\'|\"/g</span>, (one) =&gt; {
+      <span class="hljs-keyword">return</span> escapeMap[one];
+    });
+  }
+};
+</code></pre>
+<p>用法很简单，当我们有一个变量a，内容为<code>&lt;div style=&quot;color: red;&quot;&gt;red&lt;/div&gt;</code>时，因为我们经常将模板引擎生成的内容直接用innerHTML塞进节点之中，而假如我们像<code>${a}</code>这种方式直接使用这个变量的时候，在页面中就只会显示一个红色的red。</p>
+<p>为了防止此类注入的情况发生，我在上面实现了一个叫escape的过滤器，将使用方式改为<code>${a|escape}</code>就可以进行特殊符号的转义，在页面上直接显示变量a的内容<code>&lt;div style=&quot;color: red;&quot;&gt;red&lt;/div&gt;</code>。</p>
+<h2 id="-">尾声</h2>
+<p>至此，一个完整的基于字符串的模板引擎就完成了，上面的代码使用了es6语法的部分特性来编写，如果需要兼容的话可以使用<code>babel</code>来将代码转成es5语法，在做一下压缩混淆的话，实际的代码不足3k。</p>
+<p>前面也提到过，此模板引擎最大的好处在于语法自由，你可以做到完全不需要关心模板的类型，你可以写一个css文件的模板，也可以写一个html文件的模板，只要有对应的模板就会有相应的输出，并且前后端可以共用。</p>
+<p>如果你想要看完整的代码和实例的话，请戳<a href="https://github.com/JuneAndGreen/treasure-box/tree/master/template_engine/string_base/src">这里</a>。</p>
+          
+    </div>
+</div>
+</body>
+</html>

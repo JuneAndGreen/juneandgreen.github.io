@@ -1,0 +1,830 @@
+</DOCTYPE html>
+<html>
+<head>
+    <title>demo</title>
+    <style type="text/css">
+        html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    font-weight: inherit;
+    font-style: inherit;
+    font-family: inherit;
+    font-size: 100%;
+    vertical-align: baseline;
+}
+
+body {
+    line-height: 1;
+
+    font-family: "microsoft yahei",Arial,Helvetica,sans-serif;
+    font-size: 100%;
+    background: #fff;
+    color: #817c7c;
+    line-height: 1.5;
+}
+
+* {
+    -webkit-margin-before: 0;
+    -webkit-margin-after: 0;
+}
+
+.container {
+    width: 1000px;
+    margin: 0 auto;
+    overflow: hidden;
+    line-height: 1.8;
+    font-size: 14px;
+}
+
+.article-content {
+    padding: 1.5em 4% 5em;
+    color: #413f3f;
+    font-size: 100%;
+}
+
+caption,th,td {
+    text-align: left;
+    font-weight: normal;
+    vertical-align: middle;
+}
+
+a img {
+    border: none;
+}
+
+small {
+    font-size: 80%;
+}
+
+sub,sup {
+    font-size: 75%;
+    line-height: 0;
+    position: relative;
+    vertical-align: baseline;
+}
+
+sup {
+    top: -.5em;
+    padding-left: .3em;
+}
+
+sub {
+    bottom: -.25em;
+}
+
+a {
+    text-decoration: none;
+    color: #2ca6cb;
+}
+
+a:hover {
+    color: #d14;
+}
+
+h1 {
+    font-size: 200%;
+    line-height: 1.5em;
+    padding-bottom: .3em;
+    border-bottom: 2px solid #dbdbdb;
+}
+
+h2 {
+    margin-top: 2.6em;
+    padding-left: 20px;
+    font-size: 160%;
+    line-height: 1.2em;
+    border-left: 4px solid #2ca6cb;
+}
+
+h2:first-child {
+  margin-top: 1.5em;
+}
+
+h3 {
+    font-size: 140%;
+    line-height: 1em;
+    margin-top: 1.3em;
+}
+
+h1, h2 {
+    position: relative;
+    margin-top: 1.5em;
+    margin-bottom: 1em;
+}
+
+h4 {
+  font-weight: bold;
+  font-size: 110%;
+}
+
+h4, h5, h6 {
+    margin-top: .8em;
+    font-size: 130%;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: #333;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+h1 >code, h2 >code, h3 >code, h4 >code, h5 >code, h6 >code {
+    color: #a3a3a3;
+}
+
+hr {
+    border: 1px solid #dbdbdb;
+}
+
+strong {
+    font-weight: bold;
+}
+
+em {
+    font-style: italic;
+}
+
+acronym, abbr {
+    border-bottom: 1px dotted;
+}
+
+blockquote {
+    border-left: .2em solid #aaa;
+    margin: 1em;
+    padding: .7em;
+    line-height: 1.5;
+    font-size: 100%;
+    color: #808080;
+    background-color: #f8f8f8;
+}
+
+blockquote footer {
+    background: #fafafa;
+    padding: 0;
+    margin: 0;
+    font-size: 80%;
+    line-height: 1em;
+}
+
+blockquote cite {
+    font-style: italic;
+    padding-left: .5em;
+}
+
+blockquote p {
+    margin: 0;
+}
+
+ul, ol {
+    list-style: none;
+    padding-left: 3em;
+    font-size: 105%;
+    padding-top: .7em;
+}
+
+ul li {
+    list-style: disc;
+    text-align: match-parent;
+}
+
+ol li {
+    list-style-type: decimal;
+}
+
+dl dt {
+    font-weight: blod;
+}
+
+ul li>code, ol li>code, p code, strong code, em code, table th>code, table td>code {
+    font-family: Monaco,Menlo,Consolas,Courier New,monospace;
+    background: #eee;
+    color: #d14;
+    border: 1px solid #d6d6d6;
+    padding: 0 5px;
+    margin: 0 2px;
+    font-size: 90%;
+    white-space: nowrap;
+    text-shadow: 0 1px #fff;
+    -webkit-border-radius: .25em;
+    -webkit-border-radius: .25em;
+    border-radius: .25em;
+}
+
+p {
+    line-height: 1.5;
+    margin-top: .7em;
+    font-size: 110%;
+    letter-spacing: 1px;
+}
+
+p.image-wrapper {
+    text-align: left;
+}
+
+img, video, figure img {
+    margin: 10px 0;
+    max-width: 100%;
+    height: auto;
+    vertical-align: middle;
+    margin-top: .5em;
+
+    border-radius: 5px;
+    box-shadow: 2px 2px 7px 1px #aaa;
+}
+
+table {    
+    vertical-align: middle;
+    max-width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+    margin-top: 1em;
+    border: 2px solid #cbcbcb;
+    color: #413f3f;
+}
+
+table tbody tr:nth-child(odd) {
+    background-color: #f8f8f8;
+}
+
+table th {
+    font-weight: bold;
+    border: 1px solid #cbcbcb;
+    border-bottom: 2px solid #cbcbcb;
+    padding: .8em;
+    line-height: 1.3em;
+}
+
+table td {
+    border: 1px solid #cbcbcb;
+    padding: .8em;
+    line-height: 1.3em;
+}
+
+pre {
+    background: #2d2d2d;
+    margin: .5em 0;
+    padding: .5em 2%;
+    color: #ccc;
+    line-height: 1.5;
+    font-size: .8em;
+    -webkit-border-radius: .35em;
+    -webkit-border-radius: .35em;
+    border-radius: .35em;
+    word-wrap: break-word;
+    font-family: Monaco,Menlo,Consolas,Courier New,monospace;
+    overflow-x: auto;
+}
+
+
+pre::-webkit-scrollbar, pre::-webkit-scrollbar-track {
+    height: 8px;
+    background-color: transparent;
+}
+pre::-webkit-scrollbar-thumb {
+    height: 8px;
+    background-color: #ddd;
+    border-radius: 4px;
+}
+
+
+.hljs {
+  display: block;
+  overflow-x: auto;
+  padding: 0.5em;
+  color: #abb2bf;
+  background: #282c34;
+}
+
+.hljs-comment,
+.hljs-quote {
+  color: #5c6370;
+  font-style: italic;
+}
+
+.hljs-doctag,
+.hljs-keyword,
+.hljs-formula {
+  color: #c678dd;
+}
+
+.hljs-section,
+.hljs-name,
+.hljs-selector-tag,
+.hljs-deletion,
+.hljs-subst {
+  color: #e06c75;
+}
+
+.hljs-literal {
+  color: #56b6c2;
+}
+
+.hljs-string,
+.hljs-regexp,
+.hljs-addition,
+.hljs-attribute,
+.hljs-meta-string {
+  color: #98c379;
+}
+
+.hljs-built_in,
+.hljs-class .hljs-title {
+  color: #e6c07b;
+}
+
+.hljs-attr,
+.hljs-variable,
+.hljs-template-variable,
+.hljs-type,
+.hljs-selector-class,
+.hljs-selector-attr,
+.hljs-selector-pseudo,
+.hljs-number {
+  color: #d19a66;
+}
+
+.hljs-symbol,
+.hljs-bullet,
+.hljs-link,
+.hljs-meta,
+.hljs-selector-id,
+.hljs-title {
+  color: #61aeee;
+}
+
+.hljs-emphasis {
+  font-style: italic;
+}
+
+.hljs-strong {
+  font-weight: bold;
+}
+
+.hljs-link {
+  text-decoration: underline;
+}
+
+
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="article-content">
+        <h1 id="png-">png的故事：获取图片信息和像素内容</h1>
+<h2 id="-">前言</h2>
+<p>现在时富媒体时代，图片的重要性对于数十亿互联网用户来说不言而喻，图片本身就是像素点阵的合集，但是为了如何更快更好的存储图片而诞生了各种各样的图片格式：jpeg、png、gif、webp等，而这次我们要拿来开刀的，就是png。</p>
+<h2 id="-">简介</h2>
+<p>首先，png是什么鬼？我们来看看wiki上的一句话简介：</p>
+<blockquote>
+<p>Portable Network Graphics (PNG) is a raster graphics file format that supports lossless data compression.</p>
+</blockquote>
+<p>也就是说，png是一种使用<strong>无损压缩</strong>的图片格式，而大家熟知的另外一种图片格式——jpeg则是采用有损压缩的方式。用通俗易懂的方式来讲，当原图片数据被编码成png格式后，是可以完全还原成原本的图片数据的，而编码成jpeg则会损耗一部分图片数据，这是因为两者的编码方式和定位不同。jpeg着重于人眼的观感，保留更多的亮度信息，去掉一些不影响观感的色度信息，因此是有损耗的压缩。png则保留原始所有的颜色信息，并且支持透明／alpha通道，然后采用无损压缩进行编码。因此对于jpeg来说，通常适合颜色更丰富、可以在人眼识别不了的情况下尽可能去掉冗余颜色数据的图片，比如照片之类的图片；而png适合需要保留原始图片信息、需要支持透明度的图片。</p>
+<p>以下，我们来尝试获取png编码的图片数据：</p>
+<h2 id="-">结构</h2>
+<p>图片是属于2进制文件，因此在拿到png图片并想对其进行解析的话，就得以二进制的方式进行读取操作。png图片包含两部分：文件头和数据块。</p>
+<h3 id="-">文件头</h3>
+<p>png的文件头就是png图片的前8个字节，其值为<code>[0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A]</code>，人们常常把这个头称之为“魔数”。玩过linux的同学估计知道，可以使用<code>file</code>命令类判断一个文件是属于格式类型，就算我们把这个文件类型的后缀改得乱七八糟也可以识别出来，用的就是判断“魔数”这个方法。有兴趣的同学还可以使用<code>String.fromCharCode</code>将这个“魔数”转成字符串看看，就知道为什么png会取这个值作为文件头了。</p>
+<p>用代码来判断也很简单：</p>
+<pre><code class="lang-js"><span class="hljs-comment">// 读取指定长度字节</span>
+function <span class="hljs-built_in">readBytes</span>(<span class="hljs-built_in">buffer</span>, <span class="hljs-built_in">begin</span>, length) {
+    <span class="hljs-built_in">return</span> Array.prototype.slice.call(<span class="hljs-built_in">buffer</span>, <span class="hljs-built_in">begin</span>, <span class="hljs-built_in">begin</span> + length);
+}
+
+let header = <span class="hljs-built_in">readBytes</span>(pngBuffer, <span class="hljs-number">0</span>, <span class="hljs-number">8</span>); <span class="hljs-comment">// [0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A]</span>
+</code></pre>
+<h3 id="-">数据块</h3>
+<p>去掉了png图片等前8个字节，剩下的就是存放png数据的数据块，我们通常称之为<code>chunk</code>。</p>
+<p>顾名思义，数据块就是一段数据，我们按照一定规则对png图片（这里指的是去掉了头的png图片数据，下同）进行切分，其中一段数据就是一个数据块。每个数据块的长度是不定的，我们需要通过一定的方法去提取出来，不过我们要先知道有哪些类型的数据块才好判断。</p>
+<h4 id="-">数据块类型</h4>
+<p>数据块类型有很多种，但是其中大部分我们都不需要用到，因为里面没有存储我们需要用到的数据。我们需要关注的数据块只有以下四种：</p>
+<ul>
+<li>IHDR：存放图片信息。</li>
+<li>PLTE：存放索引颜色。</li>
+<li>IDAT：存放图片数据。</li>
+<li>IEND：图片数据结束标志。</li>
+</ul>
+<p>只要解析这四种数据块就可以获取图片本身的所有数据，因此我们也称这四种数据块为<strong>“关键数据块”</strong>。</p>
+<h4 id="-">数据块格式</h4>
+<p>数据块格式如下：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">描述</th>
+<th style="text-align:center">长度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">数据块内容长度</td>
+<td style="text-align:center">4字节</td>
+</tr>
+<tr>
+<td style="text-align:center">数据块类型</td>
+<td style="text-align:center">4字节</td>
+</tr>
+<tr>
+<td style="text-align:center">数据块内容</td>
+<td style="text-align:center">不定字节</td>
+</tr>
+<tr>
+<td style="text-align:center">crc冗余校验码</td>
+<td style="text-align:center">4字节</td>
+</tr>
+</tbody>
+</table>
+<p>这样我们就可以轻易的指导当前数据块的长度了，即<code>数据块内容长度 + 12字节</code>，用代码实现如下：</p>
+<pre><code class="lang-js"><span class="hljs-comment">// 读取32位无符号整型数</span>
+function readInt32(<span class="hljs-keyword">buffer</span>, <span class="hljs-keyword">offset</span>) {
+    <span class="hljs-keyword">offset</span> = <span class="hljs-keyword">offset</span> || <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">return</span> (<span class="hljs-keyword">buffer</span>[<span class="hljs-keyword">offset</span>] &lt;&lt; <span class="hljs-number">24</span>) + (<span class="hljs-keyword">buffer</span>[<span class="hljs-keyword">offset</span> + <span class="hljs-number">1</span>] &lt;&lt; <span class="hljs-number">16</span>) + (<span class="hljs-keyword">buffer</span>[<span class="hljs-keyword">offset</span> + <span class="hljs-number">2</span>] &lt;&lt; <span class="hljs-number">8</span>) + (<span class="hljs-keyword">buffer</span>[<span class="hljs-keyword">offset</span> + <span class="hljs-number">3</span>] &lt;&lt; <span class="hljs-number">0</span>);
+}
+
+let <span class="hljs-built_in">length</span> = readInt32(readBytes(<span class="hljs-number">4</span>)); <span class="hljs-comment">// 数据块内容长度</span>
+let type = readBytes(<span class="hljs-number">4</span>); <span class="hljs-comment">// 数据块类型</span>
+let chunkData = readBytes(<span class="hljs-built_in">length</span>); <span class="hljs-comment">// 数据块内容</span>
+let crc = readBytes(<span class="hljs-number">4</span>); <span class="hljs-comment">// crc冗余校验码</span>
+</code></pre>
+<p>这里的crc冗余校验码在我们解码过程中用不到，所以这里不做详解。除此之外，数据块内容长度和数据块内容好解释，不过数据块类型有何作用呢，这里我们先将这个<code>type</code>转成字符串类型：</p>
+<pre><code class="lang-js"><span class="hljs-comment">// 将buffer数组转为字符串</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">bufferToString</span>(<span class="hljs-params">buffer</span>) </span>{
+    <span class="hljs-keyword">let</span> str = <span class="hljs-string">''</span>;
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">let</span> i=<span class="hljs-number">0</span>, len=buffer.length; i&lt;len; i++){
+        str += <span class="hljs-built_in">String</span>.fromCharCode(buffer[i]);
+    }
+    <span class="hljs-keyword">return</span> str;
+}
+
+<span class="hljs-keyword">type</span> = bufferToString(<span class="hljs-keyword">type</span>);
+</code></pre>
+<p>然后会发现type的值是四个大写英文字母，没错，这就是上面提到的数据块类型。上面还提到了我们只需要解析关键数据块，因此遇到<code>type</code>不等于IHDR、PLTE、IDAT、IEND中任意一个的数据块就直接舍弃好了。当我们拿到一个关键数据块，就直接解析其数据块内容就可以了，即上面代码中的<code>chunkData</code>字段。</p>
+<h3 id="ihdr">IHDR</h3>
+<p>类型为IHDR的数据块用来存放图片信息，其长度为固定的13个字节：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">描述</th>
+<th style="text-align:center">长度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">图片宽度</td>
+<td style="text-align:center">4字节</td>
+</tr>
+<tr>
+<td style="text-align:center">图片高度</td>
+<td style="text-align:center">4字节</td>
+</tr>
+<tr>
+<td style="text-align:center">图像深度</td>
+<td style="text-align:center">1字节</td>
+</tr>
+<tr>
+<td style="text-align:center">颜色类型</td>
+<td style="text-align:center">1字节</td>
+</tr>
+<tr>
+<td style="text-align:center">压缩方法</td>
+<td style="text-align:center">1字节</td>
+</tr>
+<tr>
+<td style="text-align:center">过滤方式</td>
+<td style="text-align:center">1字节</td>
+</tr>
+<tr>
+<td style="text-align:center">扫描方式</td>
+<td style="text-align:center">1字节</td>
+</tr>
+</tbody>
+</table>
+<p>其中宽高很好解释，直接转成32位整数，就是这张png图片等宽高（以像素为单位）。压缩方法目前只支持一种（deflate/inflate 压缩算法），其值为0；过滤方式也只有一种（包含标准的5种过滤类型），其值为0；扫描方式有两种，一种是逐行扫描，值为0，还有一种是Adam7扫描，其值为1，此次只针对普通的隔行扫描方式进行解析，因此暂时不考虑Adam7扫描。</p>
+<p>图片深度是指每个像素点中的每个通道（channel）占用的位数，只有1、2、4、8和16这5个值；颜色类型用来判断每个像素点中有多少个通道，只有0、2、3、4和6这5个值：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">颜色类型的值</th>
+<th style="text-align:center">占用通道数</th>
+<th style="text-align:center">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">0</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">灰度图像，只有1个灰色通道</td>
+</tr>
+<tr>
+<td style="text-align:center">2</td>
+<td style="text-align:center">3</td>
+<td style="text-align:center">rgb真彩色图像，有RGB3色通道</td>
+</tr>
+<tr>
+<td style="text-align:center">3</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">索引颜色图像，只有索引值一个通道</td>
+</tr>
+<tr>
+<td style="text-align:center">4</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">灰度图像 + alpha通道</td>
+</tr>
+<tr>
+<td style="text-align:center">6</td>
+<td style="text-align:center">4</td>
+<td style="text-align:center">rgb真彩色图像 + alpha通道</td>
+</tr>
+</tbody>
+</table>
+<p>alpha通道是用来支持透明度的，因此我们也可以很简单的计算出每个像素点的数据占用的位数：<code>图像深度 * 通道数</code>。</p>
+<h3 id="plte">PLTE</h3>
+<p>类型为PLTE的数据块用来存放索引颜色，我们又称之为“调色板”。</p>
+<p>由IHDR数据块解析出来的图像信息可知，图像的数据可能是以索引值的方式进行存储。当图片数据采用索引值的时候，调色板就起作用了。调色板的长度和图像深度有关，假设图像深度的值是x，则其长度通常为<code>2的x次幂 * 3</code>。原因是图像深度保存的就是通道占用的位数，而在使用索引颜色的时候，通道里存放的就是索引值，2点x次幂就表示这个通道可能存放的索引值有多少个，即调色板里的颜色数。而每个索引颜色是RGB3色通道存放的，因此此处还需要乘以3。</p>
+<blockquote>
+<p>通常使用索引颜色的情况下，图像深度的值即为8，因而调色板里存放的颜色就只有256种颜色，长度为<code>256 * 3</code>个字节。再加上1位布尔值表示透明像素，这就是我们常说的png8图片了。</p>
+</blockquote>
+<h3 id="idat">IDAT</h3>
+<p>类型为IDAT的数据块用来存放图像数据，跟其他关键数据块不同的是，其数量可以是<strong>连续</strong>的复数个；其他关键数据块在1个png文件里有且只有1个。</p>
+<p>这里的数据得按顺序把所有连续的IDAT数据块全部解析并将数据联合起来才能进行最终处理，这里先略过。</p>
+<pre><code class="lang-js"><span class="hljs-built_in">let</span> dataChunks = [];
+<span class="hljs-built_in">let</span> <span class="hljs-built_in">length</span> = <span class="hljs-number">0</span>; // 总数据长度
+
+// ... 
+
+<span class="hljs-keyword">while</span>(<span class="hljs-comment">/* 存在IDAT数据块 */</span>) {
+    dataChunks.<span class="hljs-built_in">push</span>(chunkData);
+    <span class="hljs-built_in">length</span> += chunkData.<span class="hljs-built_in">length</span>;
+}
+</code></pre>
+<h3 id="iend">IEND</h3>
+<p>当解析到类型为IEND的数据块时，就表明所有的IDAT数据块已经解析完毕，我们就可以停止解析了。</p>
+<p>IEND整个数据块的值时固定的：<code>[0x00, 0x00, 0x00, 0x00, 0x49, 0x45, 0x4E, 0x44, 0xAE, 0x42, 0x60, 0x82]</code>，因为IEND数据块没有数据块内容，所以其数据块内容长度字段（数据块前4个字节）的值也是0。</p>
+<h2 id="-">解析</h2>
+<h3 id="-">解压缩</h3>
+<p>当我们收集完IDAT的所有数据块内容时，我们要先对其进行解压缩：</p>
+<pre><code class="lang-js"><span class="hljs-keyword">const</span> zlib = <span class="hljs-built_in">require</span>(<span class="hljs-string">'zlib'</span>);
+
+<span class="hljs-keyword">let</span> data = <span class="hljs-keyword">new</span> Buffer(length);
+<span class="hljs-keyword">let</span> index = <span class="hljs-number">0</span>;
+dataChunks.forEach(<span class="hljs-function">(<span class="hljs-params">chunkData</span>) =&gt;</span> {
+    chunkData.forEach(<span class="hljs-function">(<span class="hljs-params">item</span>) =&gt;</span> {data[index++] = item});
+});
+
+<span class="hljs-comment">// inflate解压缩</span>
+data = zlib.inflateSync(<span class="hljs-keyword">new</span> Buffer(data));
+</code></pre>
+<h3 id="-">扫描</h3>
+<p>上面说过，此次我们只考虑逐行扫描的方式：</p>
+<pre><code class="lang-js"><span class="hljs-comment">// 读取8位无符号整型数</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">readInt8</span>(<span class="hljs-params">buffer, offset</span>) </span>{
+    offset = offset || <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">return</span> buffer[offset] &lt;&lt; <span class="hljs-number">0</span>;
+}
+
+<span class="hljs-keyword">let</span> width; <span class="hljs-comment">// 解析IHDR数据块时得到的图像宽度</span>
+<span class="hljs-keyword">let</span> height; <span class="hljs-comment">// 解析IHDR数据块时得到的图像高度</span>
+<span class="hljs-keyword">let</span> colors; <span class="hljs-comment">// 解析IHDR数据块时得到的通道数</span>
+<span class="hljs-keyword">let</span> bitDepth; <span class="hljs-comment">// 解析IHDR数据块时得到的图像深度</span>
+
+<span class="hljs-keyword">let</span> bytesPerPixel = <span class="hljs-built_in">Math</span>.max(<span class="hljs-number">1</span>, colors * bitDepth / <span class="hljs-number">8</span>); <span class="hljs-comment">// 每像素字节数</span>
+<span class="hljs-keyword">let</span> bytesPerRow = bytesPerPixel * width; <span class="hljs-comment">// 每行字节数</span>
+
+<span class="hljs-keyword">let</span> pixelsBuffer = <span class="hljs-keyword">new</span> Buffer(bytesPerPixel * width * height); <span class="hljs-comment">// 存储过滤后的像素数据</span>
+<span class="hljs-keyword">let</span> offset = <span class="hljs-number">0</span>; <span class="hljs-comment">// 当前行的偏移位置</span>
+
+<span class="hljs-comment">// 逐行扫描解析</span>
+<span class="hljs-keyword">for</span>(<span class="hljs-keyword">let</span> i=<span class="hljs-number">0</span>, len=data.length; i&lt;len; i+=bytesPerRow+<span class="hljs-number">1</span>) {
+    <span class="hljs-keyword">let</span> scanline = <span class="hljs-built_in">Array</span>.prototype.slice.call(data, i+<span class="hljs-number">1</span>, i+bytesPerRow); <span class="hljs-comment">// 当前行</span>
+    <span class="hljs-keyword">let</span> args = [scanline, bytesPerPixel, bytesPerRow, offset];
+
+    <span class="hljs-comment">// 第一个字节代表过滤类型</span>
+    <span class="hljs-keyword">switch</span>(readInt8(data, i)) {
+        <span class="hljs-keyword">case</span> <span class="hljs-number">0</span>:
+            filterNone(args);
+            <span class="hljs-keyword">break</span>;
+        <span class="hljs-keyword">case</span> <span class="hljs-number">1</span>:
+            filterSub(args);
+            <span class="hljs-keyword">break</span>;
+        <span class="hljs-keyword">case</span> <span class="hljs-number">2</span>:
+            filterUp(args);
+            <span class="hljs-keyword">break</span>;
+        <span class="hljs-keyword">case</span> <span class="hljs-number">3</span>:
+            filterAverage(args);
+            <span class="hljs-keyword">break</span>;
+        <span class="hljs-keyword">case</span> <span class="hljs-number">4</span>:
+            filterPaeth(args);
+            <span class="hljs-keyword">break</span>;
+        <span class="hljs-keyword">default</span>:
+            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(<span class="hljs-string">'未知过滤类型！'</span>);
+    }
+
+    offset += bytesPerRow;
+}
+</code></pre>
+<p>上面代码前半部分不难理解，就是通过之前解析得到的图像宽高，再加上图像深度和通道数计算得出每个像素占用的字节数和每一行数据占用的字节数。因此我们就可以拆分出每一行的数据和每一个像素的数据。</p>
+<p>在得到每一行数据后，就要进行这个png编码里最关键的1步——过滤。</p>
+<h3 id="-">过滤</h3>
+<p>早先我们说过过滤方法只有1种，其中包含5种过滤类型，图像每一行数据里的第一个字节就表示当前行数什么过滤类型。</p>
+<p>png为什么要对图像数据进行过滤呢？</p>
+<p>大多数情况下，图像的相邻像素点的色值时很相近的，而且很容易呈现线性变化（相邻数据的值是相似或有某种规律变化的），因此借由这个特性对图像的数据进行一定程度的压缩。针对这种情况我们常常使用一种叫<strong>差分编码</strong>的编码方式，即是记录当前数据和某个标准值的差距来存储当前数据。</p>
+<p>比如说有这么一个数组<code>[99, 100, 100, 102, 103]</code>，我们可以将其转存为<code>[99, 1, 0, 2, 1]</code>。转存的规则就是以数组第1位为标准值，标准值存储原始数据，后续均存储以前1位数据的差值。</p>
+<p>当我们使用了差分编码后，再进行<strong>deflate</strong>压缩的话，效果会更好（deflate压缩是LZ77延伸出来的一种算法，压缩频繁重复出现的数据段的效果是相当不错的，有兴趣的同学可自行去了解）。</p>
+<p>好，回到正题来讲png的5种过滤类型，首先我们要定义几个变量以便于说明：</p>
+<pre><code>C <span class="hljs-keyword">B
+</span>A X
+</code></pre><ul>
+<li>X：当前像素。</li>
+<li>A：当前像素点左边的像素。</li>
+<li>B：当前像素点上边的像素。</li>
+<li>C：当前像素点左上边的像素。</li>
+</ul>
+<h3 id="-0-none">过滤类型0：None</h3>
+<p>这个没啥好解释的，就是完全不做任何过滤。</p>
+<pre><code class="lang-js"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">filterNone</span><span class="hljs-params">(scanline, bytesPerPixel, bytesPerRow, offset)</span> {</span>
+    <span class="hljs-keyword">for</span>(let <span class="hljs-built_in">i</span>=<span class="hljs-number">0</span>; <span class="hljs-built_in">i</span>&lt;bytesPerRow; <span class="hljs-built_in">i</span>++) {
+        pixelsBuffer[offset + i] = scanline[i];
+    }
+}
+</code></pre>
+<h3 id="-1-sub">过滤类型1：Sub</h3>
+<p>记录<strong>X - A</strong>的值，即当前像素和左边像素的差值。左边起第一个像素是标准值，不做任何过滤。</p>
+<pre><code class="lang-js"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">filterSub</span><span class="hljs-params">(scanline, bytesPerPixel, bytesPerRow, offset)</span> {</span>
+    <span class="hljs-keyword">for</span>(<span class="hljs-built_in">let</span> i=<span class="hljs-number">0</span>; i&lt;bytesPerRow; i++) {
+        <span class="hljs-keyword">if</span>(i &lt; bytesPerPixel) {
+            <span class="hljs-comment">// 第一个像素，不作解析</span>
+            pixelsBuffer[<span class="hljs-built_in">offset</span> + i] = scanline[i];
+        } <span class="hljs-keyword">else</span> {
+            <span class="hljs-comment">// 其他像素</span>
+            <span class="hljs-built_in">let</span> a = pixelsBuffer[<span class="hljs-built_in">offset</span> + i - bytesPerPixel];
+
+            <span class="hljs-built_in">let</span> value = scanline[i] + a;
+            pixelsBuffer[<span class="hljs-built_in">offset</span> + i] = value &amp; <span class="hljs-number">0</span>xFF;
+        }
+    }
+}
+</code></pre>
+<h3 id="-2-up">过滤类型2：Up</h3>
+<p>记录<strong>X - B</strong>的值，即当前像素和上边像素点差值。如果当前行是第1行，则当前行数标准值，不做任何过滤。</p>
+<pre><code class="lang-js"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">filterUp</span><span class="hljs-params">(scanline, bytesPerPixel, bytesPerRow, offset)</span> {</span>
+    <span class="hljs-keyword">if</span>(<span class="hljs-built_in">offset</span> &lt; bytesPerRow) {
+        <span class="hljs-comment">// 第一行，不作解析</span>
+        <span class="hljs-keyword">for</span>(<span class="hljs-built_in">let</span> i=<span class="hljs-number">0</span>; i&lt;bytesPerRow; i++) {
+            pixelsBuffer[<span class="hljs-built_in">offset</span> + i] = scanline[i];
+        }
+    } <span class="hljs-keyword">else</span> {
+        <span class="hljs-keyword">for</span>(<span class="hljs-built_in">let</span> i=<span class="hljs-number">0</span>; i&lt;bytesPerRow; i++) {
+            <span class="hljs-built_in">let</span> b = pixelsBuffer[<span class="hljs-built_in">offset</span> + i - bytesPerRow];
+
+            <span class="hljs-built_in">let</span> value = scanline[i] + b;
+            pixelsBuffer[<span class="hljs-built_in">offset</span> + i] = value &amp; <span class="hljs-number">0</span>xFF;
+        }
+    }
+}
+</code></pre>
+<h3 id="-3-average">过滤类型3：Average</h3>
+<p>记录<strong>X - (A + B) / 2</strong>的值，即当前像素与左边像素和上边像素的平均值的差值。</p>
+<ul>
+<li>如果当前行数第一行：做特殊的Sub过滤，左边起第一个像素是标准值，不做任何过滤。其他像素记录该像素与左边像素的<strong>二分之一</strong>的值的差值。</li>
+<li>如果当前行数不是第一行：左边起第一个像素记录该像素与上边像素的<strong>二分之一</strong>的值的差值，其他像素做正常的Average过滤。</li>
+</ul>
+<pre><code class="lang-js"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">filterAverage</span><span class="hljs-params">(scanline, bytesPerPixel, bytesPerRow, offset)</span> {</span>
+    <span class="hljs-keyword">if</span>(<span class="hljs-built_in">offset</span> &lt; bytesPerRow) {
+        <span class="hljs-comment">// 第一行，只做Sub</span>
+        <span class="hljs-keyword">for</span>(<span class="hljs-built_in">let</span> i=<span class="hljs-number">0</span>; i&lt;bytesPerRow; i++) {
+            <span class="hljs-keyword">if</span>(i &lt; bytesPerPixel) {
+                <span class="hljs-comment">// 第一个像素，不作解析</span>
+                pixelsBuffer[<span class="hljs-built_in">offset</span> + i] = scanline[i];
+            } <span class="hljs-keyword">else</span> {
+                <span class="hljs-comment">// 其他像素</span>
+                <span class="hljs-built_in">let</span> a = pixelsBuffer[<span class="hljs-built_in">offset</span> + i - bytesPerPixel];
+
+                <span class="hljs-built_in">let</span> value = scanline[i] + (a &gt;&gt; <span class="hljs-number">1</span>); <span class="hljs-comment">// 需要除以2</span>
+                pixelsBuffer[<span class="hljs-built_in">offset</span> + i] = value &amp; <span class="hljs-number">0</span>xFF;
+            }
+        }
+    } <span class="hljs-keyword">else</span> {
+        <span class="hljs-keyword">for</span>(<span class="hljs-built_in">let</span> i=<span class="hljs-number">0</span>; i&lt;bytesPerRow; i++) {
+            <span class="hljs-keyword">if</span>(i &lt; bytesPerPixel) {
+                <span class="hljs-comment">// 第一个像素，只做Up</span>
+                <span class="hljs-built_in">let</span> b = pixelsBuffer[<span class="hljs-built_in">offset</span> + i - bytesPerRow];
+
+                <span class="hljs-built_in">let</span> value = scanline[i] + (b &gt;&gt; <span class="hljs-number">1</span>); <span class="hljs-comment">// 需要除以2</span>
+                pixelsBuffer[<span class="hljs-built_in">offset</span> + i] = value &amp; <span class="hljs-number">0</span>xFF;
+            } <span class="hljs-keyword">else</span> {
+                <span class="hljs-comment">// 其他像素</span>
+                <span class="hljs-built_in">let</span> a = pixelsBuffer[<span class="hljs-built_in">offset</span> + i - bytesPerPixel];
+                <span class="hljs-built_in">let</span> b = pixelsBuffer[<span class="hljs-built_in">offset</span> + i - bytesPerRow];
+
+                <span class="hljs-built_in">let</span> value = scanline[i] + ((a + b) &gt;&gt; <span class="hljs-number">1</span>);
+                pixelsBuffer[<span class="hljs-built_in">offset</span> + i] = value &amp; <span class="hljs-number">0</span>xFF;
+            }
+        }
+    }
+}
+</code></pre>
+<h3 id="-4-paeth">过滤类型4：Paeth</h3>
+<p>记录<strong>X - Pr</strong>的值，这种过滤方式比较复杂，Pr的计算方式（伪代码）如下：</p>
+<pre><code><span class="hljs-selector-tag">p</span> = <span class="hljs-selector-tag">a</span> + <span class="hljs-selector-tag">b</span> - c
+pa = abs(<span class="hljs-selector-tag">p</span> - a)
+pb = abs(<span class="hljs-selector-tag">p</span> - b)
+pc = abs(<span class="hljs-selector-tag">p</span> - c)
+<span class="hljs-keyword">if</span> pa &lt;= pb and pa &lt;= pc then Pr = <span class="hljs-selector-tag">a</span>
+<span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> pb &lt;= pc then Pr = <span class="hljs-selector-tag">b</span>
+<span class="hljs-keyword">else</span> Pr = c
+return Pr
+</code></pre><ul>
+<li>如果当前行数第一行：做Sub过滤。</li>
+<li>如果当前行数不是第一行：左边起第一个像素记录该像素与上边像素的差值，其他像素做正常的Peath过滤。</li>
+</ul>
+<pre><code class="lang-js"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">filterPaeth</span><span class="hljs-params">(scanline, bytesPerPixel, bytesPerRow, offset)</span> {</span>
+    <span class="hljs-keyword">if</span>(<span class="hljs-built_in">offset</span> &lt; bytesPerRow) {
+        <span class="hljs-comment">// 第一行，只做Sub</span>
+        <span class="hljs-keyword">for</span>(<span class="hljs-built_in">let</span> i=<span class="hljs-number">0</span>; i&lt;bytesPerRow; i++) {
+            <span class="hljs-keyword">if</span>(i &lt; bytesPerPixel) {
+                <span class="hljs-comment">// 第一个像素，不作解析</span>
+                pixelsBuffer[<span class="hljs-built_in">offset</span> + i] = scanline[i];
+            } <span class="hljs-keyword">else</span> {
+                <span class="hljs-comment">// 其他像素</span>
+                <span class="hljs-built_in">let</span> a = pixelsBuffer[<span class="hljs-built_in">offset</span> + i - bytesPerPixel];
+
+                <span class="hljs-built_in">let</span> value = scanline[i] + a;
+                pixelsBuffer[<span class="hljs-built_in">offset</span> + i] = value &amp; <span class="hljs-number">0</span>xFF;
+            }
+        }
+    } <span class="hljs-keyword">else</span> {
+        <span class="hljs-keyword">for</span>(<span class="hljs-built_in">let</span> i=<span class="hljs-number">0</span>; i&lt;bytesPerRow; i++) {
+            <span class="hljs-keyword">if</span>(i &lt; bytesPerPixel) {
+                <span class="hljs-comment">// 第一个像素，只做Up</span>
+                <span class="hljs-built_in">let</span> b = pixelsBuffer[<span class="hljs-built_in">offset</span> + i - bytesPerRow];
+
+                <span class="hljs-built_in">let</span> value = scanline[i] + b;
+                pixelsBuffer[<span class="hljs-built_in">offset</span> + i] = value &amp; <span class="hljs-number">0</span>xFF;
+            } <span class="hljs-keyword">else</span> {
+                <span class="hljs-comment">// 其他像素</span>
+                <span class="hljs-built_in">let</span> a = pixelsBuffer[<span class="hljs-built_in">offset</span> + i - bytesPerPixel];
+                <span class="hljs-built_in">let</span> b = pixelsBuffer[<span class="hljs-built_in">offset</span> + i - bytesPerRow];
+                <span class="hljs-built_in">let</span> c = pixelsBuffer[<span class="hljs-built_in">offset</span> + i - bytesPerRow - bytesPerPixel];
+
+                <span class="hljs-built_in">let</span> p = a + b - c;
+                <span class="hljs-built_in">let</span> pa = Math.<span class="hljs-built_in">abs</span>(p - a);
+                <span class="hljs-built_in">let</span> pb = Math.<span class="hljs-built_in">abs</span>(p - b);
+                <span class="hljs-built_in">let</span> pc = Math.<span class="hljs-built_in">abs</span>(p - c);
+                <span class="hljs-built_in">let</span> pr;
+
+                <span class="hljs-keyword">if</span> (pa &lt;= pb &amp;&amp; pa &lt;= pc) pr = a;
+                <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (pb &lt;= pc) pr = b;
+                <span class="hljs-keyword">else</span> pr = c;
+
+                <span class="hljs-built_in">let</span> value = scanline[i] + pr;
+                pixelsBuffer[<span class="hljs-built_in">offset</span> + i] = value &amp; <span class="hljs-number">0</span>xFF;
+            }
+        }
+    }
+}
+</code></pre>
+<h2 id="-">获取像素</h2>
+<p>到这里，解析的工作就做完了，上面代码里的<code>pixelsBuffer</code>数组里存的就是像素的数据了，不过我们要如何获取具体某个像素的数据呢？方式可参考下面代码：</p>
+<pre><code class="lang-js">let palette; <span class="hljs-comment">// PLTE数据块内容，即调色板内容</span>
+let colorType; <span class="hljs-comment">// 解析IHDR数据块时得到的颜色类型</span>
+
+function getPixel(x, y) {
+    <span class="hljs-keyword">if</span>(x &lt; <span class="hljs-number">0</span> || x &gt;= width || y &lt; <span class="hljs-number">0</span> || y &gt;= height) {
+        <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> Error(<span class="hljs-string">'x或y的值超出了图像边界！'</span>);
+    }
+
+    let bytesPerPixel = Math.max(<span class="hljs-number">1</span>, colors * bitDepth / <span class="hljs-number">8</span>); <span class="hljs-comment">// 每像素字节数</span>
+    let <span class="hljs-keyword">index</span> = bytesPerPixel * ( y * width + x);
+
+    <span class="hljs-keyword">switch</span>(colorType) {
+        <span class="hljs-keyword">case</span> <span class="hljs-number">0</span>: 
+            <span class="hljs-comment">// 灰度图像</span>
+            <span class="hljs-keyword">return</span> [pixelsBuffer[<span class="hljs-keyword">index</span>], pixelsBuffer[<span class="hljs-keyword">index</span>], pixelsBuffer[<span class="hljs-keyword">index</span>], <span class="hljs-number">255</span>];
+        <span class="hljs-keyword">case</span> <span class="hljs-number">2</span>: 
+            <span class="hljs-comment">// rgb真彩色图像</span>
+            <span class="hljs-keyword">return</span> [pixelsBuffer[<span class="hljs-keyword">index</span>], pixelsBuffer[<span class="hljs-keyword">index</span> + <span class="hljs-number">1</span>], pixelsBuffer[<span class="hljs-keyword">index</span> + <span class="hljs-number">2</span>], <span class="hljs-number">255</span>];
+        <span class="hljs-keyword">case</span> <span class="hljs-number">3</span>: 
+            <span class="hljs-comment">// 索引颜色图像</span>
+            <span class="hljs-keyword">return</span> [palette[pixelsBuffer[<span class="hljs-keyword">index</span>] * <span class="hljs-number">3</span> + <span class="hljs-number">0</span>], palette[pixelsBuffer[<span class="hljs-keyword">index</span>] * <span class="hljs-number">3</span> + <span class="hljs-number">1</span>], palette[pixelsBuffer[<span class="hljs-keyword">index</span>] * <span class="hljs-number">3</span> + <span class="hljs-number">2</span>], <span class="hljs-number">255</span>];
+        <span class="hljs-keyword">case</span> <span class="hljs-number">4</span>: 
+            <span class="hljs-comment">// 灰度图像 + alpha通道</span>
+            <span class="hljs-keyword">return</span> [pixelsBuffer[<span class="hljs-keyword">index</span>], pixelsBuffer[<span class="hljs-keyword">index</span>], pixelsBuffer[<span class="hljs-keyword">index</span>], pixelsBuffer[<span class="hljs-keyword">index</span> + <span class="hljs-number">1</span>]];
+        <span class="hljs-keyword">case</span> <span class="hljs-number">6</span>: 
+            <span class="hljs-comment">// rgb真彩色图像 + alpha通道</span>
+            <span class="hljs-keyword">return</span> [pixelsBuffer[<span class="hljs-keyword">index</span>], pixelsBuffer[<span class="hljs-keyword">index</span> + <span class="hljs-number">1</span>], pixelsBuffer[<span class="hljs-keyword">index</span> + <span class="hljs-number">2</span>], pixelsBuffer[<span class="hljs-keyword">index</span> + <span class="hljs-number">3</span>]];
+    }
+}
+</code></pre>
+<h2 id="-">尾声</h2>
+<p>此文只对png图片的格式做了简单的介绍，我们也知道如何对一张png图片做简单的解析。上面出现的代码只是js代码片段，如果对完整代码有兴趣的同学可以<a href="https://github.com/JuneAndGreen/doimg">戳这里</a>，虽然代码仓库还在建设过程中，不过关于简单的png图片解析部分已经完成。</p>
+<p>参考资料：</p>
+<ul>
+<li><a href="https://www.w3.org/TR/PNG/">https://www.w3.org/TR/PNG/</a></li>
+<li><a href="http://www.libpng.org/pub/png/">http://www.libpng.org/pub/png/</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Portable_Network_Graphics">https://en.wikipedia.org/wiki/Portable_Network_Graphics</a></li>
+</ul>
+          
+    </div>
+</div>
+</body>
+</html>
