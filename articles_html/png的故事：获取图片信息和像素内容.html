@@ -411,26 +411,26 @@ let header = <span class="hljs-built_in">readBytes</span>(pngBuffer, <span class
 <table>
 <thead>
 <tr>
-<th style="text-align:center">描述</th>
-<th style="text-align:center">长度</th>
+<th style="text-align:left">描述</th>
+<th style="text-align:left">长度</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td style="text-align:center">数据块内容长度</td>
-<td style="text-align:center">4字节</td>
+<td style="text-align:left">数据块内容长度</td>
+<td style="text-align:left">4字节</td>
 </tr>
 <tr>
-<td style="text-align:center">数据块类型</td>
-<td style="text-align:center">4字节</td>
+<td style="text-align:left">数据块类型</td>
+<td style="text-align:left">4字节</td>
 </tr>
 <tr>
-<td style="text-align:center">数据块内容</td>
-<td style="text-align:center">不定字节</td>
+<td style="text-align:left">数据块内容</td>
+<td style="text-align:left">不定字节</td>
 </tr>
 <tr>
-<td style="text-align:center">crc冗余校验码</td>
-<td style="text-align:center">4字节</td>
+<td style="text-align:left">crc冗余校验码</td>
+<td style="text-align:left">4字节</td>
 </tr>
 </tbody>
 </table>
@@ -464,38 +464,38 @@ let crc = readBytes(<span class="hljs-number">4</span>); <span class="hljs-comme
 <table>
 <thead>
 <tr>
-<th style="text-align:center">描述</th>
-<th style="text-align:center">长度</th>
+<th style="text-align:left">描述</th>
+<th style="text-align:left">长度</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td style="text-align:center">图片宽度</td>
-<td style="text-align:center">4字节</td>
+<td style="text-align:left">图片宽度</td>
+<td style="text-align:left">4字节</td>
 </tr>
 <tr>
-<td style="text-align:center">图片高度</td>
-<td style="text-align:center">4字节</td>
+<td style="text-align:left">图片高度</td>
+<td style="text-align:left">4字节</td>
 </tr>
 <tr>
-<td style="text-align:center">图像深度</td>
-<td style="text-align:center">1字节</td>
+<td style="text-align:left">图像深度</td>
+<td style="text-align:left">1字节</td>
 </tr>
 <tr>
-<td style="text-align:center">颜色类型</td>
-<td style="text-align:center">1字节</td>
+<td style="text-align:left">颜色类型</td>
+<td style="text-align:left">1字节</td>
 </tr>
 <tr>
-<td style="text-align:center">压缩方法</td>
-<td style="text-align:center">1字节</td>
+<td style="text-align:left">压缩方法</td>
+<td style="text-align:left">1字节</td>
 </tr>
 <tr>
-<td style="text-align:center">过滤方式</td>
-<td style="text-align:center">1字节</td>
+<td style="text-align:left">过滤方式</td>
+<td style="text-align:left">1字节</td>
 </tr>
 <tr>
-<td style="text-align:center">扫描方式</td>
-<td style="text-align:center">1字节</td>
+<td style="text-align:left">扫描方式</td>
+<td style="text-align:left">1字节</td>
 </tr>
 </tbody>
 </table>
@@ -504,36 +504,36 @@ let crc = readBytes(<span class="hljs-number">4</span>); <span class="hljs-comme
 <table>
 <thead>
 <tr>
-<th style="text-align:center">颜色类型的值</th>
-<th style="text-align:center">占用通道数</th>
-<th style="text-align:center">描述</th>
+<th style="text-align:left">颜色类型的值</th>
+<th style="text-align:left">占用通道数</th>
+<th style="text-align:left">描述</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td style="text-align:center">0</td>
-<td style="text-align:center">1</td>
-<td style="text-align:center">灰度图像，只有1个灰色通道</td>
+<td style="text-align:left">0</td>
+<td style="text-align:left">1</td>
+<td style="text-align:left">灰度图像，只有1个灰色通道</td>
 </tr>
 <tr>
-<td style="text-align:center">2</td>
-<td style="text-align:center">3</td>
-<td style="text-align:center">rgb真彩色图像，有RGB3色通道</td>
+<td style="text-align:left">2</td>
+<td style="text-align:left">3</td>
+<td style="text-align:left">rgb真彩色图像，有RGB3色通道</td>
 </tr>
 <tr>
-<td style="text-align:center">3</td>
-<td style="text-align:center">1</td>
-<td style="text-align:center">索引颜色图像，只有索引值一个通道</td>
+<td style="text-align:left">3</td>
+<td style="text-align:left">1</td>
+<td style="text-align:left">索引颜色图像，只有索引值一个通道</td>
 </tr>
 <tr>
-<td style="text-align:center">4</td>
-<td style="text-align:center">2</td>
-<td style="text-align:center">灰度图像 + alpha通道</td>
+<td style="text-align:left">4</td>
+<td style="text-align:left">2</td>
+<td style="text-align:left">灰度图像 + alpha通道</td>
 </tr>
 <tr>
-<td style="text-align:center">6</td>
-<td style="text-align:center">4</td>
-<td style="text-align:center">rgb真彩色图像 + alpha通道</td>
+<td style="text-align:left">6</td>
+<td style="text-align:left">4</td>
+<td style="text-align:left">rgb真彩色图像 + alpha通道</td>
 </tr>
 </tbody>
 </table>
@@ -816,7 +816,7 @@ function getPixel(x, y) {
 }
 </code></pre>
 <h2 id="-">尾声</h2>
-<p>此文只对png图片的格式做了简单的介绍，我们也知道如何对一张png图片做简单的解析。上面出现的代码只是js代码片段，如果对完整代码有兴趣的同学可以<a href="https://github.com/JuneAndGreen/doimg">戳这里</a>，虽然代码仓库还在建设过程中，不过关于简单的png图片解析部分已经完成。</p>
+<p>此文只对png图片的格式做了简单的介绍，我们也知道如何对一张png图片做简单的解析。上面出现的代码只是js代码片段，如果对完整代码有兴趣的同学可以<a href="https://github.com/JuneAndGreen/doimg/blob/master/src/png.js">戳这里</a>，虽然代码仓库还在建设过程中，不过关于简单的png图片解析部分已经完成。</p>
 <p>参考资料：</p>
 <ul>
 <li><a href="https://www.w3.org/TR/PNG/">https://www.w3.org/TR/PNG/</a></li>
