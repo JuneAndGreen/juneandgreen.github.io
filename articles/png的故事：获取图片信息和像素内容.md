@@ -196,7 +196,7 @@ let offset = 0; // 当前行的偏移位置
 
 // 逐行扫描解析
 for(let i=0, len=data.length; i<len; i+=bytesPerRow+1) {
-    let scanline = Array.prototype.slice.call(data, i+1, i+bytesPerRow); // 当前行
+    let scanline = Array.prototype.slice.call(data, i+1, i+1+bytesPerRow); // 当前行
     let args = [scanline, bytesPerPixel, bytesPerRow, offset];
 
     // 第一个字节代表过滤类型
