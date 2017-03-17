@@ -499,7 +499,7 @@ let crc = readBytes(<span class="hljs-number">4</span>); <span class="hljs-comme
 </tr>
 </tbody>
 </table>
-<p>其中宽高很好解释，直接转成32位整数，就是这张png图片等宽高（以像素为单位）。压缩方法目前只支持一种（deflate/inflate 压缩算法），其值为0；过滤方式也只有一种（包含标准的5种过滤类型），其值为0；扫描方式有两种，一种是逐行扫描，值为0，还有一种是Adam7扫描，其值为1，此次只针对普通的隔行扫描方式进行解析，因此暂时不考虑Adam7扫描。</p>
+<p>其中宽高很好解释，直接转成32位整数，就是这张png图片等宽高（以像素为单位）。压缩方法目前只支持一种（deflate/inflate 压缩算法），其值为0；过滤方式也只有一种（包含标准的5种过滤类型），其值为0；扫描方式有两种，一种是逐行扫描，值为0，还有一种是Adam7隔行扫描，其值为1，此次只针对普通的逐行扫描方式进行解析，因此暂时不考虑Adam7隔行扫描。</p>
 <p>图片深度是指每个像素点中的每个通道（channel）占用的位数，只有1、2、4、8和16这5个值；颜色类型用来判断每个像素点中有多少个通道，只有0、2、3、4和6这5个值：</p>
 <table>
 <thead>
@@ -595,7 +595,7 @@ data = zlib.inflateSync(<span class="hljs-keyword">new</span> Buffer(data));
 
 <span class="hljs-comment">// 逐行扫描解析</span>
 <span class="hljs-keyword">for</span>(<span class="hljs-keyword">let</span> i=<span class="hljs-number">0</span>, len=data.length; i&lt;len; i+=bytesPerRow+<span class="hljs-number">1</span>) {
-    <span class="hljs-keyword">let</span> scanline = <span class="hljs-built_in">Array</span>.prototype.slice.call(data, i+<span class="hljs-number">1</span>, i+bytesPerRow); <span class="hljs-comment">// 当前行</span>
+    <span class="hljs-keyword">let</span> scanline = <span class="hljs-built_in">Array</span>.prototype.slice.call(data, i+<span class="hljs-number">1</span>, i+<span class="hljs-number">1</span>+bytesPerRow); <span class="hljs-comment">// 当前行</span>
     <span class="hljs-keyword">let</span> args = [scanline, bytesPerPixel, bytesPerRow, offset];
 
     <span class="hljs-comment">// 第一个字节代表过滤类型</span>
@@ -816,7 +816,9 @@ function getPixel(x, y) {
 }
 </code></pre>
 <h2 id="-">尾声</h2>
-<p>此文只对png图片的格式做了简单的介绍，我们也知道如何对一张png图片做简单的解析。上面出现的代码只是js代码片段，如果对完整代码有兴趣的同学可以<a href="https://github.com/JuneAndGreen/doimg/blob/master/src/png.js">戳这里</a>，虽然代码仓库还在建设过程中，不过关于简单的png图片解析部分已经完成。</p>
+<p>png的解析流程可以由这一张图简单概括：</p>
+<p><p class="image-wrapper"><img src="https://thumbnail0.baidupcs.com/thumbnail/0260d1ef199a2e2e5d79a719c8f78cf7?fid=589805077-250528-309891449519626&amp;time=1489723200&amp;rt=pr&amp;sign=FDTAER-DCb740ccc5511e5e8fedcff06b081203-y5IXaoNPGzBd55x95bfUmh9pXjA%3d&amp;expires=8h&amp;chkbd=0&amp;chkv=0&amp;dp-logid=1751418853743729591&amp;dp-callid=0&amp;size=c1440_u900&amp;quality=90" alt="null" title="null"></p></p>
+<p>此文只对png图片的格式做了简单的介绍，我们也知道如何对一张png图片做简单的解析。上面出现的代码只是js代码片段，如果对完整代码有兴趣的同学可以<a href="https://github.com/JuneAndGreen/doimg/blob/master/src/png.js">戳这里</a>。</p>
 <p>参考资料：</p>
 <ul>
 <li><a href="https://www.w3.org/TR/PNG/">https://www.w3.org/TR/PNG/</a></li>

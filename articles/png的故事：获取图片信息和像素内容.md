@@ -455,7 +455,11 @@ function getPixel(x, y) {
 
 ## 尾声
 
-此文只对png图片的格式做了简单的介绍，我们也知道如何对一张png图片做简单的解析。上面出现的代码只是js代码片段，如果对完整代码有兴趣的同学可以[戳这里](https://github.com/JuneAndGreen/doimg/blob/master/src/png.js)，虽然代码仓库还在建设过程中，不过关于简单的png图片解析部分已经完成。
+png的解析流程可以由这一张图简单概括：
+
+![流程](https://thumbnail0.baidupcs.com/thumbnail/0260d1ef199a2e2e5d79a719c8f78cf7?fid=589805077-250528-309891449519626&time=1489723200&rt=pr&sign=FDTAER-DCb740ccc5511e5e8fedcff06b081203-y5IXaoNPGzBd55x95bfUmh9pXjA%3d&expires=8h&chkbd=0&chkv=0&dp-logid=1751418853743729591&dp-callid=0&size=c1440_u900&quality=90)
+
+此文只对png图片的格式做了简单的介绍，我们也知道如何对一张png图片做简单的解析。上面出现的代码只是js代码片段，如果对完整代码有兴趣的同学可以[戳这里](https://github.com/JuneAndGreen/doimg/blob/master/src/png.js)。
 
 参考资料：
 
