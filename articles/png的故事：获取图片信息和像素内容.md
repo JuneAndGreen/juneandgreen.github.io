@@ -424,6 +424,7 @@ function filterPaeth(scanline, bytesPerPixel, bytesPerRow, offset) {
 ```js
 let palette; // PLTE数据块内容，即调色板内容
 let colorType; // 解析IHDR数据块时得到的颜色类型
+let transparentPanel; // 透明像素面板，解析tRNS数据块获得
 
 function getPixel(x, y) {
     if(x < 0 || x >= width || y < 0 || y >= height) {
@@ -442,7 +443,12 @@ function getPixel(x, y) {
             return [pixelsBuffer[index], pixelsBuffer[index + 1], pixelsBuffer[index + 2], 255];
         case 3: 
             // 索引颜色图像
-            return [palette[pixelsBuffer[index] * 3 + 0], palette[pixelsBuffer[index] * 3 + 1], palette[pixelsBuffer[index] * 3 + 2], 255];
+            let paletteIndex = pixelsBuffer[index];
+                
+            let transparent = transparentPanel[paletteIndex]
+            if(transparent === undefined) transparent = 255;
+
+            return [palette[paletteIndex * 3 + 0], palette[paletteIndex * 3 + 1], palette[paletteIndex * 3 + 2], transparent];
         case 4: 
             // 灰度图像 + alpha通道
             return [pixelsBuffer[index], pixelsBuffer[index], pixelsBuffer[index], pixelsBuffer[index + 1]];
@@ -452,6 +458,8 @@ function getPixel(x, y) {
     }
 }
 ```
+
+> 此处用到了非关键数据块**tRNS**的数据，不过这里不做讲解，有兴趣的同学可去官网了解：[https://www.w3.org/TR/PNG/#11tRNS](https://www.w3.org/TR/PNG/#11tRNS)（此数据块的结构相当简单）
 
 ## 尾声
 
