@@ -9,7 +9,7 @@
 使用隔行扫描有什么好处呢？如果大家有去仔细观察的话，会发现网络上有一些png图在加载时可以做到先显示出比较模糊的图片，然后逐渐越来越清晰，最后显示出完整的图片，类似如下效果：
 
 
-![Adam7效果](https://thumbnail0.baidupcs.com/thumbnail/ed74cfd83a802024e4f08a0a3a10a914?fid=589805077-250528-201736600865796&time=1489716000&rt=pr&sign=FDTAER-DCb740ccc5511e5e8fedcff06b081203-Z8E9ZvIChW61GATkMFbJQuWg7Xo%3d&expires=8h&chkbd=0&chkv=0&dp-logid=1749788570762313004&dp-callid=0&size=c1440_u900&quality=90)
+![Adam7效果](../images/Adam7_make_awesome_face.gif)
 
 这就是隔行扫描能带来的效果。隔行扫描一共会进行1到7次扫描，每一次都是跳着部分像素点进行扫描的，先扫描到像素点可以先渲染，每多一次扫描，图片就会更清晰，到最后一次扫描时就会扫描完所有像素点，进而渲染出完整的图片。
 
@@ -29,7 +29,7 @@ Adam7隔行扫描算法的原理并不难，本质上是将一张png图片拆分
 
 在解压缩完图像数据后就要马上进行拆图。拆图并不难，就是将原本存储图像数据的Buffer数组拆分成多个Buffer数组而已。关键的问题是怎么拆，这时我们先祭上wiki上这张图：
 
-![原理](https://thumbnail0.baidupcs.com/thumbnail/2116d4eddb77dbeeffab22171ee9d9e0?fid=589805077-250528-1121626096631188&time=1489716000&rt=pr&sign=FDTAER-DCb740ccc5511e5e8fedcff06b081203-C%2bfpi6saBY19%2bjr6w5jAuZcJdOs%3d&expires=8h&chkbd=0&chkv=0&dp-logid=1750071264552342292&dp-callid=0&size=c1440_u900&quality=90)
+![原理](../images/Adam7_passes.gif)
 
 上面这张图就说明了每次扫描需要扫描到的像素，正常来说一张基于Adam7隔行扫描的png图片是要经历7次扫描的，不过有些比较小的图片的实际扫描次数不到7次，这是因为有些扫描因为没有实际像素点而落空的原因，所以下面的讲解还是以标准的7次扫描来讲解，本质上此算法的代码写出来后，是能兼容任何大小的png图片的，因为算法本身和图片大小无关。
 
@@ -149,7 +149,7 @@ return pixelsBuffer;
 
 整个Adam7隔行扫描的流程大概就是这样：
 
-![流程](https://thumbnail0.baidupcs.com/thumbnail/c7faad251542cb371e17216c5cfbaed0?fid=589805077-250528-140027102323851&time=1489723200&rt=pr&sign=FDTAER-DCb740ccc5511e5e8fedcff06b081203-kLIVoFSglQJ0BsLM0%2f54JOm7tec%3d&expires=8h&chkbd=0&chkv=0&dp-logid=1751488070060997582&dp-callid=0&size=c1440_u900&quality=90)
+![流程](../images/Adam7_process.png)
 
 前面提到基于此种扫描方式的png图片往往会更大些，这是因为图片存储了一些额外数据导致的。这里的额外数据就是指**过滤类型**。原本的png大图拆成小图后，扫描行的数目就会蹭蹭蹭往上涨，每个扫描行的第一个字节都是用来存储过滤类型的，所以行数增加的越多，额外数据就会越多。至于在用png图片等时候要选用哪种扫描方式等图片，就要视具体场景而定了。如果对完整代码有兴趣的同学可以[戳这里](https://github.com/JuneAndGreen/doimg/blob/master/src/png.js)。
 

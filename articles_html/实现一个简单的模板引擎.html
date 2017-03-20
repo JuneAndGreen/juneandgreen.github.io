@@ -682,7 +682,7 @@ pre::-webkit-scrollbar-thumb {
       <span class="hljs-string">'\r'</span>: <span class="hljs-string">''</span>
     };
 
-    <span class="hljs-keyword">return</span> str.replace(<span class="hljs-regexp">/\&lt;|\&gt;|\&amp;|\r|\n|\s|\'|\"/g</span>, (one) =&gt; {
+    <span class="hljs-keyword">return</span> str.replace(<span class="hljs-regexp">/\&lt;|\&gt;|\&amp;|\r|\n|\s|\'|\"/g</span>, <span class="hljs-function">(<span class="hljs-params">one</span>) =&gt;</span> {
       <span class="hljs-keyword">return</span> escapeMap[one];
     });
   }

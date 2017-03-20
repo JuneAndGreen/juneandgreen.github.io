@@ -787,6 +787,7 @@ return Pr
 <p>到这里，解析的工作就做完了，上面代码里的<code>pixelsBuffer</code>数组里存的就是像素的数据了，不过我们要如何获取具体某个像素的数据呢？方式可参考下面代码：</p>
 <pre><code class="lang-js">let palette; <span class="hljs-comment">// PLTE数据块内容，即调色板内容</span>
 let colorType; <span class="hljs-comment">// 解析IHDR数据块时得到的颜色类型</span>
+let transparentPanel; <span class="hljs-comment">// 透明像素面板，解析tRNS数据块获得</span>
 
 function getPixel(x, y) {
     <span class="hljs-keyword">if</span>(x &lt; <span class="hljs-number">0</span> || x &gt;= width || y &lt; <span class="hljs-number">0</span> || y &gt;= height) {
@@ -805,7 +806,12 @@ function getPixel(x, y) {
             <span class="hljs-keyword">return</span> [pixelsBuffer[<span class="hljs-keyword">index</span>], pixelsBuffer[<span class="hljs-keyword">index</span> + <span class="hljs-number">1</span>], pixelsBuffer[<span class="hljs-keyword">index</span> + <span class="hljs-number">2</span>], <span class="hljs-number">255</span>];
         <span class="hljs-keyword">case</span> <span class="hljs-number">3</span>: 
             <span class="hljs-comment">// 索引颜色图像</span>
-            <span class="hljs-keyword">return</span> [palette[pixelsBuffer[<span class="hljs-keyword">index</span>] * <span class="hljs-number">3</span> + <span class="hljs-number">0</span>], palette[pixelsBuffer[<span class="hljs-keyword">index</span>] * <span class="hljs-number">3</span> + <span class="hljs-number">1</span>], palette[pixelsBuffer[<span class="hljs-keyword">index</span>] * <span class="hljs-number">3</span> + <span class="hljs-number">2</span>], <span class="hljs-number">255</span>];
+            let paletteIndex = pixelsBuffer[<span class="hljs-keyword">index</span>];
+
+            let transparent = transparentPanel[paletteIndex]
+            <span class="hljs-keyword">if</span>(transparent === undefined) transparent = <span class="hljs-number">255</span>;
+
+            <span class="hljs-keyword">return</span> [palette[paletteIndex * <span class="hljs-number">3</span> + <span class="hljs-number">0</span>], palette[paletteIndex * <span class="hljs-number">3</span> + <span class="hljs-number">1</span>], palette[paletteIndex * <span class="hljs-number">3</span> + <span class="hljs-number">2</span>], transparent];
         <span class="hljs-keyword">case</span> <span class="hljs-number">4</span>: 
             <span class="hljs-comment">// 灰度图像 + alpha通道</span>
             <span class="hljs-keyword">return</span> [pixelsBuffer[<span class="hljs-keyword">index</span>], pixelsBuffer[<span class="hljs-keyword">index</span>], pixelsBuffer[<span class="hljs-keyword">index</span>], pixelsBuffer[<span class="hljs-keyword">index</span> + <span class="hljs-number">1</span>]];
@@ -815,9 +821,12 @@ function getPixel(x, y) {
     }
 }
 </code></pre>
+<blockquote>
+<p>此处用到了非关键数据块<strong>tRNS</strong>的数据，不过这里不做讲解，有兴趣的同学可去官网了解：<a href="https://www.w3.org/TR/PNG/#11tRNS">https://www.w3.org/TR/PNG/#11tRNS</a>（此数据块的结构相当简单）</p>
+</blockquote>
 <h2 id="-">尾声</h2>
 <p>png的解析流程可以由这一张图简单概括：</p>
-<p><p class="image-wrapper"><img src="https://thumbnail0.baidupcs.com/thumbnail/0260d1ef199a2e2e5d79a719c8f78cf7?fid=589805077-250528-309891449519626&amp;time=1489723200&amp;rt=pr&amp;sign=FDTAER-DCb740ccc5511e5e8fedcff06b081203-y5IXaoNPGzBd55x95bfUmh9pXjA%3d&amp;expires=8h&amp;chkbd=0&amp;chkv=0&amp;dp-logid=1751418853743729591&amp;dp-callid=0&amp;size=c1440_u900&amp;quality=90" alt="null" title="null"></p></p>
+<p><p class="image-wrapper"><img src="../images/png_process.jpg" alt="null" title="null"></p></p>
 <p>此文只对png图片的格式做了简单的介绍，我们也知道如何对一张png图片做简单的解析。上面出现的代码只是js代码片段，如果对完整代码有兴趣的同学可以<a href="https://github.com/JuneAndGreen/doimg/blob/master/src/png.js">戳这里</a>。</p>
 <p>参考资料：</p>
 <ul>

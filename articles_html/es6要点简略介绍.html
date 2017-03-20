@@ -593,18 +593,18 @@ iter.<span class="hljs-keyword">next</span>(); <span class="hljs-regexp">//</spa
 </code></pre>
 <h2 id="generator">Generator</h2>
 <p>Generator是一种可中断的函数，当调用函数的next方法时可恢复函数的执行</p>
-<pre><code class="lang-javascript"><span class="hljs-regexp">//</span> 声明Generator函数
-<span class="hljs-keyword">function</span>* a() {
-  yield <span class="hljs-string">'a'</span>; <span class="hljs-regexp">//</span> 使用yield中断函数的执行，把控制权交回调用者
-  yield <span class="hljs-string">'b'</span>;
-  return <span class="hljs-string">'c'</span>; <span class="hljs-regexp">//</span> 结束函数的执行
+<pre><code class="lang-javascript">// 声明Generator函数
+<span class="hljs-function"><span class="hljs-keyword">function</span>* <span class="hljs-title">a</span><span class="hljs-params">()</span></span> {
+  <span class="hljs-built_in">yield</span> <span class="hljs-string">'a'</span>; // 使用<span class="hljs-built_in">yield</span>中断函数的执行，把控制权交回调用者
+  <span class="hljs-built_in">yield</span> <span class="hljs-string">'b'</span>;
+  <span class="hljs-keyword">return</span> <span class="hljs-string">'c'</span>; // 结束函数的执行
 }
 
 var ga = a();
-ga.<span class="hljs-keyword">next</span>(); <span class="hljs-regexp">//</span> 返回{value: <span class="hljs-string">'a'</span>, done: false}
-ga.<span class="hljs-keyword">next</span>(); <span class="hljs-regexp">//</span> 返回{value: <span class="hljs-string">'b'</span>, done: false}
-ga.<span class="hljs-keyword">next</span>(); <span class="hljs-regexp">//</span> 返回{value: <span class="hljs-string">'c'</span>, done: true}
-ga.<span class="hljs-keyword">next</span>(); <span class="hljs-regexp">//</span> 返回{value: undefined, done: true}
+ga.<span class="hljs-built_in">next</span>(); // 返回{value: <span class="hljs-string">'a'</span>, done: <span class="hljs-literal">false</span>}
+ga.<span class="hljs-built_in">next</span>(); // 返回{value: <span class="hljs-string">'b'</span>, done: <span class="hljs-literal">false</span>}
+ga.<span class="hljs-built_in">next</span>(); // 返回{value: <span class="hljs-string">'c'</span>, done: <span class="hljs-literal">true</span>}
+ga.<span class="hljs-built_in">next</span>(); // 返回{value: undefined, done: <span class="hljs-literal">true</span>}
 </code></pre>
 <h2 id="promise">Promise</h2>
 <p>Promise常用于解决回调金字塔的问题</p>
