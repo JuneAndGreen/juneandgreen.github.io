@@ -1,3 +1,3 @@
-# mynote
+# juneandgrenn
 
-这里存放一些随手笔记跟代码片段。
+个人随笔
