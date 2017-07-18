@@ -510,13 +510,13 @@ a === b; <span class="hljs-comment">// 返回true</span>
 <span class="hljs-built_in">Symbol</span>.keyFor(a); <span class="hljs-comment">// 返回'foo'</span>
 </code></pre>
 <p>Symbol类型可以作为对象的唯一属性名</p>
-<pre><code class="lang-javascript"><span class="hljs-keyword">var</span> s = <span class="hljs-built_in">Symbol</span>();
+<pre><code class="lang-javascript"><span class="hljs-keyword">var</span> s = Symbol();
 <span class="hljs-comment">// 第一种写法</span>
 <span class="hljs-keyword">var</span> a = {};
 a[s] = <span class="hljs-string">'hello'</span>;
 <span class="hljs-comment">// 第二种写法</span>
 <span class="hljs-keyword">var</span> a = {
-  [s]: <span class="hljs-string">'hello'</span>
+  [<span class="hljs-meta">s</span>]: <span class="hljs-string">'hello'</span>
 };
 </code></pre>
 <h2 id="proxy-reflect">Proxy和Reflect</h2>
@@ -698,7 +698,7 @@ b.rX(); <span class="hljs-comment">// 返回3</span>
 <h3 id="export-default">export default</h3>
 <p>export default用于暴露整个模块</p>
 <p>假设如下是s1.js：</p>
-<pre><code class="lang-javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">a</span><span class="hljs-params">()</span> <span class="hljs-comment">{}</span>;</span>
+<pre><code class="lang-javascript"><span class="hljs-builtin-name">export</span><span class="hljs-built_in"> default </span>function a() {};
 </code></pre>
 <p>假设如下是s2.js：</p>
 <pre><code class="lang-javascript"><span class="hljs-keyword">import</span> a <span class="hljs-keyword">from</span> <span class="hljs-string">'./s1.js'</span>; <span class="hljs-regexp">//</span> 注意，不是<span class="hljs-keyword">import</span> {a} <span class="hljs-keyword">from</span> <span class="hljs-string">'./s1.js'</span>;

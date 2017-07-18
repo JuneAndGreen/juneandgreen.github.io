@@ -381,20 +381,20 @@ pre::-webkit-scrollbar-thumb {
 <h2 id="-">文件结构</h2>
 <p>首先，我们先搭建好这一个简单的小游戏的文件目录吧，结构如下：</p>
 <pre><code>five-in-a-row
- |<span class="hljs-string">---image
- </span>|<span class="hljs-string">     </span>|<span class="hljs-string">---bg.jpg // 棋盘背景图片
- </span>|<span class="hljs-string">     </span>|<span class="hljs-string">---black.png // 黑子棋子图片
- </span>|<span class="hljs-string">     </span>|<span class="hljs-string">---white.png // 白子棋子图片
- </span>|<span class="hljs-string">---src
- </span>|<span class="hljs-string">    </span>|<span class="hljs-string">---calc.js // 计算权值文件
- </span>|<span class="hljs-string">    </span>|<span class="hljs-string">---data.js // 全局数据文件
- </span>|<span class="hljs-string">    </span>|<span class="hljs-string">---draw.js // 绘制棋子棋盘文件
- </span>|<span class="hljs-string">    </span>|<span class="hljs-string">---index.js // 算法入口文件
- </span>|<span class="hljs-string">    </span>|<span class="hljs-string">---judge.js // 判断输赢文件
- </span>|<span class="hljs-string">    </span>|<span class="hljs-string">---money.js // 权值判断文件
- </span>|<span class="hljs-string">---index.css
- </span>|<span class="hljs-string">---index.html // 小游戏页面
- </span>|<span class="hljs-string">---index.js // 将src文件夹里的文件打包后的js文件</span>
+ |<span class="hljs-params">---image</span>
+ |     |<span class="hljs-params">---bg</span>.jpg <span class="hljs-string">//</span> 棋盘背景图片
+ |     |<span class="hljs-params">---black</span>.png <span class="hljs-string">//</span> 黑子棋子图片
+ |     |<span class="hljs-params">---white</span>.png <span class="hljs-string">//</span> 白子棋子图片
+ |<span class="hljs-params">---src</span>
+ |    |<span class="hljs-params">---calc</span>.js <span class="hljs-string">//</span> 计算权值文件
+ |    |<span class="hljs-params">---data</span>.js <span class="hljs-string">//</span> 全局数据文件
+ |    |<span class="hljs-params">---draw</span>.js <span class="hljs-string">//</span> 绘制棋子棋盘文件
+ |    |<span class="hljs-params">---index</span>.js <span class="hljs-string">//</span> 算法入口文件
+ |    |<span class="hljs-params">---judge</span>.js <span class="hljs-string">//</span> 判断输赢文件
+ |    |<span class="hljs-params">---money</span>.js <span class="hljs-string">//</span> 权值判断文件
+ |<span class="hljs-params">---index</span>.css
+ |<span class="hljs-params">---index</span>.html <span class="hljs-string">//</span> 小游戏页面
+ |<span class="hljs-params">---index</span>.js <span class="hljs-string">//</span> 将src文件夹里的文件打包后的js文件
 </code></pre><p>文件不少，主要是把一个算法拆分成多个文件来实现。而实际上我们只需依赖于five-in-a-row的index.js这一个js文件即可，这个文件是src文件夹内的所有js文件进行合并打包后生成的，至于合并打包工具，我们采用webpack，所以src文件夹内的各个js文件的依赖可以采用简单的commonjs的标准来进行编写。</p>
 <p>这里假设各位都已安装了webpack，当我们需要执行合并打包时，只需要在five-in-a-row文件内执行以下命令即可：</p>
 <pre><code class="lang-bash">webpack src/<span class="hljs-keyword">index</span>.js <span class="hljs-keyword">index</span>.js

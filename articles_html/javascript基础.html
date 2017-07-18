@@ -694,7 +694,7 @@ element.classList.toggle(<span class="hljs-string">'xxx'</span>); <span class="h
 <h2 id="cookie-">Cookie操作</h2>
 <pre><code class="lang-javascript"><span class="hljs-comment">// 取Cookies</span>
 <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getCookie</span>(<span class="hljs-params">name</span>) </span>{
-  <span class="hljs-built_in">var</span> value = <span class="hljs-built_in">document</span>.cookie.match(<span class="hljs-keyword">new</span> <span class="hljs-built_in">RegExp</span>(<span class="hljs-string">'(^| )'</span> + name + <span class="hljs-string">'=([^;]*)(;|$)'</span>));
+  <span class="hljs-keyword">var</span> value = <span class="hljs-built_in">document</span>.cookie.match(<span class="hljs-keyword">new</span> <span class="hljs-built_in">RegExp</span>(<span class="hljs-string">'(^| )'</span> + name + <span class="hljs-string">'=([^;]*)(;|$)'</span>));
   <span class="hljs-keyword">if</span>(value != <span class="hljs-literal">null</span>) <span class="hljs-keyword">return</span> <span class="hljs-built_in">unescape</span>(value[<span class="hljs-number">2</span>]); <span class="hljs-comment">// unescape函数进行解码</span>
 
   <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;
@@ -702,7 +702,7 @@ element.classList.toggle(<span class="hljs-string">'xxx'</span>); <span class="h
 
 <span class="hljs-comment">// 存Cookies</span>
 <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">setCookie</span>(<span class="hljs-params">name, value, date, domain, path</span>) </span>{ <span class="hljs-comment">// date为过期时间对象</span>
-    <span class="hljs-built_in">var</span> arr = [];
+    <span class="hljs-keyword">var</span> arr = [];
 
     arr.push(name + <span class="hljs-string">'='</span> + <span class="hljs-built_in">escape</span>(value));
     <span class="hljs-keyword">if</span>(domain) arr.push(<span class="hljs-string">'domain='</span> + <span class="hljs-built_in">escape</span>(domain));
@@ -714,12 +714,12 @@ element.classList.toggle(<span class="hljs-string">'xxx'</span>); <span class="h
 
 <span class="hljs-comment">// 删Cookies</span>
 <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">delCookie</span>(<span class="hljs-params">name, domain, path</span>) </span>{
-  <span class="hljs-built_in">var</span> dateLine = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>();
+  <span class="hljs-keyword">var</span> dateLine = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>();
   dateLine.setDate(dateLine.getDate() - <span class="hljs-number">1</span>); <span class="hljs-comment">// 设置过期日期为已过去的时间</span>
 
-  <span class="hljs-built_in">var</span> dvalue = getCookie(name);
+  <span class="hljs-keyword">var</span> dvalue = getCookie(name);
   <span class="hljs-keyword">if</span>(dvalue != <span class="hljs-literal">null</span>) {
-    <span class="hljs-built_in">var</span> arr = [];
+    <span class="hljs-keyword">var</span> arr = [];
 
     arr.push(name + <span class="hljs-string">'='</span> + <span class="hljs-built_in">escape</span>(dvalue));
     <span class="hljs-keyword">if</span>(domain) arr.push(<span class="hljs-string">'domain='</span> + <span class="hljs-built_in">escape</span>(domain));
@@ -893,7 +893,7 @@ PS：window.name可以在同一个窗口内一直保存，所以在iframe中修�
 <h3 id="-">长连接技术</h3>
 <h4 id="eventsource">EventSource</h4>
 <p>轮询接口，当其中一个轮询请求未回来会阻塞轮询，IE未实现。</p>
-<pre><code class="lang-javascript"><span class="hljs-built_in">var</span> polling = <span class="hljs-keyword">new</span> EventSource(<span class="hljs-built_in">url</span>, {
+<pre><code class="lang-javascript"><span class="hljs-keyword">var</span> polling = <span class="hljs-keyword">new</span> EventSource(<span class="hljs-built_in">url</span>, {
     <span class="hljs-attribute">withCredentials</span>: <span class="hljs-literal">true</span> <span class="hljs-comment">// 是否携带cookie，支持CORS模式</span>
 });
 
@@ -908,7 +908,7 @@ polling.onopen = <span class="hljs-function"><span class="hljs-keyword">function
 polling.close(); <span class="hljs-comment">// 关闭轮询</span>
 </code></pre>
 <h4 id="websocket">webSocket</h4>
-<pre><code class="lang-javascript"><span class="hljs-built_in">var</span> websocket = <span class="hljs-keyword">new</span> WebSocket(<span class="hljs-built_in">url</span>);
+<pre><code class="lang-javascript"><span class="hljs-keyword">var</span> websocket = <span class="hljs-keyword">new</span> WebSocket(<span class="hljs-built_in">url</span>);
 
 websocket.onopen = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{}; <span class="hljs-comment">// 开始长连接回调</span>
 websocket.onmessage = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">event</span>) </span>{
@@ -1030,29 +1030,29 @@ navigator.geolocation.clearWatch(id); <span class="hljs-comment">// 停止观测
 </ul>
 <p>低版本IE下有一个userData对象实现了类似的接口。</p>
 <p>用法：</p>
-<pre><code><span class="hljs-built_in">local</span>Storage.setItem(<span class="hljs-string">'xxx'</span>, <span class="hljs-string">'xxx'</span>);
-var xxx = <span class="hljs-built_in">local</span>Storage.getItem(<span class="hljs-string">'xxx'</span>);
-<span class="hljs-built_in">local</span>Storage.removeItem(<span class="hljs-string">'xxx'</span>);
-<span class="hljs-built_in">local</span>Storage.clear();
+<pre><code>localStorage.setItem(<span class="hljs-string">'xxx'</span>, <span class="hljs-string">'xxx'</span>);
+<span class="hljs-keyword">var</span> xxx = localStorage.getItem(<span class="hljs-string">'xxx'</span>);
+localStorage.removeItem(<span class="hljs-string">'xxx'</span>);
+localStorage.clear();
 </code></pre><h3 id="-">离线应用缓存</h3>
 <p>使用manifest文件：</p>
 <pre><code class="lang-html">&lt;<span class="hljs-selector-tag">html</span> manifest = <span class="hljs-string">"XX.manifest"</span>&gt;
 </code></pre>
-<pre><code><span class="hljs-meta">#xx.manifest内容如下</span>
+<pre><code><span class="hljs-meta">#</span><span class="bash">xx.manifest内容如下</span>
 CACHE MANIFEST
-<span class="hljs-meta"># 在此标题下列出的文件将在首次下载后进行缓存</span>
-<span class="hljs-meta"># 2016-03-18 v1.0.0</span>
+<span class="hljs-meta">#</span><span class="bash"> 在此标题下列出的文件将在首次下载后进行缓存</span>
+<span class="hljs-meta">#</span><span class="bash"> 2016-03-18 v1.0.0</span>
 /theme.css
 /logo.gif
 /main.js
 
 NETWORK:
-<span class="hljs-meta"># 在此标题下列出的文件需要与服务器的连接，且不会被缓存</span>
+<span class="hljs-meta">#</span><span class="bash"> 在此标题下列出的文件需要与服务器的连接，且不会被缓存</span>
 login.asp
 
 FALLBACK:
-<span class="hljs-meta"># 在此标题下列出的文件规定当页面无法访问时的回退页面（比如 404 页面）</span>
-/<span class="hljs-number">404.</span>html
+<span class="hljs-meta">#</span><span class="bash"> 在此标题下列出的文件规定当页面无法访问时的回退页面（比如 404 页面）</span>
+/404.html
 </code></pre><p>特点：</p>
 <ul>
 <li>manifest有变化才更新，所以文件有变化要修改manifest文件（如修改manifest文件中的时间版本信息）。</li>
@@ -1163,7 +1163,7 @@ Performance.now(); <span class="hljs-comment">// 返回一个 DOMHighResTimeSta
 </code></pre>
 <h3 id="canvas">Canvas</h3>
 <p>画布相关，允许我们在页面上绘制图形。画布的坐标已画布左上角为起始点，以像素为单位计算。</p>
-<pre><code class="lang-html">&lt;<span class="hljs-selector-tag">canvas</span> id=<span class="hljs-string">"canvas"</span> <span class="hljs-attribute">width</span>=<span class="hljs-string">"800"</span> height=<span class="hljs-string">"800"</span>&gt;这里会显示当不支持canvas时的文字&lt;/canvas&gt;
+<pre><code class="lang-html">&lt;canvas <span class="hljs-attribute">id</span>=<span class="hljs-string">"canvas"</span> <span class="hljs-attribute">width</span>=<span class="hljs-string">"800"</span> <span class="hljs-attribute">height</span>=<span class="hljs-string">"800"</span>&gt;这里会显示当不支持canvas时的文字&lt;/canvas&gt;
 </code></pre>
 <p>ps: width和height最好在此处指明。</p>
 <pre><code class="lang-javascript">var ctx = canvas.getContext(<span class="hljs-string">'2d'</span>); <span class="hljs-comment">// 获取画布上下文</span>

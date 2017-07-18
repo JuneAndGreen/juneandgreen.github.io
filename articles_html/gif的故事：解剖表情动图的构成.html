@@ -1,0 +1,833 @@
+</DOCTYPE html>
+<html>
+<head>
+    <title>demo</title>
+    <style type="text/css">
+        html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    font-weight: inherit;
+    font-style: inherit;
+    font-family: inherit;
+    font-size: 100%;
+    vertical-align: baseline;
+}
+
+body {
+    line-height: 1;
+
+    font-family: "microsoft yahei",Arial,Helvetica,sans-serif;
+    font-size: 100%;
+    background: #fff;
+    color: #817c7c;
+    line-height: 1.5;
+}
+
+* {
+    -webkit-margin-before: 0;
+    -webkit-margin-after: 0;
+}
+
+.container {
+    width: 1000px;
+    margin: 0 auto;
+    overflow: hidden;
+    line-height: 1.8;
+    font-size: 14px;
+}
+
+.article-content {
+    padding: 1.5em 4% 5em;
+    color: #413f3f;
+    font-size: 100%;
+}
+
+caption,th,td {
+    text-align: left;
+    font-weight: normal;
+    vertical-align: middle;
+}
+
+a img {
+    border: none;
+}
+
+small {
+    font-size: 80%;
+}
+
+sub,sup {
+    font-size: 75%;
+    line-height: 0;
+    position: relative;
+    vertical-align: baseline;
+}
+
+sup {
+    top: -.5em;
+    padding-left: .3em;
+}
+
+sub {
+    bottom: -.25em;
+}
+
+a {
+    text-decoration: none;
+    color: #2ca6cb;
+}
+
+a:hover {
+    color: #d14;
+}
+
+h1 {
+    font-size: 200%;
+    line-height: 1.5em;
+    padding-bottom: .3em;
+    border-bottom: 2px solid #dbdbdb;
+}
+
+h2 {
+    margin-top: 2.6em;
+    padding-left: 20px;
+    font-size: 160%;
+    line-height: 1.2em;
+    border-left: 4px solid #2ca6cb;
+}
+
+h2:first-child {
+  margin-top: 1.5em;
+}
+
+h3 {
+    font-size: 140%;
+    line-height: 1em;
+    margin-top: 1.3em;
+}
+
+h1, h2 {
+    position: relative;
+    margin-top: 1.5em;
+    margin-bottom: 1em;
+}
+
+h4 {
+  font-weight: bold;
+  font-size: 110%;
+}
+
+h4, h5, h6 {
+    margin-top: .8em;
+    font-size: 130%;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: #333;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+h1 >code, h2 >code, h3 >code, h4 >code, h5 >code, h6 >code {
+    color: #a3a3a3;
+}
+
+hr {
+    border: 1px solid #dbdbdb;
+}
+
+strong {
+    font-weight: bold;
+}
+
+em {
+    font-style: italic;
+}
+
+acronym, abbr {
+    border-bottom: 1px dotted;
+}
+
+blockquote {
+    border-left: .2em solid #aaa;
+    margin: 1em;
+    padding: .7em;
+    line-height: 1.5;
+    font-size: 100%;
+    color: #808080;
+    background-color: #f8f8f8;
+}
+
+blockquote footer {
+    background: #fafafa;
+    padding: 0;
+    margin: 0;
+    font-size: 80%;
+    line-height: 1em;
+}
+
+blockquote cite {
+    font-style: italic;
+    padding-left: .5em;
+}
+
+blockquote p {
+    margin: 0;
+}
+
+ul, ol {
+    list-style: none;
+    padding-left: 3em;
+    font-size: 105%;
+    padding-top: .7em;
+}
+
+ul li {
+    list-style: disc;
+    text-align: match-parent;
+}
+
+ol li {
+    list-style-type: decimal;
+}
+
+dl dt {
+    font-weight: blod;
+}
+
+ul li>code, ol li>code, p code, strong code, em code, table th>code, table td>code {
+    font-family: Monaco,Menlo,Consolas,Courier New,monospace;
+    background: #eee;
+    color: #d14;
+    border: 1px solid #d6d6d6;
+    padding: 0 5px;
+    margin: 0 2px;
+    font-size: 90%;
+    white-space: nowrap;
+    text-shadow: 0 1px #fff;
+    -webkit-border-radius: .25em;
+    -webkit-border-radius: .25em;
+    border-radius: .25em;
+}
+
+p {
+    line-height: 1.5;
+    margin-top: .7em;
+    font-size: 110%;
+    letter-spacing: 1px;
+}
+
+p.image-wrapper {
+    text-align: left;
+}
+
+img, video, figure img {
+    margin: 10px 0;
+    max-width: 100%;
+    height: auto;
+    vertical-align: middle;
+    margin-top: .5em;
+
+    border-radius: 5px;
+    box-shadow: 2px 2px 7px 1px #aaa;
+}
+
+table {    
+    vertical-align: middle;
+    max-width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+    margin-top: 1em;
+    border: 2px solid #cbcbcb;
+    color: #413f3f;
+}
+
+table tbody tr:nth-child(odd) {
+    background-color: #f8f8f8;
+}
+
+table th {
+    font-weight: bold;
+    border: 1px solid #cbcbcb;
+    border-bottom: 2px solid #cbcbcb;
+    padding: .8em;
+    line-height: 1.3em;
+}
+
+table td {
+    border: 1px solid #cbcbcb;
+    padding: .8em;
+    line-height: 1.3em;
+}
+
+pre {
+    background: #2d2d2d;
+    margin: .5em 0;
+    padding: .5em 2%;
+    color: #ccc;
+    line-height: 1.5;
+    font-size: .8em;
+    -webkit-border-radius: .35em;
+    -webkit-border-radius: .35em;
+    border-radius: .35em;
+    word-wrap: break-word;
+    font-family: Monaco,Menlo,Consolas,Courier New,monospace;
+    overflow-x: auto;
+}
+
+
+pre::-webkit-scrollbar, pre::-webkit-scrollbar-track {
+    height: 8px;
+    background-color: transparent;
+}
+pre::-webkit-scrollbar-thumb {
+    height: 8px;
+    background-color: #ddd;
+    border-radius: 4px;
+}
+
+
+.hljs {
+  display: block;
+  overflow-x: auto;
+  padding: 0.5em;
+  color: #abb2bf;
+  background: #282c34;
+}
+
+.hljs-comment,
+.hljs-quote {
+  color: #5c6370;
+  font-style: italic;
+}
+
+.hljs-doctag,
+.hljs-keyword,
+.hljs-formula {
+  color: #c678dd;
+}
+
+.hljs-section,
+.hljs-name,
+.hljs-selector-tag,
+.hljs-deletion,
+.hljs-subst {
+  color: #e06c75;
+}
+
+.hljs-literal {
+  color: #56b6c2;
+}
+
+.hljs-string,
+.hljs-regexp,
+.hljs-addition,
+.hljs-attribute,
+.hljs-meta-string {
+  color: #98c379;
+}
+
+.hljs-built_in,
+.hljs-class .hljs-title {
+  color: #e6c07b;
+}
+
+.hljs-attr,
+.hljs-variable,
+.hljs-template-variable,
+.hljs-type,
+.hljs-selector-class,
+.hljs-selector-attr,
+.hljs-selector-pseudo,
+.hljs-number {
+  color: #d19a66;
+}
+
+.hljs-symbol,
+.hljs-bullet,
+.hljs-link,
+.hljs-meta,
+.hljs-selector-id,
+.hljs-title {
+  color: #61aeee;
+}
+
+.hljs-emphasis {
+  font-style: italic;
+}
+
+.hljs-strong {
+  font-weight: bold;
+}
+
+.hljs-link {
+  text-decoration: underline;
+}
+
+
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="article-content">
+        <h1 id="gif-">gif的故事：解剖表情动图的构成</h1>
+<h2 id="-">前言</h2>
+<p>在现在表情包横行的年代，相信大家对表情动图已经不陌生了，这些动图通常就是我们使用的gif图（比如下图）。所谓动图就是会动的图片，而其会动的原理跟动画、影视剧一样，通过连续播放图片让我们从视觉感官上认为图片会动。那么gif图片又是如何将动图中的每一帧存储下来的呢，这下就需要我们动起刀子，解剖一下gif图。</p>
+<p><p class="image-wrapper"><img src="../images/gif_demo.gif" alt="null" title="null"></p></p>
+<h2 id="-">简介</h2>
+<p>gif图本身无需过多介绍，相信这个星球上的人类基本上没有没接触过的吧。但是从专业的角度上来介绍的话，gif图是一种基于LZW算法的8位连续色调的无损压缩格式，某种程度上来说和png图的格式有点相似（索引、无损压缩等）。其中LZW算法上一种压缩算法，需要注意的是gif使用的LZW算法并不是原本的LZW算法，而是经过稍微改造后的LZW算法。</p>
+<h2 id="-">结构</h2>
+<p>我们还是使用块来区分gif图的内容，掐去头跟尾，剩下的块可分为九种：逻辑屏幕标识符、全局颜色列表、图形控制扩展块、图像标识符、局部颜色列表、图像数据、文本扩展块、应用扩展块和注释扩展块。</p>
+<p>其中其中文本扩展块、应用扩展块和注释扩展块我们基本上用不着，所以这里不做介绍。整个解析流程如下图：</p>
+<p><p class="image-wrapper"><img src="../images/gif_process.png" alt="null" title="null"></p></p>
+<h3 id="-">文件头</h3>
+<p>gif图文件头有两种：<code>[0x47, 0x49, 0x46, 0x38, 0x37, 0x61]</code>和<code>[0x47, 0x49, 0x46, 0x38, 0x39, 0x61]</code>，分别对应87a版本（1987年制定的版本）和89a版本（1989年制定的版本）。这也是这个gif图的“魔数”，我们通过“魔数”就可以判断一个文件是不是gif图，用这种方式比直接判断文件后缀会靠谱得多。当然，我们可以将这个文件头转成字符串，转换过后其实就是&quot;GIF87a&quot;和“GIF89a”，这个文件头的来历其实就是这么的简单：D</p>
+<h3 id="-">逻辑屏幕标识符</h3>
+<p>逻辑屏幕标识符（Logical Screen Descriptor）存放的是整个图片的基础信息，总共7个字节，结构如下：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">描述</th>
+<th style="text-align:left">长度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">图像宽度</td>
+<td style="text-align:left">2字节</td>
+</tr>
+<tr>
+<td style="text-align:left">图像高度</td>
+<td style="text-align:left">2字节</td>
+</tr>
+<tr>
+<td style="text-align:left">全局颜色列表标志</td>
+<td style="text-align:left">1位</td>
+</tr>
+<tr>
+<td style="text-align:left">图像深度</td>
+<td style="text-align:left">3位</td>
+</tr>
+<tr>
+<td style="text-align:left">分类标志</td>
+<td style="text-align:left">1位</td>
+</tr>
+<tr>
+<td style="text-align:left">全局颜色列表大小</td>
+<td style="text-align:left">3位</td>
+</tr>
+<tr>
+<td style="text-align:left">背景颜色</td>
+<td style="text-align:left">1字节</td>
+</tr>
+<tr>
+<td style="text-align:left">像素宽高比</td>
+<td style="text-align:left">1字节</td>
+</tr>
+</tbody>
+</table>
+<p>图像宽高不必说，这里要注意的是解析的方式。宽高都是两个字节的，解析的时候需要将这两个字节的数据调换一下再转成数字。比如图像宽度这里存放的数据是<code>00000000 00100000</code>，假如我们直接转成数字是32，但是不对的；正确的解析方式是将两个字节调换一下，变成<code>00100000 00000000</code>再去解析，得出的图像宽度实际是<strong>8192</strong>才对。</p>
+<pre><code class="lang-javascript"><span class="hljs-comment">// 数字转8位二进制字符串</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">numberToString</span>(<span class="hljs-params">num</span>) </span>{
+    num = num.toString(<span class="hljs-number">2</span>).split(<span class="hljs-string">''</span>);
+
+    <span class="hljs-keyword">while</span>(num.length &lt; <span class="hljs-number">8</span>) {
+        num.unshift(<span class="hljs-number">0</span>);
+    }
+
+    <span class="hljs-keyword">return</span> num.join(<span class="hljs-string">''</span>);
+}
+
+<span class="hljs-comment">// 读取8位无符号整型数</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">readInt8</span>(<span class="hljs-params">buffer, offset</span>) </span>{
+    offset = offset || <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">return</span> buffer[offset] &lt;&lt; <span class="hljs-number">0</span>;
+}
+
+<span class="hljs-keyword">let</span> chunk = readBytes(<span class="hljs-number">7</span>); <span class="hljs-comment">// 逻辑屏幕标识符块数据，共7个字节</span>
+
+<span class="hljs-comment">// 需要调换过来读取</span>
+<span class="hljs-keyword">let</span> width = <span class="hljs-built_in">parseInt</span>(numberToString(readInt8(chunk, <span class="hljs-number">1</span>)) + numberToString(readInt8(chunk)), <span class="hljs-number">2</span>); <span class="hljs-comment">// 宽</span>
+<span class="hljs-keyword">let</span> height = <span class="hljs-built_in">parseInt</span>(numberToString(readInt8(chunk, <span class="hljs-number">3</span>)) + numberToString(readInt8(chunk, <span class="hljs-number">2</span>)), <span class="hljs-number">2</span>); <span class="hljs-comment">// 高</span>
+</code></pre>
+<p>全局颜色列表标志和分类标志只用1位表示，相当于就是一个布尔值。其中全局颜色列表标志若为1，则表示存在全局颜色列表块；分类标志若为1，则表示全局颜色列表块里的颜色会按重要性进行排列（即使用的频率）。图像深度表示每个像素点占用的位数，其他几个字段看名称就能了解，这里就不做解释（像素宽高比目前也几乎不再支持，可忽略）。</p>
+<h3 id="-">全局颜色列表</h3>
+<p>全局颜色列表（Global Color Table）存放的是全局使用的颜色信息，相当于我们画画用的色板。是否需要解析这个块由逻辑屏幕标识符中的全局颜色列表标志决定，如果存在此块，那么此块的字节数等于<code>(2 ^ (全局颜色列表大小 + 1)) * 3</code>。这里乘以3是因为每个颜色有3个通道，即我们熟悉的RGB三色通道。</p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">let</span> globalColorTableFlag; <span class="hljs-comment">// 全局颜色列表标志</span>
+<span class="hljs-keyword">let</span> globalColorTableSize; <span class="hljs-comment">// 全局颜色列表大小</span>
+
+<span class="hljs-keyword">if</span> (globalColorTableFlag === <span class="hljs-number">1</span>) {
+    <span class="hljs-keyword">let</span> length = <span class="hljs-built_in">Math</span>.pow(<span class="hljs-number">2</span>, globalColorTableSize + <span class="hljs-number">1</span>) * <span class="hljs-number">3</span>;
+    <span class="hljs-keyword">let</span> globalColorTable = readBytes(length); <span class="hljs-comment">// 全局颜色列表</span>
+}
+</code></pre>
+<h3 id="-">子图像</h3>
+<p>解析完上面两个全局块后，就要开始解析子图像了。解析子图像是一个循环的过程，每个子图像属于一个大数据块，直到我们解析到文件尾才表示我们已经解析完所有的子图像，用代码表示则是：</p>
+<pre><code class="lang-javascript">let images = []; <span class="hljs-comment">// 用于存放子图像</span>
+
+<span class="hljs-keyword">while</span> <span class="hljs-comment">(!isEnd()</span>) {
+    <span class="hljs-comment">// 如果还未解析到文件尾</span>
+    let image = decodeSubImage<span class="hljs-comment">()</span>; <span class="hljs-comment">// 解析子图像</span>
+
+    <span class="hljs-keyword">if</span> <span class="hljs-comment">(image)</span> images.push<span class="hljs-comment">(image)</span>;
+}
+</code></pre>
+<p>每个子图像里存放的可能是以下三种：子图像数据、应用扩展块或注释扩展块。上面提到过，我们直接跳过这两种扩展块即可，直接进行子图像数据的解析。</p>
+<h3 id="-">扩展块</h3>
+<p>扩展块是89a版本才有的东西，想跳过扩展块我们还是得先知悉以下扩展块的构造才行。扩展块一共有四种：图形控制扩展块、文本扩展块、应用扩展块和注释扩展块。其中应用扩展块和注释扩展块是单独存在于子图像中的，图形控制扩展块和文本扩展块则存在于子图像数据中。</p>
+<p>这四种扩展块的构造是一样的：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">描述</th>
+<th style="text-align:left">长度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">扩展块头</td>
+<td style="text-align:left">1字节</td>
+</tr>
+<tr>
+<td style="text-align:left">扩展块标识</td>
+<td style="text-align:left">1字节</td>
+</tr>
+<tr>
+<td style="text-align:left">扩展块子块长度</td>
+<td style="text-align:left">1字节</td>
+</tr>
+<tr>
+<td style="text-align:left">扩展块子块内容</td>
+<td style="text-align:left">不定字节</td>
+</tr>
+<tr>
+<td style="text-align:left">扩展块子块长度</td>
+<td style="text-align:left">1字节</td>
+</tr>
+<tr>
+<td style="text-align:left">扩展块子块内容</td>
+<td style="text-align:left">不定字节</td>
+</tr>
+<tr>
+<td style="text-align:left">……</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">扩展块尾</td>
+<td style="text-align:left">1字节</td>
+</tr>
+</tbody>
+</table>
+<p>扩展块头固定为0x21，扩展块尾固定为0x00。扩展块中间包含若干个扩展块子块，在解析扩展块子块时需要一直循环直到遇到扩展块尾才结束，用代码简单表示如下：</p>
+<pre><code class="lang-javascript">let extSign; <span class="hljs-comment">// 扩展块标识</span>
+
+let head = <span class="hljs-keyword">readBytes</span>(<span class="hljs-number">2</span>); <span class="hljs-comment">// 读取两个字节</span>
+<span class="hljs-keyword">if</span> (head[<span class="hljs-number">0</span>] === <span class="hljs-number">0</span>x21 &amp;&amp; head[<span class="hljs-number">1</span>] === extSign) {
+    let <span class="hljs-keyword">next</span> = <span class="hljs-keyword">readBytes</span>(<span class="hljs-number">1</span>)[<span class="hljs-number">0</span>]; <span class="hljs-comment">// 读取一个字节</span>
+
+    <span class="hljs-keyword">while</span> (<span class="hljs-keyword">next</span> !== <span class="hljs-number">0</span>x00) {
+        <span class="hljs-comment">// 当还没遇到扩展块尾，则一直循环下去 </span>
+
+        <span class="hljs-keyword">this</span>.<span class="hljs-keyword">readBytes</span>(<span class="hljs-keyword">next</span>); <span class="hljs-comment">// 读取扩展块子块</span>
+        <span class="hljs-comment">// do somethind</span>
+
+        <span class="hljs-keyword">next</span> = <span class="hljs-keyword">readBytes</span>(<span class="hljs-number">1</span>)[<span class="hljs-number">0</span>]; <span class="hljs-comment">// 读取一个字节</span>
+    }
+}
+</code></pre>
+<p>因此，在解析子图像的时候，只要把我们读取到的内容舍弃掉，就可以简单地跳过应用扩展块和注释扩展块了。</p>
+<blockquote>
+<p>这里应用扩展块和注释扩展块的扩展块标识分别是0xFF和0xFE。</p>
+</blockquote>
+<h3 id="-">图形控制扩展块</h3>
+<p>图形控制扩展块（Graphics Control Extension）是可选的扩展块，假如存在该扩展块的话，那么在解析子图像数据的时候我们第一个要解析的就是这个扩展块。其扩展块标识是0xF9。</p>
+<p>这个扩展块只有一个扩展块子块，整个扩展块结构如下：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">描述</th>
+<th style="text-align:left">长度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">扩展块头</td>
+<td style="text-align:left">1字节</td>
+</tr>
+<tr>
+<td style="text-align:left">扩展块标识</td>
+<td style="text-align:left">1字节</td>
+</tr>
+<tr>
+<td style="text-align:left">扩展块子块长度</td>
+<td style="text-align:left">1字节</td>
+</tr>
+<tr>
+<td style="text-align:left">保留位</td>
+<td style="text-align:left">3位</td>
+</tr>
+<tr>
+<td style="text-align:left">处置方法</td>
+<td style="text-align:left">3位</td>
+</tr>
+<tr>
+<td style="text-align:left">用户输入标志</td>
+<td style="text-align:left">1位</td>
+</tr>
+<tr>
+<td style="text-align:left">透明颜色标志</td>
+<td style="text-align:left">1位</td>
+</tr>
+<tr>
+<td style="text-align:left">延迟时间</td>
+<td style="text-align:left">2字节</td>
+</tr>
+<tr>
+<td style="text-align:left">透明颜色索引</td>
+<td style="text-align:left">1字节</td>
+</tr>
+<tr>
+<td style="text-align:left">扩展块尾</td>
+<td style="text-align:left">1字节</td>
+</tr>
+</tbody>
+</table>
+<p>保留位不必说，目前闲置用于未来扩展。其他字段基本上是用于告诉应用如何解析显示或播放gif图。处置方法告诉我们在播完一帧后该怎么处理当前帧；用户输入标识告诉我们是否期待用户有输入之后才继续进行下去；延迟时间告诉我们需要暂停这个延迟时间后再继续往下处理数据流，这里可以理解为动图中每一帧的停留时间。</p>
+<p>其中比较特别的是处置方法和延迟时间。其中延迟时间解析方式和逻辑屏幕标识符中的图像宽高一样，需要将字节调转过来解析，其单位为<strong>1/100秒</strong>；处置方法是为了复用一些其他帧的数据才会出现的优化方式，我们可以将其看成是增量存储的优化的，其值的解释则如下：</p>
+<ul>
+<li>值为0：整张覆盖，不需要使用到透明像素。</li>
+</ul>
+<p><p class="image-wrapper"><img src="../images/gif_disposal_1.png" alt="null" title="null"></p></p>
+<ul>
+<li>值为1：部分覆盖，未被覆盖的像素继续显示。</li>
+</ul>
+<p><p class="image-wrapper"><img src="../images/gif_disposal_2.png" alt="null" title="null"></p></p>
+<ul>
+<li>值为2：部分覆盖，未被覆盖的像素继续显示，背景色作为透明处理。</li>
+</ul>
+<p><p class="image-wrapper"><img src="../images/gif_disposal_3.png" alt="null" title="null"></p></p>
+<ul>
+<li>值为3：恢复为先前未展开的帧的状态。这种方法不是很好的支持，最好避免。</li>
+</ul>
+<p><p class="image-wrapper"><img src="../images/gif_disposal_4.png" alt="null" title="null"></p></p>
+<ul>
+<li>值4-7：自定义处置方式。</li>
+</ul>
+<p>解析完图形控制扩展块后，又会出现分叉路口，接下来的数据块可能是图像标识符或者是文本扩展块。这里如果遇到说文本扩展块的话就跟上面一样，直接跳过即可。</p>
+<h3 id="-">图像标识符</h3>
+<p>图像标识符（Image Descriptor）里存放的就是真正的子图像的一些属性，一共10个字节，其结构如下：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">描述</th>
+<th style="text-align:left">长度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">图像标识符头</td>
+<td style="text-align:left">1字节</td>
+</tr>
+<tr>
+<td style="text-align:left">子图像水平偏移</td>
+<td style="text-align:left">2字节</td>
+</tr>
+<tr>
+<td style="text-align:left">子图像垂直偏移</td>
+<td style="text-align:left">2字节</td>
+</tr>
+<tr>
+<td style="text-align:left">子图像宽度</td>
+<td style="text-align:left">2字节</td>
+</tr>
+<tr>
+<td style="text-align:left">子图像高度</td>
+<td style="text-align:left">2字节</td>
+</tr>
+<tr>
+<td style="text-align:left">局部颜色列表标志</td>
+<td style="text-align:left">1位</td>
+</tr>
+<tr>
+<td style="text-align:left">扫描方式</td>
+<td style="text-align:left">1位</td>
+</tr>
+<tr>
+<td style="text-align:left">分类标志</td>
+<td style="text-align:left">1位</td>
+</tr>
+<tr>
+<td style="text-align:left">保留位</td>
+<td style="text-align:left">2位</td>
+</tr>
+<tr>
+<td style="text-align:left">局部颜色列表大小</td>
+<td style="text-align:left">3位</td>
+</tr>
+</tbody>
+</table>
+<p>图像标识符头是0x2c，通过这个头就可以和扩展块区分开来。子图像的偏移是针对整个大图像来说的，一些子图像中经常会有部分像素是不会变化的（即动图中经常是只有一部分在动，其他部分是不会动的），因此此处就把这些不会变化的部分进行裁剪，让子图像更小，从而达到减少gif图的大小，这里的偏移就是因此而出现的。</p>
+<blockquote>
+<p>值得注意的是子图像水平偏移、子图像垂直偏移、子图像宽度和子图像高度也和逻辑屏幕标识符中的图像宽高一样，需要调换字节来解析。</p>
+</blockquote>
+<p>局部颜色列表标志、局部颜色列表大小与全局颜色列表标志、全局颜色列表大小一样，唯一的区别是解析时优先从局部颜色列表取颜色，没有局部颜色列表再考虑从全局颜色列表里取颜色。这里分类标志是针对局部颜色列表的排序，与上面类似。扫描方式则表示当前子图像的解析时顺序扫描还是隔行扫描。</p>
+<h3 id="-">局部颜色列表</h3>
+<p>此块和全局颜色列表类似，不再赘述。</p>
+<h3 id="-">图像数据</h3>
+<p>图像数据结构如下：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">描述</th>
+<th style="text-align:left">长度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">LZW压缩算法码长</td>
+<td style="text-align:left">1字节</td>
+</tr>
+<tr>
+<td style="text-align:left">子图像数据块长度</td>
+<td style="text-align:left">1字节</td>
+</tr>
+<tr>
+<td style="text-align:left">子图像数据块内容</td>
+<td style="text-align:left">不定字节</td>
+</tr>
+<tr>
+<td style="text-align:left">子图像数据块长度</td>
+<td style="text-align:left">1字节</td>
+</tr>
+<tr>
+<td style="text-align:left">子图像数据块内容</td>
+<td style="text-align:left">不定字节</td>
+</tr>
+<tr>
+<td style="text-align:left">……</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:left">图像数据尾</td>
+<td style="text-align:left">1字节</td>
+</tr>
+</tbody>
+</table>
+<p>图像数据和扩展块结构相似，里面包含若干个子图像数据块，需要循环解析子图像数据块直到遇到图像数据尾才结束。LZW压缩算法码长用于对子图像数据解压缩用，图像数据尾则固定为0x00。</p>
+<p>整个解析流程大致如下：</p>
+<pre><code class="lang-javascript"><span class="hljs-keyword">let</span> graphicsControlExtension; <span class="hljs-comment">// 图像控制扩展块</span>
+<span class="hljs-keyword">let</span> LZWMinimumCodeSize = readBytes(<span class="hljs-number">1</span>)[<span class="hljs-number">0</span>]; <span class="hljs-comment">// 读取一个字节</span>
+<span class="hljs-keyword">let</span> isTransparent = graphicsControlExtension.transparentColorFlag === <span class="hljs-number">1</span>; <span class="hljs-comment">// 是否支持透明像素</span>
+<span class="hljs-keyword">let</span> transparentIndex = graphicsControlExtension.transparentColorIndex; <span class="hljs-comment">// 透明像素索引</span>
+
+<span class="hljs-keyword">let</span> buffer = []; <span class="hljs-comment">// 用于存放子图像二进制数据</span>
+
+<span class="hljs-keyword">let</span> next = readBytes(<span class="hljs-number">1</span>)[<span class="hljs-number">0</span>]; <span class="hljs-comment">// 读取一个字节</span>
+
+while (next !== <span class="hljs-number">0x00</span>) {
+    buffer = buffer.concat(Array.from(readBytes(next))); <span class="hljs-comment">// 读取数据块</span>
+
+    next = this.readBytes(<span class="hljs-number">1</span>)[<span class="hljs-number">0</span>]; <span class="hljs-comment">// 读取一个字节</span>
+}
+
+<span class="hljs-comment">// LZW解压缩</span>
+<span class="hljs-keyword">let</span> output = lzwDecode(LZWMinimumCodeSize, buffer);
+
+<span class="hljs-comment">// 转换像素色值</span>
+<span class="hljs-keyword">let</span> colorTable = localColorTable || globalColorTable; <span class="hljs-comment">// 颜色列表，优先取局部，若没有局部则取全局</span>
+<span class="hljs-keyword">let</span> pixelsBuffer = []; <span class="hljs-comment">// 用于存放像素颜色数据</span>
+output.forEach(<span class="hljs-keyword">index</span> =&gt; {
+    <span class="hljs-keyword">index</span> = parseInt(<span class="hljs-keyword">index</span>, <span class="hljs-number">10</span>);
+
+    <span class="hljs-comment">// rgba 色值</span>
+    pixelsBuffer.push([
+        colorTable[<span class="hljs-keyword">index</span> * <span class="hljs-number">3</span>],
+        colorTable[<span class="hljs-keyword">index</span> * <span class="hljs-number">3</span> + <span class="hljs-number">1</span>],
+        colorTable[<span class="hljs-keyword">index</span> * <span class="hljs-number">3</span> + <span class="hljs-number">2</span>],
+        isTransparent &amp;&amp; <span class="hljs-keyword">index</span> === transparentIndex ? <span class="hljs-number">0</span> : <span class="hljs-number">1</span> <span class="hljs-comment">// alpha通道，表示是否透明</span>
+    ]);
+});
+</code></pre>
+<p>LZW压缩算法是基于表的无损压缩方式，通过优化记录重复子序列的方式来进行压缩。这个压缩算法的神奇方式就是压缩过程中生成的字典不需要额外存储，在解压缩的过程中也可以通过算法生成，因为篇幅问题此处不对LZW算法做详解，有兴趣的同学可以自行搜集下相关文档进行学习。</p>
+<p>我们在解析完图像数据后，需要将数据存到一个二维数组中，这样我们可以直接通过坐标的方式读取每个子图像的像素颜色值。这个存取过程中涉及到图像的两种扫描方式：顺序扫描和隔行扫描。顺序扫描很好理解，而隔行扫描相对复杂一点。</p>
+<p>所谓顺序扫描，就是将我们按顺序读取到的图像数据从左到右从上到下存放到图像二维数组之中；而隔行扫描则是跳着行和列来存。假设我们有个<code>4*8</code>点子图像，其读取到的图像数据如下：</p>
+<pre><code><span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>, <span class="hljs-number">6</span>, <span class="hljs-number">7</span>, <span class="hljs-number">8</span>, <span class="hljs-number">9</span>, <span class="hljs-number">10</span>, <span class="hljs-number">11</span>, <span class="hljs-number">12</span>, <span class="hljs-number">13</span>, <span class="hljs-number">14</span>, <span class="hljs-number">15</span>, <span class="hljs-number">16</span>, <span class="hljs-number">17</span>, <span class="hljs-number">18</span>, <span class="hljs-number">19</span>, <span class="hljs-number">20</span>, <span class="hljs-number">21</span>, <span class="hljs-number">22</span>, <span class="hljs-number">23</span>, <span class="hljs-number">24</span>, <span class="hljs-number">25</span>, <span class="hljs-number">26</span>, <span class="hljs-number">27</span>, <span class="hljs-number">28</span>, <span class="hljs-number">29</span>, <span class="hljs-number">30</span>, <span class="hljs-number">31</span>, <span class="hljs-number">32</span>
+</code></pre><p>如果按顺序扫描的话，得到的图像二维数组应该是这样：</p>
+<pre><code><span class="hljs-symbol">1 </span>  <span class="hljs-number">2</span>   <span class="hljs-number">3</span>   <span class="hljs-number">4</span>
+<span class="hljs-symbol">5 </span>  <span class="hljs-number">6</span>   <span class="hljs-number">7</span>   <span class="hljs-number">8</span>
+<span class="hljs-symbol">9 </span>  <span class="hljs-number">10</span>  <span class="hljs-number">11</span>  <span class="hljs-number">12</span>
+<span class="hljs-symbol">13 </span> <span class="hljs-number">14</span>  <span class="hljs-number">15</span>  <span class="hljs-number">16</span>
+<span class="hljs-symbol">17 </span> <span class="hljs-number">18</span>  <span class="hljs-number">19</span>  <span class="hljs-number">20</span>
+<span class="hljs-symbol">21 </span> <span class="hljs-number">22</span>  <span class="hljs-number">23</span>  <span class="hljs-number">24</span>
+<span class="hljs-symbol">25 </span> <span class="hljs-number">26</span>  <span class="hljs-number">27</span>  <span class="hljs-number">28</span>
+<span class="hljs-symbol">29 </span> <span class="hljs-number">30</span>  <span class="hljs-number">31</span>  <span class="hljs-number">32</span>
+</code></pre><p>隔行扫描则不同，隔行扫描是分四次遍历，每一次遍历填充对应的行，遍历和填充的规则如下：</p>
+<ul>
+<li>第一次遍历：从第1行开始，每隔8行往下遍历填充。</li>
+<li>第二次遍历：从第5行开始，每隔8行往下遍历填充。</li>
+<li>第三次遍历：从第3行开始，每隔4行往下遍历填充。</li>
+<li>第四次遍历：从第2行开始，每隔2行往下遍历填充。</li>
+</ul>
+<p>每次遍历填充出来的图像二维数组如下：</p>
+<pre><code>第一次遍历：            第二次遍历：            第三次遍历：            第四次遍历：
+<span class="hljs-number">1</span>   <span class="hljs-number">2</span>   <span class="hljs-number">3</span>   <span class="hljs-number">4</span>         <span class="hljs-number">1</span>   <span class="hljs-number">2</span>   <span class="hljs-number">3</span>   <span class="hljs-number">4</span>          <span class="hljs-number">1</span>   <span class="hljs-number">2</span>   <span class="hljs-number">3</span>   <span class="hljs-number">4</span>         <span class="hljs-number">1</span>   <span class="hljs-number">2</span>   <span class="hljs-number">3</span>   <span class="hljs-number">4</span> 
+<span class="hljs-comment">()</span>  <span class="hljs-comment">()</span>  <span class="hljs-comment">()</span>  <span class="hljs-comment">()</span>        <span class="hljs-comment">()</span>  <span class="hljs-comment">()</span>  <span class="hljs-comment">()</span>  <span class="hljs-comment">()</span>         <span class="hljs-comment">()</span>  <span class="hljs-comment">()</span>  <span class="hljs-comment">()</span>  <span class="hljs-comment">()</span>        <span class="hljs-number">17</span>  <span class="hljs-number">18</span>  <span class="hljs-number">19</span>  <span class="hljs-number">20</span> 
+<span class="hljs-comment">()</span>  <span class="hljs-comment">()</span>  <span class="hljs-comment">()</span>  <span class="hljs-comment">()</span>        <span class="hljs-comment">()</span>  <span class="hljs-comment">()</span>  <span class="hljs-comment">()</span>  <span class="hljs-comment">()</span>         <span class="hljs-number">9</span>   <span class="hljs-number">10</span>  <span class="hljs-number">11</span>  <span class="hljs-number">12</span>        <span class="hljs-number">9</span>   <span class="hljs-number">10</span>  <span class="hljs-number">11</span>  <span class="hljs-number">12</span> 
+<span class="hljs-comment">()</span>  <span class="hljs-comment">()</span>  <span class="hljs-comment">()</span>  <span class="hljs-comment">()</span>        <span class="hljs-comment">()</span>  <span class="hljs-comment">()</span>  <span class="hljs-comment">()</span>  <span class="hljs-comment">()</span>         <span class="hljs-comment">()</span>  <span class="hljs-comment">()</span>  <span class="hljs-comment">()</span>  <span class="hljs-comment">()</span>        <span class="hljs-number">21</span>  <span class="hljs-number">22</span>  <span class="hljs-number">23</span>  <span class="hljs-number">24</span> 
+<span class="hljs-comment">()</span>  <span class="hljs-comment">()</span>  <span class="hljs-comment">()</span>  <span class="hljs-comment">()</span>        <span class="hljs-number">5</span>   <span class="hljs-number">6</span>   <span class="hljs-number">7</span>   <span class="hljs-number">8</span>          <span class="hljs-number">5</span>   <span class="hljs-number">6</span>   <span class="hljs-number">7</span>   <span class="hljs-number">8</span>         <span class="hljs-number">5</span>   <span class="hljs-number">6</span>   <span class="hljs-number">7</span>   <span class="hljs-number">8</span> 
+<span class="hljs-comment">()</span>  <span class="hljs-comment">()</span>  <span class="hljs-comment">()</span>  <span class="hljs-comment">()</span>        <span class="hljs-comment">()</span>  <span class="hljs-comment">()</span>  <span class="hljs-comment">()</span>  <span class="hljs-comment">()</span>         <span class="hljs-comment">()</span>  <span class="hljs-comment">()</span>  <span class="hljs-comment">()</span>  <span class="hljs-comment">()</span>        <span class="hljs-number">25</span>  <span class="hljs-number">26</span>  <span class="hljs-number">27</span>  <span class="hljs-number">28</span> 
+<span class="hljs-comment">()</span>  <span class="hljs-comment">()</span>  <span class="hljs-comment">()</span>  <span class="hljs-comment">()</span>        <span class="hljs-comment">()</span>  <span class="hljs-comment">()</span>  <span class="hljs-comment">()</span>  <span class="hljs-comment">()</span>         <span class="hljs-number">13</span>  <span class="hljs-number">14</span>  <span class="hljs-number">15</span>  <span class="hljs-number">16</span>        <span class="hljs-number">13</span>  <span class="hljs-number">14</span>  <span class="hljs-number">15</span>  <span class="hljs-number">16</span>
+<span class="hljs-comment">()</span>  <span class="hljs-comment">()</span>  <span class="hljs-comment">()</span>  <span class="hljs-comment">()</span>        <span class="hljs-comment">()</span>  <span class="hljs-comment">()</span>  <span class="hljs-comment">()</span>  <span class="hljs-comment">()</span>         <span class="hljs-comment">()</span>  <span class="hljs-comment">()</span>  <span class="hljs-comment">()</span>  <span class="hljs-comment">()</span>        <span class="hljs-number">29</span>  <span class="hljs-number">30</span>  <span class="hljs-number">31</span>  <span class="hljs-number">32</span>
+</code></pre><p>用代码来实现，如下：</p>
+<pre><code class="lang-javascript">// 扫描图片
+<span class="hljs-built_in">let</span> imageDescriptor; // 图像标识符
+<span class="hljs-built_in">let</span> <span class="hljs-built_in">width</span> = imageDescriptor.<span class="hljs-built_in">width</span>;
+<span class="hljs-built_in">let</span> <span class="hljs-built_in">height</span> = imageDescriptor.<span class="hljs-built_in">height</span>;
+<span class="hljs-built_in">let</span> pixels = <span class="hljs-built_in">new</span> Array(<span class="hljs-built_in">width</span>); // 用于存放图像像素数据的二维数组
+
+<span class="hljs-keyword">if</span> (imageDescriptor.interlaceFlag) {
+    // 隔行扫描
+    <span class="hljs-keyword">for</span> (<span class="hljs-built_in">let</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-built_in">width</span>; i++) {
+        pixels[i] = <span class="hljs-built_in">new</span> Array(<span class="hljs-built_in">height</span>);
+    }
+
+    <span class="hljs-built_in">let</span> start = [<span class="hljs-number">0</span>, <span class="hljs-number">4</span>, <span class="hljs-number">2</span>, <span class="hljs-number">1</span>];
+    <span class="hljs-built_in">let</span> inc = [<span class="hljs-number">8</span>, <span class="hljs-number">8</span>, <span class="hljs-number">4</span>, <span class="hljs-number">2</span>];
+    <span class="hljs-built_in">let</span> index = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">for</span> (<span class="hljs-built_in">let</span> pass = <span class="hljs-number">0</span>; pass &lt; <span class="hljs-number">4</span>; pass++) {
+        <span class="hljs-keyword">for</span> (<span class="hljs-built_in">let</span> i = start[pass]; i &lt; <span class="hljs-built_in">height</span>; i += inc[pass]) {
+            <span class="hljs-built_in">let</span> scanline = pixelsBuffer.slice(index, index + <span class="hljs-built_in">width</span>);
+            index = index + <span class="hljs-built_in">width</span>;
+            <span class="hljs-keyword">for</span> (<span class="hljs-built_in">let</span> j = <span class="hljs-number">0</span>; j &lt; <span class="hljs-built_in">width</span>; j++) {
+                pixels[j][i] = scanline[j];
+            }
+        }
+    }
+} <span class="hljs-keyword">else</span> {
+    // 顺序扫描
+    <span class="hljs-keyword">for</span> (<span class="hljs-built_in">let</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-built_in">width</span>; i++) {
+        pixels[i] = <span class="hljs-built_in">new</span> Array(<span class="hljs-built_in">height</span>);
+
+        <span class="hljs-keyword">for</span> (<span class="hljs-built_in">let</span> j = <span class="hljs-number">0</span>; j &lt; <span class="hljs-built_in">height</span>; j++) {
+            pixels[i][j] = pixelsBuffer[j * <span class="hljs-built_in">width</span> + i];
+        }
+    }
+}
+</code></pre>
+<p>至此，当前子图像数据就算解析好了。</p>
+<h2 id="-">文件尾</h2>
+<p>当所有子图像数据解析完毕，就会遇到文件尾，表示当前gif图已经解析完成。文件尾固定为<code>0x3B</code>。</p>
+<h2 id="-">尾声</h2>
+<p>此文只对gif图片的格式做了简单的介绍，我们也知道如何对一张gif图做简单的解析。上面出现的代码只是js代码片段，如果对完整代码有兴趣的同学可以<a href="https://github.com/JuneAndGreen/doimg/blob/master/src/gif.js">戳这里</a>。</p>
+<p>参考资料：</p>
+<ul>
+<li><a href="http://giflib.sourceforge.net/gif89.txt">http://giflib.sourceforge.net/gif89.txt</a></li>
+<li><a href="http://giflib.sourceforge.net/whatsinagif/index.html">http://giflib.sourceforge.net/whatsinagif/index.html</a></li>
+</ul>
+          
+    </div>
+</div>
+</body>
+</html>

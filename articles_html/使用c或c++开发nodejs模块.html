@@ -449,49 +449,49 @@ pre::-webkit-scrollbar-thumb {
 <h2 id="-">其他</h2>
 <p>c/c++模块不止是可以返回字符串参数而已，关于参数相关可参阅下面例子：</p>
 <h3 id="-">传参</h3>
-<pre><code class="lang-c++">// addon.cc
-<span class="hljs-comment">#include &lt;node.h&gt;</span>
+<pre><code class="lang-c++"><span class="hljs-comment">// addon.cc</span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;node.h&gt;</span></span>
 
-namespace demo {
+<span class="hljs-keyword">namespace</span> demo {
 
-    <span class="hljs-keyword">using</span> v8<span class="hljs-type">::</span><span class="hljs-built_in">Exception</span>;
-    <span class="hljs-keyword">using</span> v8<span class="hljs-type">::</span>FunctionCallbackInfo;
-    <span class="hljs-keyword">using</span> v8<span class="hljs-type">::</span>Isolate;
-    <span class="hljs-keyword">using</span> v8<span class="hljs-type">::</span>Local;
-    <span class="hljs-keyword">using</span> v8<span class="hljs-type">::</span><span class="hljs-built_in">Number</span>;
-    <span class="hljs-keyword">using</span> v8<span class="hljs-type">::</span>Object;
-    <span class="hljs-keyword">using</span> v8<span class="hljs-type">::</span><span class="hljs-built_in">String</span>;
-    <span class="hljs-keyword">using</span> v8<span class="hljs-type">::</span>Value;
+    <span class="hljs-keyword">using</span> v8::Exception;
+    <span class="hljs-keyword">using</span> v8::FunctionCallbackInfo;
+    <span class="hljs-keyword">using</span> v8::Isolate;
+    <span class="hljs-keyword">using</span> v8::Local;
+    <span class="hljs-keyword">using</span> v8::Number;
+    <span class="hljs-keyword">using</span> v8::Object;
+    <span class="hljs-keyword">using</span> v8::String;
+    <span class="hljs-keyword">using</span> v8::Value;
 
-    // add方法实现
-    // 输入的参数我们通过 <span class="hljs-keyword">const</span> FunctionCallbackInfo&lt;Value&gt;&amp; args 来传递
-    void Add(<span class="hljs-keyword">const</span> FunctionCallbackInfo&lt;Value&gt;&amp; args) {
+    <span class="hljs-comment">// add方法实现</span>
+    <span class="hljs-comment">// 输入的参数我们通过 const FunctionCallbackInfo&lt;Value&gt;&amp; args 来传递</span>
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">Add</span><span class="hljs-params">(<span class="hljs-keyword">const</span> FunctionCallbackInfo&lt;Value&gt;&amp; args)</span> </span>{
       Isolate* isolate = args.GetIsolate();
 
-      // 检查参数数量
+      <span class="hljs-comment">// 检查参数数量</span>
       <span class="hljs-keyword">if</span> (args.Length() &lt; <span class="hljs-number">2</span>) {
-        // Throw an Error that is passed back to JavaScript
-        isolate-&gt;ThrowException(<span class="hljs-built_in">Exception</span><span class="hljs-type">::</span><span class="hljs-built_in">TypeError</span>(
-            <span class="hljs-built_in">String</span><span class="hljs-type">::</span>NewFromUtf8(isolate, <span class="hljs-string">"Wrong number of arguments"</span>)));
+        <span class="hljs-comment">// Throw an Error that is passed back to JavaScript</span>
+        isolate-&gt;ThrowException(Exception::TypeError(
+            String::NewFromUtf8(isolate, <span class="hljs-string">"Wrong number of arguments"</span>)));
         <span class="hljs-keyword">return</span>;
       }
 
-      // 检查参数类型
+      <span class="hljs-comment">// 检查参数类型</span>
       <span class="hljs-keyword">if</span> (!args[<span class="hljs-number">0</span>]-&gt;IsNumber() || !args[<span class="hljs-number">1</span>]-&gt;IsNumber()) {
-        isolate-&gt;ThrowException(<span class="hljs-built_in">Exception</span><span class="hljs-type">::</span><span class="hljs-built_in">TypeError</span>(
-            <span class="hljs-built_in">String</span><span class="hljs-type">::</span>NewFromUtf8(isolate, <span class="hljs-string">"Wrong arguments"</span>)));
+        isolate-&gt;ThrowException(Exception::TypeError(
+            String::NewFromUtf8(isolate, <span class="hljs-string">"Wrong arguments"</span>)));
         <span class="hljs-keyword">return</span>;
       }
 
-      // 做加法运算
-      double value = args[<span class="hljs-number">0</span>]-&gt;NumberValue() + args[<span class="hljs-number">1</span>]-&gt;NumberValue();
-      Local&lt;<span class="hljs-built_in">Number</span>&gt; num = <span class="hljs-built_in">Number</span><span class="hljs-type">::</span>New(isolate, value);
+      <span class="hljs-comment">// 做加法运算</span>
+      <span class="hljs-keyword">double</span> value = args[<span class="hljs-number">0</span>]-&gt;NumberValue() + args[<span class="hljs-number">1</span>]-&gt;NumberValue();
+      Local&lt;Number&gt; num = Number::New(isolate, value);
 
-      // 设置返回值
-      args.GetReturnValue().<span class="hljs-built_in">Set</span>(num);
+      <span class="hljs-comment">// 设置返回值</span>
+      args.GetReturnValue().Set(num);
     }
 
-    void Init(Local&lt;Object&gt; exports) {
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">Init</span><span class="hljs-params">(Local&lt;Object&gt; exports)</span> </span>{
       NODE_SET_METHOD(exports, <span class="hljs-string">"add"</span>, Add);
     }
 
