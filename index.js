@@ -13,18 +13,22 @@ let outputDir = path.join(__dirname, './articles_html/');
 let subs = fs.readdirSync(inputDir);
 
 let files = [];
-subs.forEach((file) => {
+subs.forEach(file => {
     let filePath = path.join(inputDir, file);
     if(path.extname(filePath) === '.md' && fs.statSync(filePath).isFile()) {
-      // 文件
-      files.push(filePath);
+        // 文件
+        files.push({
+            path: filePath,
+            name: file
+        });
     }
 });
 
-files.forEach((file) => {
+files.forEach(fileObj => {
     gomd({
         watch: true,
-        input: file,
-        output: path.join(outputDir, path.basename(file, '.md')) + '.html'
+        input: fileObj.path,
+        output: path.join(outputDir, path.basename(fileObj.name, '.md')) + '.html',
+        title: path.basename(fileObj.name, '.md')
     });
 });
