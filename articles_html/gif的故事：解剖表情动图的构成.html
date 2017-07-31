@@ -1,7 +1,7 @@
 </DOCTYPE html>
 <html>
 <head>
-    <title>gif的故事：解剖表情动图的构成</title>
+    <title>demo</title>
     <style type="text/css">
         html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td {
     margin: 0;
@@ -752,7 +752,7 @@ output.forEach(<span class="hljs-keyword">index</span> =&gt; {
 </code></pre>
 <p>LZW压缩算法是基于表的无损压缩方式，通过优化记录重复子序列的方式来进行压缩。这个压缩算法的神奇方式就是压缩过程中生成的字典不需要额外存储，在解压缩的过程中也可以通过算法生成，因为篇幅问题此处不对LZW算法做详解，有兴趣的同学可以自行搜集下相关文档进行学习。</p>
 <p>我们在解析完图像数据后，需要将数据存到一个二维数组中，这样我们可以直接通过坐标的方式读取每个子图像的像素颜色值。这个存取过程中涉及到图像的两种扫描方式：顺序扫描和隔行扫描。顺序扫描很好理解，而隔行扫描相对复杂一点。</p>
-<p>所谓顺序扫描，就是将我们按顺序读取到的图像数据从左到右从上到下存放到图像二维数组之中；而隔行扫描则是跳着行和列来存。假设我们有个<code>4*8</code>点子图像，其读取到的图像数据如下：</p>
+<p>所谓顺序扫描，就是将我们按顺序读取到的图像数据从左到右从上到下存放到图像二维数组之中；而隔行扫描则是跳着行和列来存。假设我们有个<code>4*8</code>的子图像，其读取到的图像数据如下：</p>
 <pre><code><span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>, <span class="hljs-number">6</span>, <span class="hljs-number">7</span>, <span class="hljs-number">8</span>, <span class="hljs-number">9</span>, <span class="hljs-number">10</span>, <span class="hljs-number">11</span>, <span class="hljs-number">12</span>, <span class="hljs-number">13</span>, <span class="hljs-number">14</span>, <span class="hljs-number">15</span>, <span class="hljs-number">16</span>, <span class="hljs-number">17</span>, <span class="hljs-number">18</span>, <span class="hljs-number">19</span>, <span class="hljs-number">20</span>, <span class="hljs-number">21</span>, <span class="hljs-number">22</span>, <span class="hljs-number">23</span>, <span class="hljs-number">24</span>, <span class="hljs-number">25</span>, <span class="hljs-number">26</span>, <span class="hljs-number">27</span>, <span class="hljs-number">28</span>, <span class="hljs-number">29</span>, <span class="hljs-number">30</span>, <span class="hljs-number">31</span>, <span class="hljs-number">32</span>
 </code></pre><p>如果按顺序扫描的话，得到的图像二维数组应该是这样：</p>
 <pre><code><span class="hljs-symbol">1 </span>  <span class="hljs-number">2</span>   <span class="hljs-number">3</span>   <span class="hljs-number">4</span>
