@@ -1,7 +1,7 @@
 </DOCTYPE html>
 <html>
 <head>
-    <title>demo</title>
+    <title>gif的故事：解剖表情动图的构成</title>
     <style type="text/css">
         html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td {
     margin: 0;
@@ -428,7 +428,7 @@ pre::-webkit-scrollbar-thumb {
 </tr>
 </tbody>
 </table>
-<p>图像宽高不必说，这里要注意的是解析的方式。宽高都是两个字节的，解析的时候需要将这两个字节的数据调换一下再转成数字。比如图像宽度这里存放的数据是<code>00000000 00100000</code>，假如我们直接转成数字是32，但是不对的；正确的解析方式是将两个字节调换一下，变成<code>00100000 00000000</code>再去解析，得出的图像宽度实际是<strong>8192</strong>才对。</p>
+<p>图像宽高不必说，这里要注意的是解析的方式。宽高都是两个字节的，以小端法存储，故解析的时候需要将这两个字节的数据调换一下再转成数字。比如图像宽度这里存放的数据是<code>00000000 00100000</code>，假如我们直接转成数字是32，但是不对的；正确的解析方式是将两个字节调换一下，变成<code>00100000 00000000</code>再去解析，得出的图像宽度实际是<strong>8192</strong>才对。</p>
 <pre><code class="lang-javascript"><span class="hljs-comment">// 数字转8位二进制字符串</span>
 <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">numberToString</span>(<span class="hljs-params">num</span>) </span>{
     num = num.toString(<span class="hljs-number">2</span>).split(<span class="hljs-string">''</span>);
