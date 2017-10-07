@@ -419,16 +419,16 @@ pre::-webkit-scrollbar-thumb {
 <p>直接用上面的例子，我们的第一张小图是2*2点png图片，在假设我们一个像素点所占的字节数是3个，那么我们要切出来的第一个Buffer子数组的长度就是<code>2*(2*3+1)</code>。也许就有人好奇了，为什么是乘以<code>2*3+1</code>而不是直接乘以<code>2*3</code>呢？之前我们提到过，拆成小图后要对小图进行普通的逐行扫描解析，这样解析的话每一行的第一个字节实际存放的不是图像数据，而是过滤类型，因此每一行所占用的字节需要在<code>2*3</code>的基础上加1。</p>
 <h3 id="-">像素归位</h3>
 <p>其他的小图拆分的方法是一样，在最后一次扫描完毕后，我们就会拿到7张小图。然后我们按照上面的规则对这些小图的像素进行归位，也就是填回去的意思。下面简单演示下归位的流程：</p>
-<pre><code>                  <span class="hljs-comment">(1)</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">(1)</span> <span class="hljs-comment">( )</span>
-                  <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span>
-                  <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span>
- <span class="hljs-number">1</span> <span class="hljs-number">1</span>              <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span>
- <span class="hljs-number">1</span> <span class="hljs-number">1</span>     ==&gt;      <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span>
-                  <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span>
-                  <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span>
-                  <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span>
-                  <span class="hljs-comment">(1)</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">(1)</span> <span class="hljs-comment">( )</span>
-                  <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span>
+<pre><code>                <span class="hljs-comment">(1)</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">(1)</span> <span class="hljs-comment">( )</span>
+                <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span>
+                <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span>
+ <span class="hljs-number">1</span> <span class="hljs-number">1</span>            <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span>
+ <span class="hljs-number">1</span> <span class="hljs-number">1</span>    ==&gt;     <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span>
+                <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span>
+                <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span>
+                <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span>
+                <span class="hljs-comment">(1)</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">(1)</span> <span class="hljs-comment">( )</span>
+                <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span> <span class="hljs-comment">( )</span>
 </code></pre><p>待到7张小图的像素全部都归位后，最后我们就能拿到一张完整的png图片了。</p>
 <h3 id="-">代码</h3>
 <p>整个流程的代码如下：</p>
@@ -451,28 +451,28 @@ let offset = <span class="hljs-number">0</span>; <span class="hljs-comment">// �
 
 <span class="hljs-comment">// 7次扫描</span>
 for(let i=<span class="hljs-number">0</span>; i&lt;<span class="hljs-number">7</span>; i++) {
-    <span class="hljs-comment">// 子图像信息</span>
-    let subWidth = Math.ceil((width - startY[i]) / incY[i], <span class="hljs-number">10</span>); <span class="hljs-comment">// 小图宽度</span>
-    let subHeight = Math.ceil((height - startX[i]) / incX[i], <span class="hljs-number">10</span>); <span class="hljs-comment">// 小图高度</span>
-    let subBytesPerRow = bytesPerPixel * subWidth; <span class="hljs-comment">// 小图每行字节数</span>
-    let offsetEnd = offset + (subBytesPerRow + <span class="hljs-number">1</span>) * subHeight; <span class="hljs-comment">// 小图结束位置</span>
-    let subData = data.slice(offset, offsetEnd); <span class="hljs-comment">// 小图像素数据</span>
+        <span class="hljs-comment">// 子图像信息</span>
+        let subWidth = Math.ceil((width - startY[i]) / incY[i], <span class="hljs-number">10</span>); <span class="hljs-comment">// 小图宽度</span>
+        let subHeight = Math.ceil((height - startX[i]) / incX[i], <span class="hljs-number">10</span>); <span class="hljs-comment">// 小图高度</span>
+        let subBytesPerRow = bytesPerPixel * subWidth; <span class="hljs-comment">// 小图每行字节数</span>
+        let offsetEnd = offset + (subBytesPerRow + <span class="hljs-number">1</span>) * subHeight; <span class="hljs-comment">// 小图结束位置</span>
+        let subData = data.slice(offset, offsetEnd); <span class="hljs-comment">// 小图像素数据</span>
 
-    <span class="hljs-comment">// 对小图进行普通的逐行扫描</span>
-    let subPixelsBuffer = this.interlaceNone(subData, subWidth, subHeight, bytesPerPixel, subBytesPerRow);
-    let subOffset = <span class="hljs-number">0</span>;
+        <span class="hljs-comment">// 对小图进行普通的逐行扫描</span>
+        let subPixelsBuffer = this.interlaceNone(subData, subWidth, subHeight, bytesPerPixel, subBytesPerRow);
+        let subOffset = <span class="hljs-number">0</span>;
 
-    <span class="hljs-comment">// 像素归位</span>
-    for(let x=startX[i]; x&lt;height; x+=incX[i]) {
-        for(let y=startY[i]; y&lt;width; y+=incY[i]) {
-            <span class="hljs-comment">// 逐个像素拷贝回原本所在的位置</span>
-            for(let z=<span class="hljs-number">0</span>; z&lt;bytesPerPixel; z++) {
-                pixelsBuffer[(x * width + y) * bytesPerPixel + z] = subPixelsBuffer[subOffset++] &amp; <span class="hljs-number">0xFF</span>;
-            }
+        <span class="hljs-comment">// 像素归位</span>
+        for(let x=startX[i]; x&lt;height; x+=incX[i]) {
+                for(let y=startY[i]; y&lt;width; y+=incY[i]) {
+                        <span class="hljs-comment">// 逐个像素拷贝回原本所在的位置</span>
+                        for(let z=<span class="hljs-number">0</span>; z&lt;bytesPerPixel; z++) {
+                                pixelsBuffer[(x * width + y) * bytesPerPixel + z] = subPixelsBuffer[subOffset++] &amp; <span class="hljs-number">0xFF</span>;
+                        }
+                }
         }
-    }
 
-    offset = offsetEnd; <span class="hljs-comment">// 置为下一张小图的开始位置</span>
+        offset = offsetEnd; <span class="hljs-comment">// 置为下一张小图的开始位置</span>
 }
 
 return pixelsBuffer;

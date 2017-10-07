@@ -8,14 +8,14 @@
 var a = 1;
 // 如下用大括号括起来的区域属于一个代码块
 {
-  a = 4; // 报错，let会引起暂时性死区，无法调用外部定义的变量a
-  console.log(b); // 报错，let不会让声明提升
+    a = 4; // 报错，let会引起暂时性死区，无法调用外部定义的变量a
+    console.log(b); // 报错，let不会让声明提升
 
-  let a = 2;
-  let b = 3;
+    let a = 2;
+    let b = 3;
 
-  let a = 5; // 报错，作用域内无法声明同名变量
-  var a = 6; // 报错，同上
+    let a = 5; // 报错，作用域内无法声明同名变量
+    var a = 6; // 报错，同上
 }
 
 console.log(b); // 报错，let支持块级作用域
@@ -74,7 +74,7 @@ let {length: len} = 'hi'; // 相当于把字符串的length值赋给了len
 
 ```javascript
 function add([x, y]){
-  console.log(x + y);
+    console.log(x + y);
 }
 add([1, 2]) // 输出3
 ```
@@ -85,9 +85,9 @@ add([1, 2]) // 输出3
 
 ```javascript
 let x = 1;
-let a = ` <div>
-            <span>${x + 1}</span>
-          </div>`; // 使用反引号`定义模板字符串，可以在字符串中嵌入变量或者变量表达式，并且支持多行
+let a = `<div>
+    <span>${x + 1}</span>
+</div>`; // 使用反引号`定义模板字符串，可以在字符串中嵌入变量或者变量表达式，并且支持多行
 ```
 
 ### 模板标签
@@ -96,8 +96,8 @@ let a = ` <div>
 let x = 1;
 let a = tag`hello${x}world`; // 模板标签可以像过滤器一样工作，可以对模板字符串做一系列操作，仅跟着模板标签之后的模板字符串作为参数传入
 function tag(str, arg0, ...args) {
-  // str是模板字符串中变量或变量表达式以外的字符串，之后的变量是模板字符串中的变量或变量表达式
-  // 如上例子，str的值为['hello', 'world']，arg0的值为x的值，即为1
+    // str是模板字符串中变量或变量表达式以外的字符串，之后的变量是模板字符串中的变量或变量表达式
+    // 如上例子，str的值为['hello', 'world']，arg0的值为x的值，即为1
 }
 ```
 
@@ -107,12 +107,12 @@ function tag(str, arg0, ...args) {
 
 ```javascript
 function min(a=0, b=0) {
-  // 可以指定参数默认值，当值为undefined时，默认值的生效
+    // 可以指定参数默认值，当值为undefined时，默认值的生效
 }
 
 function add(...args) {
-  // 通过扩展运算符...可以获取传入函数的所有参数，类似于arguments
-  // 当调用add(1, 2, 3)时，args就是[1, 2, 3]
+    // 通过扩展运算符...可以获取传入函数的所有参数，类似于arguments
+    // 当调用add(1, 2, 3)时，args就是[1, 2, 3]
 }
 
 let a = [1, 2, 3];
@@ -153,12 +153,12 @@ Object.assign(t, s1, s2); // target为{a:1, b:2, c:3}，将s1、s2的可枚举�
 
 ```javascript
 function observer(changes) {
-  changes.forEach(function(change) {
-    console.log(change.name); // 发生变动的属性
-    console.log(change.oldValue); // 变动前的值
-    console.log(change.object[change.name]); // 变动后的值
-    console.log(change.type); // 变动类型
-  });
+    changes.forEach(function(change) {
+        console.log(change.name); // 发生变动的属性
+        console.log(change.oldValue); // 变动前的值
+        console.log(change.object[change.name]); // 变动后的值
+        console.log(change.type); // 变动类型
+    });
 }
 Object.observe(o, observer); // 监测对象o的变化
 Object.unobserve(o, observer); // 取消监测对象o的变化
@@ -200,7 +200,7 @@ var a = {};
 a[s] = 'hello';
 // 第二种写法
 var a = {
-  [s]: 'hello'
+    [s]: 'hello'
 };
 ```
 
@@ -213,9 +213,9 @@ Proxy用于修改对象的默认行为（代理默认行为），构造函数接
 ```javascript
 var a = {};
 var o = new Proxy(a, {
-  get: function(target, propKey, receiver) {
-    return 35;
-  }
+    get: function(target, propKey, receiver) {
+        return 35;
+    }
 });
 console.log(o.time); // 输出35
 console.log(o.name); // 输出35
@@ -225,10 +225,10 @@ Reflect用于获取对象的默认行为
 
 ```javascript
 var o = new Proxy(a, {
-  get: function(target, propKey, receiver) {
-    console.log('hahaha');
-    return Reflect.get(target, propKey, receiver);
-  }
+    get: function(target, propKey, receiver) {
+        console.log('hahaha');
+        return Reflect.get(target, propKey, receiver);
+    }
 });
 o.time = 'a';
 console.log(o.time); // 输出hahaha和a
@@ -304,7 +304,7 @@ iter.next(); // 返回{value: undefined, done: true}
 
 ```javascript
 for(let val of arr) {
-  console.log(val); // 依次输出'a'，'b'
+    console.log(val); // 依次输出'a'，'b'
 }
 ```
 
@@ -315,9 +315,9 @@ Generator是一种可中断的函数，当调用函数的next方法时可恢复�
 ```javascript
 // 声明Generator函数
 function* a() {
-  yield 'a'; // 使用yield中断函数的执行，把控制权交回调用者
-  yield 'b';
-  return 'c'; // 结束函数的执行
+    yield 'a'; // 使用yield中断函数的执行，把控制权交回调用者
+    yield 'b';
+    return 'c'; // 结束函数的执行
 }
 
 var ga = a();
@@ -333,21 +333,21 @@ Promise常用于解决回调金字塔的问题
 
 ```javascript
 var a = new Promise(function(resolve, reject) {
-  if(err) {
-    // 操作失败
-    reject(err);
-  } else {
-    // 操作成功
-    resolve(val);
-  }
+    if(err) {
+        // 操作失败
+        reject(err);
+    } else {
+        // 操作成功
+        resolve(val);
+    }
 });
 
 a.then(function(val) {
-  // 操作成功，val即上面resolve返回的参数
+    // 操作成功，val即上面resolve返回的参数
 }, function(err) {
-  // 操作失败，err即上面reject返回的参数
+    // 操作失败，err即上面reject返回的参数
 }).catch(function(err) {
-  // 异常捕获
+    // 异常捕获
 });
 ```
 
@@ -358,33 +358,33 @@ es6的类系统和传统语言的使用方式类似
 ```javascript
 // 定义类A
 class A {
-  constructor(x) {
-    // 构造函数
-    if(new.target === A) {
-      // 判断对象是否使用new实例化
-      this.x = x;
+    constructor(x) {
+        // 构造函数
+        if(new.target === A) {
+            // 判断对象是否使用new实例化
+            this.x = x;
+        }
     }
-  }
-  rX() {
-    // 类方法
-    return this.x;
-  }
-  get x() {
-    // 取值方法
-    return this.x;
-  }
-  set x(x) {
-    // 设值方法
-    this.x = x;
-  }
-  * gX() {
-    // Generator方法
-    yield this.x;
-  }
-  static sX() {
-    // 静态方法
-    return 'hello';
-  }
+    rX() {
+        // 类方法
+        return this.x;
+    }
+    get x() {
+        // 取值方法
+        return this.x;
+    }
+    set x(x) {
+        // 设值方法
+        this.x = x;
+    }
+    * gX() {
+        // Generator方法
+        yield this.x;
+    }
+    static sX() {
+        // 静态方法
+        return 'hello';
+    }
 }
 
 var a = new A(2);
@@ -397,10 +397,10 @@ A.sX(); // 返回'hello'
 ```javascript
 // 定义类B，继承类A
 class B extends A {
-  constructor(x) {
-    super(x);
-    this.x ++;
-  }
+    constructor(x) {
+        super(x);
+        this.x ++;
+    }
 }
 
 var b = new B(2);
@@ -455,5 +455,3 @@ import a from './s1.js'; // 注意，不是import {a} from './s1.js';
 ## 结尾
 
 如果想查看更详细规范，[请戳这里](http://www.ecma-international.org/)
-
-如果想要下载源码，[请戳这里](https://raw.githubusercontent.com/JuneAndGreen/learningSth/master/es6/es6.js)

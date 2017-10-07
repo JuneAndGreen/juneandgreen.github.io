@@ -80,16 +80,16 @@ Adam7隔行扫描算法的原理并不难，本质上是将一张png图片拆分
 其他的小图拆分的方法是一样，在最后一次扫描完毕后，我们就会拿到7张小图。然后我们按照上面的规则对这些小图的像素进行归位，也就是填回去的意思。下面简单演示下归位的流程：
 
 ```
-                  (1) ( ) ( ) ( ) ( ) ( ) ( ) ( ) (1) ( )
-                  ( ) ( ) ( ) ( ) ( ) ( ) ( ) ( ) ( ) ( )
-                  ( ) ( ) ( ) ( ) ( ) ( ) ( ) ( ) ( ) ( )
- 1 1              ( ) ( ) ( ) ( ) ( ) ( ) ( ) ( ) ( ) ( )
- 1 1     ==>      ( ) ( ) ( ) ( ) ( ) ( ) ( ) ( ) ( ) ( )
-                  ( ) ( ) ( ) ( ) ( ) ( ) ( ) ( ) ( ) ( )
-                  ( ) ( ) ( ) ( ) ( ) ( ) ( ) ( ) ( ) ( )
-                  ( ) ( ) ( ) ( ) ( ) ( ) ( ) ( ) ( ) ( )
-                  (1) ( ) ( ) ( ) ( ) ( ) ( ) ( ) (1) ( )
-                  ( ) ( ) ( ) ( ) ( ) ( ) ( ) ( ) ( ) ( )
+                (1) ( ) ( ) ( ) ( ) ( ) ( ) ( ) (1) ( )
+                ( ) ( ) ( ) ( ) ( ) ( ) ( ) ( ) ( ) ( )
+                ( ) ( ) ( ) ( ) ( ) ( ) ( ) ( ) ( ) ( )
+ 1 1            ( ) ( ) ( ) ( ) ( ) ( ) ( ) ( ) ( ) ( )
+ 1 1    ==>     ( ) ( ) ( ) ( ) ( ) ( ) ( ) ( ) ( ) ( )
+                ( ) ( ) ( ) ( ) ( ) ( ) ( ) ( ) ( ) ( )
+                ( ) ( ) ( ) ( ) ( ) ( ) ( ) ( ) ( ) ( )
+                ( ) ( ) ( ) ( ) ( ) ( ) ( ) ( ) ( ) ( )
+                (1) ( ) ( ) ( ) ( ) ( ) ( ) ( ) (1) ( )
+                ( ) ( ) ( ) ( ) ( ) ( ) ( ) ( ) ( ) ( )
 ```
 
 待到7张小图的像素全部都归位后，最后我们就能拿到一张完整的png图片了。
@@ -118,28 +118,28 @@ let offset = 0; // 记录小图开始位置
 
 // 7次扫描
 for(let i=0; i<7; i++) {
-    // 子图像信息
-    let subWidth = Math.ceil((width - startY[i]) / incY[i], 10); // 小图宽度
-    let subHeight = Math.ceil((height - startX[i]) / incX[i], 10); // 小图高度
-    let subBytesPerRow = bytesPerPixel * subWidth; // 小图每行字节数
-    let offsetEnd = offset + (subBytesPerRow + 1) * subHeight; // 小图结束位置
-    let subData = data.slice(offset, offsetEnd); // 小图像素数据
+        // 子图像信息
+        let subWidth = Math.ceil((width - startY[i]) / incY[i], 10); // 小图宽度
+        let subHeight = Math.ceil((height - startX[i]) / incX[i], 10); // 小图高度
+        let subBytesPerRow = bytesPerPixel * subWidth; // 小图每行字节数
+        let offsetEnd = offset + (subBytesPerRow + 1) * subHeight; // 小图结束位置
+        let subData = data.slice(offset, offsetEnd); // 小图像素数据
 
-    // 对小图进行普通的逐行扫描
-    let subPixelsBuffer = this.interlaceNone(subData, subWidth, subHeight, bytesPerPixel, subBytesPerRow);
-    let subOffset = 0;
+        // 对小图进行普通的逐行扫描
+        let subPixelsBuffer = this.interlaceNone(subData, subWidth, subHeight, bytesPerPixel, subBytesPerRow);
+        let subOffset = 0;
 
-    // 像素归位
-    for(let x=startX[i]; x<height; x+=incX[i]) {
-        for(let y=startY[i]; y<width; y+=incY[i]) {
-            // 逐个像素拷贝回原本所在的位置
-            for(let z=0; z<bytesPerPixel; z++) {
-                pixelsBuffer[(x * width + y) * bytesPerPixel + z] = subPixelsBuffer[subOffset++] & 0xFF;
-            }
+        // 像素归位
+        for(let x=startX[i]; x<height; x+=incX[i]) {
+                for(let y=startY[i]; y<width; y+=incY[i]) {
+                        // 逐个像素拷贝回原本所在的位置
+                        for(let z=0; z<bytesPerPixel; z++) {
+                                pixelsBuffer[(x * width + y) * bytesPerPixel + z] = subPixelsBuffer[subOffset++] & 0xFF;
+                        }
+                }
         }
-    }
 
-    offset = offsetEnd; // 置为下一张小图的开始位置
+        offset = offsetEnd; // 置为下一张小图的开始位置
 }
 
 return pixelsBuffer;

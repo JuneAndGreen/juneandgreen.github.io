@@ -389,28 +389,28 @@ pre::-webkit-scrollbar-thumb {
 <p>我们希望提供的使用方式尽可能简单，比如类似如下的方式：</p>
 <pre><code class="lang-javascript"><span class="hljs-comment">// 前端</span>
 <span class="hljs-keyword">var</span> html = <span class="hljs-built_in">window</span>.parse(<span class="hljs-string">'&lt;div&gt;<span class="hljs-subst">${content}</span>&lt;/div&gt;'</span>, {
-  content: <span class="hljs-string">'june'</span>
+    content: <span class="hljs-string">'june'</span>
 });
 
 <span class="hljs-comment">// 后端</span>
 <span class="hljs-keyword">const</span> parse = require(<span class="hljs-string">'tpl'</span>);
 <span class="hljs-keyword">var</span> html = parse(<span class="hljs-string">'&lt;div&gt;<span class="hljs-subst">${content}</span>&lt;/div&gt;'</span>, {
-  content: <span class="hljs-string">'june'</span>
+    content: <span class="hljs-string">'june'</span>
 });
 </code></pre>
 <p>并且希望至少提供以下四种语法：</p>
 <h3 id="-">条件判断</h3>
 <pre><code>{<span class="hljs-keyword">if</span> condition1}
-  <span class="hljs-comment">// code1</span>
+    <span class="hljs-comment">// code1</span>
 {<span class="hljs-keyword">elseif</span> condition2}
-  <span class="hljs-comment">// code2</span>
+    <span class="hljs-comment">// code2</span>
 {<span class="hljs-keyword">else</span>}
-  <span class="hljs-comment">// code3</span>
+    <span class="hljs-comment">// code3</span>
 {/<span class="hljs-keyword">if</span>}
 </code></pre><h3 id="-">数组遍历</h3>
 <pre><code>{list<span class="hljs-built_in"> array </span>as item}
-  // code
-  // PS：里面注入了一个变量item_index，指向item在遍历过程中的序号
+    // code
+    // PS：里面注入了一个变量item_index，指向item在遍历过程中的序号
 {/list}
 </code></pre><h3 id="-">变量定义</h3>
 <pre><code>{<span class="hljs-built_in">var</span> <span class="hljs-built_in">var1</span> = <span class="hljs-number">1</span>}
@@ -427,37 +427,37 @@ pre::-webkit-scrollbar-thumb {
 
 <span class="hljs-keyword">var</span> __PARSE__  = (<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
 
-  <span class="hljs-comment">/**
-   * 默认的过滤器
-   */</span>
-  <span class="hljs-keyword">const</span> defaultFilter = {
-    <span class="hljs-comment">// some code</span>
-  };
+    <span class="hljs-comment">/**
+     * 默认的过滤器
+     */</span>
+    <span class="hljs-keyword">const</span> defaultFilter = {
+        <span class="hljs-comment">// some code</span>
+    };
 
-  <span class="hljs-comment">/*
-   * 解析模板
-   */</span>
-  <span class="hljs-keyword">let</span> doParseTemplate(content, data, filter) {
-    <span class="hljs-comment">// some code</span>
-  };
+    <span class="hljs-comment">/*
+     * 解析模板
+     */</span>
+    <span class="hljs-keyword">let</span> doParseTemplate(content, data, filter) {
+        <span class="hljs-comment">// some code</span>
+    };
 
-  <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">content, data, filter</span>) </span>{
-    <span class="hljs-keyword">try</span> {
-      data = data||{};
-      filter = <span class="hljs-built_in">Object</span>.assign({}, defaultFilter, filter);
-      <span class="hljs-comment">// 解析模板生成代码生成器</span>
-      <span class="hljs-keyword">let</span> f = doParseTemplate(content, data, filter);
-      <span class="hljs-keyword">return</span> f(data, filter);
-    } <span class="hljs-keyword">catch</span>(ex) {
-      <span class="hljs-keyword">return</span> ex.stack;
-    }
-  };
+    <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">content, data, filter</span>) </span>{
+        <span class="hljs-keyword">try</span> {
+            data = data||{};
+            filter = <span class="hljs-built_in">Object</span>.assign({}, defaultFilter, filter);
+            <span class="hljs-comment">// 解析模板生成代码生成器</span>
+            <span class="hljs-keyword">let</span> f = doParseTemplate(content, data, filter);
+            <span class="hljs-keyword">return</span> f(data, filter);
+        } <span class="hljs-keyword">catch</span>(ex) {
+            <span class="hljs-keyword">return</span> ex.stack;
+        }
+    };
 })();
 
 <span class="hljs-keyword">if</span>(<span class="hljs-keyword">typeof</span> <span class="hljs-built_in">module</span> !== <span class="hljs-string">'undefined'</span> &amp;&amp; <span class="hljs-keyword">typeof</span> exports === <span class="hljs-string">'object'</span>) {
-  <span class="hljs-built_in">module</span>.exports = __PARSE__;
+    <span class="hljs-built_in">module</span>.exports = __PARSE__;
 } <span class="hljs-keyword">else</span> {
-  <span class="hljs-built_in">window</span>.parse = __PARSE__;
+    <span class="hljs-built_in">window</span>.parse = __PARSE__;
 }
 </code></pre>
 <p>此处，<code>f</code>即是我们生成的函数，而生成该函数的函数我命名为<code>doParseTemplate</code>，接收三个参数，<code>content</code>是我们输入的模板文件的字符串内容，<code>data</code>是我们要传入的数据，而<code>filter</code>即为模板中可传入的过滤器。目前<code>doParseTemplate</code>这个函数还未实现，接下来就来实现此函数。</p>
@@ -465,69 +465,69 @@ pre::-webkit-scrollbar-thumb {
 <p>为了生成一个可用的函数，我们要通过<code>new Function(&#39;DATA&#39;, &#39;FILTER&#39;, content);</code>这样的方法来构造一个函数，其中<code>content</code>即是函数体的字符串内容。</p>
 <p>我们先设定要生成的函数<code>f</code>的结构如下：</p>
 <pre><code class="lang-javascript"><span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">DATA, FILTER</span>) </span>{
-  <span class="hljs-keyword">try</span> {
-    <span class="hljs-keyword">var</span> OUT = [];
-    <span class="hljs-comment">// 处理变量</span>
-    <span class="hljs-comment">// some code</span>
-    <span class="hljs-comment">// 处理过滤器</span>
-    <span class="hljs-comment">// some code</span>
-    <span class="hljs-comment">// 处理内容</span>
-    <span class="hljs-comment">// other code</span>
-    <span class="hljs-keyword">return</span> OUT.join(<span class="hljs-string">''</span>);
-  } <span class="hljs-keyword">catch</span>(e) {
-    <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(<span class="hljs-string">'parse template error!'</span>);
-  }
+    <span class="hljs-keyword">try</span> {
+        <span class="hljs-keyword">var</span> OUT = [];
+        <span class="hljs-comment">// 处理变量</span>
+        <span class="hljs-comment">// some code</span>
+        <span class="hljs-comment">// 处理过滤器</span>
+        <span class="hljs-comment">// some code</span>
+        <span class="hljs-comment">// 处理内容</span>
+        <span class="hljs-comment">// other code</span>
+        <span class="hljs-keyword">return</span> OUT.join(<span class="hljs-string">''</span>);
+    } <span class="hljs-keyword">catch</span>(e) {
+        <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(<span class="hljs-string">'parse template error!'</span>);
+    }
 }
 </code></pre>
 <p>事实上，注释中处理变量、处理过滤器和处理内容这部分是由外部传入决定的，所以只有这部分是可变的，其余的代码都是固定的。为此我们可以使用数组来存放相关的内容，然后在可变部分留一个占位符，在解析到处理变量、处理过滤器和处理内容部分时再把语句塞进去即可。代码如下：</p>
 <pre><code class="lang-javascript"><span class="hljs-keyword">let</span> doParseTemplate = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">content, data, filter</span>) </span>{
-  content = content.replace(<span class="hljs-regexp">/\t/g</span>, <span class="hljs-string">'  '</span>).replace(<span class="hljs-regexp">/\n/g</span>, <span class="hljs-string">'\\n'</span>).replace(<span class="hljs-regexp">/\r/g</span>, <span class="hljs-string">'\\r'</span>);
+    content = content.replace(<span class="hljs-regexp">/\t/g</span>, <span class="hljs-string">'  '</span>).replace(<span class="hljs-regexp">/\n/g</span>, <span class="hljs-string">'\\n'</span>).replace(<span class="hljs-regexp">/\r/g</span>, <span class="hljs-string">'\\r'</span>);
 
-  <span class="hljs-comment">// 初始化模板生成器结构</span>
-  <span class="hljs-keyword">var</span> struct = [
-    <span class="hljs-string">'try { var OUT = [];'</span>,
-    <span class="hljs-string">''</span>, <span class="hljs-comment">//放置模板生成器占位符</span>
-    <span class="hljs-string">'return OUT.join(\'\'); } catch(e) { throw new Error("parse template error!"); }'</span>
-  ];
+    <span class="hljs-comment">// 初始化模板生成器结构</span>
+    <span class="hljs-keyword">var</span> struct = [
+        <span class="hljs-string">'try { var OUT = [];'</span>,
+        <span class="hljs-string">''</span>, <span class="hljs-comment">//放置模板生成器占位符</span>
+        <span class="hljs-string">'return OUT.join(\'\'); } catch(e) { throw new Error("parse template error!"); }'</span>
+    ];
 
-  <span class="hljs-comment">// some code</span>
+    <span class="hljs-comment">// some code</span>
 
-  <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Function</span>(<span class="hljs-string">'DATA'</span>, <span class="hljs-string">'FILTER'</span>, struct.join(<span class="hljs-string">''</span>));
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Function</span>(<span class="hljs-string">'DATA'</span>, <span class="hljs-string">'FILTER'</span>, struct.join(<span class="hljs-string">''</span>));
 }
 </code></pre>
 <p>现在固定结构有了，接下来我们要处理模板相关的内容，即在放置生成器占位符的那个位置上追加内容。首先，我们要先把输入的变量和过滤器处理好，即在占位符的位置加入诸如<code>var a = 1;</code>这样的内容：</p>
 <pre><code class="lang-javascript">doParseTemplate = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">content, data</span>) </span>{
-  content = content.replace(<span class="hljs-regexp">/\t/g</span>, <span class="hljs-string">'  '</span>).replace(<span class="hljs-regexp">/\n/g</span>, <span class="hljs-string">'\\n'</span>).replace(<span class="hljs-regexp">/\r/g</span>, <span class="hljs-string">'\\r'</span>);
+    content = content.replace(<span class="hljs-regexp">/\t/g</span>, <span class="hljs-string">'  '</span>).replace(<span class="hljs-regexp">/\n/g</span>, <span class="hljs-string">'\\n'</span>).replace(<span class="hljs-regexp">/\r/g</span>, <span class="hljs-string">'\\r'</span>);
 
-  <span class="hljs-comment">// 初始化模板生成器结构</span>
-  <span class="hljs-keyword">let</span> out = [];
-  <span class="hljs-keyword">let</span> struct = [
-    <span class="hljs-string">'try { var OUT = [];'</span>,
-    <span class="hljs-string">''</span>, <span class="hljs-comment">//放置模板生成器占位符</span>
-    <span class="hljs-string">'return OUT.join(\'\'); } catch(e) { throw e; }'</span>
-  ];
+    <span class="hljs-comment">// 初始化模板生成器结构</span>
+    <span class="hljs-keyword">let</span> out = [];
+    <span class="hljs-keyword">let</span> struct = [
+        <span class="hljs-string">'try { var OUT = [];'</span>,
+        <span class="hljs-string">''</span>, <span class="hljs-comment">//放置模板生成器占位符</span>
+        <span class="hljs-string">'return OUT.join(\'\'); } catch(e) { throw e; }'</span>
+    ];
 
-  <span class="hljs-comment">// 初始化模板变量</span>
-  <span class="hljs-keyword">let</span> vars = [];
-  <span class="hljs-built_in">Object</span>.keys(data).forEach(<span class="hljs-function">(<span class="hljs-params">name</span>) =&gt;</span> {
-    vars.push(<span class="hljs-string">`var <span class="hljs-subst">${name}</span> = DATA['<span class="hljs-subst">${name}</span>'];`</span>);
-  });
-  out.push(vars.join(<span class="hljs-string">''</span>));
+    <span class="hljs-comment">// 初始化模板变量</span>
+    <span class="hljs-keyword">let</span> vars = [];
+    <span class="hljs-built_in">Object</span>.keys(data).forEach(<span class="hljs-function">(<span class="hljs-params">name</span>) =&gt;</span> {
+        vars.push(<span class="hljs-string">`var <span class="hljs-subst">${name}</span> = DATA['<span class="hljs-subst">${name}</span>'];`</span>);
+    });
+    out.push(vars.join(<span class="hljs-string">''</span>));
 
-  <span class="hljs-comment">// 初始化过滤器</span>
-  <span class="hljs-keyword">let</span> filters = [<span class="hljs-string">'var FILTERS = {};'</span>];
-  <span class="hljs-built_in">Object</span>.keys(filter).forEach(<span class="hljs-function">(<span class="hljs-params">name</span>) =&gt;</span> {
-    <span class="hljs-keyword">if</span>(<span class="hljs-keyword">typeof</span> filter[name] === <span class="hljs-string">'function'</span>) {
-      filters.push(<span class="hljs-string">`FILTERS['<span class="hljs-subst">${name}</span>'] = FILTER['<span class="hljs-subst">${name}</span>'];`</span>);
-    }
-  });
-  out.push(filters.join(<span class="hljs-string">''</span>));
+    <span class="hljs-comment">// 初始化过滤器</span>
+    <span class="hljs-keyword">let</span> filters = [<span class="hljs-string">'var FILTERS = {};'</span>];
+    <span class="hljs-built_in">Object</span>.keys(filter).forEach(<span class="hljs-function">(<span class="hljs-params">name</span>) =&gt;</span> {
+        <span class="hljs-keyword">if</span>(<span class="hljs-keyword">typeof</span> filter[name] === <span class="hljs-string">'function'</span>) {
+            filters.push(<span class="hljs-string">`FILTERS['<span class="hljs-subst">${name}</span>'] = FILTER['<span class="hljs-subst">${name}</span>'];`</span>);
+        }
+    });
+    out.push(filters.join(<span class="hljs-string">''</span>));
 
-  <span class="hljs-comment">// some code for parse content</span>
+    <span class="hljs-comment">// some code for parse content</span>
 
-  <span class="hljs-comment">// 合并内容</span>
-  struct[<span class="hljs-number">1</span>] = out.join(<span class="hljs-string">''</span>);
-  <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Function</span>(<span class="hljs-string">'DATA'</span>, <span class="hljs-string">'FILTER'</span>, struct.join(<span class="hljs-string">''</span>));
+    <span class="hljs-comment">// 合并内容</span>
+    struct[<span class="hljs-number">1</span>] = out.join(<span class="hljs-string">''</span>);
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Function</span>(<span class="hljs-string">'DATA'</span>, <span class="hljs-string">'FILTER'</span>, struct.join(<span class="hljs-string">''</span>));
 }
 </code></pre>
 <p>如上，在处理变量和过滤器时需要的值直接从传入的<code>DATA</code>和<code>FILTER</code>变量里获取，需要注意的点就是过滤器我们单独存在一个<code>FILTERS</code>对象里面去，主要是为了防止传入的<code>FILTER</code>对象变化带来的一些不必要的影响。之后我们要对模板内容进行解析，鉴于代码越来越长，接下来直接贴上面注释<code>some code for parse content</code>里面的内容，其他部分暂且省略。</p>
@@ -540,68 +540,68 @@ pre::-webkit-scrollbar-thumb {
 <span class="hljs-keyword">let</span> endCode = <span class="hljs-string">''</span>; <span class="hljs-comment">// 最后一段代码</span>
 <span class="hljs-keyword">let</span> stmJs = <span class="hljs-string">''</span>; <span class="hljs-comment">// 表达式</span>
 <span class="hljs-keyword">while</span>(beg &lt; len) {
-  <span class="hljs-comment">/* 开始符 */</span>
-  stmbeg = content.indexOf(<span class="hljs-string">'{'</span>, beg);
-  <span class="hljs-keyword">while</span>(content.charAt(stmbeg - <span class="hljs-number">1</span>) === <span class="hljs-string">'\\'</span>) {
-    <span class="hljs-comment">// 遇到转义的情况</span>
-    stmbeg = content.indexOf(<span class="hljs-string">'{'</span>, stmbeg + <span class="hljs-number">1</span>);
-  }
-  <span class="hljs-keyword">if</span>(stmbeg === <span class="hljs-number">-1</span>) {
-    <span class="hljs-comment">// 到达最后一段代码</span>
-    endCode = content.substr(beg);
-    out.push(<span class="hljs-string">'OUT.push(\''</span> + endCode + <span class="hljs-string">'\');'</span>);
-    <span class="hljs-keyword">break</span>;
-  }
+    <span class="hljs-comment">/* 开始符 */</span>
+    stmbeg = content.indexOf(<span class="hljs-string">'{'</span>, beg);
+    <span class="hljs-keyword">while</span>(content.charAt(stmbeg - <span class="hljs-number">1</span>) === <span class="hljs-string">'\\'</span>) {
+        <span class="hljs-comment">// 遇到转义的情况</span>
+        stmbeg = content.indexOf(<span class="hljs-string">'{'</span>, stmbeg + <span class="hljs-number">1</span>);
+    }
+    <span class="hljs-keyword">if</span>(stmbeg === <span class="hljs-number">-1</span>) {
+        <span class="hljs-comment">// 到达最后一段代码</span>
+        endCode = content.substr(beg);
+        out.push(<span class="hljs-string">'OUT.push(\''</span> + endCode + <span class="hljs-string">'\');'</span>);
+        <span class="hljs-keyword">break</span>;
+    }
 
-  <span class="hljs-comment">/* 结束符 */</span>
-  stmend = content.indexOf(<span class="hljs-string">'}'</span>, stmbeg);
-  <span class="hljs-keyword">while</span>(content.charAt(stmend - <span class="hljs-number">1</span>) === <span class="hljs-string">'\\'</span>) {
-    <span class="hljs-comment">// 遇到转义的情况</span>
-    stmend = content.indexOf(<span class="hljs-string">'}'</span>, stmend + <span class="hljs-number">1</span>);
-  }
-  <span class="hljs-keyword">if</span>(stmend === <span class="hljs-number">-1</span>) {
-    <span class="hljs-comment">// 没有结束符</span>
-    <span class="hljs-keyword">break</span>;
-  }
+    <span class="hljs-comment">/* 结束符 */</span>
+    stmend = content.indexOf(<span class="hljs-string">'}'</span>, stmbeg);
+    <span class="hljs-keyword">while</span>(content.charAt(stmend - <span class="hljs-number">1</span>) === <span class="hljs-string">'\\'</span>) {
+        <span class="hljs-comment">// 遇到转义的情况</span>
+        stmend = content.indexOf(<span class="hljs-string">'}'</span>, stmend + <span class="hljs-number">1</span>);
+    }
+    <span class="hljs-keyword">if</span>(stmend === <span class="hljs-number">-1</span>) {
+        <span class="hljs-comment">// 没有结束符</span>
+        <span class="hljs-keyword">break</span>;
+    }
 
-  <span class="hljs-comment">// 开始符之前代码 </span>
-  preCode = content.substring(beg, stmbeg);
+    <span class="hljs-comment">// 开始符之前代码 </span>
+    preCode = content.substring(beg, stmbeg);
 
-  <span class="hljs-keyword">if</span>(content.charAt(stmbeg - <span class="hljs-number">1</span>) === <span class="hljs-string">'$'</span>) {
-    <span class="hljs-comment">// 针对变量取值</span>
-    out.push(<span class="hljs-string">`OUT.push(\'<span class="hljs-subst">${preCode.substr(<span class="hljs-number">0</span>, preCode.length<span class="hljs-number">-1</span>)}</span>\');`</span>);
-    stmJs = content.substring(stmbeg + <span class="hljs-number">1</span>, stmend);
+    <span class="hljs-keyword">if</span>(content.charAt(stmbeg - <span class="hljs-number">1</span>) === <span class="hljs-string">'$'</span>) {
+        <span class="hljs-comment">// 针对变量取值</span>
+        out.push(<span class="hljs-string">`OUT.push(\'<span class="hljs-subst">${preCode.substr(<span class="hljs-number">0</span>, preCode.length<span class="hljs-number">-1</span>)}</span>\');`</span>);
+        stmJs = content.substring(stmbeg + <span class="hljs-number">1</span>, stmend);
 
-    <span class="hljs-comment">// 处理过滤器</span>
-    <span class="hljs-keyword">let</span> tmp = <span class="hljs-string">''</span>;
-    stmJs.split(<span class="hljs-string">'|'</span>).forEach(<span class="hljs-function">(<span class="hljs-params">item, index</span>) =&gt;</span> {
-      <span class="hljs-keyword">if</span>(index === <span class="hljs-number">0</span>) {
-        <span class="hljs-comment">// 变量，强制转码</span>
-        tmp = item;
-      } <span class="hljs-keyword">else</span> {
-        <span class="hljs-comment">// 过滤器</span>
-        <span class="hljs-keyword">let</span> farr = item.split(<span class="hljs-string">':'</span>);
-        tmp = <span class="hljs-string">`FILTERS['<span class="hljs-subst">${farr[<span class="hljs-number">0</span>]}</span>'](<span class="hljs-subst">${tmp}</span>`</span>;
+        <span class="hljs-comment">// 处理过滤器</span>
+        <span class="hljs-keyword">let</span> tmp = <span class="hljs-string">''</span>;
+        stmJs.split(<span class="hljs-string">'|'</span>).forEach(<span class="hljs-function">(<span class="hljs-params">item, index</span>) =&gt;</span> {
+            <span class="hljs-keyword">if</span>(index === <span class="hljs-number">0</span>) {
+                <span class="hljs-comment">// 变量，强制转码</span>
+                tmp = item;
+            } <span class="hljs-keyword">else</span> {
+                <span class="hljs-comment">// 过滤器</span>
+                <span class="hljs-keyword">let</span> farr = item.split(<span class="hljs-string">':'</span>);
+                tmp = <span class="hljs-string">`FILTERS['<span class="hljs-subst">${farr[<span class="hljs-number">0</span>]}</span>'](<span class="hljs-subst">${tmp}</span>`</span>;
 
-        <span class="hljs-keyword">if</span>(farr[<span class="hljs-number">1</span>]) {
-          <span class="hljs-comment">// 带变量的过滤器</span>
-          farr[<span class="hljs-number">1</span>].split(<span class="hljs-string">','</span>).forEach(<span class="hljs-function">(<span class="hljs-params">fitem</span>) =&gt;</span> {
-            tmp = <span class="hljs-string">`<span class="hljs-subst">${tmp}</span>, <span class="hljs-subst">${fitem}</span>`</span>;
-          }); 
-        }
+                <span class="hljs-keyword">if</span>(farr[<span class="hljs-number">1</span>]) {
+                    <span class="hljs-comment">// 带变量的过滤器</span>
+                    farr[<span class="hljs-number">1</span>].split(<span class="hljs-string">','</span>).forEach(<span class="hljs-function">(<span class="hljs-params">fitem</span>) =&gt;</span> {
+                        tmp = <span class="hljs-string">`<span class="hljs-subst">${tmp}</span>, <span class="hljs-subst">${fitem}</span>`</span>;
+                    }); 
+                }
 
-        tmp = <span class="hljs-string">`<span class="hljs-subst">${tmp}</span>)`</span>; <span class="hljs-comment">// 追加结尾</span>
-      }
-    });
+                tmp = <span class="hljs-string">`<span class="hljs-subst">${tmp}</span>)`</span>; <span class="hljs-comment">// 追加结尾</span>
+            }
+        });
 
-    out.push(<span class="hljs-string">`OUT.push((<span class="hljs-subst">${tmp}</span>).toString());`</span>);
-  } <span class="hljs-keyword">else</span> {
-    <span class="hljs-comment">// 针对js语句</span>
-    out.push(<span class="hljs-string">`OUT.push(\'<span class="hljs-subst">${preCode}</span>\');`</span>);
-    stmJs = content.substring(stmbeg + <span class="hljs-number">1</span>, stmend);
-    out.push(transStm(stmJs));
-  }
-  beg = stmend + <span class="hljs-number">1</span>;
+        out.push(<span class="hljs-string">`OUT.push((<span class="hljs-subst">${tmp}</span>).toString());`</span>);
+    } <span class="hljs-keyword">else</span> {
+        <span class="hljs-comment">// 针对js语句</span>
+        out.push(<span class="hljs-string">`OUT.push(\'<span class="hljs-subst">${preCode}</span>\');`</span>);
+        stmJs = content.substring(stmbeg + <span class="hljs-number">1</span>, stmend);
+        out.push(transStm(stmJs));
+    }
+    beg = stmend + <span class="hljs-number">1</span>;
 }
 </code></pre>
 <p>对于模板内容的解析，因为语法相对简单，此处直接使用while循环遍历。在我们上面定义的语法中，有关结构相关的语法都用<code>{</code>和<code>}</code>来包围，插值则是<code>${</code>和<code>}</code>，因此针对这两种语法需要分开处理。整个流程的判断如下：</p>
@@ -624,12 +624,12 @@ pre::-webkit-scrollbar-thumb {
  * 转换模板语句
  */</span>
 <span class="hljs-symbol">let</span> transStm = <span class="hljs-meta">function</span>(<span class="hljs-keyword">stmJs) </span>{
-  <span class="hljs-keyword">stmJs </span>= <span class="hljs-keyword">stmJs.trim();
-</span>  for(let <span class="hljs-keyword">item </span>of regmap) {
-    <span class="hljs-meta">if</span>(<span class="hljs-keyword">item.reg.test(stmJs)) </span>{
-      return (typeof <span class="hljs-keyword">item.val </span>=== <span class="hljs-string">'function'</span>) ? <span class="hljs-keyword">stmJs.replace(item.reg, </span><span class="hljs-keyword">item.val) </span>: <span class="hljs-keyword">item.val;
-</span>    }
-  }
+    <span class="hljs-keyword">stmJs </span>= <span class="hljs-keyword">stmJs.trim();
+</span>    for(let <span class="hljs-keyword">item </span>of regmap) {
+        <span class="hljs-meta">if</span>(<span class="hljs-keyword">item.reg.test(stmJs)) </span>{
+            return (typeof <span class="hljs-keyword">item.val </span>=== <span class="hljs-string">'function'</span>) ? <span class="hljs-keyword">stmJs.replace(item.reg, </span><span class="hljs-keyword">item.val) </span>: <span class="hljs-keyword">item.val;
+</span>        }
+    }
 }<span class="hljs-comment">;</span>
 </code></pre>
 <p>如上，其实只是把语句中的内容逐一用正则去匹配，当匹配到属于某种规则的语句，则针对性处理并返回结果。比如我有一个语句<code>{if a &gt; 1}</code>，然后正则去匹配，会匹配出是条件判断中的if语句，然后会处理成js代码<code>if(a &gt; 1) {</code>并返回。而语句<code>{/if}</code>则会处理成<code>}</code>并返回。因此如下代码：</p>
@@ -637,7 +637,7 @@ pre::-webkit-scrollbar-thumb {
 </code></pre>
 <p>会处理成：</p>
 <pre><code class="lang-javascript"><span class="hljs-keyword">if</span><span class="hljs-comment">(a &gt; 1)</span> {
-  out.push<span class="hljs-comment">('.css{margin: 0;}')</span>; <span class="hljs-comment">// 此处是输出模板内容</span>
+    out.push<span class="hljs-comment">('.css{margin: 0;}')</span>; <span class="hljs-comment">// 此处是输出模板内容</span>
 }
 </code></pre>
 <p>其中关于语法匹配的正则和返回处理如下：</p>
@@ -645,20 +645,20 @@ pre::-webkit-scrollbar-thumb {
  * 语法正则
  */</span>
 <span class="hljs-keyword">const</span> regmap = [
-  <span class="hljs-comment">// if语句开始</span>
-  {<span class="hljs-keyword">reg</span>: /^<span class="hljs-keyword">if</span>\s+(.+)/i, val: (all, condition) =&gt; {<span class="hljs-keyword">return</span> `<span class="hljs-keyword">if</span>(<span class="hljs-variable">${condition}</span>) {`;}},
-  <span class="hljs-comment">// elseif 语句开始</span>
-  {<span class="hljs-keyword">reg</span>: /^elseif\s+(.+)/i, val: (all, condition) =&gt; {<span class="hljs-keyword">return</span> `} <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(<span class="hljs-variable">${condition}</span>) {`}},
-  <span class="hljs-comment">// else语句结束</span>
-  {<span class="hljs-keyword">reg</span>: /^<span class="hljs-keyword">else</span>/i, val: '} <span class="hljs-keyword">else</span> {'},
-  <span class="hljs-comment">// if语句结束</span>
-  {<span class="hljs-keyword">reg</span>: /^\/\s*<span class="hljs-keyword">if</span>/i, val: '}'},
-  <span class="hljs-comment">// list语句开始</span>
-  {<span class="hljs-keyword">reg</span>: /^<span class="hljs-keyword">list</span>\s+([\S]+)\s+<span class="hljs-keyword">as</span>\s+([\S]+)/i, val: (all, arr, item) =&gt; {<span class="hljs-keyword">return</span> `<span class="hljs-keyword">for</span>(<span class="hljs-keyword">var</span> __INDEX__=0;__INDEX__&lt;<span class="hljs-variable">${arr}</span>.length;__INDEX__++) {<span class="hljs-keyword">var</span> <span class="hljs-variable">${item}</span>=<span class="hljs-variable">${arr}</span>[__INDEX__];<span class="hljs-keyword">var</span> <span class="hljs-variable">${item}</span>_index=__INDEX__;`;}},
-  <span class="hljs-comment">// list语句结束</span>
-  {<span class="hljs-keyword">reg</span>: /^\/\s*<span class="hljs-keyword">list</span>/i, val: '}'},
-  <span class="hljs-comment">// var 语句</span>
-  {<span class="hljs-keyword">reg</span>: /^<span class="hljs-keyword">var</span>\s+(.+)/i, val: (all, expr) =&gt; {<span class="hljs-keyword">return</span> `<span class="hljs-keyword">var</span> <span class="hljs-variable">${expr}</span>;`;}}
+    <span class="hljs-comment">// if语句开始</span>
+    {<span class="hljs-keyword">reg</span>: /^<span class="hljs-keyword">if</span>\s+(.+)/i, val: (all, condition) =&gt; {<span class="hljs-keyword">return</span> `<span class="hljs-keyword">if</span>(<span class="hljs-variable">${condition}</span>) {`;}},
+    <span class="hljs-comment">// elseif 语句开始</span>
+    {<span class="hljs-keyword">reg</span>: /^elseif\s+(.+)/i, val: (all, condition) =&gt; {<span class="hljs-keyword">return</span> `} <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(<span class="hljs-variable">${condition}</span>) {`}},
+    <span class="hljs-comment">// else语句结束</span>
+    {<span class="hljs-keyword">reg</span>: /^<span class="hljs-keyword">else</span>/i, val: '} <span class="hljs-keyword">else</span> {'},
+    <span class="hljs-comment">// if语句结束</span>
+    {<span class="hljs-keyword">reg</span>: /^\/\s*<span class="hljs-keyword">if</span>/i, val: '}'},
+    <span class="hljs-comment">// list语句开始</span>
+    {<span class="hljs-keyword">reg</span>: /^<span class="hljs-keyword">list</span>\s+([\S]+)\s+<span class="hljs-keyword">as</span>\s+([\S]+)/i, val: (all, arr, item) =&gt; {<span class="hljs-keyword">return</span> `<span class="hljs-keyword">for</span>(<span class="hljs-keyword">var</span> __INDEX__=0;__INDEX__&lt;<span class="hljs-variable">${arr}</span>.length;__INDEX__++) {<span class="hljs-keyword">var</span> <span class="hljs-variable">${item}</span>=<span class="hljs-variable">${arr}</span>[__INDEX__];<span class="hljs-keyword">var</span> <span class="hljs-variable">${item}</span>_index=__INDEX__;`;}},
+    <span class="hljs-comment">// list语句结束</span>
+    {<span class="hljs-keyword">reg</span>: /^\/\s*<span class="hljs-keyword">list</span>/i, val: '}'},
+    <span class="hljs-comment">// var 语句</span>
+    {<span class="hljs-keyword">reg</span>: /^<span class="hljs-keyword">var</span>\s+(.+)/i, val: (all, expr) =&gt; {<span class="hljs-keyword">return</span> `<span class="hljs-keyword">var</span> <span class="hljs-variable">${expr}</span>;`;}}
 ];
 </code></pre>
 <p>其中<code>reg</code>字段是正则表达式，若匹配成功，则执行或直接返回<code>val</code>字段的值。</p>
@@ -668,24 +668,24 @@ pre::-webkit-scrollbar-thumb {
  * 默认的过滤器
  */</span>
 <span class="hljs-keyword">const</span> defaultFilter = {
-  <span class="hljs-comment">// 防注入用</span>
-  <span class="hljs-built_in">escape</span>: <span class="hljs-function">(<span class="hljs-params">str</span>) =&gt;</span> {
-    <span class="hljs-comment">// 防注入转码映射表</span>
-    <span class="hljs-keyword">var</span> escapeMap = {
-      <span class="hljs-string">'&lt;'</span>: <span class="hljs-string">'&amp;lt;'</span>,
-      <span class="hljs-string">'&gt;'</span>: <span class="hljs-string">'&amp;gt;'</span>,
-      <span class="hljs-string">'&amp;'</span>: <span class="hljs-string">'&amp;amp;'</span>,
-      <span class="hljs-string">' '</span>: <span class="hljs-string">'&amp;nbsp;'</span>,
-      <span class="hljs-string">'"'</span>: <span class="hljs-string">'&amp;quot;'</span>,
-      <span class="hljs-string">"'"</span>: <span class="hljs-string">'&amp;#39;'</span>,
-      <span class="hljs-string">'\n'</span>: <span class="hljs-string">'&lt;br/&gt;'</span>,
-      <span class="hljs-string">'\r'</span>: <span class="hljs-string">''</span>
-    };
+    <span class="hljs-comment">// 防注入用</span>
+    <span class="hljs-built_in">escape</span>: <span class="hljs-function">(<span class="hljs-params">str</span>) =&gt;</span> {
+        <span class="hljs-comment">// 防注入转码映射表</span>
+        <span class="hljs-keyword">var</span> escapeMap = {
+            <span class="hljs-string">'&lt;'</span>: <span class="hljs-string">'&amp;lt;'</span>,
+            <span class="hljs-string">'&gt;'</span>: <span class="hljs-string">'&amp;gt;'</span>,
+            <span class="hljs-string">'&amp;'</span>: <span class="hljs-string">'&amp;amp;'</span>,
+            <span class="hljs-string">' '</span>: <span class="hljs-string">'&amp;nbsp;'</span>,
+            <span class="hljs-string">'"'</span>: <span class="hljs-string">'&amp;quot;'</span>,
+            <span class="hljs-string">"'"</span>: <span class="hljs-string">'&amp;#39;'</span>,
+            <span class="hljs-string">'\n'</span>: <span class="hljs-string">'&lt;br/&gt;'</span>,
+            <span class="hljs-string">'\r'</span>: <span class="hljs-string">''</span>
+        };
 
-    <span class="hljs-keyword">return</span> str.replace(<span class="hljs-regexp">/\&lt;|\&gt;|\&amp;|\r|\n|\s|\'|\"/g</span>, <span class="hljs-function">(<span class="hljs-params">one</span>) =&gt;</span> {
-      <span class="hljs-keyword">return</span> escapeMap[one];
-    });
-  }
+        <span class="hljs-keyword">return</span> str.replace(<span class="hljs-regexp">/\&lt;|\&gt;|\&amp;|\r|\n|\s|\'|\"/g</span>, <span class="hljs-function">(<span class="hljs-params">one</span>) =&gt;</span> {
+            <span class="hljs-keyword">return</span> escapeMap[one];
+        });
+    }
 };
 </code></pre>
 <p>用法很简单，当我们有一个变量a，内容为<code>&lt;div style=&quot;color: red;&quot;&gt;red&lt;/div&gt;</code>时，因为我们经常将模板引擎生成的内容直接用innerHTML塞进节点之中，而假如我们像<code>${a}</code>这种方式直接使用这个变量的时候，在页面中就只会显示一个红色的red。</p>

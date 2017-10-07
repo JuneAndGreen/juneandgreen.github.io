@@ -136,33 +136,33 @@ content + padding + border
 * c = 类、伪类和属性选择器的数量。
 * d = 类型选择器和伪元素选择器的数量。
 
-| 选择器                    | 等级(a,b,c,d) |
-|--------------------------|---------------|
-| style=""                 | 1,0,0,0       |
-| #wrapper #content {}     | 0,2,0,0       |
-| #content .dateposted {}  | 0,1,1,0       |
-| div#content {}           | 0,1,0,1       |
-| #content p {}            | 0,1,0,1       |
-| #content {}              | 0,1,0,0       |
-| p.comment .dateposted {} | 0,0,2,1       |
-| div.comment p {}         | 0,0,1,2       |
-| .comment p {}            | 0,0,1,1       |
-| p.comment {}             | 0,0,1,1       |
-| .comment {}              | 0,0,1,0       |
-| div p {}                 | 0,0,0,2       |
-| p {}                     | 0,0,0,1       |
+| 选择器 | 等级(a,b,c,d) |
+|---|---|
+| style="" | 1,0,0,0 |
+| #wrapper #content {} | 0,2,0,0 |
+| #content .dateposted {} | 0,1,1,0 |
+| div#content {} | 0,1,0,1 |
+| #content p {} | 0,1,0,1 |
+| #content {} | 0,1,0,0 |
+| p.comment .dateposted {} | 0,0,2,1 |
+| div.comment p {} | 0,0,1,2 |
+| .comment p {} | 0,0,1,1 |
+| p.comment {} | 0,0,1,1 |
+| .comment {} | 0,0,1,0 |
+| div p {} | 0,0,0,2 |
+| p {} | 0,0,0,1 |
 
 #### 属性选择器的匹配规则
 
-| 选择器             | 例子             | 例子描述                                       |
-|--------------------|-----------------|------------------------------------------------|
-| [attribute]        | [target]        | 选择带有 target 属性所有元素。                   |
-| [attribute=value]  | [target=_blank] | 选择 target="_blank" 的所有元素。               |
-| [attribute~=value] | [title~=flower] | 选择 title 属性包含单词 "flower" 的所有元素。    |
-| [attribute|=value] | [lang|=en]      | 选择 lang 属性值以 "en" 开头的所有元素。         |
-| [attribute^=value] | a[src^="https"] | 选择其 src 属性值以 "https" 开头的每个 <a> 元素。 |
-| [attribute$=value] | a[src$=".pdf"]  | 选择其 src 属性以 ".pdf" 结尾的所有 <a> 元素。   |
-| [attribute*=value] | a[src*="abc"]   | 选择其 src 属性中包含 "abc" 子串的每个 <a> 元素。 |
+| 选择器 | 例子 | 例子描述 |
+|---|---|---|
+| [attribute] | [target] | 选择带有 target 属性所有元素。 |
+| [attribute=value] | [target=_blank] | 选择 target="_blank" 的所有元素。 |
+| [attribute~=value] | [title~=flower] | 选择 title 属性值包含**单词** "flower" 的所有元素。 |
+| [attribute&#124;=value] | [lang&#124;=en] | 选择 lang 属性值以 "en" 开头的所有元素。 |
+| [attribute^=value] | a[src^="https"] | 选择其 src 属性值以 "https" 开头的每个 &lt;a&gt; 元素。 |
+| [attribute$=value] | a[src$=".pdf"] | 选择其 src 属性值以 ".pdf" 结尾的所有 &lt;a&gt; 元素。 |
+| [attribute*=value] | a[src*="abc"] | 选择其 src 属性值中包含 "abc" 子串的每个 &lt;a&gt; 元素。 |
 
 #### 伪类和伪元素
 
@@ -315,7 +315,7 @@ flex实现：
 .left {
   width: 200px; /* 左侧定宽 */
   float: left;
-  margin-right: -200px;
+  margin-right: -200px; /* 使得占用空间为0 */
 }
 .right {
   margin-left: 200px;
@@ -349,14 +349,12 @@ flex实现：
 
 适用场景：logo类的网页图片（带透明效果）、在编码过程中的图片或复杂的图片。
 
-ps：png的另一个优点——逐次逼近显示：先显示模糊，逐渐变清晰。
-
 #### 综合比较
 
 * 大小：png ≈ jpg > gif
 * 透明：png > gif > jpg
 * 色彩丰富程度：jpg > png > gif
-* 兼容程度：gif ≈ jpg > png（png在IE6下不透明，使用hack可解决）
+* 兼容程度：gif ≈ jpg > png
 
 #### 新技术
 
@@ -378,7 +376,7 @@ ps：bmp（位图）体积大，一般不考虑。
 
 ### IE中的bug及其解决方案
 
-* 盒模型
+* 盒模型不同。
 * IE6浮动双边距问题：第一个左浮动元素的margin-left加倍（右浮动同样），使用`display: inline;`解决。
 * IE6浮动3px问题：给浮动元素天界3px的负外边距解决。
 * IE6绝对定位元素消失问题：绝对定位元素在浮动元素前后会消失，当浮动元素在前时，给绝对定位元素添加`clear: both;`解决，当浮动元素在后时，给浮动元素添加`margin-right: -3px;`解决。
@@ -826,11 +824,11 @@ PS：sRule为兼容样式表，only限定某种设备（一般可省略，常用
 * 避免table。
 * 使用HTML5.
 
-#### 显示指定文档字符集
+#### 显式指定文档字符集
 
 若无指定，浏览器一般在页面渲染前缓存字节流，再搜索可进行解析的字符集或以默认字符集来解析。
 
-#### 显示图片的宽高（行内样式或css）
+#### 显式指定图片的宽高（行内样式或css）
 
 若无指定，浏览器会在图片下载完成后再“回溯”该图片并重新显示，从而浪费时间。
 

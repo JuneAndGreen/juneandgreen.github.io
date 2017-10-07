@@ -378,14 +378,14 @@ pre::-webkit-scrollbar-thumb {
 <pre><code class="lang-javascript"><span class="hljs-keyword">var</span> a = <span class="hljs-number">1</span>;
 <span class="hljs-comment">// 如下用大括号括起来的区域属于一个代码块</span>
 {
-  a = <span class="hljs-number">4</span>; <span class="hljs-comment">// 报错，let会引起暂时性死区，无法调用外部定义的变量a</span>
-  <span class="hljs-built_in">console</span>.log(b); <span class="hljs-comment">// 报错，let不会让声明提升</span>
+    a = <span class="hljs-number">4</span>; <span class="hljs-comment">// 报错，let会引起暂时性死区，无法调用外部定义的变量a</span>
+    <span class="hljs-built_in">console</span>.log(b); <span class="hljs-comment">// 报错，let不会让声明提升</span>
 
-  <span class="hljs-keyword">let</span> a = <span class="hljs-number">2</span>;
-  <span class="hljs-keyword">let</span> b = <span class="hljs-number">3</span>;
+    <span class="hljs-keyword">let</span> a = <span class="hljs-number">2</span>;
+    <span class="hljs-keyword">let</span> b = <span class="hljs-number">3</span>;
 
-  <span class="hljs-keyword">let</span> a = <span class="hljs-number">5</span>; <span class="hljs-comment">// 报错，作用域内无法声明同名变量</span>
-  <span class="hljs-keyword">var</span> a = <span class="hljs-number">6</span>; <span class="hljs-comment">// 报错，同上</span>
+    <span class="hljs-keyword">let</span> a = <span class="hljs-number">5</span>; <span class="hljs-comment">// 报错，作用域内无法声明同名变量</span>
+    <span class="hljs-keyword">var</span> a = <span class="hljs-number">6</span>; <span class="hljs-comment">// 报错，同上</span>
 }
 
 <span class="hljs-built_in">console</span>.log(b); <span class="hljs-comment">// 报错，let支持块级作用域</span>
@@ -425,34 +425,34 @@ let <span class="hljs-comment">{a=1}</span> = <span class="hljs-comment">{a:2}</
 </code></pre>
 <h3 id="-">函数参数</h3>
 <pre><code class="lang-javascript">function <span class="hljs-keyword">add</span><span class="bash">([x, y]){
-</span>  console.log(x + y);
+</span>    console.log(x + y);
 }
 <span class="hljs-keyword">add</span><span class="bash">([1, 2]) // 输出3</span>
 </code></pre>
 <h2 id="-">字符串扩展</h2>
 <h3 id="-">模板字符串</h3>
 <pre><code class="lang-javascript"><span class="hljs-keyword">let</span> x = <span class="hljs-number">1</span>;
-<span class="hljs-keyword">let</span> a = ` &lt;div&gt;
-            &lt;span&gt;${x + <span class="hljs-number">1</span>}&lt;/span&gt;
-          &lt;/div&gt;`; <span class="hljs-comment">// 使用反引号`定义模板字符串，可以在字符串中嵌入变量或者变量表达式，并且支持多行</span>
+<span class="hljs-keyword">let</span> a = `&lt;div&gt;
+    &lt;span&gt;${x + <span class="hljs-number">1</span>}&lt;/span&gt;
+&lt;/div&gt;`; <span class="hljs-comment">// 使用反引号`定义模板字符串，可以在字符串中嵌入变量或者变量表达式，并且支持多行</span>
 </code></pre>
 <h3 id="-">模板标签</h3>
 <pre><code class="lang-javascript">let x = <span class="hljs-number">1</span>;
 let a = tag`hello${x}world`; <span class="hljs-comment">// 模板标签可以像过滤器一样工作，可以对模板字符串做一系列操作，仅跟着模板标签之后的模板字符串作为参数传入</span>
 <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">tag</span><span class="hljs-params">(str, arg0, <span class="hljs-rest_arg">...args</span>)</span> </span>{
-  <span class="hljs-comment">// str是模板字符串中变量或变量表达式以外的字符串，之后的变量是模板字符串中的变量或变量表达式</span>
-  <span class="hljs-comment">// 如上例子，str的值为['hello', 'world']，arg0的值为x的值，即为1</span>
+    <span class="hljs-comment">// str是模板字符串中变量或变量表达式以外的字符串，之后的变量是模板字符串中的变量或变量表达式</span>
+    <span class="hljs-comment">// 如上例子，str的值为['hello', 'world']，arg0的值为x的值，即为1</span>
 }
 </code></pre>
 <h2 id="-">函数扩展</h2>
 <h3 id="rest-">rest参数和扩展运算符</h3>
 <pre><code class="lang-javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">min</span><span class="hljs-params">(a=0, b=0)</span> </span>{
-  <span class="hljs-comment">// 可以指定参数默认值，当值为undefined时，默认值的生效</span>
+    <span class="hljs-comment">// 可以指定参数默认值，当值为undefined时，默认值的生效</span>
 }
 
 <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">add</span><span class="hljs-params">(<span class="hljs-rest_arg">...args</span>)</span> </span>{
-  <span class="hljs-comment">// 通过扩展运算符...可以获取传入函数的所有参数，类似于arguments</span>
-  <span class="hljs-comment">// 当调用add(1, 2, 3)时，args就是[1, 2, 3]</span>
+    <span class="hljs-comment">// 通过扩展运算符...可以获取传入函数的所有参数，类似于arguments</span>
+    <span class="hljs-comment">// 当调用add(1, 2, 3)时，args就是[1, 2, 3]</span>
 }
 
 let a = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>];
@@ -482,12 +482,12 @@ Object.assign(t, <span class="hljs-built_in">s1</span>, <span class="hljs-built_
 </code></pre>
 <h3 id="-">对象变化监测</h3>
 <pre><code class="lang-javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">observer</span>(<span class="hljs-params">changes</span>) </span>{
-  changes.forEach(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">change</span>) </span>{
-    <span class="hljs-built_in">console</span>.log(change.name); <span class="hljs-comment">// 发生变动的属性</span>
-    <span class="hljs-built_in">console</span>.log(change.oldValue); <span class="hljs-comment">// 变动前的值</span>
-    <span class="hljs-built_in">console</span>.log(change.object[change.name]); <span class="hljs-comment">// 变动后的值</span>
-    <span class="hljs-built_in">console</span>.log(change.type); <span class="hljs-comment">// 变动类型</span>
-  });
+    changes.forEach(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">change</span>) </span>{
+        <span class="hljs-built_in">console</span>.log(change.name); <span class="hljs-comment">// 发生变动的属性</span>
+        <span class="hljs-built_in">console</span>.log(change.oldValue); <span class="hljs-comment">// 变动前的值</span>
+        <span class="hljs-built_in">console</span>.log(change.object[change.name]); <span class="hljs-comment">// 变动后的值</span>
+        <span class="hljs-built_in">console</span>.log(change.type); <span class="hljs-comment">// 变动类型</span>
+    });
 }
 <span class="hljs-built_in">Object</span>.observe(o, observer); <span class="hljs-comment">// 监测对象o的变化</span>
 <span class="hljs-built_in">Object</span>.unobserve(o, observer); <span class="hljs-comment">// 取消监测对象o的变化</span>
@@ -516,7 +516,7 @@ a === b; <span class="hljs-comment">// 返回true</span>
 a[s] = <span class="hljs-string">'hello'</span>;
 <span class="hljs-comment">// 第二种写法</span>
 <span class="hljs-keyword">var</span> a = {
-  [<span class="hljs-meta">s</span>]: <span class="hljs-string">'hello'</span>
+    [<span class="hljs-meta">s</span>]: <span class="hljs-string">'hello'</span>
 };
 </code></pre>
 <h2 id="proxy-reflect">Proxy和Reflect</h2>
@@ -524,19 +524,19 @@ a[s] = <span class="hljs-string">'hello'</span>;
 <p>必须使用代理过的o才能使代理生效，使用a则是没有代理的原始对象</p>
 <pre><code class="lang-javascript"><span class="hljs-keyword">var</span> a = {};
 <span class="hljs-keyword">var</span> o = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Proxy</span>(a, {
-  <span class="hljs-attr">get</span>: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">target, propKey, receiver</span>) </span>{
-    <span class="hljs-keyword">return</span> <span class="hljs-number">35</span>;
-  }
+    <span class="hljs-attr">get</span>: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">target, propKey, receiver</span>) </span>{
+        <span class="hljs-keyword">return</span> <span class="hljs-number">35</span>;
+    }
 });
 <span class="hljs-built_in">console</span>.log(o.time); <span class="hljs-comment">// 输出35</span>
 <span class="hljs-built_in">console</span>.log(o.name); <span class="hljs-comment">// 输出35</span>
 </code></pre>
 <p>Reflect用于获取对象的默认行为</p>
 <pre><code class="lang-javascript"><span class="hljs-keyword">var</span> o = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Proxy</span>(a, {
-  <span class="hljs-attr">get</span>: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">target, propKey, receiver</span>) </span>{
-    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'hahaha'</span>);
-    <span class="hljs-keyword">return</span> <span class="hljs-built_in">Reflect</span>.get(target, propKey, receiver);
-  }
+    <span class="hljs-attr">get</span>: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">target, propKey, receiver</span>) </span>{
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'hahaha'</span>);
+        <span class="hljs-keyword">return</span> <span class="hljs-built_in">Reflect</span>.get(target, propKey, receiver);
+    }
 });
 o.time = <span class="hljs-string">'a'</span>;
 <span class="hljs-built_in">console</span>.log(o.time); <span class="hljs-comment">// 输出hahaha和a</span>
@@ -588,16 +588,16 @@ iter.<span class="hljs-keyword">next</span>(); <span class="hljs-regexp">//</spa
 </code></pre>
 <p>一个数据结构只要部署了Symbol.iterator属性，就被视为具有Iterator接口，就可以用for...of循环遍历它的元素</p>
 <pre><code class="lang-javascript"><span class="hljs-keyword">for</span>(<span class="hljs-keyword">let</span> <span class="hljs-keyword">val</span> <span class="hljs-keyword">of</span> arr) {
-  console.log(<span class="hljs-keyword">val</span>); <span class="hljs-comment">// 依次输出'a'，'b'</span>
+    console.log(<span class="hljs-keyword">val</span>); <span class="hljs-comment">// 依次输出'a'，'b'</span>
 }
 </code></pre>
 <h2 id="generator">Generator</h2>
 <p>Generator是一种可中断的函数，当调用函数的next方法时可恢复函数的执行</p>
 <pre><code class="lang-javascript">// 声明Generator函数
 <span class="hljs-function"><span class="hljs-keyword">function</span>* <span class="hljs-title">a</span><span class="hljs-params">()</span></span> {
-  <span class="hljs-built_in">yield</span> <span class="hljs-string">'a'</span>; // 使用<span class="hljs-built_in">yield</span>中断函数的执行，把控制权交回调用者
-  <span class="hljs-built_in">yield</span> <span class="hljs-string">'b'</span>;
-  <span class="hljs-keyword">return</span> <span class="hljs-string">'c'</span>; // 结束函数的执行
+    <span class="hljs-built_in">yield</span> <span class="hljs-string">'a'</span>; // 使用<span class="hljs-built_in">yield</span>中断函数的执行，把控制权交回调用者
+    <span class="hljs-built_in">yield</span> <span class="hljs-string">'b'</span>;
+    <span class="hljs-keyword">return</span> <span class="hljs-string">'c'</span>; // 结束函数的执行
 }
 
 var ga = a();
@@ -609,54 +609,54 @@ ga.<span class="hljs-built_in">next</span>(); // 返回{value: undefined, done: 
 <h2 id="promise">Promise</h2>
 <p>Promise常用于解决回调金字塔的问题</p>
 <pre><code class="lang-javascript"><span class="hljs-keyword">var</span> a = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Promise</span>(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">resolve, reject</span>) </span>{
-  <span class="hljs-keyword">if</span>(err) {
-    <span class="hljs-comment">// 操作失败</span>
-    reject(err);
-  } <span class="hljs-keyword">else</span> {
-    <span class="hljs-comment">// 操作成功</span>
-    resolve(val);
-  }
+    <span class="hljs-keyword">if</span>(err) {
+        <span class="hljs-comment">// 操作失败</span>
+        reject(err);
+    } <span class="hljs-keyword">else</span> {
+        <span class="hljs-comment">// 操作成功</span>
+        resolve(val);
+    }
 });
 
 a.then(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">val</span>) </span>{
-  <span class="hljs-comment">// 操作成功，val即上面resolve返回的参数</span>
+    <span class="hljs-comment">// 操作成功，val即上面resolve返回的参数</span>
 }, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">err</span>) </span>{
-  <span class="hljs-comment">// 操作失败，err即上面reject返回的参数</span>
+    <span class="hljs-comment">// 操作失败，err即上面reject返回的参数</span>
 }).catch(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">err</span>) </span>{
-  <span class="hljs-comment">// 异常捕获</span>
+    <span class="hljs-comment">// 异常捕获</span>
 });
 </code></pre>
 <h2 id="class">Class</h2>
 <p>es6的类系统和传统语言的使用方式类似</p>
 <pre><code class="lang-javascript"><span class="hljs-comment">// 定义类A</span>
 <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">A</span> </span>{
-  <span class="hljs-keyword">constructor</span>(x) {
-    <span class="hljs-comment">// 构造函数</span>
-    <span class="hljs-keyword">if</span>(new.target === A) {
-      <span class="hljs-comment">// 判断对象是否使用new实例化</span>
-      <span class="hljs-keyword">this</span>.x = x;
+    <span class="hljs-keyword">constructor</span>(x) {
+        <span class="hljs-comment">// 构造函数</span>
+        <span class="hljs-keyword">if</span>(new.target === A) {
+            <span class="hljs-comment">// 判断对象是否使用new实例化</span>
+            <span class="hljs-keyword">this</span>.x = x;
+        }
     }
-  }
-  rX() {
-    <span class="hljs-comment">// 类方法</span>
-    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.x;
-  }
-  <span class="hljs-keyword">get</span> x() {
-    <span class="hljs-comment">// 取值方法</span>
-    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.x;
-  }
-  <span class="hljs-keyword">set</span> x(x) {
-    <span class="hljs-comment">// 设值方法</span>
-    <span class="hljs-keyword">this</span>.x = x;
-  }
-  * gX() {
-    <span class="hljs-comment">// Generator方法</span>
-    yield <span class="hljs-keyword">this</span>.x;
-  }
-  static sX() {
-    <span class="hljs-comment">// 静态方法</span>
-    <span class="hljs-keyword">return</span> <span class="hljs-string">'hello'</span>;
-  }
+    rX() {
+        <span class="hljs-comment">// 类方法</span>
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.x;
+    }
+    <span class="hljs-keyword">get</span> x() {
+        <span class="hljs-comment">// 取值方法</span>
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.x;
+    }
+    <span class="hljs-keyword">set</span> x(x) {
+        <span class="hljs-comment">// 设值方法</span>
+        <span class="hljs-keyword">this</span>.x = x;
+    }
+    * gX() {
+        <span class="hljs-comment">// Generator方法</span>
+        yield <span class="hljs-keyword">this</span>.x;
+    }
+    static sX() {
+        <span class="hljs-comment">// 静态方法</span>
+        <span class="hljs-keyword">return</span> <span class="hljs-string">'hello'</span>;
+    }
 }
 
 <span class="hljs-keyword">var</span> a = new A(<span class="hljs-number">2</span>);
@@ -666,10 +666,10 @@ A.sX(); <span class="hljs-comment">// 返回'hello'</span>
 <p>同样，es6的类系统也支持继承</p>
 <pre><code class="lang-javascript"><span class="hljs-comment">// 定义类B，继承类A</span>
 <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">B</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">A</span> </span>{
-  constructor(x) {
-    <span class="hljs-keyword">super</span>(x);
-    <span class="hljs-keyword">this</span>.x ++;
-  }
+    constructor(x) {
+        <span class="hljs-keyword">super</span>(x);
+        <span class="hljs-keyword">this</span>.x ++;
+    }
 }
 
 <span class="hljs-keyword">var</span> b = <span class="hljs-keyword">new</span> <span class="hljs-type">B</span>(<span class="hljs-number">2</span>);
@@ -705,7 +705,6 @@ b.rX(); <span class="hljs-comment">// 返回3</span>
 </code></pre>
 <h2 id="-">结尾</h2>
 <p>如果想查看更详细规范，<a href="http://www.ecma-international.org/">请戳这里</a></p>
-<p>如果想要下载源码，<a href="https://raw.githubusercontent.com/JuneAndGreen/learningSth/master/es6/es6.js">请戳这里</a></p>
           
     </div>
 </div>

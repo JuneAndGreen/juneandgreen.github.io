@@ -404,16 +404,16 @@ pre::-webkit-scrollbar-thumb {
 <pre><code class="lang-html"><span class="hljs-comment">&lt;!-- index.html --&gt;</span>
 <span class="hljs-meta">&lt;!DOCTYPE html&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">html</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">"zh"</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">http-equiv</span>=<span class="hljs-string">"Content-Type"</span> <span class="hljs-attr">content</span>=<span class="hljs-string">"text/html; charset=utf-8"</span> /&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"index.css"</span> <span class="hljs-attr">rel</span>=<span class="hljs-string">"stylesheet"</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"text/css"</span> /&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>五子棋<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span>
-  <span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>
-      <span class="hljs-comment">&lt;!-- 游戏棋盘棋子采用canvas来绘制 --&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">canvas</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"canvas"</span> <span class="hljs-attr">width</span>=<span class="hljs-string">"640"</span> <span class="hljs-attr">height</span>=<span class="hljs-string">"640"</span>&gt;</span>你的浏览器不支持HTML5 canvas，请使用google chrome浏览器打开<span class="hljs-tag">&lt;/<span class="hljs-name">canvas</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"text/javascript"</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"index.js"</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
-  <span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">http-equiv</span>=<span class="hljs-string">"Content-Type"</span> <span class="hljs-attr">content</span>=<span class="hljs-string">"text/html; charset=utf-8"</span> /&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">link</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"index.css"</span> <span class="hljs-attr">rel</span>=<span class="hljs-string">"stylesheet"</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"text/css"</span> /&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>五子棋<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>
+        <span class="hljs-comment">&lt;!-- 游戏棋盘棋子采用canvas来绘制 --&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">canvas</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"canvas"</span> <span class="hljs-attr">width</span>=<span class="hljs-string">"640"</span> <span class="hljs-attr">height</span>=<span class="hljs-string">"640"</span>&gt;</span>你的浏览器不支持HTML5 canvas，请使用google chrome浏览器打开<span class="hljs-tag">&lt;/<span class="hljs-name">canvas</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"text/javascript"</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"index.js"</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span>
 </code></pre>
 <pre><code class="lang-css"><span class="hljs-comment">/* index.css */</span>
@@ -435,53 +435,53 @@ pre::-webkit-scrollbar-thumb {
 
 <span class="hljs-comment">/* 绘制棋盘 */</span>
 draw.paintTable = (<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
-  <span class="hljs-keyword">var</span> drawLine = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">context, dir, i</span>) </span>{
-    <span class="hljs-keyword">var</span> x,y;
-    <span class="hljs-keyword">if</span>(dir === <span class="hljs-string">'row'</span>) {
-      <span class="hljs-comment">// 画横线</span>
-      x = [<span class="hljs-number">0</span>, <span class="hljs-number">640</span>];
-      y = [i, i];
-    } <span class="hljs-keyword">else</span> {
-      <span class="hljs-comment">// 画竖线</span>
-      x = [i, i];
-      y = [<span class="hljs-number">0</span>, <span class="hljs-number">640</span>];
-    }
+    <span class="hljs-keyword">var</span> drawLine = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">context, dir, i</span>) </span>{
+        <span class="hljs-keyword">var</span> x,y;
+        <span class="hljs-keyword">if</span>(dir === <span class="hljs-string">'row'</span>) {
+            <span class="hljs-comment">// 画横线</span>
+            x = [<span class="hljs-number">0</span>, <span class="hljs-number">640</span>];
+            y = [i, i];
+        } <span class="hljs-keyword">else</span> {
+            <span class="hljs-comment">// 画竖线</span>
+            x = [i, i];
+            y = [<span class="hljs-number">0</span>, <span class="hljs-number">640</span>];
+        }
 
-    context.beginPath();
-    context.lineWidth = <span class="hljs-string">'4'</span>;
-    context.strokeStyle = <span class="hljs-string">'black'</span>;
-    context.moveTo(x[<span class="hljs-number">0</span>], y[<span class="hljs-number">0</span>]);
-    context.lineTo(x[<span class="hljs-number">1</span>], y[<span class="hljs-number">1</span>]);
-    context.closePath();
-    context.stroke();
-  };
-  <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
-    <span class="hljs-keyword">var</span> context = <span class="hljs-built_in">window</span>.cache.table;
+        context.beginPath();
+        context.lineWidth = <span class="hljs-string">'4'</span>;
+        context.strokeStyle = <span class="hljs-string">'black'</span>;
+        context.moveTo(x[<span class="hljs-number">0</span>], y[<span class="hljs-number">0</span>]);
+        context.lineTo(x[<span class="hljs-number">1</span>], y[<span class="hljs-number">1</span>]);
+        context.closePath();
+        context.stroke();
+    };
+    <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+        <span class="hljs-keyword">var</span> context = <span class="hljs-built_in">window</span>.cache.table;
 
-    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">var</span> i=<span class="hljs-number">0</span>; i&lt;=<span class="hljs-number">640</span>; i+=<span class="hljs-number">40</span>) {
-      drawLine(context, <span class="hljs-string">'row'</span>, i);
-      drawLine(context, <span class="hljs-string">'column'</span>, i);
+        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">var</span> i=<span class="hljs-number">0</span>; i&lt;=<span class="hljs-number">640</span>; i+=<span class="hljs-number">40</span>) {
+            drawLine(context, <span class="hljs-string">'row'</span>, i);
+            drawLine(context, <span class="hljs-string">'column'</span>, i);
+        }
     }
-  }
 })();
 
 <span class="hljs-comment">/* 绘制棋子 */</span>
 <span class="hljs-comment">/* flag为1表示黑字，flag为2表示白子 */</span>
 draw.drawChess = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">flag, x, y</span>) </span>{
-  <span class="hljs-keyword">var</span> cache = <span class="hljs-built_in">window</span>.cache;
-  <span class="hljs-keyword">var</span> context = cache.table;
-  <span class="hljs-keyword">var</span> iswin = cache.iswin;
+    <span class="hljs-keyword">var</span> cache = <span class="hljs-built_in">window</span>.cache;
+    <span class="hljs-keyword">var</span> context = cache.table;
+    <span class="hljs-keyword">var</span> iswin = cache.iswin;
 
-  <span class="hljs-keyword">if</span>(iswin === <span class="hljs-number">1</span>) <span class="hljs-keyword">return</span>; <span class="hljs-comment">// 结束战斗</span>
-  <span class="hljs-keyword">else</span> {
-    <span class="hljs-keyword">if</span>(flag === <span class="hljs-number">1</span>) {
-      <span class="hljs-comment">// 画黑子</span>
-      context.drawImage(cache.black, x*<span class="hljs-number">40</span>+<span class="hljs-number">20</span>, y*<span class="hljs-number">40</span>+<span class="hljs-number">20</span>);
-    } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(flag === <span class="hljs-number">2</span>) {
-      <span class="hljs-comment">// 画白子</span>
-      context.drawImage(cache.white, x*<span class="hljs-number">40</span>+<span class="hljs-number">20</span>, y*<span class="hljs-number">40</span>+<span class="hljs-number">20</span>);
-    }
-  } 
+    <span class="hljs-keyword">if</span>(iswin === <span class="hljs-number">1</span>) <span class="hljs-keyword">return</span>; <span class="hljs-comment">// 结束战斗</span>
+    <span class="hljs-keyword">else</span> {
+        <span class="hljs-keyword">if</span>(flag === <span class="hljs-number">1</span>) {
+            <span class="hljs-comment">// 画黑子</span>
+            context.drawImage(cache.black, x*<span class="hljs-number">40</span>+<span class="hljs-number">20</span>, y*<span class="hljs-number">40</span>+<span class="hljs-number">20</span>);
+        } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(flag === <span class="hljs-number">2</span>) {
+            <span class="hljs-comment">// 画白子</span>
+            context.drawImage(cache.white, x*<span class="hljs-number">40</span>+<span class="hljs-number">20</span>, y*<span class="hljs-number">40</span>+<span class="hljs-number">20</span>);
+        }
+    } 
 }
 
 <span class="hljs-built_in">module</span>.exports = draw;
@@ -528,44 +528,44 @@ draw.paintTable();
 draw.paintTable();
 (<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
     <span class="hljs-comment">// 此处是为了获取棋盘居中时的偏移量</span>
-  <span class="hljs-keyword">var</span> canvas = <span class="hljs-built_in">window</span>.cache.canvas;
-  <span class="hljs-built_in">window</span>.cache.offsetX = canvas.offsetLeft - (canvas.clientWidth/<span class="hljs-number">2</span>);
+    <span class="hljs-keyword">var</span> canvas = <span class="hljs-built_in">window</span>.cache.canvas;
+    <span class="hljs-built_in">window</span>.cache.offsetX = canvas.offsetLeft - (canvas.clientWidth/<span class="hljs-number">2</span>);
 })();
 
 <span class="hljs-built_in">window</span>.cache.canvas.onmousedown = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">event</span>) </span>{
-  event = event || <span class="hljs-built_in">window</span>.event;
+    event = event || <span class="hljs-built_in">window</span>.event;
 
-  <span class="hljs-keyword">var</span> cache = <span class="hljs-built_in">window</span>.cache;
-  <span class="hljs-keyword">var</span> chessValue = cache.chessValue;
+    <span class="hljs-keyword">var</span> cache = <span class="hljs-built_in">window</span>.cache;
+    <span class="hljs-keyword">var</span> chessValue = cache.chessValue;
 
-  <span class="hljs-keyword">var</span> x=<span class="hljs-built_in">parseInt</span>((event.pageX - <span class="hljs-number">20</span> - cache.offsetX)/<span class="hljs-number">40</span>);
-  <span class="hljs-keyword">var</span> y=<span class="hljs-built_in">parseInt</span>((event.pageY - <span class="hljs-number">20</span>)/<span class="hljs-number">40</span>);
-  <span class="hljs-keyword">var</span> winjudge;
+    <span class="hljs-keyword">var</span> x=<span class="hljs-built_in">parseInt</span>((event.pageX - <span class="hljs-number">20</span> - cache.offsetX)/<span class="hljs-number">40</span>);
+    <span class="hljs-keyword">var</span> y=<span class="hljs-built_in">parseInt</span>((event.pageY - <span class="hljs-number">20</span>)/<span class="hljs-number">40</span>);
+    <span class="hljs-keyword">var</span> winjudge;
 
-  <span class="hljs-keyword">if</span>(!cache.isblack) <span class="hljs-keyword">return</span>; <span class="hljs-comment">// 如果不是轮到黑子下则返回</span>
-  <span class="hljs-keyword">else</span> {
-    <span class="hljs-keyword">if</span>(chessValue[x][y]) {
-      <span class="hljs-comment">// 这里已经有棋子</span>
-      alert(<span class="hljs-string">"此处不能落子！"</span>);
-      <span class="hljs-keyword">return</span>;
-    } <span class="hljs-keyword">else</span> {
-      chessValue[x][y] = <span class="hljs-number">1</span>; <span class="hljs-comment">// 下黑子</span>
-      cache.isblack = <span class="hljs-literal">false</span>;
-      draw.drawChess(<span class="hljs-number">1</span>, x, y); <span class="hljs-comment">// 画棋子</span>
+    <span class="hljs-keyword">if</span>(!cache.isblack) <span class="hljs-keyword">return</span>; <span class="hljs-comment">// 如果不是轮到黑子下则返回</span>
+    <span class="hljs-keyword">else</span> {
+        <span class="hljs-keyword">if</span>(chessValue[x][y]) {
+            <span class="hljs-comment">// 这里已经有棋子</span>
+            alert(<span class="hljs-string">"此处不能落子！"</span>);
+            <span class="hljs-keyword">return</span>;
+        } <span class="hljs-keyword">else</span> {
+            chessValue[x][y] = <span class="hljs-number">1</span>; <span class="hljs-comment">// 下黑子</span>
+            cache.isblack = <span class="hljs-literal">false</span>;
+            draw.drawChess(<span class="hljs-number">1</span>, x, y); <span class="hljs-comment">// 画棋子</span>
 
-      <span class="hljs-comment">// 判断输赢</span>
-      winjudge = judge(<span class="hljs-number">1</span>, x, y);
-      <span class="hljs-keyword">if</span>(winjudge === <span class="hljs-number">1</span>) { 
-        cache.iswin = <span class="hljs-number">1</span>;
-        alert(<span class="hljs-string">"黑子赢!"</span>);
-      } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(winjudge === <span class="hljs-number">3</span>) {
-        cache.iswin = <span class="hljs-number">1</span>;
-        alert(<span class="hljs-string">"平局！"</span>);
-      }
+            <span class="hljs-comment">// 判断输赢</span>
+            winjudge = judge(<span class="hljs-number">1</span>, x, y);
+            <span class="hljs-keyword">if</span>(winjudge === <span class="hljs-number">1</span>) { 
+                cache.iswin = <span class="hljs-number">1</span>;
+                alert(<span class="hljs-string">"黑子赢!"</span>);
+            } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(winjudge === <span class="hljs-number">3</span>) {
+                cache.iswin = <span class="hljs-number">1</span>;
+                alert(<span class="hljs-string">"平局！"</span>);
+            }
 
-      chooseWhere();
+            chooseWhere();
+        }
     }
-  }
 };
 </code></pre>
 <p>这就是完整的src/index.js里的代码，其中<code>chessValue</code>是用来存储某个点是否有落子的信息，其结构为15<em>15的二维数组，对应棋盘中15</em>15个点。<code>judge</code>函数负责判断输赢，<code>chooseWhere</code>函数用于选择落子点，在下文中将对此做详细说明。</p>
@@ -574,87 +574,87 @@ draw.paintTable();
 <pre><code class="lang-javascript"><span class="hljs-comment">/* 判断输赢 */</span>
 <span class="hljs-comment">/* flag为1表示黑字，flag为2表示白子 */</span>
 module.exports = function(flag, x, y) {
-  <span class="hljs-keyword">var</span> chessValue = window.cache.chessValue;
-  <span class="hljs-keyword">var</span> count1 = count2 = count3 = count4 = <span class="hljs-number">0</span>; <span class="hljs-comment">//分别表示横向，竖向，正对角线，反对角线方向棋子个数</span>
+    <span class="hljs-keyword">var</span> chessValue = window.cache.chessValue;
+    <span class="hljs-keyword">var</span> count1 = count2 = count3 = count4 = <span class="hljs-number">0</span>; <span class="hljs-comment">//分别表示横向，竖向，正对角线，反对角线方向棋子个数</span>
 
-  <span class="hljs-keyword">var</span> i = j = <span class="hljs-number">0</span>;
-  <span class="hljs-keyword">var</span> hasBlank = <span class="hljs-literal">false</span>; <span class="hljs-comment">// 是否存在空白位</span>
-  <span class="hljs-keyword">for</span>(i=<span class="hljs-number">0</span>; i&lt;<span class="hljs-number">15</span>; i++) {
-    <span class="hljs-keyword">for</span>(j=<span class="hljs-number">0</span>; j&lt;<span class="hljs-number">15</span>; j++) {
-      <span class="hljs-keyword">if</span>(!chessValue[i][j]) {
-        hasBlank=<span class="hljs-literal">true</span>;
-        <span class="hljs-keyword">break</span>;
-      }
+    <span class="hljs-keyword">var</span> i = j = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">var</span> hasBlank = <span class="hljs-literal">false</span>; <span class="hljs-comment">// 是否存在空白位</span>
+    <span class="hljs-keyword">for</span>(i=<span class="hljs-number">0</span>; i&lt;<span class="hljs-number">15</span>; i++) {
+        <span class="hljs-keyword">for</span>(j=<span class="hljs-number">0</span>; j&lt;<span class="hljs-number">15</span>; j++) {
+            <span class="hljs-keyword">if</span>(!chessValue[i][j]) {
+                hasBlank=<span class="hljs-literal">true</span>;
+                <span class="hljs-keyword">break</span>;
+            }
+        }
+        <span class="hljs-keyword">if</span>(hasBlank) <span class="hljs-keyword">break</span>;
     }
-    <span class="hljs-keyword">if</span>(hasBlank) <span class="hljs-keyword">break</span>;
-  }
-  <span class="hljs-comment">// 平手</span>
-  <span class="hljs-keyword">if</span>(!hasBlank) <span class="hljs-keyword">return</span> <span class="hljs-number">3</span>;
+    <span class="hljs-comment">// 平手</span>
+    <span class="hljs-keyword">if</span>(!hasBlank) <span class="hljs-keyword">return</span> <span class="hljs-number">3</span>;
 
-  <span class="hljs-comment">// 横向</span>
-  <span class="hljs-keyword">for</span>(i=x; i&gt;=<span class="hljs-number">0</span>; i--) {
-    <span class="hljs-keyword">if</span>(chessValue[i][y] === flag) count1 ++;
-    <span class="hljs-keyword">else</span> <span class="hljs-keyword">break</span>;
-  }
-  <span class="hljs-keyword">for</span>(i=x+<span class="hljs-number">1</span>; i&lt;<span class="hljs-number">15</span>; i++) {
-    <span class="hljs-keyword">if</span>(chessValue[i][y] === flag) count1 ++;
-    <span class="hljs-keyword">else</span> <span class="hljs-keyword">break</span>;
-  }
-  <span class="hljs-comment">// 纵向</span>
-  <span class="hljs-keyword">for</span>(i=y; i&gt;=<span class="hljs-number">0</span>; i--) {
-    <span class="hljs-keyword">if</span>(chessValue[x][i] === flag) count2 ++;
-    <span class="hljs-keyword">else</span> <span class="hljs-keyword">break</span>;
-  }
-  <span class="hljs-keyword">for</span>(i=y+<span class="hljs-number">1</span>; i&lt;<span class="hljs-number">15</span>; i++) {
-    <span class="hljs-keyword">if</span>(chessValue[x][i] === flag) count2 ++;
-    <span class="hljs-keyword">else</span> <span class="hljs-keyword">break</span>;
-  }
-  <span class="hljs-comment">// 正对角线</span>
-  <span class="hljs-keyword">for</span>(i=x,j=y; i&gt;=<span class="hljs-number">0</span> &amp;&amp; j&gt;=<span class="hljs-number">0</span>; i--,j--) {
-    <span class="hljs-keyword">if</span>(chessValue[i][j] === flag) count3 ++;
-    <span class="hljs-keyword">else</span> <span class="hljs-keyword">break</span>;
-  }
-  <span class="hljs-keyword">for</span>(i=x+<span class="hljs-number">1</span>,j=y+<span class="hljs-number">1</span>; i&lt;<span class="hljs-number">15</span> &amp;&amp; j&lt;<span class="hljs-number">15</span>; i++,j++) {
-    <span class="hljs-keyword">if</span>(chessValue[i][j] === flag) count3 ++;
-    <span class="hljs-keyword">else</span> <span class="hljs-keyword">break</span>;
-  }
-  <span class="hljs-comment">// 反对角线</span>
-  <span class="hljs-keyword">for</span>(i=x,j=y; i&gt;=<span class="hljs-number">0</span> &amp;&amp; j&lt;=<span class="hljs-number">14</span>; i--,j++) {
-    <span class="hljs-keyword">if</span>(chessValue[i][j] === flag) count4 ++;
-    <span class="hljs-keyword">else</span> <span class="hljs-keyword">break</span>;
-  }
-  <span class="hljs-keyword">for</span>(i=x+<span class="hljs-number">1</span>,j=y<span class="hljs-number">-1</span>; i&lt;=<span class="hljs-number">14</span> &amp;&amp; j&gt;=<span class="hljs-number">0</span>; i++,j--) {
-    <span class="hljs-keyword">if</span>(chessValue[i][j] === flag) count4 ++;
-    <span class="hljs-keyword">else</span> <span class="hljs-keyword">break</span>;
-  }
+    <span class="hljs-comment">// 横向</span>
+    <span class="hljs-keyword">for</span>(i=x; i&gt;=<span class="hljs-number">0</span>; i--) {
+        <span class="hljs-keyword">if</span>(chessValue[i][y] === flag) count1 ++;
+        <span class="hljs-keyword">else</span> <span class="hljs-keyword">break</span>;
+    }
+    <span class="hljs-keyword">for</span>(i=x+<span class="hljs-number">1</span>; i&lt;<span class="hljs-number">15</span>; i++) {
+        <span class="hljs-keyword">if</span>(chessValue[i][y] === flag) count1 ++;
+        <span class="hljs-keyword">else</span> <span class="hljs-keyword">break</span>;
+    }
+    <span class="hljs-comment">// 纵向</span>
+    <span class="hljs-keyword">for</span>(i=y; i&gt;=<span class="hljs-number">0</span>; i--) {
+        <span class="hljs-keyword">if</span>(chessValue[x][i] === flag) count2 ++;
+        <span class="hljs-keyword">else</span> <span class="hljs-keyword">break</span>;
+    }
+    <span class="hljs-keyword">for</span>(i=y+<span class="hljs-number">1</span>; i&lt;<span class="hljs-number">15</span>; i++) {
+        <span class="hljs-keyword">if</span>(chessValue[x][i] === flag) count2 ++;
+        <span class="hljs-keyword">else</span> <span class="hljs-keyword">break</span>;
+    }
+    <span class="hljs-comment">// 正对角线</span>
+    <span class="hljs-keyword">for</span>(i=x,j=y; i&gt;=<span class="hljs-number">0</span> &amp;&amp; j&gt;=<span class="hljs-number">0</span>; i--,j--) {
+        <span class="hljs-keyword">if</span>(chessValue[i][j] === flag) count3 ++;
+        <span class="hljs-keyword">else</span> <span class="hljs-keyword">break</span>;
+    }
+    <span class="hljs-keyword">for</span>(i=x+<span class="hljs-number">1</span>,j=y+<span class="hljs-number">1</span>; i&lt;<span class="hljs-number">15</span> &amp;&amp; j&lt;<span class="hljs-number">15</span>; i++,j++) {
+        <span class="hljs-keyword">if</span>(chessValue[i][j] === flag) count3 ++;
+        <span class="hljs-keyword">else</span> <span class="hljs-keyword">break</span>;
+    }
+    <span class="hljs-comment">// 反对角线</span>
+    <span class="hljs-keyword">for</span>(i=x,j=y; i&gt;=<span class="hljs-number">0</span> &amp;&amp; j&lt;=<span class="hljs-number">14</span>; i--,j++) {
+        <span class="hljs-keyword">if</span>(chessValue[i][j] === flag) count4 ++;
+        <span class="hljs-keyword">else</span> <span class="hljs-keyword">break</span>;
+    }
+    <span class="hljs-keyword">for</span>(i=x+<span class="hljs-number">1</span>,j=y<span class="hljs-number">-1</span>; i&lt;=<span class="hljs-number">14</span> &amp;&amp; j&gt;=<span class="hljs-number">0</span>; i++,j--) {
+        <span class="hljs-keyword">if</span>(chessValue[i][j] === flag) count4 ++;
+        <span class="hljs-keyword">else</span> <span class="hljs-keyword">break</span>;
+    }
 
-  <span class="hljs-comment">// 存在五子相连则赢</span>
-  <span class="hljs-keyword">if</span>(count1&gt;=<span class="hljs-number">5</span> || count2&gt;=<span class="hljs-number">5</span> || count3&gt;=<span class="hljs-number">5</span> || count4&gt;=<span class="hljs-number">5</span>) { 
-    <span class="hljs-keyword">if</span>(flag === <span class="hljs-number">1</span>) <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>; <span class="hljs-comment">// 黑子赢</span>
-    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(flag === <span class="hljs-number">2</span>) <span class="hljs-keyword">return</span> <span class="hljs-number">2</span>; <span class="hljs-comment">// 白子赢</span>
-  }
-  <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+    <span class="hljs-comment">// 存在五子相连则赢</span>
+    <span class="hljs-keyword">if</span>(count1&gt;=<span class="hljs-number">5</span> || count2&gt;=<span class="hljs-number">5</span> || count3&gt;=<span class="hljs-number">5</span> || count4&gt;=<span class="hljs-number">5</span>) { 
+        <span class="hljs-keyword">if</span>(flag === <span class="hljs-number">1</span>) <span class="hljs-keyword">return</span> <span class="hljs-number">1</span>; <span class="hljs-comment">// 黑子赢</span>
+        <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(flag === <span class="hljs-number">2</span>) <span class="hljs-keyword">return</span> <span class="hljs-number">2</span>; <span class="hljs-comment">// 白子赢</span>
+    }
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
 }
 </code></pre>
 <p>输赢条件判断相当简单，通过暴力的方式，针对所有有落子的位置的八个方位进行遍历，如下所示：</p>
-<pre><code><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">黑</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">黑</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">黑</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span>
-<span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">黑</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">黑</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">黑</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span>
-<span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">黑</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">黑</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">黑</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span>
-<span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">黑</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">黑</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">黑</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span>
+<pre><code><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">黑</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">黑</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">黑</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span>
+<span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">黑</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">黑</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">黑</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span>
+<span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">黑</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">黑</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">黑</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span>
+<span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">黑</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">黑</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">黑</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span>
 <span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">黑</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">黑</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">黑</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">黑</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">此</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">黑</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">黑</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">黑</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">黑</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span>
-<span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">黑</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">黑</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">黑</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span>
-<span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">黑</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">黑</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">黑</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span>
-<span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">黑</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">黑</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">黑</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span>
-<span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">黑</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">黑</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">黑</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span>
+<span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">黑</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">黑</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">黑</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span>
+<span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">黑</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">黑</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">黑</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span>
+<span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">黑</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">黑</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">黑</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span>
+<span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">黑</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">黑</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">黑</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span>
 </code></pre><p>假设<code>此</code>子为落子点，那么就往上下左右和斜线八个方位分别检查四个位置，如果存在连着的五个同色棋子，则局面存在输赢；而当棋盘上不存在落子点并且不分输赢时，算作平局；其他情况则视为当前局面仍处于游戏中。</p>
 <h2 id="-">计算权值</h2>
 <p>棋盘中任何一个可落子的位置都会存在权值，即该位置究竟有多值得落子。假设有如下局面：</p>
-<pre><code><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">白</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">黑</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span>
-<span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">黑</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">黑</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span>
-<span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">黑</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">白</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">白</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span>
-<span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">黑</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">白</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">黑</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span>
+<pre><code><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">白</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">黑</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span>
+<span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">黑</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">黑</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span>
+<span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">黑</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">白</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">白</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span>
+<span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">黑</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">白</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">黑</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span>
 <span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">白</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">白</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">白</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">白</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">此</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">黑</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span>
-<span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">黑</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">黑</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span>
+<span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">黑</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">黑</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span>
 </code></pre><p>假设我是AI，我执白子并且轮到我落子，那么我在<code>此</code>字落子我就已经赢了。在如上局面中其他所有位置都不如<code>此</code>字位置值得落子，所以此局面中<code>此</code>字的权值是最高的。对于权值是可以量化计算的，比如<code>此</code>字位置的权值我可以赋予9999这个值，而其他权值我赋予10，这样我就可以根据权值判断哪个位置更适合落子，量化后的权值必然是值越大越适合落子。</p>
 <p>当然，此权值是针对白子，亦即是AI来说的。</p>
 <p>money.js里就封装了一个计算权值的函数，其代码比较长，并且设计到比较多专业术语，比如某些固定的棋盘局面被称为<code>活三</code>、<code>冲四</code>之类的，对此比较感兴趣的可以去查阅相关文档。另外在网上存在各种各样计算权值的方式，说明权值的量化并不止一种方式，而money.js里是我自己给出的一种私以为比较合理的权值计算方式，当然为简单而论，此处是剔除了各种禁手的计算的。</p>
@@ -666,17 +666,17 @@ module.exports = function(flag, x, y) {
 <p>通俗的来讲，就是往最坏的方向打算，认为对方极其聪明，往往会在最不利于自己的位置落子，而我的落子要考虑到最坏情况下找出最好的落子点，尽量让自己的损失最小。</p>
 <p>如果用一棵博弈树来表示的话，如下所示（假设剩下a、b、c三个落子点，AI是白子，现在轮到AI落子）：</p>
 <pre><code><span class="hljs-comment">根节点</span>
-  <span class="hljs-comment">|</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">白子在a落子</span>
-  <span class="hljs-comment">|</span>        <span class="hljs-comment">|</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">黑子在b落子</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span>&gt;<span class="hljs-comment">局面1</span>
-  <span class="hljs-comment">|</span>        <span class="hljs-comment">|</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">黑子在c落子</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span>&gt;<span class="hljs-comment">局面2</span>
-  <span class="hljs-comment">|</span>
-  <span class="hljs-comment">|</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">白子在b落子</span>
-  <span class="hljs-comment">|</span>        <span class="hljs-comment">|</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">黑子在a落子</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span>&gt;<span class="hljs-comment">局面3</span>
-  <span class="hljs-comment">|</span>        <span class="hljs-comment">|</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">黑子在c落子</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span>&gt;<span class="hljs-comment">局面4</span>
-  <span class="hljs-comment">|</span>
-  <span class="hljs-comment">|</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">白子在c落子</span>
-           <span class="hljs-comment">|</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">黑子在a落子</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span>&gt;<span class="hljs-comment">局面5</span>
-           <span class="hljs-comment">|</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">黑子在b落子</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span>&gt;<span class="hljs-comment">局面6</span>
+    <span class="hljs-comment">|</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">白子在a落子</span>
+    <span class="hljs-comment">|</span>        <span class="hljs-comment">|</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">黑子在b落子</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span>&gt;<span class="hljs-comment">局面1</span>
+    <span class="hljs-comment">|</span>        <span class="hljs-comment">|</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">黑子在c落子</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span>&gt;<span class="hljs-comment">局面2</span>
+    <span class="hljs-comment">|</span>
+    <span class="hljs-comment">|</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">白子在b落子</span>
+    <span class="hljs-comment">|</span>        <span class="hljs-comment">|</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">黑子在a落子</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span>&gt;<span class="hljs-comment">局面3</span>
+    <span class="hljs-comment">|</span>        <span class="hljs-comment">|</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">黑子在c落子</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span>&gt;<span class="hljs-comment">局面4</span>
+    <span class="hljs-comment">|</span>
+    <span class="hljs-comment">|</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">白子在c落子</span>
+             <span class="hljs-comment">|</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">黑子在a落子</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span>&gt;<span class="hljs-comment">局面5</span>
+             <span class="hljs-comment">|</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">黑子在b落子</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span>&gt;<span class="hljs-comment">局面6</span>
 </code></pre><p>这样就产生6种可能出现的局面。然而要如何判断这局面的优劣呢？在这里我们要动用回之前的权值计算。之前的权值计算是针对一个落子点的，而这里只需要把该局面的所有可落子点的权值加起来，就可以得到一个局面的权值。局面权值的计算因落子点权值计算方式不同而不同，我给出的这个权值计算刚好可以通过累加的方式得出局面权值，这也算是这种计算方式的其中一个优势。</p>
 <p>在这棵画得有点不太像样的树中我们想要找出认为对方会在最有优势的地方落子而对于自己损失最小的局面，就需要对这棵树进行遍历，而衡量局面优势的方式刚才已经说过，就是局面的权值。</p>
 <p>遍历这棵树的方式是从叶子往根节点的方向进行的，因为我们要从局面倒推回白子应该落子的位置。我们先假设各个局面的权值都计算出来的了：</p>
@@ -685,44 +685,44 @@ module.exports = function(flag, x, y) {
 局面<span class="hljs-number">5</span> ----&gt; 权值<span class="hljs-number">2</span>               局面<span class="hljs-number">6</span> ----&gt; 权值<span class="hljs-number">5</span>
 </code></pre><p>根据刚才提到的，我们必须认为黑子很聪明，会挑选最利于他们的局面，也就是说最不利于我们的局面，因此他们肯定会挑选落子后可以形成权值最低局面的位置落子。那么我们把上面的树根据刚才的策略修改一下，把黑子不会挑选的树枝给干掉：</p>
 <pre><code><span class="hljs-comment">根节点</span>
-  <span class="hljs-comment">|</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">白子在a落子</span>
-  <span class="hljs-comment">|</span>        <span class="hljs-comment">|</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">黑子在c落子</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span>&gt;<span class="hljs-comment">局面2</span>
-  <span class="hljs-comment">|</span>
-  <span class="hljs-comment">|</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">白子在b落子</span>
-  <span class="hljs-comment">|</span>        <span class="hljs-comment">|</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">黑子在c落子</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span>&gt;<span class="hljs-comment">局面4</span>
-  <span class="hljs-comment">|</span>
-  <span class="hljs-comment">|</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">白子在c落子</span>
-           <span class="hljs-comment">|</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">黑子在a落子</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span>&gt;<span class="hljs-comment">局面5</span>
+    <span class="hljs-comment">|</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">白子在a落子</span>
+    <span class="hljs-comment">|</span>        <span class="hljs-comment">|</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">黑子在c落子</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span>&gt;<span class="hljs-comment">局面2</span>
+    <span class="hljs-comment">|</span>
+    <span class="hljs-comment">|</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">白子在b落子</span>
+    <span class="hljs-comment">|</span>        <span class="hljs-comment">|</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">黑子在c落子</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span>&gt;<span class="hljs-comment">局面4</span>
+    <span class="hljs-comment">|</span>
+    <span class="hljs-comment">|</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">白子在c落子</span>
+             <span class="hljs-comment">|</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-comment">黑子在a落子</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span>&gt;<span class="hljs-comment">局面5</span>
 </code></pre><p>然后这样往前遍历了一层后，就应该是我们白子落子的选择情况。如上面的树所示：白子可能在a、b、c三个点落子，但是考虑到黑子是聪明的，所以现在可能形成的局面也只有3种，而不是最上面提到的理想状况下的6种。在这3种局面里，我们则要挑选最利于自己的局面。根据权值判断，剩下的3种局面里<code>局面2</code>权值最高，所以我们应该选择在a落子，到此为止，博弈树的遍历就算完成了。</p>
 <p>虽然根据最开始的提出的可能性，白子在b落子可能获得所有局面中的最高权值24，但是也可能去到权值仅为3的局面。考虑到黑子是聪明的，后者的可能性要远远高于前者，所以我们要选择最保险的措施，即在a落子，聪明的黑子会在c落子，最终局面的权值为8。</p>
 <p>搜索算法本身是一种谨慎的算法，白子要想尽办法让自己处于有利局面，黑子要想尽办法不让自己处于有利局面，这就形成白子和黑子的博弈，博弈树则应运而生。当然，以上的树仅仅是只剩3个可落子的点，并且有3层，故感觉此算法比较快即可执行完毕。而当树的层数变高，可落子的点变多时，这棵博弈树就会变得异常庞大，为此我们可以在遍历的时候使用剪枝函数对算法进行优化。</p>
 <h2 id="-">算法优化</h2>
 <p>所谓剪枝函数，即是搜素算法中常提到的α-β剪枝。如上面的树，我们在遍历时加上权值的话，就会如下所示（括号里为权值）：</p>
 <pre><code>根节点（<span class="hljs-number">8</span>）
-  |----白子在a落子（<span class="hljs-number">8</span>）
-  |        |----黑子在b落子（<span class="hljs-number">11</span>）----&gt;局面<span class="hljs-number">1</span>，权值<span class="hljs-number">11</span>
-  |        |----黑子在c落子（<span class="hljs-number">8</span>） ----&gt;局面<span class="hljs-number">2</span>，权值<span class="hljs-number">8</span>
-  |
-  |----白子在b落子（<span class="hljs-number">3</span>）
-  |        |----黑子在a落子（<span class="hljs-number">24</span>）----&gt;局面<span class="hljs-number">3</span>，权值<span class="hljs-number">24</span>
-  |        |----黑子在c落子（<span class="hljs-number">3</span>） ----&gt;局面<span class="hljs-number">4</span>，权值<span class="hljs-number">3</span>
-  |
-  |----白子在c落子（<span class="hljs-number">2</span>）
-           |----黑子在a落子（<span class="hljs-number">2</span>） ----&gt;局面<span class="hljs-number">5</span>，权值<span class="hljs-number">2</span>
-           |----黑子在b落子（<span class="hljs-number">5</span>） ----&gt;局面<span class="hljs-number">6</span>，权值<span class="hljs-number">5</span>
+    |----白子在a落子（<span class="hljs-number">8</span>）
+    |        |----黑子在b落子（<span class="hljs-number">11</span>）----&gt;局面<span class="hljs-number">1</span>，权值<span class="hljs-number">11</span>
+    |        |----黑子在c落子（<span class="hljs-number">8</span>） ----&gt;局面<span class="hljs-number">2</span>，权值<span class="hljs-number">8</span>
+    |
+    |----白子在b落子（<span class="hljs-number">3</span>）
+    |        |----黑子在a落子（<span class="hljs-number">24</span>）----&gt;局面<span class="hljs-number">3</span>，权值<span class="hljs-number">24</span>
+    |        |----黑子在c落子（<span class="hljs-number">3</span>） ----&gt;局面<span class="hljs-number">4</span>，权值<span class="hljs-number">3</span>
+    |
+    |----白子在c落子（<span class="hljs-number">2</span>）
+             |----黑子在a落子（<span class="hljs-number">2</span>） ----&gt;局面<span class="hljs-number">5</span>，权值<span class="hljs-number">2</span>
+             |----黑子在b落子（<span class="hljs-number">5</span>） ----&gt;局面<span class="hljs-number">6</span>，权值<span class="hljs-number">5</span>
 </code></pre><p>我们把这棵树简化成如下所示：</p>
 <pre><code>a节点（8）
-  |<span class="hljs-string">----b节点（8）
-  </span>|<span class="hljs-string">      </span>|<span class="hljs-string">----e节点（11）
-  </span>|<span class="hljs-string">      </span>|<span class="hljs-string">----f节点（8）
-  </span>|
-  |<span class="hljs-string">----c节点（3）
-  </span>|<span class="hljs-string">      </span>|<span class="hljs-string">----g节点（24）
-  </span>|<span class="hljs-string">      </span>|<span class="hljs-string">----h节点（3）
-  </span>|
-  |<span class="hljs-string">----d节点（2）
-         </span>|<span class="hljs-string">----i节点（2）
-         </span>|<span class="hljs-string">----j节点（5）</span>
+    |<span class="hljs-string">----b节点（8）
+    </span>|<span class="hljs-string">      </span>|<span class="hljs-string">----e节点（11）
+    </span>|<span class="hljs-string">      </span>|<span class="hljs-string">----f节点（8）
+    </span>|
+    |<span class="hljs-string">----c节点（3）
+    </span>|<span class="hljs-string">      </span>|<span class="hljs-string">----g节点（24）
+    </span>|<span class="hljs-string">      </span>|<span class="hljs-string">----h节点（3）
+    </span>|
+    |<span class="hljs-string">----d节点（2）
+           </span>|<span class="hljs-string">----i节点（2）
+           </span>|<span class="hljs-string">----j节点（5）</span>
 </code></pre><p>其中奇数层非叶子的节点的权值我们都称为α值（下界值），偶数层的节点的权值我们都成为β值（上界值）。如上面那棵树，a节点的权值即是α值，b节点、c节点和d节点的权值即为β值。</p>
 <p>α值和β值是跟随我们遍历过程中动态变化的，上面树中标注的权值都是遍历完所有节点后得出的权值。假设我们按e、f、g这样的顺序遍历叶子节点时，刚遍历完e节点，b节点上的β值则为11，而不是8；a节点的α值也应该是11，而不是8。因为我们还没有遍历到其他节点时，是不知道其他节点的权值的，我们只能根据已知的节点权值计算出α值和β值。</p>
 <p>而所谓的剪枝，就是根据刚遍历到的节点权值和目前已知的α值或β值做比较，然后判断属于同一父亲节点的其他未遍历兄弟节点是否可以舍弃。其中奇数层的节点只需要和爷爷节点的α值做比较（α剪枝），偶数层的节点只需要和爷爷节点的β值做比较（β剪枝）。因为上面那棵树只有爷孙三代，因此只能做α剪枝。</p>

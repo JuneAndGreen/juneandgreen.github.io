@@ -567,29 +567,27 @@ pre::-webkit-scrollbar-thumb {
 <tr>
 <td>[attribute~=value]</td>
 <td>[title~=flower]</td>
-<td>选择 title 属性包含单词 &quot;flower&quot; 的所有元素。</td>
+<td>选择 title 属性值包含<strong>单词</strong> &quot;flower&quot; 的所有元素。</td>
 </tr>
 <tr>
-<td>[attribute</td>
-<td>=value]</td>
-<td>[lang</td>
-<td>=en]</td>
+<td>[attribute&#124;=value]</td>
+<td>[lang&#124;=en]</td>
 <td>选择 lang 属性值以 &quot;en&quot; 开头的所有元素。</td>
 </tr>
 <tr>
 <td>[attribute^=value]</td>
 <td>a[src^=&quot;https&quot;]</td>
-<td>选择其 src 属性值以 &quot;https&quot; 开头的每个 <a> 元素。</td>
+<td>选择其 src 属性值以 &quot;https&quot; 开头的每个 &lt;a&gt; 元素。</td>
 </tr>
 <tr>
 <td>[attribute$=value]</td>
 <td>a[src$=&quot;.pdf&quot;]</td>
-<td>选择其 src 属性以 &quot;.pdf&quot; 结尾的所有 <a> 元素。</td>
+<td>选择其 src 属性值以 &quot;.pdf&quot; 结尾的所有 &lt;a&gt; 元素。</td>
 </tr>
 <tr>
 <td>[attribute*=value]</td>
 <td>a[src*=&quot;abc&quot;]</td>
-<td>选择其 src 属性中包含 &quot;abc&quot; 子串的每个 <a> 元素。</td>
+<td>选择其 src 属性值中包含 &quot;abc&quot; 子串的每个 &lt;a&gt; 元素。</td>
 </tr>
 </tbody>
 </table>
@@ -700,7 +698,7 @@ pre::-webkit-scrollbar-thumb {
 <pre><code class="lang-css"><span class="hljs-selector-class">.left</span> {
   <span class="hljs-attribute">width</span>: <span class="hljs-number">200px</span>; <span class="hljs-comment">/* 左侧定宽 */</span>
   <span class="hljs-attribute">float</span>: left;
-  <span class="hljs-attribute">margin-right</span>: -<span class="hljs-number">200px</span>;
+  <span class="hljs-attribute">margin-right</span>: -<span class="hljs-number">200px</span>; <span class="hljs-comment">/* 使得占用空间为0 */</span>
 }
 <span class="hljs-selector-class">.right</span> {
   <span class="hljs-attribute">margin-left</span>: <span class="hljs-number">200px</span>;
@@ -722,13 +720,12 @@ pre::-webkit-scrollbar-thumb {
 <h4 id="png">png</h4>
 <p>清晰，无损压缩，压缩比例高，可渐变透明（具备几乎所有gif的优点），但不如jpg的颜色丰富，同样的图片体积也比jpg略大。png-8和gif一样，只有256色，不支持半透明。</p>
 <p>适用场景：logo类的网页图片（带透明效果）、在编码过程中的图片或复杂的图片。</p>
-<p>ps：png的另一个优点——逐次逼近显示：先显示模糊，逐渐变清晰。</p>
 <h4 id="-">综合比较</h4>
 <ul>
 <li>大小：png ≈ jpg &gt; gif</li>
 <li>透明：png &gt; gif &gt; jpg</li>
 <li>色彩丰富程度：jpg &gt; png &gt; gif</li>
-<li>兼容程度：gif ≈ jpg &gt; png（png在IE6下不透明，使用hack可解决）</li>
+<li>兼容程度：gif ≈ jpg &gt; png</li>
 </ul>
 <h4 id="-">新技术</h4>
 <p>科普一下Webp：WebP格式，谷歌（google）开发的一种旨在加快图片加载速度的图片格式。图片压缩体积大约只有JPEG的2/3，并能节省大量的服务器带宽资源和数据空间。Facebook Ebay等知名网站已经开始测试并使用WebP格式。</p>
@@ -745,7 +742,7 @@ pre::-webkit-scrollbar-thumb {
 </ul>
 <h3 id="ie-bug-">IE中的bug及其解决方案</h3>
 <ul>
-<li>盒模型</li>
+<li>盒模型不同。</li>
 <li>IE6浮动双边距问题：第一个左浮动元素的margin-left加倍（右浮动同样），使用<code>display: inline;</code>解决。</li>
 <li>IE6浮动3px问题：给浮动元素天界3px的负外边距解决。</li>
 <li>IE6绝对定位元素消失问题：绝对定位元素在浮动元素前后会消失，当浮动元素在前时，给绝对定位元素添加<code>clear: both;</code>解决，当浮动元素在后时，给浮动元素添加<code>margin-right: -3px;</code>解决。</li>
@@ -1091,9 +1088,9 @@ ps：子元素会继承透明性，且不可取消继承。</p>
 <li>避免table。</li>
 <li>使用HTML5.</li>
 </ul>
-<h4 id="-">显示指定文档字符集</h4>
+<h4 id="-">显式指定文档字符集</h4>
 <p>若无指定，浏览器一般在页面渲染前缓存字节流，再搜索可进行解析的字符集或以默认字符集来解析。</p>
-<h4 id="-css-">显示图片的宽高（行内样式或css）</h4>
+<h4 id="-css-">显式指定图片的宽高（行内样式或css）</h4>
 <p>若无指定，浏览器会在图片下载完成后再“回溯”该图片并重新显示，从而浪费时间。</p>
 <h4 id="-">避免脚本阻塞</h4>
 <ul>

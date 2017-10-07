@@ -50,31 +50,31 @@ webpack src/index.js index.js
 <!-- index.html -->
 <!DOCTYPE html>
 <html lang="zh">
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <link href="index.css" rel="stylesheet" type="text/css" />
-    <title>五子棋</title>
-  </head>
-  <body>
-  	<!-- 游戏棋盘棋子采用canvas来绘制 -->
-    <canvas id="canvas" width="640" height="640">你的浏览器不支持HTML5 canvas，请使用google chrome浏览器打开</canvas>
-    <script type="text/javascript" src="index.js"></script>
-  </body>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <link href="index.css" rel="stylesheet" type="text/css" />
+        <title>五子棋</title>
+    </head>
+    <body>
+        <!-- 游戏棋盘棋子采用canvas来绘制 -->
+        <canvas id="canvas" width="640" height="640">你的浏览器不支持HTML5 canvas，请使用google chrome浏览器打开</canvas>
+        <script type="text/javascript" src="index.js"></script>
+    </body>
 </html>
 ```
 
 ```css
 /* index.css */
 body {
-	padding: 0;
-	margin: 0;
+    padding: 0;
+    margin: 0;
 }
 #canvas {
-	position: absolute;
-	left: 50%;
-	top: 0;
-	transform: translateX(-50%);
-	background-image:url(./image/bg.jpg);
+    position: absolute;
+    left: 50%;
+    top: 0;
+    transform: translateX(-50%);
+    background-image:url(./image/bg.jpg);
 }
 ```
 
@@ -86,53 +86,53 @@ var draw = {};
 
 /* 绘制棋盘 */
 draw.paintTable = (function() {
-  var drawLine = function(context, dir, i) {
-    var x,y;
-    if(dir === 'row') {
-      // 画横线
-      x = [0, 640];
-      y = [i, i];
-    } else {
-      // 画竖线
-      x = [i, i];
-      y = [0, 640];
-    }
+    var drawLine = function(context, dir, i) {
+        var x,y;
+        if(dir === 'row') {
+            // 画横线
+            x = [0, 640];
+            y = [i, i];
+        } else {
+            // 画竖线
+            x = [i, i];
+            y = [0, 640];
+        }
 
-    context.beginPath();
-    context.lineWidth = '4';
-    context.strokeStyle = 'black';
-    context.moveTo(x[0], y[0]);
-    context.lineTo(x[1], y[1]);
-    context.closePath();
-    context.stroke();
-  };
-  return function() {
-    var context = window.cache.table;
-    
-    for(var i=0; i<=640; i+=40) {
-      drawLine(context, 'row', i);
-      drawLine(context, 'column', i);
+        context.beginPath();
+        context.lineWidth = '4';
+        context.strokeStyle = 'black';
+        context.moveTo(x[0], y[0]);
+        context.lineTo(x[1], y[1]);
+        context.closePath();
+        context.stroke();
+    };
+    return function() {
+        var context = window.cache.table;
+        
+        for(var i=0; i<=640; i+=40) {
+            drawLine(context, 'row', i);
+            drawLine(context, 'column', i);
+        }
     }
-  }
 })();
 
 /* 绘制棋子 */
 /* flag为1表示黑字，flag为2表示白子 */
 draw.drawChess = function(flag, x, y) {
-  var cache = window.cache;
-  var context = cache.table;
-  var iswin = cache.iswin;
+    var cache = window.cache;
+    var context = cache.table;
+    var iswin = cache.iswin;
 
-  if(iswin === 1) return; // 结束战斗
-  else {
-    if(flag === 1) {
-      // 画黑子
-      context.drawImage(cache.black, x*40+20, y*40+20);
-    } else if(flag === 2) {
-      // 画白子
-      context.drawImage(cache.white, x*40+20, y*40+20);
-    }
-  } 
+    if(iswin === 1) return; // 结束战斗
+    else {
+        if(flag === 1) {
+            // 画黑子
+            context.drawImage(cache.black, x*40+20, y*40+20);
+        } else if(flag === 2) {
+            // 画白子
+            context.drawImage(cache.white, x*40+20, y*40+20);
+        }
+    } 
 }
 
 module.exports = draw;
@@ -151,27 +151,27 @@ draw.paintTable();
 
 ```javascript
 module.exports = (function() {
-	window.cache = window.cache || {};
-	window.cache.data = window.cache.data || {};
-	// 棋盘
-	window.cache.canvas = document.querySelector('#canvas');
-	window.cache.table = window.cache.canvas.getContext('2d'); 
-	// 15*15的二维数组用来保存棋盘信息，0为无子，1为黑子，2为白子
-	window.cache.chessValue = new Array(15);
-	for(var i=0; i<15; i++) {
-		window.cache.chessValue[i] = new Array(15);
-		for(var j=0; j<15; j++) {
-			window.cache.chessValue[i][j] = 0;
-		}
-	}
-	// 棋子图片
-	window.cache.black = new Image();
-	window.cache.white = new Image();
-	window.cache.black.src = 'image/black.png';
-	window.cache.white.src = 'image/white.png';
+    window.cache = window.cache || {};
+    window.cache.data = window.cache.data || {};
+    // 棋盘
+    window.cache.canvas = document.querySelector('#canvas');
+    window.cache.table = window.cache.canvas.getContext('2d'); 
+    // 15*15的二维数组用来保存棋盘信息，0为无子，1为黑子，2为白子
+    window.cache.chessValue = new Array(15);
+    for(var i=0; i<15; i++) {
+        window.cache.chessValue[i] = new Array(15);
+        for(var j=0; j<15; j++) {
+            window.cache.chessValue[i][j] = 0;
+        }
+    }
+    // 棋子图片
+    window.cache.black = new Image();
+    window.cache.white = new Image();
+    window.cache.black.src = 'image/black.png';
+    window.cache.white.src = 'image/white.png';
 
-	window.cache.iswin = 0; // 0表示棋局未结束，1表示棋局结束
-	window.cache.isblack = true; // 是否轮到黑子（玩家）下子
+    window.cache.iswin = 0; // 0表示棋局未结束，1表示棋局结束
+    window.cache.isblack = true; // 是否轮到黑子（玩家）下子
 })();
 ```
 
@@ -189,45 +189,45 @@ var chooseWhere = require('./calc.js');
 
 draw.paintTable();
 (function() {
-	// 此处是为了获取棋盘居中时的偏移量
-  var canvas = window.cache.canvas;
-  window.cache.offsetX = canvas.offsetLeft - (canvas.clientWidth/2);
+    // 此处是为了获取棋盘居中时的偏移量
+    var canvas = window.cache.canvas;
+    window.cache.offsetX = canvas.offsetLeft - (canvas.clientWidth/2);
 })();
 
 window.cache.canvas.onmousedown = function(event) {
-  event = event || window.event;
+    event = event || window.event;
 
-  var cache = window.cache;
-  var chessValue = cache.chessValue;
+    var cache = window.cache;
+    var chessValue = cache.chessValue;
 
-  var x=parseInt((event.pageX - 20 - cache.offsetX)/40);
-  var y=parseInt((event.pageY - 20)/40);
-  var winjudge;
+    var x=parseInt((event.pageX - 20 - cache.offsetX)/40);
+    var y=parseInt((event.pageY - 20)/40);
+    var winjudge;
 
-  if(!cache.isblack) return; // 如果不是轮到黑子下则返回
-  else {
-    if(chessValue[x][y]) {
-      // 这里已经有棋子
-      alert("此处不能落子！");
-      return;
-    } else {
-      chessValue[x][y] = 1; // 下黑子
-      cache.isblack = false;
-      draw.drawChess(1, x, y); // 画棋子
+    if(!cache.isblack) return; // 如果不是轮到黑子下则返回
+    else {
+        if(chessValue[x][y]) {
+            // 这里已经有棋子
+            alert("此处不能落子！");
+            return;
+        } else {
+            chessValue[x][y] = 1; // 下黑子
+            cache.isblack = false;
+            draw.drawChess(1, x, y); // 画棋子
 
-      // 判断输赢
-      winjudge = judge(1, x, y);
-      if(winjudge === 1) { 
-        cache.iswin = 1;
-        alert("黑子赢!");
-      } else if(winjudge === 3) {
-        cache.iswin = 1;
-        alert("平局！");
-      }
-      
-      chooseWhere();
+            // 判断输赢
+            winjudge = judge(1, x, y);
+            if(winjudge === 1) { 
+                cache.iswin = 1;
+                alert("黑子赢!");
+            } else if(winjudge === 3) {
+                cache.iswin = 1;
+                alert("平局！");
+            }
+            
+            chooseWhere();
+        }
     }
-  }
 };
 ```
 
@@ -241,81 +241,81 @@ window.cache.canvas.onmousedown = function(event) {
 /* 判断输赢 */
 /* flag为1表示黑字，flag为2表示白子 */
 module.exports = function(flag, x, y) {
-  var chessValue = window.cache.chessValue;
-  var count1 = count2 = count3 = count4 = 0; //分别表示横向，竖向，正对角线，反对角线方向棋子个数
-  
-  var i = j = 0;
-  var hasBlank = false; // 是否存在空白位
-  for(i=0; i<15; i++) {
-    for(j=0; j<15; j++) {
-      if(!chessValue[i][j]) {
-        hasBlank=true;
-        break;
-      }
+    var chessValue = window.cache.chessValue;
+    var count1 = count2 = count3 = count4 = 0; //分别表示横向，竖向，正对角线，反对角线方向棋子个数
+    
+    var i = j = 0;
+    var hasBlank = false; // 是否存在空白位
+    for(i=0; i<15; i++) {
+        for(j=0; j<15; j++) {
+            if(!chessValue[i][j]) {
+                hasBlank=true;
+                break;
+            }
+        }
+        if(hasBlank) break;
     }
-    if(hasBlank) break;
-  }
-  // 平手
-  if(!hasBlank) return 3;
-  
-  // 横向
-  for(i=x; i>=0; i--) {
-    if(chessValue[i][y] === flag) count1 ++;
-    else break;
-  }
-  for(i=x+1; i<15; i++) {
-    if(chessValue[i][y] === flag) count1 ++;
-    else break;
-  }
-  // 纵向
-  for(i=y; i>=0; i--) {
-    if(chessValue[x][i] === flag) count2 ++;
-    else break;
-  }
-  for(i=y+1; i<15; i++) {
-    if(chessValue[x][i] === flag) count2 ++;
-    else break;
-  }
-  // 正对角线
-  for(i=x,j=y; i>=0 && j>=0; i--,j--) {
-    if(chessValue[i][j] === flag) count3 ++;
-    else break;
-  }
-  for(i=x+1,j=y+1; i<15 && j<15; i++,j++) {
-    if(chessValue[i][j] === flag) count3 ++;
-    else break;
-  }
-  // 反对角线
-  for(i=x,j=y; i>=0 && j<=14; i--,j++) {
-    if(chessValue[i][j] === flag) count4 ++;
-    else break;
-  }
-  for(i=x+1,j=y-1; i<=14 && j>=0; i++,j--) {
-    if(chessValue[i][j] === flag) count4 ++;
-    else break;
-  }
+    // 平手
+    if(!hasBlank) return 3;
+    
+    // 横向
+    for(i=x; i>=0; i--) {
+        if(chessValue[i][y] === flag) count1 ++;
+        else break;
+    }
+    for(i=x+1; i<15; i++) {
+        if(chessValue[i][y] === flag) count1 ++;
+        else break;
+    }
+    // 纵向
+    for(i=y; i>=0; i--) {
+        if(chessValue[x][i] === flag) count2 ++;
+        else break;
+    }
+    for(i=y+1; i<15; i++) {
+        if(chessValue[x][i] === flag) count2 ++;
+        else break;
+    }
+    // 正对角线
+    for(i=x,j=y; i>=0 && j>=0; i--,j--) {
+        if(chessValue[i][j] === flag) count3 ++;
+        else break;
+    }
+    for(i=x+1,j=y+1; i<15 && j<15; i++,j++) {
+        if(chessValue[i][j] === flag) count3 ++;
+        else break;
+    }
+    // 反对角线
+    for(i=x,j=y; i>=0 && j<=14; i--,j++) {
+        if(chessValue[i][j] === flag) count4 ++;
+        else break;
+    }
+    for(i=x+1,j=y-1; i<=14 && j>=0; i++,j--) {
+        if(chessValue[i][j] === flag) count4 ++;
+        else break;
+    }
 
-  // 存在五子相连则赢
-  if(count1>=5 || count2>=5 || count3>=5 || count4>=5) { 
-    if(flag === 1) return 1; // 黑子赢
-    else if(flag === 2) return 2; // 白子赢
-  }
-  return 0;
+    // 存在五子相连则赢
+    if(count1>=5 || count2>=5 || count3>=5 || count4>=5) { 
+        if(flag === 1) return 1; // 黑子赢
+        else if(flag === 2) return 2; // 白子赢
+    }
+    return 0;
 }
 ```
 
 输赢条件判断相当简单，通过暴力的方式，针对所有有落子的位置的八个方位进行遍历，如下所示：
 
 ```
---黑--------------黑--------------黑--
-------黑----------黑----------黑------
-----------黑------黑------黑----------
---------------黑--黑--黑--------------
+--黑-------------黑-------------黑--
+-----黑----------黑----------黑-----
+---------黑------黑------黑---------
+-------------黑--黑--黑-------------
 --黑--黑--黑--黑--此--黑--黑--黑--黑--
---------------黑--黑--黑--------------
-----------黑------黑------黑----------
-------黑----------黑----------黑------
---黑--------------黑--------------黑--
+-------------黑--黑--黑-------------
+---------黑------黑------黑---------
+-----黑----------黑----------黑-----
+--黑-------------黑-------------黑--
 ```
 
 假设`此`子为落子点，那么就往上下左右和斜线八个方位分别检查四个位置，如果存在连着的五个同色棋子，则局面存在输赢；而当棋盘上不存在落子点并且不分输赢时，算作平局；其他情况则视为当前局面仍处于游戏中。
@@ -325,12 +325,12 @@ module.exports = function(flag, x, y) {
 棋盘中任何一个可落子的位置都会存在权值，即该位置究竟有多值得落子。假设有如下局面：
 
 ```
---白--------------黑------------------
-------黑----------黑------------------
-----------黑--白--白------------------
---------------黑--白--黑--------------
+--白-------------黑------------------
+------黑---------黑------------------
+---------黑--白--白------------------
+-------------黑--白--黑--------------
 --白--白--白--白--此--黑--------------
---------------黑------黑--------------
+-------------黑------黑--------------
 ```
 
 假设我是AI，我执白子并且轮到我落子，那么我在`此`字落子我就已经赢了。在如上局面中其他所有位置都不如`此`字位置值得落子，所以此局面中`此`字的权值是最高的。对于权值是可以量化计算的，比如`此`字位置的权值我可以赋予9999这个值，而其他权值我赋予10，这样我就可以根据权值判断哪个位置更适合落子，量化后的权值必然是值越大越适合落子。
@@ -355,17 +355,17 @@ ps: 博弈树的层数通常为奇数。因为落子的一个回合为黑白双�
 
 ```
 根节点
-  |----白子在a落子
-  |        |----黑子在b落子---->局面1
-  |        |----黑子在c落子---->局面2
-  |
-  |----白子在b落子
-  |        |----黑子在a落子---->局面3
-  |        |----黑子在c落子---->局面4
-  |
-  |----白子在c落子
-           |----黑子在a落子---->局面5
-           |----黑子在b落子---->局面6
+    |----白子在a落子
+    |        |----黑子在b落子---->局面1
+    |        |----黑子在c落子---->局面2
+    |
+    |----白子在b落子
+    |        |----黑子在a落子---->局面3
+    |        |----黑子在c落子---->局面4
+    |
+    |----白子在c落子
+             |----黑子在a落子---->局面5
+             |----黑子在b落子---->局面6
 ```
 
 这样就产生6种可能出现的局面。然而要如何判断这局面的优劣呢？在这里我们要动用回之前的权值计算。之前的权值计算是针对一个落子点的，而这里只需要把该局面的所有可落子点的权值加起来，就可以得到一个局面的权值。局面权值的计算因落子点权值计算方式不同而不同，我给出的这个权值计算刚好可以通过累加的方式得出局面权值，这也算是这种计算方式的其中一个优势。
@@ -384,14 +384,14 @@ ps: 博弈树的层数通常为奇数。因为落子的一个回合为黑白双�
 
 ```
 根节点
-  |----白子在a落子
-  |        |----黑子在c落子---->局面2
-  |
-  |----白子在b落子
-  |        |----黑子在c落子---->局面4
-  |
-  |----白子在c落子
-           |----黑子在a落子---->局面5
+    |----白子在a落子
+    |        |----黑子在c落子---->局面2
+    |
+    |----白子在b落子
+    |        |----黑子在c落子---->局面4
+    |
+    |----白子在c落子
+             |----黑子在a落子---->局面5
 ```
 
 然后这样往前遍历了一层后，就应该是我们白子落子的选择情况。如上面的树所示：白子可能在a、b、c三个点落子，但是考虑到黑子是聪明的，所以现在可能形成的局面也只有3种，而不是最上面提到的理想状况下的6种。在这3种局面里，我们则要挑选最利于自己的局面。根据权值判断，剩下的3种局面里`局面2`权值最高，所以我们应该选择在a落子，到此为止，博弈树的遍历就算完成了。
@@ -406,34 +406,34 @@ ps: 博弈树的层数通常为奇数。因为落子的一个回合为黑白双�
 
 ```
 根节点（8）
-  |----白子在a落子（8）
-  |        |----黑子在b落子（11）---->局面1，权值11
-  |        |----黑子在c落子（8） ---->局面2，权值8
-  |
-  |----白子在b落子（3）
-  |        |----黑子在a落子（24）---->局面3，权值24
-  |        |----黑子在c落子（3） ---->局面4，权值3
-  |
-  |----白子在c落子（2）
-           |----黑子在a落子（2） ---->局面5，权值2
-           |----黑子在b落子（5） ---->局面6，权值5
+    |----白子在a落子（8）
+    |        |----黑子在b落子（11）---->局面1，权值11
+    |        |----黑子在c落子（8） ---->局面2，权值8
+    |
+    |----白子在b落子（3）
+    |        |----黑子在a落子（24）---->局面3，权值24
+    |        |----黑子在c落子（3） ---->局面4，权值3
+    |
+    |----白子在c落子（2）
+             |----黑子在a落子（2） ---->局面5，权值2
+             |----黑子在b落子（5） ---->局面6，权值5
 ```
 
 我们把这棵树简化成如下所示：
 
 ```
 a节点（8）
-  |----b节点（8）
-  |      |----e节点（11）
-  |      |----f节点（8）
-  |
-  |----c节点（3）
-  |      |----g节点（24）
-  |      |----h节点（3）
-  |
-  |----d节点（2）
-         |----i节点（2）
-         |----j节点（5）
+    |----b节点（8）
+    |      |----e节点（11）
+    |      |----f节点（8）
+    |
+    |----c节点（3）
+    |      |----g节点（24）
+    |      |----h节点（3）
+    |
+    |----d节点（2）
+           |----i节点（2）
+           |----j节点（5）
 ```
 
 其中奇数层非叶子的节点的权值我们都称为α值（下界值），偶数层的节点的权值我们都成为β值（上界值）。如上面那棵树，a节点的权值即是α值，b节点、c节点和d节点的权值即为β值。
@@ -474,116 +474,116 @@ var calc = {};
 
 /* ai选择位置并落子 */
 module.exports = (function() {
-	var cache = window.cache;
-	var chessValue = cache.chessValue;
+    var cache = window.cache;
+    var chessValue = cache.chessValue;
 
-	/* 求棋盘最高分 */
-	var calculmaxvalue = function() {
-		var maxvalue = [0, 0, 0]; // 分别表示价值，坐标x，坐标y
+    /* 求棋盘最高分 */
+    var calculmaxvalue = function() {
+        var maxvalue = [0, 0, 0]; // 分别表示价值，坐标x，坐标y
 
-		for(var i=0; i<15; i++)
-			for(var j=0; j<15; j++)
-				maxvalue[0] += calcMoney(i, j);
+        for(var i=0; i<15; i++)
+            for(var j=0; j<15; j++)
+                maxvalue[0] += calcMoney(i, j);
 
-		return maxvalue;
-	}
-	/* 分别表示递归终止标志(搜索博弈树层数)，落子为谁，α值和β值 */
-	/* 目前仅遍历三层，根节点（第一层） ----> AI白子下（第二层） ----> 玩家黑子下（第三层）*/
-	var seapo = function(flag, chess, aa, bb) {
-		var i = 0, j = 0;
-		var buff; // 分别表示价值，坐标x，坐标y
-		var fin = [-1, 0, 0];
-		// 用于存储同层级的α和β值
-		var atmp = aa;
-		var btmp = bb;
-		
-		if(flag === 2) return calculmaxvalue(); // 到达叶子结点，计算棋盘权值
-		
-		for(i=0; i<15; i++) {
-			for(j=0; j<15; j++) {
-				if(chessValue[i][j]) continue; // 此处已有棋子
-				if(chess === 1) {
-					// 此时轮到黑子下
+        return maxvalue;
+    }
+    /* 分别表示递归终止标志(搜索博弈树层数)，落子为谁，α值和β值 */
+    /* 目前仅遍历三层，根节点（第一层） ----> AI白子下（第二层） ----> 玩家黑子下（第三层）*/
+    var seapo = function(flag, chess, aa, bb) {
+        var i = 0, j = 0;
+        var buff; // 分别表示价值，坐标x，坐标y
+        var fin = [-1, 0, 0];
+        // 用于存储同层级的α和β值
+        var atmp = aa;
+        var btmp = bb;
+        
+        if(flag === 2) return calculmaxvalue(); // 到达叶子结点，计算棋盘权值
+        
+        for(i=0; i<15; i++) {
+            for(j=0; j<15; j++) {
+                if(chessValue[i][j]) continue; // 此处已有棋子
+                if(chess === 1) {
+                    // 此时轮到黑子下
 
-					var thisMoney = calcMoney(i, j);
-					if(thisMoney === 0) continue; // 此处无价值可言
+                    var thisMoney = calcMoney(i, j);
+                    if(thisMoney === 0) continue; // 此处无价值可言
 
-					chessValue[i][j] = 1; // 假设在此位置落黑子
-					buff = seapo(flag+1, 2, atmp, btmp); // 遍历下一层
-					chessValue[i][j] = 0; // 恢复为未落子的状态
+                    chessValue[i][j] = 1; // 假设在此位置落黑子
+                    buff = seapo(flag+1, 2, atmp, btmp); // 遍历下一层
+                    chessValue[i][j] = 0; // 恢复为未落子的状态
 
-					if(buff[0] <= aa) {
-						// α剪枝
-						return buff;
-					}
-					if(buff[0] < btmp) {
-						// 重新设置β值
-						btmp = buff[0];
-						fin[0] = buff[0];
-						fin[1] = i;
-						fin[2] = j;
-					}
-				} else if(chess === 2) {
-					// 此时轮到白子下
+                    if(buff[0] <= aa) {
+                        // α剪枝
+                        return buff;
+                    }
+                    if(buff[0] < btmp) {
+                        // 重新设置β值
+                        btmp = buff[0];
+                        fin[0] = buff[0];
+                        fin[1] = i;
+                        fin[2] = j;
+                    }
+                } else if(chess === 2) {
+                    // 此时轮到白子下
 
-					var thisMoney = calcMoney(i, j);
-					if(thisMoney === 0) continue; // 此处无价值可言
-					if(thisMoney >= 99999 || thisMoney <= -50000) {
-						// 当此处为必须落子的点（自己在此落子即赢或对方在此落子即输）
-						fin[0] = 99999;
-						fin[1] = i;
-						fin[2] = j;
-						return fin
-					}
+                    var thisMoney = calcMoney(i, j);
+                    if(thisMoney === 0) continue; // 此处无价值可言
+                    if(thisMoney >= 99999 || thisMoney <= -50000) {
+                        // 当此处为必须落子的点（自己在此落子即赢或对方在此落子即输）
+                        fin[0] = 99999;
+                        fin[1] = i;
+                        fin[2] = j;
+                        return fin
+                    }
 
-					chessValue[i][j] = 2; // 假设在此位置落白子
-					buff = seapo(flag+1, 1, atmp, btmp); // 遍历下一层
-					chessValue[i][j] = 0; // 恢复为未落子的状态
-					
-					if(buff[0] >= bb) {
-						// β剪枝
-						return buff;
-					}
-					if(buff[0] > atmp) {
-						// 重新设置α值
-						atmp = buff[0];
-						fin[0] = buff[0];
-						fin[1] = i;
-						fin[2] = j;
-					}
-				}
-			}
-		}
-		return fin;
-	}
+                    chessValue[i][j] = 2; // 假设在此位置落白子
+                    buff = seapo(flag+1, 1, atmp, btmp); // 遍历下一层
+                    chessValue[i][j] = 0; // 恢复为未落子的状态
+                    
+                    if(buff[0] >= bb) {
+                        // β剪枝
+                        return buff;
+                    }
+                    if(buff[0] > atmp) {
+                        // 重新设置α值
+                        atmp = buff[0];
+                        fin[0] = buff[0];
+                        fin[1] = i;
+                        fin[2] = j;
+                    }
+                }
+            }
+        }
+        return fin;
+    }
 
-	return function() {
-		var value=[-1,0,0]; // 分别表示价值，坐标x，坐标y和距离
-		var leng = 0;
-		var x,y;
-		var winjudge;
-		
-		if(cache.iswin==1) return;
-		
-		value = seapo(0, 2, -1000000, 1000000);
-		x = value[1];
-		y = value[2];
-		
-		cache.isblack = true;
+    return function() {
+        var value=[-1,0,0]; // 分别表示价值，坐标x，坐标y和距离
+        var leng = 0;
+        var x,y;
+        var winjudge;
+        
+        if(cache.iswin==1) return;
+        
+        value = seapo(0, 2, -1000000, 1000000);
+        x = value[1];
+        y = value[2];
+        
+        cache.isblack = true;
 
-		draw.drawChess(2, x, y);
-		chessValue[x][y] = 2;
+        draw.drawChess(2, x, y);
+        chessValue[x][y] = 2;
 
-		// 判断输赢
-		winjudge= judgeWin(2, x, y);
-		if(winjudge==2) {
-			cache.iswin = 1;
-			alert("白子赢!");
-		} else if(winjudge === 3) {
-			cache.iswin = 1;
-			alert("平局！");
-		}
-	};
+        // 判断输赢
+        winjudge= judgeWin(2, x, y);
+        if(winjudge==2) {
+            cache.iswin = 1;
+            alert("白子赢!");
+        } else if(winjudge === 3) {
+            cache.iswin = 1;
+            alert("平局！");
+        }
+    };
 })();
 ```
 

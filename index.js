@@ -35,7 +35,7 @@ function transformArticlesToHtml() {
 
     files.forEach(fileObj => {
         gomd({
-            watch: false,
+            watch: true,
             input: fileObj.path,
             output: path.join(outputDir, path.basename(fileObj.name, '.md')) + '.html',
             title: path.basename(fileObj.name, '.md')

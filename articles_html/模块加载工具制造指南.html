@@ -431,8 +431,8 @@ pre::-webkit-scrollbar-thumb {
 </ul>
 <p>每次定义模块，我们就检查该模块所依赖的模块状态，如果依赖都已定义，则进入执行回调阶段；如果依赖未完全就位，则设置为等待中，将未加载的模块放入加载列表进行加载。具体流程如下：</p>
 <pre><code><span class="hljs-comment">模块定义</span> <span class="hljs-literal">-</span><span class="hljs-literal">-</span>&gt; <span class="hljs-comment">检查依赖</span> <span class="hljs-literal">-</span><span class="hljs-literal">-</span>&gt; <span class="hljs-comment">依赖都已就位</span> <span class="hljs-literal">-</span><span class="hljs-literal">-</span>&gt; <span class="hljs-comment">注入依赖，执行回调</span> <span class="hljs-literal">-</span><span class="hljs-literal">-</span>&gt; <span class="hljs-comment">完成定义</span>
-                 <span class="hljs-comment">|</span>
-                 <span class="hljs-comment">|</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span>&gt; <span class="hljs-comment">依赖未完全就位</span> <span class="hljs-literal">-</span><span class="hljs-literal">-</span>&gt; <span class="hljs-comment">未加载模块放入加载列表</span> <span class="hljs-literal">-</span><span class="hljs-literal">-</span>&gt; <span class="hljs-comment">加载模块</span> <span class="hljs-literal">-</span><span class="hljs-literal">-</span>&gt; <span class="hljs-comment">依赖模块均已完成定义</span> <span class="hljs-literal">-</span><span class="hljs-literal">-</span>&gt; <span class="hljs-comment">注入依赖，执行回调</span> <span class="hljs-literal">-</span><span class="hljs-literal">-</span>&gt; <span class="hljs-comment">完成定义</span>
+                            <span class="hljs-comment">|</span>
+                            <span class="hljs-comment">|</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span>&gt; <span class="hljs-comment">依赖未完全就位</span> <span class="hljs-literal">-</span><span class="hljs-literal">-</span>&gt; <span class="hljs-comment">未加载模块放入加载列表</span> <span class="hljs-literal">-</span><span class="hljs-literal">-</span>&gt; <span class="hljs-comment">加载模块</span> <span class="hljs-literal">-</span><span class="hljs-literal">-</span>&gt; <span class="hljs-comment">依赖模块均已完成定义</span> <span class="hljs-literal">-</span><span class="hljs-literal">-</span>&gt; <span class="hljs-comment">注入依赖，执行回调</span> <span class="hljs-literal">-</span><span class="hljs-literal">-</span>&gt; <span class="hljs-comment">完成定义</span>
 </code></pre><p>值得一提的是，模块的依赖也会有自己的依赖，所以当依赖一旦复杂起来，上面的流程就是循环执行的。</p>
 <blockquote>
 <p>注意：当前模块的定义是在加载完毕之后才会进行的，因为模块未加载完毕是无法执行其中的js代码的。</p>
@@ -465,13 +465,13 @@ script.onload = script.onerror = <span class="hljs-function"><span class="hljs-k
     <span class="hljs-comment">// 监听脚本加载运行  </span>
     <span class="hljs-keyword">var</span> script = e.target || e.srcElement;
 
-    <span class="hljs-comment">// 清理脚本节点</span>
-  <span class="hljs-keyword">if</span>(script &amp;&amp; script.parentNode) {
-    <span class="hljs-comment">// 清除事件</span>
-    script.onload = script.onerror = <span class="hljs-literal">null</span>;
-    <span class="hljs-comment">// 清除script标签</span>
-    script.parentNode.removeChild(script);
-  }
+        <span class="hljs-comment">// 清理脚本节点</span>
+    <span class="hljs-keyword">if</span>(script &amp;&amp; script.parentNode) {
+        <span class="hljs-comment">// 清除事件</span>
+        script.onload = script.onerror = <span class="hljs-literal">null</span>;
+        <span class="hljs-comment">// 清除script标签</span>
+        script.parentNode.removeChild(script);
+    }
 };
 
 script.src = <span class="hljs-built_in">url</span>;
@@ -497,16 +497,16 @@ define([<span class="hljs-string">'./a.js'</span>], <span class="hljs-function">
 <pre><code class="lang-js"><span class="hljs-comment">// a.js</span>
 define([<span class="hljs-string">'./b.js'</span>], <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">b</span>) </span>{
     <span class="hljs-keyword">return</span> {
-       <span class="hljs-attr">a1</span>: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{<span class="hljs-built_in">console</span>.log(b.b2)},
-       <span class="hljs-attr">a2</span>: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{<span class="hljs-keyword">return</span> <span class="hljs-string">'I am a'</span>}
+        <span class="hljs-attr">a1</span>: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{<span class="hljs-built_in">console</span>.log(b.b2)},
+        <span class="hljs-attr">a2</span>: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{<span class="hljs-keyword">return</span> <span class="hljs-string">'I am a'</span>}
     }; 
 });
 
 <span class="hljs-comment">// b.js</span>
 define([<span class="hljs-string">'./a.js'</span>], <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">a</span>) </span>{
     <span class="hljs-keyword">return</span> {
-       <span class="hljs-attr">b1</span>: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{<span class="hljs-built_in">console</span>.log(a.a2)},
-       <span class="hljs-attr">b2</span>: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{<span class="hljs-keyword">return</span> <span class="hljs-string">'I am b'</span>}
+        <span class="hljs-attr">b1</span>: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{<span class="hljs-built_in">console</span>.log(a.a2)},
+        <span class="hljs-attr">b2</span>: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{<span class="hljs-keyword">return</span> <span class="hljs-string">'I am b'</span>}
     }; 
 });
 </code></pre>
@@ -531,32 +531,32 @@ define([<span class="hljs-string">'./a.js'</span>], <span class="hljs-function">
  * 暴露出去的define接口
  */</span>
 <span class="hljs-keyword">window</span>.define = function(deps, callback) {
-  <span class="hljs-keyword">var</span> <span class="hljs-keyword">args</span> = [].slice.call(arguments, 0);
+    <span class="hljs-keyword">var</span> <span class="hljs-keyword">args</span> = [].slice.call(arguments, 0);
 
-  <span class="hljs-keyword">STACK</span>.push(<span class="hljs-keyword">args</span>);
+    <span class="hljs-keyword">STACK</span>.push(<span class="hljs-keyword">args</span>);
 
-  <span class="hljs-comment">// 对于页面中仍未被检测过的脚本进行处理</span>
-  <span class="hljs-keyword">var</span> <span class="hljs-keyword">list</span> = document.getElementsByTagName('script');
-  <span class="hljs-keyword">for</span>(<span class="hljs-keyword">var</span> i=<span class="hljs-keyword">list</span>.length-1; i&gt;=0; i--) {
-    <span class="hljs-keyword">var</span> script = <span class="hljs-keyword">list</span>[i];
+    <span class="hljs-comment">// 对于页面中仍未被检测过的脚本进行处理</span>
+    <span class="hljs-keyword">var</span> <span class="hljs-keyword">list</span> = document.getElementsByTagName('script');
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">var</span> i=<span class="hljs-keyword">list</span>.length-1; i&gt;=0; i--) {
+        <span class="hljs-keyword">var</span> script = <span class="hljs-keyword">list</span>[i];
 
-    <span class="hljs-keyword">if</span>(!script.nowhasload) {
-      script.nowhasload = true;
+        <span class="hljs-keyword">if</span>(!script.nowhasload) {
+            script.nowhasload = true;
 
-      <span class="hljs-keyword">if</span>(!script.src &amp;&amp; script.innerHTML.<span class="hljs-keyword">search</span>(/\s*define\s*\(/) &gt;= 0) {
-        <span class="hljs-comment">// 内嵌模块定义语句脚本</span>
-        <span class="hljs-keyword">args</span> = <span class="hljs-keyword">STACK</span>.pop();
-        <span class="hljs-keyword">while</span>(<span class="hljs-keyword">args</span>) {
-          runLoading.apply(<span class="hljs-keyword">window</span>, <span class="hljs-keyword">args</span>);
-          <span class="hljs-keyword">args</span> = <span class="hljs-keyword">STACK</span>.pop();
+            <span class="hljs-keyword">if</span>(!script.src &amp;&amp; script.innerHTML.<span class="hljs-keyword">search</span>(/\s*define\s*\(/) &gt;= 0) {
+                <span class="hljs-comment">// 内嵌模块定义语句脚本</span>
+                <span class="hljs-keyword">args</span> = <span class="hljs-keyword">STACK</span>.pop();
+                <span class="hljs-keyword">while</span>(<span class="hljs-keyword">args</span>) {
+                    runLoading.apply(<span class="hljs-keyword">window</span>, <span class="hljs-keyword">args</span>);
+                    <span class="hljs-keyword">args</span> = <span class="hljs-keyword">STACK</span>.pop();
+                }
+
+            } <span class="hljs-keyword">else</span> {
+                <span class="hljs-comment">// 外嵌模块定义语句脚本</span>
+                addScriptListener(<span class="hljs-keyword">list</span>[i]); 
+            }
         }
-
-      } <span class="hljs-keyword">else</span> {
-        <span class="hljs-comment">// 外嵌模块定义语句脚本</span>
-        addScriptListener(<span class="hljs-keyword">list</span>[i]); 
-      }
     }
-  }
 };
 </code></pre>
 <p>这里对当前页面中的script标签做了检查，因为使用define方法的地方可能是内嵌脚本，也可能是外部脚本。针对内嵌脚本做特殊处理的原因主要是内嵌脚本是不能作为一个模块被依赖的，它只能是整个依赖链的入口。而外嵌脚本是可以在弱依赖这个环里的。</p>
@@ -566,39 +566,39 @@ define([<span class="hljs-string">'./a.js'</span>], <span class="hljs-function">
  * 侦测脚本载入情况
  */</span>
 <span class="hljs-keyword">var</span> addScriptListener = (<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
-  <span class="hljs-comment">// 脚本载入完成回调</span>
-  <span class="hljs-keyword">var</span> onScriptLoad = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">script</span>) </span>{
-    <span class="hljs-keyword">var</span> <span class="hljs-built_in">url</span> = formatURL(script.src);
-    <span class="hljs-keyword">if</span>(!<span class="hljs-built_in">url</span>) <span class="hljs-keyword">return</span>;
+    <span class="hljs-comment">// 脚本载入完成回调</span>
+    <span class="hljs-keyword">var</span> onScriptLoad = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">script</span>) </span>{
+        <span class="hljs-keyword">var</span> <span class="hljs-built_in">url</span> = formatURL(script.src);
+        <span class="hljs-keyword">if</span>(!<span class="hljs-built_in">url</span>) <span class="hljs-keyword">return</span>;
 
-    <span class="hljs-comment">// 检查栈中缓存</span>
-    <span class="hljs-keyword">var</span> arr = STACK.pop();
-    <span class="hljs-keyword">if</span>(arr) {
-      arr.unshift(<span class="hljs-built_in">url</span>);
-      runLoading.apply(<span class="hljs-built_in">window</span>, arr);
-    }
+        <span class="hljs-comment">// 检查栈中缓存</span>
+        <span class="hljs-keyword">var</span> arr = STACK.pop();
+        <span class="hljs-keyword">if</span>(arr) {
+            arr.unshift(<span class="hljs-built_in">url</span>);
+            runLoading.apply(<span class="hljs-built_in">window</span>, arr);
+        }
 
-    <span class="hljs-comment">// 当前模块不处于等待中的话，则标记为已定义</span>
-    <span class="hljs-keyword">if</span>(STATUS[<span class="hljs-built_in">url</span>] !== WAITING)  STATUS[<span class="hljs-built_in">url</span>] = DEFINED;
+        <span class="hljs-comment">// 当前模块不处于等待中的话，则标记为已定义</span>
+        <span class="hljs-keyword">if</span>(STATUS[<span class="hljs-built_in">url</span>] !== WAITING)  STATUS[<span class="hljs-built_in">url</span>] = DEFINED;
 
-    <span class="hljs-comment">// 清理脚本节点</span>
-    <span class="hljs-keyword">if</span>(script &amp;&amp; script.parentNode) {
-      <span class="hljs-comment">// 清除事件</span>
-      script.onload = script.onerror = <span class="hljs-literal">null</span>;
-      <span class="hljs-comment">// 清除script标签</span>
-      script.parentNode.removeChild(script);
-    }
+        <span class="hljs-comment">// 清理脚本节点</span>
+        <span class="hljs-keyword">if</span>(script &amp;&amp; script.parentNode) {
+            <span class="hljs-comment">// 清除事件</span>
+            script.onload = script.onerror = <span class="hljs-literal">null</span>;
+            <span class="hljs-comment">// 清除script标签</span>
+            script.parentNode.removeChild(script);
+        }
 
-    <span class="hljs-comment">// 加载完后检查等待中的模块</span>
-    runWaiting();
-  };
-
-  <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">script</span>) </span>{
-    <span class="hljs-comment">// 加载成功 或 失败</span>
-    script.onload = script.onerror = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">e</span>) </span>{
-      onScriptLoad(e.target || e.srcElement || <span class="hljs-keyword">this</span>);
+        <span class="hljs-comment">// 加载完后检查等待中的模块</span>
+        runWaiting();
     };
-  };
+
+    <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">script</span>) </span>{
+        <span class="hljs-comment">// 加载成功 或 失败</span>
+        script.onload = script.onerror = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">e</span>) </span>{
+            onScriptLoad(e.target || e.srcElement || <span class="hljs-keyword">this</span>);
+        };
+    };
 })();
 </code></pre>
 <p>上面的代码中的<code>runWaiting</code>方法就是用来检查等待中模块。</p>
@@ -608,35 +608,35 @@ define([<span class="hljs-string">'./a.js'</span>], <span class="hljs-function">
  * 处理模块进入等待队列
  */</span>
 <span class="hljs-keyword">var</span> runLoading = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">url, deps, callback</span>) </span>{
-  <span class="hljs-comment">// 如果自身是内嵌脚本的话，则使用时间戳作为url</span>
-  <span class="hljs-keyword">if</span>(<span class="hljs-keyword">typeof</span> <span class="hljs-built_in">url</span> !== <span class="hljs-string">'string'</span>) {
-    callback = deps;
-    deps = <span class="hljs-built_in">url</span>;
+    <span class="hljs-comment">// 如果自身是内嵌脚本的话，则使用时间戳作为url</span>
+    <span class="hljs-keyword">if</span>(<span class="hljs-keyword">typeof</span> <span class="hljs-built_in">url</span> !== <span class="hljs-string">'string'</span>) {
+        callback = deps;
+        deps = <span class="hljs-built_in">url</span>;
 
-    <span class="hljs-built_in">url</span> = <span class="hljs-string">'./'</span> + (seed++) + <span class="hljs-string">'.js'</span>
-  }
+        <span class="hljs-built_in">url</span> = <span class="hljs-string">'./'</span> + (seed++) + <span class="hljs-string">'.js'</span>
+    }
 
-  <span class="hljs-built_in">url</span> = formatURL(<span class="hljs-built_in">url</span>);
+    <span class="hljs-built_in">url</span> = formatURL(<span class="hljs-built_in">url</span>);
 
-  <span class="hljs-keyword">if</span>(STATUS[<span class="hljs-built_in">url</span>] === DEFINED) <span class="hljs-keyword">return</span>; <span class="hljs-comment">// 已定义</span>
+    <span class="hljs-keyword">if</span>(STATUS[<span class="hljs-built_in">url</span>] === DEFINED) <span class="hljs-keyword">return</span>; <span class="hljs-comment">// 已定义</span>
 
-  <span class="hljs-comment">// 加载依赖模块</span>
-  <span class="hljs-keyword">for</span>(<span class="hljs-keyword">var</span> i=<span class="hljs-number">0</span>,l=deps.length; i&lt;l; i++) {
-    deps[i] = formatURL((deps[i] || <span class="hljs-string">''</span>), <span class="hljs-built_in">url</span>); <span class="hljs-comment">// 格式化依赖列表中的url</span>
-    loadResource(deps[i]); <span class="hljs-comment">// 加载资源</span>
-  }
+    <span class="hljs-comment">// 加载依赖模块</span>
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">var</span> i=<span class="hljs-number">0</span>,l=deps.length; i&lt;l; i++) {
+        deps[i] = formatURL((deps[i] || <span class="hljs-string">''</span>), <span class="hljs-built_in">url</span>); <span class="hljs-comment">// 格式化依赖列表中的url</span>
+        loadResource(deps[i]); <span class="hljs-comment">// 加载资源</span>
+    }
 
-  STATUS[<span class="hljs-built_in">url</span>] = WAITING; <span class="hljs-comment">// 存在依赖，当前模块标记为等待中</span>
+    STATUS[<span class="hljs-built_in">url</span>] = WAITING; <span class="hljs-comment">// 存在依赖，当前模块标记为等待中</span>
 
-  <span class="hljs-comment">// 放进模块队列中</span>
-  MODULES.push({
-    <span class="hljs-attribute">url</span>: <span class="hljs-built_in">url</span>,
-    <span class="hljs-attribute">deps</span>: deps,
-    <span class="hljs-attribute">callback</span>: callback
-  });
+    <span class="hljs-comment">// 放进模块队列中</span>
+    MODULES.push({
+        <span class="hljs-attribute">url</span>: <span class="hljs-built_in">url</span>,
+        <span class="hljs-attribute">deps</span>: deps,
+        <span class="hljs-attribute">callback</span>: callback
+    });
 
-  <span class="hljs-comment">// 检查等待中的模块</span>
-  runWaiting();
+    <span class="hljs-comment">// 检查等待中的模块</span>
+    runWaiting();
 };
 </code></pre>
 <p><code>runLoading</code>里的逻辑很简单，就是对依赖进行加载，然后将将自身置为等待中的模块。而<code>runWaiting</code>的代码如下：</p>
@@ -644,54 +644,54 @@ define([<span class="hljs-string">'./a.js'</span>], <span class="hljs-function">
  * 对等待中的模块进行定义
  */</span>
 <span class="hljs-keyword">var</span> runWaiting = (<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
-  <span class="hljs-comment">// 检查所有文件是否都载入</span>
-  <span class="hljs-keyword">var</span> isFinishLoaded = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
-    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">var</span> <span class="hljs-built_in">url</span> <span class="hljs-keyword">in</span> STATUS) {
-      <span class="hljs-keyword">if</span>(STATUS[<span class="hljs-built_in">url</span>] === LOADING) <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
-    }
-
-    <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
-  };
-
-  <span class="hljs-comment">// 检查依赖列表是否都载入完成</span>
-  <span class="hljs-keyword">var</span> isListLoaded = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">deps</span>) </span>{
-    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">var</span> i=deps.length<span class="hljs-number">-1</span>; i&gt;=<span class="hljs-number">0</span>; i--) {
-      <span class="hljs-keyword">if</span>(STATUS[deps[i]] !== DEFINED) <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
-    }
-
-    <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
-  };
-
-  <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
-    <span class="hljs-keyword">if</span>(!MODULES.length) <span class="hljs-keyword">return</span>;
-
-    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">var</span> i=MODULES.length<span class="hljs-number">-1</span>; i &gt;= <span class="hljs-number">0</span>; ) {
-      <span class="hljs-keyword">var</span> item = MODULES[i];
-
-      <span class="hljs-keyword">if</span>(STATUS[item.url] !== DEFINED) {
-        <span class="hljs-keyword">if</span>(!isListLoaded(item.deps)) {
-          <span class="hljs-comment">// 存在未定义的文件，且依赖列表中也存在未定义的文件，则跳过</span>
-          i--;
-          <span class="hljs-keyword">continue</span>;
-
-        } <span class="hljs-title">else</span> {
-          <span class="hljs-comment">// 依赖列表中的文件都已定义，则进行定义自己</span>
-          runDefining(item);
+    <span class="hljs-comment">// 检查所有文件是否都载入</span>
+    <span class="hljs-keyword">var</span> isFinishLoaded = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">var</span> <span class="hljs-built_in">url</span> <span class="hljs-keyword">in</span> STATUS) {
+            <span class="hljs-keyword">if</span>(STATUS[<span class="hljs-built_in">url</span>] === LOADING) <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
         }
-      }
 
-      <span class="hljs-comment">// 删除已经定义的文件，然后重新遍历</span>
-      MODULES.splice(i, <span class="hljs-number">1</span>);
-      i = MODULES.length - <span class="hljs-number">1</span>;
-    }
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+    };
 
-    <span class="hljs-keyword">if</span>(MODULES.length&gt;<span class="hljs-number">0</span> &amp;&amp; isFinishLoaded()) {
-      <span class="hljs-comment">// 存在循环引用，可以尝试强行定义，不过只能解决弱依赖引用，无法解决强依赖引用</span>
-      <span class="hljs-keyword">var</span> item = MODULES.pop();    
-      runDefining(item);
-      runWaiting();
-    }
-  };
+    <span class="hljs-comment">// 检查依赖列表是否都载入完成</span>
+    <span class="hljs-keyword">var</span> isListLoaded = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">deps</span>) </span>{
+        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">var</span> i=deps.length<span class="hljs-number">-1</span>; i&gt;=<span class="hljs-number">0</span>; i--) {
+            <span class="hljs-keyword">if</span>(STATUS[deps[i]] !== DEFINED) <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+        }
+
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+    };
+
+    <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+        <span class="hljs-keyword">if</span>(!MODULES.length) <span class="hljs-keyword">return</span>;
+
+        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">var</span> i=MODULES.length<span class="hljs-number">-1</span>; i &gt;= <span class="hljs-number">0</span>; ) {
+            <span class="hljs-keyword">var</span> item = MODULES[i];
+
+            <span class="hljs-keyword">if</span>(STATUS[item.url] !== DEFINED) {
+                <span class="hljs-keyword">if</span>(!isListLoaded(item.deps)) {
+                    <span class="hljs-comment">// 存在未定义的文件，且依赖列表中也存在未定义的文件，则跳过</span>
+                    i--;
+                    <span class="hljs-keyword">continue</span>;
+
+                } <span class="hljs-title">else</span> {
+                    <span class="hljs-comment">// 依赖列表中的文件都已定义，则进行定义自己</span>
+                    runDefining(item);
+                }
+            }
+
+            <span class="hljs-comment">// 删除已经定义的文件，然后重新遍历</span>
+            MODULES.splice(i, <span class="hljs-number">1</span>);
+            i = MODULES.length - <span class="hljs-number">1</span>;
+        }
+
+        <span class="hljs-keyword">if</span>(MODULES.length&gt;<span class="hljs-number">0</span> &amp;&amp; isFinishLoaded()) {
+            <span class="hljs-comment">// 存在循环引用，可以尝试强行定义，不过只能解决弱依赖引用，无法解决强依赖引用</span>
+            <span class="hljs-keyword">var</span> item = MODULES.pop();    
+            runDefining(item);
+            runWaiting();
+        }
+    };
 })();
 </code></pre>
 <p>这里遍历一遍等待中的模块，针对依赖都已经就位（加载完并且定义完）的情况下，就开始执行自身的定义。对于循环依赖的问题，就用上面提到的方法，强行打破。其中<code>runDefining</code>就是执行定义的方法，其代码如下：</p>
@@ -699,34 +699,34 @@ define([<span class="hljs-string">'./a.js'</span>], <span class="hljs-function">
  * 执行模块定义
  */</span>
 <span class="hljs-keyword">var</span> runDefining = function(item) {
-  <span class="hljs-keyword">var</span> <span class="hljs-keyword">args</span> = [];
+    <span class="hljs-keyword">var</span> <span class="hljs-keyword">args</span> = [];
 
-  <span class="hljs-comment">// 遍历依赖列表</span>
-  <span class="hljs-keyword">for</span>(<span class="hljs-keyword">var</span> i=0,len=item.deps.length; i&lt;len; i++) {
-    <span class="hljs-keyword">var</span> it = item.deps[i];
+    <span class="hljs-comment">// 遍历依赖列表</span>
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">var</span> i=0,len=item.deps.length; i&lt;len; i++) {
+        <span class="hljs-keyword">var</span> it = item.deps[i];
 
-    RESULTS[it] = RESULTS[it] || {};
-    <span class="hljs-keyword">args</span>.push(RESULTS[it]);
-  }
-
-  <span class="hljs-keyword">if</span>(item.callback) {
-    <span class="hljs-comment">// 注入依赖并执行</span>
-    <span class="hljs-keyword">var</span> result = item.callback.apply(<span class="hljs-keyword">window</span>, <span class="hljs-keyword">args</span>) || {};
-
-    <span class="hljs-comment">// 合并依赖注入结果   </span>
-    <span class="hljs-keyword">var</span> <span class="hljs-keyword">ret</span> = RESULTS[item.url] || {};
-    <span class="hljs-keyword">if</span>(<span class="hljs-keyword">typeof</span> result === 'object') {
-    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">var</span> key <span class="hljs-keyword">in</span> result) 
-      <span class="hljs-keyword">ret</span>[key] = result[key];
-    } <span class="hljs-keyword">else</span> {
-      <span class="hljs-keyword">ret</span> = result;
+        RESULTS[it] = RESULTS[it] || {};
+        <span class="hljs-keyword">args</span>.push(RESULTS[it]);
     }
 
-    <span class="hljs-comment">// 将定义好的文件放入缓存</span>
-    RESULTS[item.url] = <span class="hljs-keyword">ret</span>;
-  }
+    <span class="hljs-keyword">if</span>(item.callback) {
+        <span class="hljs-comment">// 注入依赖并执行</span>
+        <span class="hljs-keyword">var</span> result = item.callback.apply(<span class="hljs-keyword">window</span>, <span class="hljs-keyword">args</span>) || {};
 
-  STATUS[item.url] = DEFINED;
+        <span class="hljs-comment">// 合并依赖注入结果   </span>
+        <span class="hljs-keyword">var</span> <span class="hljs-keyword">ret</span> = RESULTS[item.url] || {};
+        <span class="hljs-keyword">if</span>(<span class="hljs-keyword">typeof</span> result === 'object') {
+        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">var</span> key <span class="hljs-keyword">in</span> result) 
+            <span class="hljs-keyword">ret</span>[key] = result[key];
+        } <span class="hljs-keyword">else</span> {
+            <span class="hljs-keyword">ret</span> = result;
+        }
+
+        <span class="hljs-comment">// 将定义好的文件放入缓存</span>
+        RESULTS[item.url] = <span class="hljs-keyword">ret</span>;
+    }
+
+    STATUS[item.url] = DEFINED;
 };
 </code></pre>
 <p>执行定义的过程就是把依赖定义完的结果注入到模块的回调中，然后执行模块的回调，把返回的结果缓存起来，以供依赖当前模块的模块使用。</p>
@@ -738,68 +738,68 @@ define([<span class="hljs-string">'./a.js'</span>], <span class="hljs-function">
  */</span>
 <span class="hljs-keyword">var</span> loadResource = (<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
 
-  <span class="hljs-comment">// 载入依赖文本</span>
-  <span class="hljs-keyword">var</span> loadText = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">url, callback</span>) </span>{
-    <span class="hljs-keyword">if</span>(!<span class="hljs-built_in">url</span>) <span class="hljs-keyword">return</span>;
-    <span class="hljs-comment">// 未加载过</span>
-    <span class="hljs-keyword">if</span>(STATUS[<span class="hljs-built_in">url</span>] != <span class="hljs-literal">null</span>) <span class="hljs-keyword">return</span>;
-    <span class="hljs-comment">// 加载文本</span>
-    STATUS[<span class="hljs-built_in">url</span>] = LOADING; <span class="hljs-comment">// 标记为加载中</span>
-    <span class="hljs-keyword">var</span> xhr = <span class="hljs-keyword">new</span> <span class="hljs-built_in">window</span>.XMLHttpRequest();
+    <span class="hljs-comment">// 载入依赖文本</span>
+    <span class="hljs-keyword">var</span> loadText = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">url, callback</span>) </span>{
+        <span class="hljs-keyword">if</span>(!<span class="hljs-built_in">url</span>) <span class="hljs-keyword">return</span>;
+        <span class="hljs-comment">// 未加载过</span>
+        <span class="hljs-keyword">if</span>(STATUS[<span class="hljs-built_in">url</span>] != <span class="hljs-literal">null</span>) <span class="hljs-keyword">return</span>;
+        <span class="hljs-comment">// 加载文本</span>
+        STATUS[<span class="hljs-built_in">url</span>] = LOADING; <span class="hljs-comment">// 标记为加载中</span>
+        <span class="hljs-keyword">var</span> xhr = <span class="hljs-keyword">new</span> <span class="hljs-built_in">window</span>.XMLHttpRequest();
 
-    xhr.onreadystatechange = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
-      <span class="hljs-keyword">if</span>(xhr.readyState == <span class="hljs-number">4</span>) {
-        <span class="hljs-keyword">var</span> text = xhr.responseText || <span class="hljs-string">''</span>;
+        xhr.onreadystatechange = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+            <span class="hljs-keyword">if</span>(xhr.readyState == <span class="hljs-number">4</span>) {
+                <span class="hljs-keyword">var</span> text = xhr.responseText || <span class="hljs-string">''</span>;
 
-        STATUS[<span class="hljs-built_in">url</span>] = DEFINED; <span class="hljs-comment">// 标记为已定义</span>
-        RESULTS[<span class="hljs-built_in">url</span>] = text; <span class="hljs-comment">// 储存结果</span>
+                STATUS[<span class="hljs-built_in">url</span>] = DEFINED; <span class="hljs-comment">// 标记为已定义</span>
+                RESULTS[<span class="hljs-built_in">url</span>] = text; <span class="hljs-comment">// 储存结果</span>
 
-        <span class="hljs-keyword">if</span>(callback) callback(text); <span class="hljs-comment">// 针对json的处理</span>
+                <span class="hljs-keyword">if</span>(callback) callback(text); <span class="hljs-comment">// 针对json的处理</span>
 
-        <span class="hljs-comment">// 加载完后检查等待中的模块</span>
-        runWaiting();
-      }
+                <span class="hljs-comment">// 加载完后检查等待中的模块</span>
+                runWaiting();
+            }
+        };
+
+        xhr.open(<span class="hljs-string">'GET'</span>, <span class="hljs-built_in">url</span>, <span class="hljs-literal">true</span>);
+        xhr.send(<span class="hljs-literal">null</span>);
     };
 
-    xhr.open(<span class="hljs-string">'GET'</span>, <span class="hljs-built_in">url</span>, <span class="hljs-literal">true</span>);
-    xhr.send(<span class="hljs-literal">null</span>);
-  };
+    <span class="hljs-comment">// 载入依赖JSON</span>
+    <span class="hljs-keyword">var</span> loadJSON = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">url</span>) </span>{
+        loadText(<span class="hljs-built_in">url</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">text</span>) </span>{
+            <span class="hljs-comment">// 解析JSON</span>
+            RESULTS[<span class="hljs-built_in">url</span>] = <span class="hljs-built_in">JSON</span>.parse(text);
+        });
+    };
 
-  <span class="hljs-comment">// 载入依赖JSON</span>
-  <span class="hljs-keyword">var</span> loadJSON = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">url</span>) </span>{
-    loadText(<span class="hljs-built_in">url</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">text</span>) </span>{
-      <span class="hljs-comment">// 解析JSON</span>
-      RESULTS[<span class="hljs-built_in">url</span>] = <span class="hljs-built_in">JSON</span>.parse(text);
-    });
-  };
+    <span class="hljs-comment">// 载入依赖脚本</span>
+    <span class="hljs-keyword">var</span> loadScript = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">url</span>) </span>{      
+        <span class="hljs-keyword">if</span>(STATUS[<span class="hljs-built_in">url</span>]) <span class="hljs-keyword">return</span>; <span class="hljs-comment">// 已加载则返回</span>
 
-  <span class="hljs-comment">// 载入依赖脚本</span>
-  <span class="hljs-keyword">var</span> loadScript = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">url</span>) </span>{      
-    <span class="hljs-keyword">if</span>(STATUS[<span class="hljs-built_in">url</span>]) <span class="hljs-keyword">return</span>; <span class="hljs-comment">// 已加载则返回</span>
+        STATUS[<span class="hljs-built_in">url</span>] = LOADING; <span class="hljs-comment">// 标记当前模块为加载中</span>
 
-    STATUS[<span class="hljs-built_in">url</span>] = LOADING; <span class="hljs-comment">// 标记当前模块为加载中</span>
+        <span class="hljs-comment">// 使用script标签添加到文档中，加载运行完再删除</span>
+        <span class="hljs-keyword">var</span> script = <span class="hljs-built_in">document</span>.createElement(<span class="hljs-string">'script'</span>);
 
-    <span class="hljs-comment">// 使用script标签添加到文档中，加载运行完再删除</span>
-    <span class="hljs-keyword">var</span> script = <span class="hljs-built_in">document</span>.createElement(<span class="hljs-string">'script'</span>);
+        script.nowhasload = <span class="hljs-literal">true</span>;
+        script.type = <span class="hljs-string">'text/javascript'</span>;
+        script.charset = <span class="hljs-string">'utf-8'</span>;
 
-    script.nowhasload = <span class="hljs-literal">true</span>;
-    script.type = <span class="hljs-string">'text/javascript'</span>;
-    script.charset = <span class="hljs-string">'utf-8'</span>;
+        addScriptListener(script); <span class="hljs-comment">// 监听脚本加载运行</span>
 
-    addScriptListener(script); <span class="hljs-comment">// 监听脚本加载运行</span>
+        script.src = <span class="hljs-built_in">url</span>;
+        (<span class="hljs-built_in">document</span>.getElementsByTagName(<span class="hljs-string">'head'</span>)[<span class="hljs-number">0</span>] || <span class="hljs-built_in">document</span>.body).appendChild(script);
+    };
 
-    script.src = <span class="hljs-built_in">url</span>;
-    (<span class="hljs-built_in">document</span>.getElementsByTagName(<span class="hljs-string">'head'</span>)[<span class="hljs-number">0</span>] || <span class="hljs-built_in">document</span>.body).appendChild(script);
-  };
+    <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">url</span>) </span>{
+        <span class="hljs-keyword">var</span> arr = <span class="hljs-built_in">url</span>.split(<span class="hljs-string">'.'</span>);
+        <span class="hljs-keyword">var</span> type = arr.pop();
 
-  <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">url</span>) </span>{
-    <span class="hljs-keyword">var</span> arr = <span class="hljs-built_in">url</span>.split(<span class="hljs-string">'.'</span>);
-    <span class="hljs-keyword">var</span> type = arr.pop();
-
-    <span class="hljs-keyword">if</span>(type === <span class="hljs-string">'js'</span>) loadScript(<span class="hljs-built_in">url</span>);
-    <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(type === <span class="hljs-string">'json'</span>) loadJSON(<span class="hljs-built_in">url</span>);
-    <span class="hljs-keyword">else</span> loadText(<span class="hljs-built_in">url</span>);
-  };
+        <span class="hljs-keyword">if</span>(type === <span class="hljs-string">'js'</span>) loadScript(<span class="hljs-built_in">url</span>);
+        <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(type === <span class="hljs-string">'json'</span>) loadJSON(<span class="hljs-built_in">url</span>);
+        <span class="hljs-keyword">else</span> loadText(<span class="hljs-built_in">url</span>);
+    };
 })();
 </code></pre>
 <p>这段代码没什么好说的，就跟上面提到的一样，针对js使用script标签，针对其他文本则走ajax请求。</p>

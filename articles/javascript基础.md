@@ -146,7 +146,7 @@ alert(b); // error
 #### 作用域链（Scope Chain）
 
 在JavaScript中，函数也是对象，实际上，JavaScript里一切都是对象。函数对象和其它对象一样，拥有可以通过代码访问的属性和一系列仅供JavaScript引擎访问的内部属性。其中一个内部属性是[[Scope]]，由ECMA-262标准第三版定义，该内部属性包含了函数被创建的作用域中对象的集合，这个集合被称为函数的作用域链，它决定了哪些数据能被函数访问。
-　　
+
 当一个函数创建后，它的作用域链会被创建此函数的作用域中可访问的数据对象填充。例如定义下面这样一个函数：
 
 ```javascript
@@ -163,7 +163,7 @@ var total = add(5, 10);
 ```
 
 执行此函数时会创建一个称为“运行期上下文”的内部对象，运行期上下文定义了函数执行时的环境。每个运行期上下文都有自己的作用域链，用于标识符解析，当运行期上下文被创建时，而它的作用域链初始化为当前运行函数的[[Scope]]所包含的对象。
-　　
+
 这些值按照它们出现在函数中的顺序被复制到运行期上下文的作用域链中。它们共同组成了一个新的对象，叫“活动对象”，该对象包含了函数的所有局部变量、命名参数、参数集合以及this，然后此对象会被推入作用域链的前端，当运行期上下文被销毁，活动对象也随之销毁。
 
 在函数执行过程中，每遇到一个变量，都会经历一次标识符解析过程以决定从哪里获取和存储数据。该过程从作用域链头部，也就是从活动对象开始搜索，查找同名的标识符，如果找到了就使用这个标识符对应的变量，如果没找到继续搜索作用域链中的下一个对象，如果搜索完所有对象都未找到，则认为该标识符未定义。函数执行过程中，每个标识符都要经历这样的搜索过程。
@@ -277,8 +277,8 @@ ps:键盘事件中通过which（旧ff使用）/keyCode/charCode获取键值
 #### 页面事件
 
 ```
-onerror	 | 页面出错时触发
-onload	 | 页面加载完成时触发
+onerror  | 页面出错时触发
+onload   | 页面加载完成时触发
 onresize | 浏览器窗口大小该表时触发
 onscroll | 浏览器滚动条的位置发生变化时触发
 onunload | 页面将被卸载时触发
@@ -367,7 +367,7 @@ if(event.stopPropagation) {
 var evt = new Event('xxx');
 // 创建携带更多信息的事件
 var evt = new CustomEvent('xxx', {'aa': 1});
-// 过时的方法创建事件
+// 过时的创建事件方法
 var evt = document.createEvent('Event');
 evt.initEvent('xxx', true, true);
 // IE8以下创建事件
@@ -410,7 +410,7 @@ element.currentStyle.getAttribute('样式名'); // 同getPropertyValue接口，�
 // 高版本浏览器和IE10以上才支持
 element.classList.add('xxx'); // 添加一个class
 element.classList.remove('xxx'); // 删除一个class
-element.classList.toggle('xxx'); // 切换一个class
+element.classList.toggle('xxx'); // 切换一个class，有则删除并返回false，无则添加并返回true
 
 /* 第六种 */
 // 此方法属于直接修改页面中的样式
@@ -421,11 +421,16 @@ if(sheet) {
 	var index = 0; // 插入位置
 	if(sheet.insertRule) {
 		sheet.insertRule(selector + '{' + rules + '}', index);
-	}	else {
+	} else {
 		sheet.addRule(selector, rules, index);
 	}
 	// 删除样式
 	sheet.deleteRule(index);
+    // 遍历样式
+    var cssRules = Array.prototype.slice.call(sheet.cssRules, 0);
+    cssRules.forEach(function(cssRule) {
+        console.log(cssRule.cssText);
+    });
 }
 ```
 
@@ -596,7 +601,7 @@ xhr.send('xxx=xxx&aa=aaa');
 ```
 1、创建XHR对象
 new ActiveXObject('Microsoft.XMLHTTP')  | 适用于支持window.ActiveXObject的ie5和ie6等
-new XMLHttpRequest()	                  | 适用于ie7+/ff/chrome/safari/opera等
+new XMLHttpRequest()	                | 适用于ie7+/ff/chrome/safari/opera等
 
 2、XHR对象的属性和方法
 readyState                   | 通信状态，取值0~4，见后文
@@ -634,7 +639,7 @@ http提供的一个允许跨域请求的方法，只有高版本浏览器支持�
 
 页面中的src属性是可以跨域获取资源的：
 
-```javascript
+```html
 <scirpt>
 	window.dosth = function(data) {
 		// dosth为回调函数，名字可以自己定
@@ -655,10 +660,10 @@ PS：window.name可以在同一个窗口内一直保存，所以在iframe中修�
 #### 传统方式
 
 ```html
-	<form action="xxx.do" method="post" enctype="multipart/form-data" >
-		<input type="file" id="yyy" name="yyy">
-		<input type="submit" value="上传">
-	</form>
+<form action="xxx.do" method="post" enctype="multipart/form-data" >
+	<input type="file" id="yyy" name="yyy">
+	<input type="submit" value="上传">
+</form>
 ```
 
 以上方式是同步提交，如过想要实现异步提交的话，可用iframe来做。
@@ -671,7 +676,7 @@ PS：window.name可以在同一个窗口内一直保存，所以在iframe中修�
 if(window.FormData) {
 	var formData = new FormData();
 	// 添加要上传的文件
-　formData.append('upload', document.getElementById('yyy').files[0]);
+    formData.append('upload', document.getElementById('yyy').files[0]);
 
 	var xhr = new XMLHttpRequest();
 	xhr.open('POST', 'xxx.do');
@@ -775,8 +780,7 @@ PS：不是所有的浏览器都支持HTML5，所以在资源元素的下面，�
 ```javascript
 Notification.requestPermission(function(status) {
   // 此接口用于向浏览器用户申请通知权限，申请方式为弹框申请
-  // 其中status为granted为用户同意，denied为用户拒绝，default为用户没有做任何   
-      许可，因此也不会弹出通知
+  // 其中status为granted为用户同意，denied为用户拒绝，default为用户没有做任何许可，因此也不会弹出通知
 });
 ```
 
@@ -846,7 +850,7 @@ var fr = new FileReader();
 fr.abort(); // 中断读取
 fr.readAsArrayBuffer(file); // 读取为ArrayBuffer
 fr.readAsBinaryString(file); // 读取为二进制字符串
-fr.readAsDataURL(file); // 读取为如data: URL格式的字符串
+fr.readAsDataURL(file); // 读取为如data:URL格式的base64字符串
 fr.readAsText(file); // 读取为纯文本
 
 /* 事件 */
@@ -1029,7 +1033,7 @@ dragend：拖拽源在拖拽操作结束将得到dragend事件对象，不管操
 
 ```javascript
 var timing = Performance.timing; // 只读，是一个PerformanceTiming对象，包含了页面加载时间相关的性能信息。
-var navinfo = Performance.navigation; // 只读，是一个PerformanceNavigation对象，代表了页面浏览上下文的导航信息，比如大量获取资源的重定向。
+var navinfo = Performance.navigation; // 只读，是一个PerformanceNavigation对象，代表了页面浏览上下文的导航信息，比如大量获取资源的重定向。
 
 Performance.now(); // 返回一个 DOMHighResTimeStamp 类实例表示距离页面开始请求到现在相差的毫秒数（即 Date.now() - Performance.timing.navigationStart ）。
 ```
@@ -1225,26 +1229,26 @@ async规定一旦脚本可用，则异步执行。（仅能用于外部脚本）
 
 ```javascript
 function loadScript(url, callback) {
-  var script = document.creatElement('script');  //创建script节点
-  script.type = 'text/javascript';
+    var script = document.creatElement('script');  //创建script节点
+    script.type = 'text/javascript';
 
-  if(script.readyState) {
-		// IE
-    script.onreadystatechange = function() {
-      if(script.readyState == 'loaded' || script.readyState == 'complete') {
-        script.onreadystatechange = null;
-        callback(); // 回调
-      }
-    };
-  } else {
+    if(script.readyState) {
+        // IE
+        script.onreadystatechange = function() {
+            if(script.readyState == 'loaded' || script.readyState == 'complete') {
+                script.onreadystatechange = null;
+                callback(); // 回调
+            }
+        };
+    } else {
 		// 其他浏览器
-    script.onload = function() {
-      callback(); // 回调
+        script.onload = function() {
+            callback(); // 回调
+        }
     }
-  }
 
-  script.src = url;
-  document.body.appendChild(script); // 添加到Dom中
+    script.src = url;
+    document.body.appendChild(script); // 添加到Dom中
 }
 ```
 
@@ -1253,9 +1257,9 @@ function loadScript(url, callback) {
 * 减少HTTP请求
 * 使用CDN
 * 禁止src/href指定空值
-* HTTP caching（缓存相关Header）
-* gzip资源/原理/实现
-* CSS sprites原理
+* HTTP caching
+* gzip资源
+* CSS sprites
 * 样式置顶/脚本置底
 * 禁用CSS表达式（expression）
 * 外联脚本/样式
@@ -1273,8 +1277,3 @@ function loadScript(url, callback) {
 * 用link替换@import载入样式
 * 优化事件监听
 * 减少IFrame数量
-* 资源预加载/延时资源加载
-* 网站安全
-* 同源策略/CORS规范
-* Injection/XSS/CSRF攻击原理及防范（OWASP）
-* Session/Cookie/Headers
