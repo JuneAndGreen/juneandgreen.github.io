@@ -9,7 +9,7 @@ const tooltpl = require('tooltpl');
  * 主流程
  */
 function main() {
-    // transformArticlesToHtml();
+    transformArticlesToHtml();
     generateArticlesHtml();
 }
 

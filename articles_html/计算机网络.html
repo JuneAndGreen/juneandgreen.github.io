@@ -409,8 +409,8 @@ pre::-webkit-scrollbar-thumb {
 --------------------------------------</span>
 <span class="hljs-section">网络层        网际层        网络层      ---&gt;IP数据报（分组）
 --------------------------------------</span>
-数据链路层   网络接口层    数据链路层    ---&gt;帧
-物理层                      物理层      ---&gt;比特
+数据链路层   网络接口层    数据链路层     ---&gt;帧
+物理层                      物理层     ---&gt;比特
 </code></pre><ul>
 <li>本层为上一层服务（垂直服务）</li>
 <li>相邻两层实体交互的地方：服务访问点SAP</li>
@@ -518,6 +518,7 @@ ps：ARP - 地址转换协议（自动进行，为了获取同一个子网络中
 <td style="text-align:center">4字节</td>
 <td style="text-align:center">可变</td>
 <td style="text-align:center">可变</td>
+<td style="text-align:center">不定</td>
 </tr>
 </tbody>
 </table>
@@ -549,6 +550,7 @@ ps：ARP - 地址转换协议（自动进行，为了获取同一个子网络中
 <td style="text-align:center">2字节</td>
 <td style="text-align:center">2字节</td>
 <td style="text-align:center">2字节</td>
+<td style="text-align:center">不定</td>
 </tr>
 </tbody>
 </table>
@@ -589,7 +591,8 @@ ps：ARP - 地址转换协议（自动进行，为了获取同一个子网络中
 <td style="text-align:center">2字节</td>
 <td style="text-align:center">2字节</td>
 <td style="text-align:center">可变</td>
-<td style="text-align:center"></td>
+<td style="text-align:center">不定</td>
+<td style="text-align:center">不定</td>
 </tr>
 </tbody>
 </table>
@@ -598,6 +601,21 @@ ps：ARP - 地址转换协议（自动进行，为了获取同一个子网络中
 <li>数据偏移以4个字节为偏移单位。</li>
 <li>检验和要用伪首部和首部加起来一起计算。</li>
 </ul>
+<h4 id="-">三次握手</h4>
+<p><p class="image-wrapper"><img src="../images/三次握手.png" alt="null" title="null"></p></p>
+<ol>
+<li>主动方发送一个Syn包给被动方，等待对方响应。</li>
+<li>被动方返回Syn+Ack包，表示已确认。</li>
+<li>主动方再发送一个Ack包，表示已收到确认。</li>
+</ol>
+<h4 id="-">四次挥手</h4>
+<p><p class="image-wrapper"><img src="../images/四次挥手.png" alt="null" title="null"></p></p>
+<ol>
+<li>主动方发送Fin+Ack，同时结束主动方的数据传输，等待对方响应。</li>
+<li>被动方返回Ack包，表示已确认。</li>
+<li>被动方发送Fin+Ack，表示被动方的数据传输已结束。</li>
+<li>主动方再发送一个Ack包，表示已收到确认。</li>
+</ol>
 <h2 id="-">应用层</h2>
 <h3 id="-">常见协议端口号</h3>
 <table>
@@ -700,6 +718,7 @@ ps：ARP - 地址转换协议（自动进行，为了获取同一个子网络中
 </tbody>
 </table>
 <h4 id="-http-">常见HTTP方法</h4>
+<p>PUT、GET、DELETE、POST、PATCH。</p>
 <h4 id="cookie-session-">Cookie和Session的区别</h4>
 <ul>
 <li>Cookie是存储在客户端的，Session是存储在服务器端的。</li>
@@ -785,6 +804,23 @@ ps：ARP - 地址转换协议（自动进行，为了获取同一个子网络中
 </tr>
 </tbody>
 </table>
+<h3 id="https">HTTPS</h3>
+<p>https是在http的基础上追加了tls/ssl。具体流程如下：</p>
+<p><p class="image-wrapper"><img src="../images/https.png" alt="null" title="null"></p></p>
+<p>加密有两种，对称与非对称。https中是由浏览器端生成对称密钥，然后通过非对称加密将该队成密钥传给服务端，后续的通信则通过此对称密钥进行加密。</p>
+<h4 id="-">对称加密</h4>
+<p>对称加密的密钥既可用来加密，亦可用来解密。</p>
+<h4 id="-">非对称加密</h4>
+<p>非对称加密里包含公钥和私钥，公钥加密只能由私钥解密，私钥加密只能由公钥解密。公钥通常是公开的，而私钥则由服务器保有。非对称的两个缺点：加解密速度慢和数据传输单向安全（因为公钥是公开的，因此服务器发来的消息任何公钥持有者都可以解密）。</p>
+<h4 id="-">证书</h4>
+<p>证书由CA颁发，通常会包含以下几个部分：</p>
+<ul>
+<li>证书相关信息，如证书颁发机构（CA）、有效期等。</li>
+<li>数字签名。</li>
+<li>数字签名用到的hash算法。</li>
+<li>公钥。</li>
+</ul>
+<p>其中数字签名是通过某个hash算法对证书内容进行计算，将得到的“摘要”再使用私钥加密生成的结果。数字签名可用于证书防伪。</p>
 <h2 id="-">各层应用简介</h2>
 <ul>
 <li>物理层：转发器、调制解调器（接入Internet）、中继器（扩大传输距离）、集线器（多接口中继器，扩大传输距离）</li>

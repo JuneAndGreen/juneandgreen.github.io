@@ -36,9 +36,9 @@
 浏览器渲染出页面的简单流程：
 
 ```
-html代码 ---> DOM Tree  ---> Layout Tree <--- Style Rules <--- css代码
-                                  |
-                                  |---> Render Tree ---> UI
+html代码 ---> DOM Tree  ------ Style Rules <--- css代码
+                          |
+                          |---> Render Tree ---> UI
 ```
 
 PS：Render Tree和Dom Tree并不是一一对应的，比如display为none的节点就不会存在于Render Tree中。
