@@ -1,10 +1,10 @@
 function get() {
-  return [2, 6, 3, 1, 45, 2, 5, 6, 8, 656, 3, 23, 1, 5, 345, 44];
+  	return [2, 6, 3, 1, 45, 2, 5, 6, 8, 656, 3, 23, 1, 5, 345, 44];
 }
 function swap(arr, a, b) {
-  var tmp = arr[a];
-  arr[a] = arr[b];
-  arr[b] = tmp;
+	var tmp = arr[a];
+	arr[a] = arr[b];
+	arr[b] = tmp;
 }
 
 /**
@@ -76,7 +76,7 @@ function mpart(p, q) {
 	return mall(left, right);
 }
 function mall(left, right) {
-  // 合并两个已排好序的数组
+  	// 合并两个已排好序的数组
 	var result = new Array();
 
 	if(left.length <= 0) return right;
@@ -90,7 +90,7 @@ function mall(left, right) {
 		}
 	}
 
-  // 合并剩余部分
+  	// 合并剩余部分
 	while(left.length > 0) {
 		result.push(left.shift());
 	}
@@ -118,7 +118,7 @@ console.log('----------------------堆排序----------------------');
 	console.log(arr);
 })();
 function hbuild(arr) {
-  // 建最大堆
+  	// 建最大堆
 	var i;
 	// 只调整前半部分即可，从最后一个非叶子结点开始调整
 	for(i=parseInt((arr.length)/2) - 1; i >= 0; i--) {
@@ -136,7 +136,7 @@ function hpart(arr) {
 	}
 }
 function hadjust(arr, p, q) {
-  // 调整堆，p到q为可调整区域
+  	// 调整堆，p到q为可调整区域
 	var top = p;
 	var left = p * 2 + 1; // 左孩子
 	var right = p * 2 + 2; // 右孩子
@@ -165,7 +165,7 @@ console.log('----------------------冒泡排序----------------------');
 (function() {
 	var arr = get();
 
-  var i,j;
+  	var i,j;
 	for(i=0; i<arr.length; i++) {
 		for(j=0; j<arr.length-1; j++) {
 			if(arr[j] > arr[j+1]) swap(arr, j, j+1);
@@ -191,19 +191,19 @@ console.log('----------------------直接插入排序----------------------');
 	var arr = get();
 	var ret = new Array();
 
-  var i;
+  	var i;
 	ret.push(arr.shift());
 	while(arr.length > 0) {
 		var temp = arr.shift();
 		for(i=0; i<ret.length; i++) {
 			if(temp <= ret[i]) {
-        // 找到属于自己的位置并插入
+        	// 找到属于自己的位置并插入
 				ret.splice(i, 0, temp);
 				break;
 			}
 
 			if(i >= (ret.length - 1)) {
-        // 没有属于自己的位置，则追加
+        	// 没有属于自己的位置，则追加
 				ret.push(temp);
 				break;
 			}
@@ -228,10 +228,10 @@ console.log('----------------------简单选择排序----------------------');
 (function() {
 	var arr = get();
 
-  var i,j;
+  	var i,j;
 	for(i=0; i<arr.length-1; i++) {
 		for(j=i+1; j<arr.length; j++) {
-      // 遍历后面所有元素，选出最小的排在当前位置
+      	// 遍历后面所有元素，选出最小的排在当前位置
 			if(arr[i] > arr[j]) swap(arr, i, j);
 		}
 	}
