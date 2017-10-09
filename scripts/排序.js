@@ -130,7 +130,7 @@ function hpart(arr) {
 	hbuild(arr); // 建好最大堆后，堆顶（下标为0的位置）即为最大值
 
 	for(i=arr.length-2; i>=0; i--) {
-    // 逐步调整堆
+    	// 逐步调整堆
 		swap(arr, 0, i+1); // 把堆顶元素放到不可调整区域
 		hadjust(arr, 0, i);
 	}
