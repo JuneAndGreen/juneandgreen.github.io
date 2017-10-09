@@ -197,13 +197,13 @@ console.log('----------------------直接插入排序----------------------');
 		var temp = arr.shift();
 		for(i=0; i<ret.length; i++) {
 			if(temp <= ret[i]) {
-        	// 找到属于自己的位置并插入
+        		// 找到属于自己的位置并插入
 				ret.splice(i, 0, temp);
 				break;
 			}
 
 			if(i >= (ret.length - 1)) {
-        	// 没有属于自己的位置，则追加
+        		// 没有属于自己的位置，则追加
 				ret.push(temp);
 				break;
 			}
@@ -231,7 +231,7 @@ console.log('----------------------简单选择排序----------------------');
   	var i,j;
 	for(i=0; i<arr.length-1; i++) {
 		for(j=i+1; j<arr.length; j++) {
-      	// 遍历后面所有元素，选出最小的排在当前位置
+      		// 遍历后面所有元素，选出最小的排在当前位置
 			if(arr[i] > arr[j]) swap(arr, i, j);
 		}
 	}
