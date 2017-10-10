@@ -441,11 +441,11 @@ ES6追加了一种：Symbol（表示是唯一数据的一种类型）</p>
 </ul>
 <h3 id="-">函数调用者</h3>
 <pre><code class="lang-javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">a</span>(<span class="hljs-params"></span>) </span>{
-  <span class="hljs-built_in">console</span>.log(a.caller); <span class="hljs-comment">// 输出当前函数的调用函数的引用，没有时则为null</span>
+    <span class="hljs-built_in">console</span>.log(a.caller); <span class="hljs-comment">// 输出当前函数的调用函数的引用，没有时则为null</span>
 }
 
 <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">b</span>(<span class="hljs-params"></span>) </span>{
-  a(); <span class="hljs-comment">// 输出b函数</span>
+    a(); <span class="hljs-comment">// 输出b函数</span>
 }
 </code></pre>
 <h3 id="-">原型/原型链</h3>
@@ -697,10 +697,10 @@ element.classList.toggle(<span class="hljs-string">'xxx'</span>); <span class="h
 <h2 id="cookie-">Cookie操作</h2>
 <pre><code class="lang-javascript"><span class="hljs-comment">// 取Cookies</span>
 <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getCookie</span>(<span class="hljs-params">name</span>) </span>{
-  <span class="hljs-keyword">var</span> value = <span class="hljs-built_in">document</span>.cookie.match(<span class="hljs-keyword">new</span> <span class="hljs-built_in">RegExp</span>(<span class="hljs-string">'(^| )'</span> + name + <span class="hljs-string">'=([^;]*)(;|$)'</span>));
-  <span class="hljs-keyword">if</span>(value != <span class="hljs-literal">null</span>) <span class="hljs-keyword">return</span> <span class="hljs-built_in">unescape</span>(value[<span class="hljs-number">2</span>]); <span class="hljs-comment">// unescape函数进行解码</span>
+    <span class="hljs-keyword">var</span> value = <span class="hljs-built_in">document</span>.cookie.match(<span class="hljs-keyword">new</span> <span class="hljs-built_in">RegExp</span>(<span class="hljs-string">'(^| )'</span> + name + <span class="hljs-string">'=([^;]*)(;|$)'</span>));
+    <span class="hljs-keyword">if</span>(value != <span class="hljs-literal">null</span>) <span class="hljs-keyword">return</span> <span class="hljs-built_in">unescape</span>(value[<span class="hljs-number">2</span>]); <span class="hljs-comment">// unescape函数进行解码</span>
 
-  <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;
+    <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;
 }
 
 <span class="hljs-comment">// 存Cookies</span>
@@ -717,20 +717,20 @@ element.classList.toggle(<span class="hljs-string">'xxx'</span>); <span class="h
 
 <span class="hljs-comment">// 删Cookies</span>
 <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">delCookie</span>(<span class="hljs-params">name, domain, path</span>) </span>{
-  <span class="hljs-keyword">var</span> dateLine = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>();
-  dateLine.setDate(dateLine.getDate() - <span class="hljs-number">1</span>); <span class="hljs-comment">// 设置过期日期为已过去的时间</span>
+    <span class="hljs-keyword">var</span> dateLine = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>();
+    dateLine.setDate(dateLine.getDate() - <span class="hljs-number">1</span>); <span class="hljs-comment">// 设置过期日期为已过去的时间</span>
 
-  <span class="hljs-keyword">var</span> dvalue = getCookie(name);
-  <span class="hljs-keyword">if</span>(dvalue != <span class="hljs-literal">null</span>) {
-    <span class="hljs-keyword">var</span> arr = [];
+    <span class="hljs-keyword">var</span> dvalue = getCookie(name);
+    <span class="hljs-keyword">if</span>(dvalue != <span class="hljs-literal">null</span>) {
+        <span class="hljs-keyword">var</span> arr = [];
 
-    arr.push(name + <span class="hljs-string">'='</span> + <span class="hljs-built_in">escape</span>(dvalue));
-    <span class="hljs-keyword">if</span>(domain) arr.push(<span class="hljs-string">'domain='</span> + <span class="hljs-built_in">escape</span>(domain));
-    <span class="hljs-keyword">if</span>(path) arr.push(<span class="hljs-string">'path='</span> + <span class="hljs-built_in">escape</span>(path));
-    arr.push(<span class="hljs-string">'expires='</span> + dateLine.toGMTString());
+        arr.push(name + <span class="hljs-string">'='</span> + <span class="hljs-built_in">escape</span>(dvalue));
+        <span class="hljs-keyword">if</span>(domain) arr.push(<span class="hljs-string">'domain='</span> + <span class="hljs-built_in">escape</span>(domain));
+        <span class="hljs-keyword">if</span>(path) arr.push(<span class="hljs-string">'path='</span> + <span class="hljs-built_in">escape</span>(path));
+        arr.push(<span class="hljs-string">'expires='</span> + dateLine.toGMTString());
 
-    <span class="hljs-built_in">document</span>.cookie = arr.join(<span class="hljs-string">';'</span>);
-  }
+        <span class="hljs-built_in">document</span>.cookie = arr.join(<span class="hljs-string">';'</span>);
+    }
 }
 </code></pre>
 <h2 id="-">正则</h2>
@@ -926,8 +926,8 @@ websocket.send(data); <span class="hljs-comment">// data可以为字符串、Blo
 <p>HTML5提供了<code>&lt;audio&gt;</code>元素来支持音频。以MOozilla核心的Firefox浏览器只支持<code>.ogg</code>文件，webkit核心的浏览器支持<code>.mp3</code>扩展，safari不承认<code>.ogg</code>,它会跳过并移到<code>.mp3</code>版本。所以需要创建两个版本的音频。</p>
 <p>Audio支持三种音频格式：Ogg Vorbis，MP3，Wav。</p>
 <pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-name">audio</span> <span class="hljs-attr">autoplay</span>=<span class="hljs-string">"autoplay"</span> <span class="hljs-attr">controls</span>=<span class="hljs-string">"controls"</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">source</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"xxx.ogg"</span>/&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">source</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"xxx.mp3"</span>/&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">source</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"xxx.ogg"</span>/&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">source</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"xxx.mp3"</span>/&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">audio</span>&gt;</span>
 <span class="hljs-comment">&lt;!--标签的属性与video相同。没有height与width。--&gt;</span>
 </code></pre>
@@ -941,9 +941,9 @@ websocket.send(data); <span class="hljs-comment">// data可以为字符串、Blo
 <p>Video支持三种视频格式：Ogg，MPEG4，WebM。</p>
 <pre><code class="lang-html"><span class="hljs-comment">&lt;!-- 此属性表示视频在页面加载时进行加载，预备播放。如果设置为"autoplay"，就忽略该属性。controls用于显示如播放按钮的控件--&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">video</span> <span class="hljs-attr">controls</span>=<span class="hljs-string">"preload"</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">source</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"xxx.ogv"</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"video/ogg; codecs='vorbis,theora'"</span>/&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">source</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"xxx.mp4"</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"vide0/mp4; codecs='avc1.42E01E,mp4a.40.2'"</span>/&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>你的浏览器太旧了。<span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"xxx.mp4"</span>&gt;</span>下载这个视频。<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">source</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"xxx.ogv"</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"video/ogg; codecs='vorbis,theora'"</span>/&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">source</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"xxx.mp4"</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"vide0/mp4; codecs='avc1.42E01E,mp4a.40.2'"</span>/&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>你的浏览器太旧了。<span class="hljs-tag">&lt;<span class="hljs-name">a</span> <span class="hljs-attr">href</span>=<span class="hljs-string">"xxx.mp4"</span>&gt;</span>下载这个视频。<span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">video</span>&gt;</span>
 </code></pre>
 <p>PS：技术上是不需要设置type属性的，但是不这样做的话，浏览器就会自己去寻找类型，为了节省一些带宽，最好还是声明下。
@@ -951,17 +951,17 @@ PS：不是所有的浏览器都支持HTML5，所以在资源元素的下面，�
 <h3 id="-">桌面提醒</h3>
 <h4 id="-">申请权限</h4>
 <pre><code class="lang-javascript">Notification.requestPermission(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(status)</span> </span>{
-  <span class="hljs-comment">// 此接口用于向浏览器用户申请通知权限，申请方式为弹框申请</span>
-  <span class="hljs-comment">// 其中status为granted为用户同意，denied为用户拒绝，default为用户没有做任何许可，因此也不会弹出通知</span>
+    <span class="hljs-comment">// 此接口用于向浏览器用户申请通知权限，申请方式为弹框申请</span>
+    <span class="hljs-comment">// 其中status为granted为用户同意，denied为用户拒绝，default为用户没有做任何许可，因此也不会弹出通知</span>
 });
 </code></pre>
 <h4 id="-">创建桌面提醒</h4>
 <pre><code class="lang-javascript"><span class="hljs-built_in">var</span> n = <span class="hljs-literal">new</span> Notification(title, {
-  dir: <span class="hljs-string">''</span>, <span class="hljs-comment">// 文字方向，auto，ltr(从左向右)，rtl(从右向左)</span>
-  lang: <span class="hljs-string">''</span>, <span class="hljs-comment">// 语种</span>
-  body: <span class="hljs-string">''</span>, <span class="hljs-comment">// 通知内容</span>
-  <span class="hljs-built_in">tag</span>: <span class="hljs-string">''</span>, <span class="hljs-comment">// 通知的ID，格式为字符串。一组相同tag的通知，不会同时显示，只会在用户关闭前一个通知后，在原位置显示</span>
-  icon: <span class="hljs-string">''</span>, <span class="hljs-comment">// 图标的url</span>
+    dir: <span class="hljs-string">''</span>, <span class="hljs-comment">// 文字方向，auto，ltr(从左向右)，rtl(从右向左)</span>
+    lang: <span class="hljs-string">''</span>, <span class="hljs-comment">// 语种</span>
+    body: <span class="hljs-string">''</span>, <span class="hljs-comment">// 通知内容</span>
+    <span class="hljs-built_in">tag</span>: <span class="hljs-string">''</span>, <span class="hljs-comment">// 通知的ID，格式为字符串。一组相同tag的通知，不会同时显示，只会在用户关闭前一个通知后，在原位置显示</span>
+    icon: <span class="hljs-string">''</span>, <span class="hljs-comment">// 图标的url</span>
 });
 
 n.close();  <span class="hljs-comment">//关闭通知</span>
@@ -1095,64 +1095,52 @@ dragend：拖拽源在拖拽操作结束将得到dragend事件对象，不管操
 <pre><code class="lang-html"><span class="hljs-meta">&lt;!DOCTYPE html&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">html</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">charset</span>=<span class="hljs-string">"utf-8"</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>test<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">style</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"text/css"</span>&gt;</span><span class="css">
-    <span class="hljs-selector-id">#haha</span>{
-        <span class="hljs-attribute">position</span>:absolute;
-        <span class="hljs-attribute">margin</span>:-<span class="hljs-number">100px</span> <span class="hljs-number">0</span> <span class="hljs-number">0</span> -<span class="hljs-number">100px</span>;
-        <span class="hljs-attribute">background</span>:<span class="hljs-number">#0C9</span>;
-        <span class="hljs-attribute">width</span>:<span class="hljs-number">200px</span>;
-        <span class="hljs-attribute">height</span>:<span class="hljs-number">200px</span>;
-    }
+    <span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="css">
+        <span class="hljs-selector-id">#haha</span>{
+            <span class="hljs-attribute">position</span>: absolute;
+            <span class="hljs-attribute">left</span>: <span class="hljs-number">200px</span>;
+            <span class="hljs-attribute">top</span>: <span class="hljs-number">200px</span>;
+            <span class="hljs-attribute">background</span>: <span class="hljs-number">#0C9</span>;
+            <span class="hljs-attribute">width</span>: <span class="hljs-number">200px</span>;
+            <span class="hljs-attribute">height</span>: <span class="hljs-number">200px</span>;
+        }
     </span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
-
 <span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"haha"</span> <span class="hljs-attr">style</span>=<span class="hljs-string">"left:0;top:0;"</span> <span class="hljs-attr">onMouseDown</span>=<span class="hljs-string">mouseDown()</span> <span class="hljs-attr">onMouseUp</span>=<span class="hljs-string">mouseUp()</span> <span class="hljs-attr">onMouseMove</span>=<span class="hljs-string">mouseMove()</span> <span class="hljs-attr">onMouseOut</span>=<span class="hljs-string">mouseOut()</span> <span class="hljs-attr">onMouseOver</span>=<span class="hljs-string">mouseOver()</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"text/javascript"</span>&gt;</span><span class="javascript">
-    <span class="hljs-built_in">window</span>.onload = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{ <span class="hljs-comment">// 将div设置在屏幕中间</span>
-        <span class="hljs-keyword">var</span> div = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'haha'</span>);
-        div.style.left = <span class="hljs-built_in">document</span>.documentElement.clientWidth/<span class="hljs-number">2</span> + <span class="hljs-string">'px'</span>;
-        div.style.top = <span class="hljs-built_in">document</span>.documentElement.clientHeight/<span class="hljs-number">2</span> + <span class="hljs-string">'px'</span>;
-    }
+    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"haha"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="javascript">
+        <span class="hljs-keyword">var</span> node = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'haha'</span>);
+        <span class="hljs-keyword">var</span> isMouseDown = <span class="hljs-literal">false</span>;
+        <span class="hljs-keyword">var</span> prevX = <span class="hljs-number">0</span>;
+        <span class="hljs-keyword">var</span> prevY = <span class="hljs-number">0</span>;
 
-    <span class="hljs-keyword">var</span> position = {
-        <span class="hljs-string">'isMouseDown'</span>: <span class="hljs-number">0</span>, <span class="hljs-comment">// 鼠标是否被按下，0表示未被按下，1表示被按下</span>
-        <span class="hljs-string">'ox'</span>: <span class="hljs-number">0</span>, <span class="hljs-comment">// 鼠标按下位置和div左上角的横向位移偏移</span>
-        <span class="hljs-string">'oy'</span>: <span class="hljs-number">0</span>, <span class="hljs-comment">// 鼠标按下位置和div左上角的纵向位移偏移</span>
-    }
-    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">mouseDown</span>(<span class="hljs-params">e</span>) </span>{ <span class="hljs-comment">// 按下鼠标时</span>
-        <span class="hljs-keyword">var</span> e = e || event;
-        <span class="hljs-keyword">var</span> div = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'haha'</span>);
-        position.isMouseDown = <span class="hljs-number">1</span>; <span class="hljs-comment">// 将鼠标状态置为按下</span>
-        <span class="hljs-comment">//记录偏移位置</span>
-        position.ox = e.clientX - <span class="hljs-built_in">parseInt</span>(div.style.left);
-        position.oy = e.clientY - <span class="hljs-built_in">parseInt</span>(div.style.top);
-    }
-    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">mouseMove</span>(<span class="hljs-params">e</span>) </span>{ <span class="hljs-comment">// 移动鼠标时</span>
-        <span class="hljs-keyword">var</span> e = e || event;
-        <span class="hljs-keyword">var</span> div = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'haha'</span>);
+        node.addEventListener(<span class="hljs-string">'mousedown'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">evt</span>) </span>{
+            isMouseDown = <span class="hljs-literal">true</span>;
 
-        <span class="hljs-keyword">if</span>(position.isMouseDown==<span class="hljs-number">0</span>) <span class="hljs-keyword">return</span>;
+            prevX = evt.clientX;
+            prevY = evt.clientY;
+        });
 
-        div.style.left = e.clientX - position.ox + <span class="hljs-string">'px'</span>;
-        div.style.top = e.clientY - position.oy + <span class="hljs-string">'px'</span>;
-    }
-    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">mouseUp</span>(<span class="hljs-params"></span>) </span>{ <span class="hljs-comment">// 鼠标移开时，将鼠标状态和偏移状态重置</span>
-        position.isMouseDown = <span class="hljs-number">0</span>;
-        position.ox = <span class="hljs-number">0</span>;
-        position.oy = <span class="hljs-number">0</span>;
-    }
-    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">mouseOver</span>(<span class="hljs-params"></span>) </span>{ <span class="hljs-comment">// 鼠标移上去后的鼠标变化</span>
-        vardiv = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'haha'</span>);
-        div.style.cursor = <span class="hljs-string">'move'</span>;
-    }
-    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">mouseOut</span>(<span class="hljs-params"></span>) </span>{ <span class="hljs-comment">// 鼠标移开后的鼠标变化</span>
-        vardiv = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'haha'</span>);
-        div.style.cursor = <span class="hljs-string">'default'</span>;
-        mouseUp();
-    }
+        <span class="hljs-built_in">window</span>.addEventListener(<span class="hljs-string">'mousemove'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">evt</span>) </span>{
+            <span class="hljs-keyword">if</span> (isMouseDown) {
+                <span class="hljs-keyword">var</span> x = evt.clientX;
+                <span class="hljs-keyword">var</span> y = evt.clientY;
+
+                <span class="hljs-keyword">var</span> left = <span class="hljs-built_in">parseInt</span>(<span class="hljs-built_in">window</span>.getComputedStyle(node).left, <span class="hljs-number">10</span>);
+                <span class="hljs-keyword">var</span> top = <span class="hljs-built_in">parseInt</span>(<span class="hljs-built_in">window</span>.getComputedStyle(node).top, <span class="hljs-number">10</span>);
+
+                node.style.left = left + x - prevX + <span class="hljs-string">'px'</span>;
+                node.style.top = top + y - prevY + <span class="hljs-string">'px'</span>;
+
+                prevX = x;
+                prevY = y;
+            }
+        });
+
+        <span class="hljs-built_in">window</span>.addEventListener(<span class="hljs-string">'mouseup'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+            isMouseDown = <span class="hljs-literal">false</span>;
+        });
     </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span>

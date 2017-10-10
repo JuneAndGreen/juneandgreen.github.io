@@ -89,11 +89,11 @@ this表示当前上下文，即当前函数的调用者，可以使用bind/call/
 
 ```javascript
 function a() {
-  console.log(a.caller); // 输出当前函数的调用函数的引用，没有时则为null
+    console.log(a.caller); // 输出当前函数的调用函数的引用，没有时则为null
 }
 
 function b() {
-  a(); // 输出b函数
+    a(); // 输出b函数
 }
 ```
 
@@ -443,10 +443,10 @@ if(sheet) {
 ```javascript
 // 取Cookies
 function getCookie(name) {
-  var value = document.cookie.match(new RegExp('(^| )' + name + '=([^;]*)(;|$)'));
-  if(value != null) return unescape(value[2]); // unescape函数进行解码
+    var value = document.cookie.match(new RegExp('(^| )' + name + '=([^;]*)(;|$)'));
+    if(value != null) return unescape(value[2]); // unescape函数进行解码
 
-  return null;
+    return null;
 }
 
 // 存Cookies
@@ -463,20 +463,20 @@ function setCookie(name, value, date, domain, path) { // date为过期时间对�
 
 // 删Cookies
 function delCookie(name, domain, path) {
-  var dateLine = new Date();
-  dateLine.setDate(dateLine.getDate() - 1); // 设置过期日期为已过去的时间
+    var dateLine = new Date();
+    dateLine.setDate(dateLine.getDate() - 1); // 设置过期日期为已过去的时间
 
-  var dvalue = getCookie(name);
-  if(dvalue != null) {
-    var arr = [];
+    var dvalue = getCookie(name);
+    if(dvalue != null) {
+        var arr = [];
 
-    arr.push(name + '=' + escape(dvalue));
-    if(domain) arr.push('domain=' + escape(domain));
-    if(path) arr.push('path=' + escape(path));
-    arr.push('expires=' + dateLine.toGMTString());
+        arr.push(name + '=' + escape(dvalue));
+        if(domain) arr.push('domain=' + escape(domain));
+        if(path) arr.push('path=' + escape(path));
+        arr.push('expires=' + dateLine.toGMTString());
 
-    document.cookie = arr.join(';');
-  }
+        document.cookie = arr.join(';');
+    }
 }
 ```
 
@@ -745,8 +745,8 @@ Audio支持三种音频格式：Ogg Vorbis，MP3，Wav。
 
 ```html
 <audio autoplay="autoplay" controls="controls">
-  <source src="xxx.ogg"/>
-  <source src="xxx.mp3"/>
+    <source src="xxx.ogg"/>
+    <source src="xxx.mp3"/>
 </audio>
 <!--标签的属性与video相同。没有height与width。-->
 ```
@@ -764,9 +764,9 @@ Video支持三种视频格式：Ogg，MPEG4，WebM。
 ```html
 <!-- 此属性表示视频在页面加载时进行加载，预备播放。如果设置为"autoplay"，就忽略该属性。controls用于显示如播放按钮的控件-->
 <video controls="preload">
-  <source src="xxx.ogv" type="video/ogg; codecs='vorbis,theora'"/>
-  <source src="xxx.mp4" type="vide0/mp4; codecs='avc1.42E01E,mp4a.40.2'"/>
-  <p>你的浏览器太旧了。<a href="xxx.mp4">下载这个视频。</a></p>
+    <source src="xxx.ogv" type="video/ogg; codecs='vorbis,theora'"/>
+    <source src="xxx.mp4" type="vide0/mp4; codecs='avc1.42E01E,mp4a.40.2'"/>
+    <p>你的浏览器太旧了。<a href="xxx.mp4">下载这个视频。</a></p>
 </video>
 ```
 
@@ -779,8 +779,8 @@ PS：不是所有的浏览器都支持HTML5，所以在资源元素的下面，�
 
 ```javascript
 Notification.requestPermission(function(status) {
-  // 此接口用于向浏览器用户申请通知权限，申请方式为弹框申请
-  // 其中status为granted为用户同意，denied为用户拒绝，default为用户没有做任何许可，因此也不会弹出通知
+    // 此接口用于向浏览器用户申请通知权限，申请方式为弹框申请
+    // 其中status为granted为用户同意，denied为用户拒绝，default为用户没有做任何许可，因此也不会弹出通知
 });
 ```
 
@@ -788,11 +788,11 @@ Notification.requestPermission(function(status) {
 
 ```javascript
 var n = new Notification(title, {
-  dir: '', // 文字方向，auto，ltr(从左向右)，rtl(从右向左)
-  lang: '', // 语种
-  body: '', // 通知内容
-  tag: '', // 通知的ID，格式为字符串。一组相同tag的通知，不会同时显示，只会在用户关闭前一个通知后，在原位置显示
-  icon: '', // 图标的url
+    dir: '', // 文字方向，auto，ltr(从左向右)，rtl(从右向左)
+    lang: '', // 语种
+    body: '', // 通知内容
+    tag: '', // 通知的ID，格式为字符串。一组相同tag的通知，不会同时显示，只会在用户关闭前一个通知后，在原位置显示
+    icon: '', // 图标的url
 });
 
 n.close();  //关闭通知
@@ -965,68 +965,55 @@ dragend：拖拽源在拖拽操作结束将得到dragend事件对象，不管操
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="utf-8">
-	<title>test</title>
-	<style type="text/css">
-	#haha{
-		position:absolute;
-		margin:-100px 0 0 -100px;
-		background:#0C9;
-		width:200px;
-		height:200px;
-	}
-	</style>
+    <title>test</title>
+    <style>
+        #haha{
+            position: absolute;
+            left: 200px;
+            top: 200px;
+            background: #0C9;
+            width: 200px;
+            height: 200px;
+        }
+    </style>
 </head>
-
 <body>
-	<div id="haha" style="left:0;top:0;" onMouseDown=mouseDown() onMouseUp=mouseUp() onMouseMove=mouseMove() onMouseOut=mouseOut() onMouseOver=mouseOver()></div>
-	<script type="text/javascript">
-	window.onload = function() { // 将div设置在屏幕中间
-		var div = document.getElementById('haha');
-		div.style.left = document.documentElement.clientWidth/2 + 'px';
-		div.style.top = document.documentElement.clientHeight/2 + 'px';
-	}
+    <div id="haha"></div>
+    <script>
+        var node = document.getElementById('haha');
+        var isMouseDown = false;
+        var prevX = 0;
+        var prevY = 0;
 
-	var position = {
-		'isMouseDown': 0, // 鼠标是否被按下，0表示未被按下，1表示被按下
-		'ox': 0, // 鼠标按下位置和div左上角的横向位移偏移
-		'oy': 0, // 鼠标按下位置和div左上角的纵向位移偏移
-	}
-	function mouseDown(e) { // 按下鼠标时
-		var e = e || event;
-		var div = document.getElementById('haha');
-		position.isMouseDown = 1; // 将鼠标状态置为按下
-		//记录偏移位置
-		position.ox = e.clientX - parseInt(div.style.left);
-		position.oy = e.clientY - parseInt(div.style.top);
-	}
-	function mouseMove(e) { // 移动鼠标时
-		var e = e || event;
-		var div = document.getElementById('haha');
+        node.addEventListener('mousedown', function(evt) {
+            isMouseDown = true;
 
-		if(position.isMouseDown==0) return;
+            prevX = evt.clientX;
+            prevY = evt.clientY;
+        });
 
-		div.style.left = e.clientX - position.ox + 'px';
-		div.style.top = e.clientY - position.oy + 'px';
-	}
-	function mouseUp() { // 鼠标移开时，将鼠标状态和偏移状态重置
-		position.isMouseDown = 0;
-		position.ox = 0;
-		position.oy = 0;
-	}
-	function mouseOver() { // 鼠标移上去后的鼠标变化
-		vardiv = document.getElementById('haha');
-		div.style.cursor = 'move';
-	}
-	function mouseOut() { // 鼠标移开后的鼠标变化
-		vardiv = document.getElementById('haha');
-		div.style.cursor = 'default';
-		mouseUp();
-	}
-	</script>
+        window.addEventListener('mousemove', function(evt) {
+            if (isMouseDown) {
+                var x = evt.clientX;
+                var y = evt.clientY;
+
+                var left = parseInt(window.getComputedStyle(node).left, 10);
+                var top = parseInt(window.getComputedStyle(node).top, 10);
+
+                node.style.left = left + x - prevX + 'px';
+                node.style.top = top + y - prevY + 'px';
+
+                prevX = x;
+                prevY = y;
+            }
+        });
+
+        window.addEventListener('mouseup', function() {
+            isMouseDown = false;
+        });
+    </script>
 </body>
 </html>
-
 ```
 
 ### 性能相关API
