@@ -652,7 +652,7 @@ http提供的一个允许跨域请求的方法，只有高版本浏览器支持�
 
 可已通过修改document.domain、window.name或postMessage来做。
 
-PS：document.domain只可修改成和当前一样或更高级的父域。如a.c.b.com只可修改成a.c.b.com、c.b.com和b.com。
+PS：document.domain只可修改成和当前一样或更高级的父域。如a.c.b.com只可修改成a.c.b.com、c.b.com和b.com。此方法可用于域名有一定关联性的页面和iframe的交互，因为处于跨域情况下页面只可以访问iframe的window，但不可访问其属性和方法。
 PS：window.name可以在同一个窗口内一直保存，所以在iframe中修改了window.name，然后将iframe的src改成同域的，父亲就可以通过iframe.contentWindow.name获取。
 
 ### 文件上传
