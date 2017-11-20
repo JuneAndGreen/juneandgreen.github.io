@@ -465,7 +465,7 @@ function getPixel(x, y) {
 
 png的解析流程可以由这一张图简单概括：
 
-![流程](../images/png_process.jpg)
+![流程](../../images/png_process.jpg)
 
 此文只对png图片的格式做了简单的介绍，我们也知道如何对一张png图片做简单的解析。上面出现的代码只是js代码片段，如果对完整代码有兴趣的同学可以[戳这里](https://github.com/JuneAndGreen/doimg/blob/master/src/png.js)。
 

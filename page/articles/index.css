@@ -8,6 +8,13 @@
     color: #666;
 }
 
+.year-title {
+    margin: 15px 40px;
+
+    font-size: 22px;
+    color: #666;
+}
+
 .list {
     display: flex;
     flex-wrap: wrap;

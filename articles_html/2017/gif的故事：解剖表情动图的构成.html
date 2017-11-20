@@ -375,13 +375,13 @@ pre::-webkit-scrollbar-thumb {
         <h1 id="gif-">gif的故事：解剖表情动图的构成</h1>
 <h2 id="-">前言</h2>
 <p>在现在表情包横行的年代，相信大家对表情动图已经不陌生了，这些动图通常就是我们使用的gif图（比如下图）。所谓动图就是会动的图片，而其会动的原理跟动画、影视剧一样，通过连续播放图片让我们从视觉感官上认为图片会动。那么gif图片又是如何将动图中的每一帧存储下来的呢，这下就需要我们动起刀子，解剖一下gif图。</p>
-<p><p class="image-wrapper"><img src="../images/gif_demo.gif" alt="null" title="null"></p></p>
+<p><p class="image-wrapper"><img src="../../images/gif_demo.gif" alt="null" title="null"></p></p>
 <h2 id="-">简介</h2>
 <p>gif图本身无需过多介绍，相信这个星球上的人类基本上没有没接触过的吧。但是从专业的角度上来介绍的话，gif图是一种基于LZW算法的8位连续色调的无损压缩格式，某种程度上来说和png图的格式有点相似（索引、无损压缩等）。其中LZW算法上一种压缩算法，需要注意的是gif使用的LZW算法并不是原本的LZW算法，而是经过稍微改造后的LZW算法。</p>
 <h2 id="-">结构</h2>
 <p>我们还是使用块来区分gif图的内容，掐去头跟尾，剩下的块可分为九种：逻辑屏幕标识符、全局颜色列表、图形控制扩展块、图像标识符、局部颜色列表、图像数据、文本扩展块、应用扩展块和注释扩展块。</p>
 <p>其中其中文本扩展块、应用扩展块和注释扩展块我们基本上用不着，所以这里不做介绍。整个解析流程如下图：</p>
-<p><p class="image-wrapper"><img src="../images/gif_process.png" alt="null" title="null"></p></p>
+<p><p class="image-wrapper"><img src="../../images/gif_process.png" alt="null" title="null"></p></p>
 <h3 id="-">文件头</h3>
 <p>gif图文件头有两种：<code>[0x47, 0x49, 0x46, 0x38, 0x37, 0x61]</code>和<code>[0x47, 0x49, 0x46, 0x38, 0x39, 0x61]</code>，分别对应87a版本（1987年制定的版本）和89a版本（1989年制定的版本）。这也是这个gif图的“魔数”，我们通过“魔数”就可以判断一个文件是不是gif图，用这种方式比直接判断文件后缀会靠谱得多。当然，我们可以将这个文件头转成字符串，转换过后其实就是&quot;GIF87a&quot;和“GIF89a”，这个文件头的来历其实就是这么的简单：D</p>
 <h3 id="-">逻辑屏幕标识符</h3>
@@ -599,19 +599,19 @@ let head = <span class="hljs-keyword">readBytes</span>(<span class="hljs-number"
 <ul>
 <li>值为0：整张覆盖，不需要使用到透明像素。</li>
 </ul>
-<p><p class="image-wrapper"><img src="../images/gif_disposal_1.png" alt="null" title="null"></p></p>
+<p><p class="image-wrapper"><img src="../../images/gif_disposal_1.png" alt="null" title="null"></p></p>
 <ul>
 <li>值为1：部分覆盖，未被覆盖的像素继续显示。</li>
 </ul>
-<p><p class="image-wrapper"><img src="../images/gif_disposal_2.png" alt="null" title="null"></p></p>
+<p><p class="image-wrapper"><img src="../../images/gif_disposal_2.png" alt="null" title="null"></p></p>
 <ul>
 <li>值为2：部分覆盖，未被覆盖的像素继续显示，背景色作为透明处理。</li>
 </ul>
-<p><p class="image-wrapper"><img src="../images/gif_disposal_3.png" alt="null" title="null"></p></p>
+<p><p class="image-wrapper"><img src="../../images/gif_disposal_3.png" alt="null" title="null"></p></p>
 <ul>
 <li>值为3：恢复为先前未展开的帧的状态。这种方法没有被很好的支持，最好避免使用。</li>
 </ul>
-<p><p class="image-wrapper"><img src="../images/gif_disposal_4.png" alt="null" title="null"></p></p>
+<p><p class="image-wrapper"><img src="../../images/gif_disposal_4.png" alt="null" title="null"></p></p>
 <ul>
 <li>值4-7：自定义处置方式。</li>
 </ul>

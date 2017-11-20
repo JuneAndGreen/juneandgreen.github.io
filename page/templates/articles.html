@@ -11,12 +11,15 @@
 </head>
 <body>
     <h1 class="title">june01的文章</h1>
-    <ul class="list">
-    {list articles as article}
-        <li class="item" style="background-color: ${article.color};">
-            <a href="${article.url}" target="_blank">${article.title}</a>
-        </li>
+    {list articles as yearArticle}
+        <h2 class="year-title"># ${yearArticle.year}</h2>
+        <ul class="list">
+        {list yearArticle.list as article}
+            <li class="item" style="background-color: ${article.color};">
+                <a href="${article.url}" target="_blank">${article.title}</a>
+            </li>
+        {/list}
+        </ul>
     {/list}  
-    </ul>
 </body>
 </html>
