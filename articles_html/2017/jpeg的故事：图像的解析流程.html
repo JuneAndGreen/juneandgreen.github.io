@@ -1,0 +1,1061 @@
+</DOCTYPE html>
+<html>
+<head>
+    <title>jpeg的故事：图像的解析流程</title>
+    <style type="text/css">
+        html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    font-weight: inherit;
+    font-style: inherit;
+    font-family: inherit;
+    font-size: 100%;
+    vertical-align: baseline;
+}
+
+body {
+    line-height: 1;
+
+    font-family: "microsoft yahei",Arial,Helvetica,sans-serif;
+    font-size: 100%;
+    background: #fff;
+    color: #817c7c;
+    line-height: 1.5;
+}
+
+* {
+    -webkit-margin-before: 0;
+    -webkit-margin-after: 0;
+}
+
+.container {
+    width: 1000px;
+    margin: 0 auto;
+    overflow: hidden;
+    line-height: 1.8;
+    font-size: 14px;
+}
+
+.article-content {
+    padding: 1.5em 4% 5em;
+    color: #413f3f;
+    font-size: 100%;
+}
+
+caption,th,td {
+    text-align: left;
+    font-weight: normal;
+    vertical-align: middle;
+}
+
+a img {
+    border: none;
+}
+
+small {
+    font-size: 80%;
+}
+
+sub,sup {
+    font-size: 75%;
+    line-height: 0;
+    position: relative;
+    vertical-align: baseline;
+}
+
+sup {
+    top: -.5em;
+    padding-left: .3em;
+}
+
+sub {
+    bottom: -.25em;
+}
+
+a {
+    text-decoration: none;
+    color: #2ca6cb;
+}
+
+a:hover {
+    color: #d14;
+}
+
+h1 {
+    font-size: 200%;
+    line-height: 1.5em;
+    padding-bottom: .3em;
+    border-bottom: 2px solid #dbdbdb;
+}
+
+h2 {
+    margin-top: 2.6em;
+    padding-left: 20px;
+    font-size: 160%;
+    line-height: 1.2em;
+    border-left: 4px solid #2ca6cb;
+}
+
+h2:first-child {
+  margin-top: 1.5em;
+}
+
+h3 {
+    font-size: 140%;
+    line-height: 1em;
+    margin-top: 1.3em;
+}
+
+h1, h2 {
+    position: relative;
+    margin-top: 1.5em;
+    margin-bottom: 1em;
+}
+
+h4 {
+  font-weight: bold;
+  font-size: 110%;
+}
+
+h4, h5, h6 {
+    margin-top: .8em;
+    font-size: 130%;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: #333;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+h1 >code, h2 >code, h3 >code, h4 >code, h5 >code, h6 >code {
+    color: #a3a3a3;
+}
+
+hr {
+    border: 1px solid #dbdbdb;
+}
+
+strong {
+    font-weight: bold;
+}
+
+em {
+    font-style: italic;
+}
+
+acronym, abbr {
+    border-bottom: 1px dotted;
+}
+
+blockquote {
+    border-left: .2em solid #aaa;
+    margin: 1em;
+    padding: .7em;
+    line-height: 1.5;
+    font-size: 100%;
+    color: #808080;
+    background-color: #f8f8f8;
+}
+
+blockquote footer {
+    background: #fafafa;
+    padding: 0;
+    margin: 0;
+    font-size: 80%;
+    line-height: 1em;
+}
+
+blockquote cite {
+    font-style: italic;
+    padding-left: .5em;
+}
+
+blockquote p {
+    margin: 0;
+}
+
+ul, ol {
+    list-style: none;
+    padding-left: 3em;
+    font-size: 105%;
+    padding-top: .7em;
+}
+
+ul li {
+    list-style: disc;
+    text-align: match-parent;
+}
+
+ol li {
+    list-style-type: decimal;
+}
+
+dl dt {
+    font-weight: blod;
+}
+
+ul li>code, ol li>code, p code, strong code, em code, table th>code, table td>code {
+    font-family: Monaco,Menlo,Consolas,Courier New,monospace;
+    background: #eee;
+    color: #d14;
+    border: 1px solid #d6d6d6;
+    padding: 0 5px;
+    margin: 0 2px;
+    font-size: 90%;
+    white-space: nowrap;
+    text-shadow: 0 1px #fff;
+    -webkit-border-radius: .25em;
+    -webkit-border-radius: .25em;
+    border-radius: .25em;
+}
+
+p {
+    line-height: 1.5;
+    margin-top: .7em;
+    font-size: 110%;
+    letter-spacing: 1px;
+}
+
+p.image-wrapper {
+    text-align: left;
+}
+
+img, video, figure img {
+    margin: 10px 0;
+    max-width: 100%;
+    height: auto;
+    vertical-align: middle;
+    margin-top: .5em;
+
+    border-radius: 5px;
+    box-shadow: 2px 2px 7px 1px #aaa;
+}
+
+table {    
+    vertical-align: middle;
+    max-width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+    margin-top: 1em;
+    border: 2px solid #cbcbcb;
+    color: #413f3f;
+}
+
+table tbody tr:nth-child(odd) {
+    background-color: #f8f8f8;
+}
+
+table th {
+    font-weight: bold;
+    border: 1px solid #cbcbcb;
+    border-bottom: 2px solid #cbcbcb;
+    padding: .8em;
+    line-height: 1.3em;
+}
+
+table td {
+    border: 1px solid #cbcbcb;
+    padding: .8em;
+    line-height: 1.3em;
+}
+
+pre {
+    background: #2d2d2d;
+    margin: .5em 0;
+    padding: .5em 2%;
+    color: #ccc;
+    line-height: 1.5;
+    font-size: .8em;
+    -webkit-border-radius: .35em;
+    -webkit-border-radius: .35em;
+    border-radius: .35em;
+    word-wrap: break-word;
+    font-family: Monaco,Menlo,Consolas,Courier New,monospace;
+    overflow-x: auto;
+}
+
+
+pre::-webkit-scrollbar, pre::-webkit-scrollbar-track {
+    height: 8px;
+    background-color: transparent;
+}
+pre::-webkit-scrollbar-thumb {
+    height: 8px;
+    background-color: #ddd;
+    border-radius: 4px;
+}
+
+
+.hljs {
+  display: block;
+  overflow-x: auto;
+  padding: 0.5em;
+  color: #abb2bf;
+  background: #282c34;
+}
+
+.hljs-comment,
+.hljs-quote {
+  color: #5c6370;
+  font-style: italic;
+}
+
+.hljs-doctag,
+.hljs-keyword,
+.hljs-formula {
+  color: #c678dd;
+}
+
+.hljs-section,
+.hljs-name,
+.hljs-selector-tag,
+.hljs-deletion,
+.hljs-subst {
+  color: #e06c75;
+}
+
+.hljs-literal {
+  color: #56b6c2;
+}
+
+.hljs-string,
+.hljs-regexp,
+.hljs-addition,
+.hljs-attribute,
+.hljs-meta-string {
+  color: #98c379;
+}
+
+.hljs-built_in,
+.hljs-class .hljs-title {
+  color: #e6c07b;
+}
+
+.hljs-attr,
+.hljs-variable,
+.hljs-template-variable,
+.hljs-type,
+.hljs-selector-class,
+.hljs-selector-attr,
+.hljs-selector-pseudo,
+.hljs-number {
+  color: #d19a66;
+}
+
+.hljs-symbol,
+.hljs-bullet,
+.hljs-link,
+.hljs-meta,
+.hljs-selector-id,
+.hljs-title {
+  color: #61aeee;
+}
+
+.hljs-emphasis {
+  font-style: italic;
+}
+
+.hljs-strong {
+  font-weight: bold;
+}
+
+.hljs-link {
+  text-decoration: underline;
+}
+
+
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="article-content">
+        <h1 id="jpeg-">jpeg的故事：图像的解析流程</h1>
+<h2 id="-">简介</h2>
+<p>相信大家对jpeg图片肯定不会陌生，比如我们最常见的照片基本上就是以jpeg来存储的。这得益于jpeg的某个特性——保持高压缩率的同时可以保证人眼的观感不会出现特别大的偏差，尤其这还是基于有损压缩的前提下。接下来就来详细研究下：jpeg图片是如何进行压缩的。</p>
+<blockquote>
+<p>PS：其实jpeg后来推出过无损压缩的版本，即jpeg2000，可是因为各种各样的原因只在一些特殊渠道比较常见，并没有大规模的流行起来。所以此文就不去涉及jpeg2000了。</p>
+</blockquote>
+<h2 id="-">结构</h2>
+<p>jpeg图片由各种各样的标记段和图像数据组成。标记段的种类有很多种，但是我们需要重点关注的只有以下几种：</p>
+<ul>
+<li>SOI标记段，即文件头。</li>
+<li>APP0标记段，即应用程序保留标记。</li>
+<li>DQT标记段，存放量化表。</li>
+<li>DHT标记段，存放哈夫曼表。</li>
+<li>SOF0标记段，即帧图像开始标记。</li>
+<li>SOS标记段，即扫描开始标记。</li>
+<li>DRI标记段，即差分编码累计复位的间隔标记。</li>
+<li>COM标记段，即注释。</li>
+<li>EOI标记段，即文件尾。</li>
+</ul>
+<p>标记段有着自己的固定结构，如下：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">描述</th>
+<th style="text-align:left">长度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">标记头，固定值为0xff</td>
+<td style="text-align:left">1字节</td>
+</tr>
+<tr>
+<td style="text-align:left">标记码，用来区分各个标记段</td>
+<td style="text-align:left">1字节</td>
+</tr>
+<tr>
+<td style="text-align:left">数据块长度</td>
+<td style="text-align:left">2字节</td>
+</tr>
+<tr>
+<td style="text-align:left">数据块内容</td>
+<td style="text-align:left">数据块长度里存放的值 - 2（因为这个值包含了数据块长度的2个字节，故要减2）</td>
+</tr>
+</tbody>
+</table>
+<p>下面介绍各个标记段的时候，就直接介绍标记段里的数据块内容，不再赘述整个标记段的完整结构。整个图片的解码流程如下所示：</p>
+<pre><code><span class="hljs-comment">开始</span> <span class="hljs-literal">-</span><span class="hljs-literal">-</span>&gt; <span class="hljs-comment">解析文件头（SOI标记段）</span><span class="hljs-literal">-</span><span class="hljs-literal">-</span>&gt; <span class="hljs-comment">解析各种标记段和图像数据</span> <span class="hljs-literal">-</span><span class="hljs-literal">-</span>&gt; <span class="hljs-comment">解析完毕之后开始进行图像解码</span> <span class="hljs-literal">-</span><span class="hljs-literal">-</span>&gt; <span class="hljs-comment">拼装图像数据到某个特殊结构</span> <span class="hljs-literal">-</span><span class="hljs-literal">-</span>&gt; <span class="hljs-comment">哈夫曼解码</span> <span class="hljs-literal">-</span><span class="hljs-literal">-</span>&gt; <span class="hljs-comment">反量化</span> <span class="hljs-literal">-</span><span class="hljs-literal">-</span>&gt; <span class="hljs-comment">zig</span><span class="hljs-literal">-</span><span class="hljs-comment">zag反编码</span> <span class="hljs-literal">-</span><span class="hljs-literal">-</span>&gt; <span class="hljs-comment">反dct变换</span> <span class="hljs-literal">-</span><span class="hljs-literal">-</span>&gt; <span class="hljs-comment">转换颜色模型到rgb</span> <span class="hljs-literal">-</span><span class="hljs-literal">-</span>&gt; <span class="hljs-comment">拼装成图像显示</span> <span class="hljs-literal">-</span><span class="hljs-literal">-</span>&gt; <span class="hljs-comment">结束</span>
+</code></pre><h3 id="soi-">SOI标记段</h3>
+<p>jpeg文件头，跟其他文件的文件头类似，表明这是一个jpeg文件。固定值<code>[0xff, 0xd8]</code>。</p>
+<h3 id="app0-">APP0标记段</h3>
+<p>此标记段主要存储了图片规格相关信息，标记码是<code>0xe0</code>。数据块结构如下：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">描述</th>
+<th style="text-align:left">长度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">文件交换格式，值通常是JFIF0，JPEG File Interchange Format的缩写</td>
+<td style="text-align:left">5字节</td>
+</tr>
+<tr>
+<td style="text-align:left">主版本号</td>
+<td style="text-align:left">1字节</td>
+</tr>
+<tr>
+<td style="text-align:left">次版本号</td>
+<td style="text-align:left">1字节</td>
+</tr>
+<tr>
+<td style="text-align:left">水平方向像素密度</td>
+<td style="text-align:left">2字节</td>
+</tr>
+<tr>
+<td style="text-align:left">垂直方向像素密度</td>
+<td style="text-align:left">2字节</td>
+</tr>
+<tr>
+<td style="text-align:left">缩略图宽度</td>
+<td style="text-align:left">1字节</td>
+</tr>
+<tr>
+<td style="text-align:left">缩略图高度</td>
+<td style="text-align:left">1字节</td>
+</tr>
+<tr>
+<td style="text-align:left">缩略图数据</td>
+<td style="text-align:left">(缩略图宽度 <em> 缩略图高度 </em> 3)字节，直接存放rgb颜色模型数据</td>
+</tr>
+</tbody>
+</table>
+<h3 id="dqt-">DQT标记段</h3>
+<p>此标记段主要存储了量化表信息，标记码是<code>0xdb</code>。数据块结构如下：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">描述</th>
+<th style="text-align:left">长度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">量化表精度，0 - 1字节，1 - 2字节</td>
+<td style="text-align:left">4位</td>
+</tr>
+<tr>
+<td style="text-align:left">量化表id，取值范围为0 - 3，所以最多可有4个量化表</td>
+<td style="text-align:left">4位</td>
+</tr>
+<tr>
+<td style="text-align:left">量化表内容</td>
+<td style="text-align:left">(精度 + 1) * 64字节</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>PS：这里需要注意的是，上面的结构是一张量化表的内容，但是这个数据块里可能存放至多4张量化表，所以这里的数据块内容可以重复出现。如果出现了多张量化表，则直接将后面的量化表内容追加到上一张量化表后面既可，例如<code>量化表1、量化表2、量化表3、量化表4</code>。</p>
+</blockquote>
+<h3 id="dht-">DHT标记段</h3>
+<p>此标记段主要存储了哈夫曼表信息，标记码是<code>0xc4</code>。数据块结构如下：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">描述</th>
+<th style="text-align:left">长度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">哈夫曼表类型，0 - DC直流表，1 - AC交流表</td>
+<td style="text-align:left">4位</td>
+</tr>
+<tr>
+<td style="text-align:left">哈夫曼表id</td>
+<td style="text-align:left">4位</td>
+</tr>
+<tr>
+<td style="text-align:left">不同位数的编码个数，每个字节代表一个位数的编码个数</td>
+<td style="text-align:left">16字节</td>
+</tr>
+<tr>
+<td style="text-align:left">哈夫曼表内容</td>
+<td style="text-align:left">16个不同位数编码个数之和</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>PS：同量化表的存储，此处也只是一张哈夫曼表的内容，但是这个数据块可能存放至多4张哈夫曼表。</p>
+</blockquote>
+<h3 id="sof0-">SOF0标记段</h3>
+<p>此标记段主要存储图像的解码必要信息和颜色信息等，标记码是<code>0xc0</code>。数据块结构如下：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">描述</th>
+<th style="text-align:left">长度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">样本精度，通常值为8，样本就是单个像素的颜色分量</td>
+<td style="text-align:left">1字节</td>
+</tr>
+<tr>
+<td style="text-align:left">图片高度</td>
+<td style="text-align:left">2字节</td>
+</tr>
+<tr>
+<td style="text-align:left">图片宽度</td>
+<td style="text-align:left">2字节</td>
+</tr>
+<tr>
+<td style="text-align:left">颜色分量数，1 - 灰度图，3 - YCrCb/YIQ 彩色图，4 - CMYK 彩色图，通常值为3</td>
+<td style="text-align:left">1字节</td>
+</tr>
+<tr>
+<td style="text-align:left">颜色分量信息</td>
+<td style="text-align:left">(颜色分量数 * 3)字节</td>
+</tr>
+</tbody>
+</table>
+<p>其中颜色分量信息里存储的结构如下：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">描述</th>
+<th style="text-align:left">长度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">颜色分量id，1 - Y，2 - Cb，3 - Cr，4 - I，5 - Q</td>
+<td style="text-align:left">1字节</td>
+</tr>
+<tr>
+<td style="text-align:left">水平采样系数</td>
+<td style="text-align:left">4位</td>
+</tr>
+<tr>
+<td style="text-align:left">垂直采样系数</td>
+<td style="text-align:left">4位</td>
+</tr>
+<tr>
+<td style="text-align:left">量化表id</td>
+<td style="text-align:left">1字节</td>
+</tr>
+</tbody>
+</table>
+<h3 id="sos-">SOS标记段</h3>
+<p>此标记段标记着图像数据的扫描开始，标记码是<code>0xda</code>。数据块结构如下：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">描述</th>
+<th style="text-align:left">长度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">颜色分量数，1 - 灰度图，3 - YCrCb或YIQ，4 - CMYK</td>
+<td style="text-align:left">1字节</td>
+</tr>
+<tr>
+<td style="text-align:left">颜色分量信息</td>
+<td style="text-align:left">(颜色分量数 * 2)字节</td>
+</tr>
+<tr>
+<td style="text-align:left">谱相关信息，基本不用考虑此字段</td>
+<td style="text-align:left">3字节</td>
+</tr>
+</tbody>
+</table>
+<p>其中颜色分量信息里存储的结构如下：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">描述</th>
+<th style="text-align:left">长度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">颜色分量id，1 - Y，2 - Cb，3 - Cr，4 - I，5 - Q</td>
+<td style="text-align:left">1字节</td>
+</tr>
+<tr>
+<td style="text-align:left">DC哈夫曼表id</td>
+<td style="text-align:left">4位</td>
+</tr>
+<tr>
+<td style="text-align:left">AC哈夫曼表id</td>
+<td style="text-align:left">4位</td>
+</tr>
+</tbody>
+</table>
+<p>出现了这个标记段后，就表示后面跟着的就是图像数据了。</p>
+<h3 id="dri-">DRI标记段</h3>
+<p>此标记段存储mcu单元的复位间隔，标记码是<code>0xdd</code>。数据块结构如下：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">描述</th>
+<th style="text-align:left">长度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">间隔，表明每多少个mcu单元就会出现一个复位标记</td>
+<td style="text-align:left">2字节</td>
+</tr>
+</tbody>
+</table>
+<h3 id="com-">COM标记段</h3>
+<p>此标记段存储的是注释，标记码是<code>0xfe</code>。解码时基本上不用考虑这个标记段里的内容。</p>
+<h3 id="eoi">EOI</h3>
+<p>jpeg文件尾，值固定为<code>[0xff, 0xd9]</code>，当遇到此标记段即标明解码结束。</p>
+<h2 id="-">拼装</h2>
+<p>上面虽然扯了一堆标记段的结构，但是只看上面的内容估计很难理解这些标记段有啥公用，所以下面来讲讲图像的整个解码流程，看看如何将这些标记段的内容用上。</p>
+<h3 id="-">颜色模型</h3>
+<p>区别于通常使用rgb的png和gif，jpeg通常是使用YCrCb颜色模型。YCrCb和rgb一样，同样包含3个颜色分量，Y、Cr和Cb分别是指亮度、红色色度偏移和蓝色色度偏移。采用这种颜色模型是因为科学表明人眼对于亮度比色度敏感的多，所以我们在肉眼难以发觉多情况下对色度分量做尽可能多压缩。</p>
+<pre><code class="lang-javascript">// rgb转YCrCb
+function rgb2YCrCb(rgb) {
+    return <span class="hljs-comment">[
+        0.299 * rgb<span class="hljs-comment">[0]</span> + 0.587 * rgb<span class="hljs-comment">[1]</span> + 0.114 * rgb<span class="hljs-comment">[2]</span>,
+        0.5 * rgb<span class="hljs-comment">[0]</span> - 0.4187 * rgb<span class="hljs-comment">[1]</span> - 0.0813 * rgb<span class="hljs-comment">[2]</span> + 128,
+        - 0.1687 * rgb<span class="hljs-comment">[0]</span> - 0.3313 * rgb<span class="hljs-comment">[1]</span> + 0.5 * rgb<span class="hljs-comment">[2]</span> + 128,
+    ]</span>;
+}
+
+// YCrCb转rgb
+function YCrCb2rgb(YCrCb) {
+    let r = YCrCb<span class="hljs-comment">[0]</span> + 1.402 * (YCrCb<span class="hljs-comment">[1]</span> - 128);
+    let g = YCrCb<span class="hljs-comment">[0]</span> - 0.34414 * (YCrCb<span class="hljs-comment">[2]</span> - 128) - 0.71414 * (YCrCb<span class="hljs-comment">[1]</span> - 128);
+    let b = YCrCb<span class="hljs-comment">[0]</span> + 1.772 * (YCrCb<span class="hljs-comment">[2]</span> - 128);
+
+    return <span class="hljs-comment">[
+        r &gt; 255 ? 255 : r &lt; 0 ? 0 : ~~r,
+        g &gt; 255 ? 255 : g &lt; 0 ? 0 : ~~g,
+        b &gt; 255 ? 255 : b &lt; 0 ? 0 : ~~b,
+    ]</span>;
+}
+</code></pre>
+<h3 id="-">获取图像数据</h3>
+<p>前面有说到，在解析完SOS标记段后，跟着解析到的数据就是图像数据了。这里的解析过程中（包括解析数据段和解析图像数据时都需要考虑）有个特殊的值需要特殊处理，即——<code>0xff</code>。当遇到<code>0xff</code>这个字节时，需要结合下一个字节的值来判断处理方式：</p>
+<ul>
+<li>下一个字节为<code>0xff</code>：跳过这个<code>0xff</code>字节，不做任何处理。</li>
+<li>下一个字节为<code>0x00</code>：表明这个<code>0xff</code>是图像数据里的一部分，跳过<code>0x00</code>，将<code>0xff</code>计入到图像数据中。</li>
+<li>下一个字节为<code>0xd0</code>到<code>0xd7</code>：表明遇到了图像数据中的复位标记，记录复位标记在图像中的位置。</li>
+<li>下一个字节为其他值：遇到了其他标记段，则开始按照标记段的结构开始解析数据。</li>
+</ul>
+<h3 id="-">图像数据的排列</h3>
+<p>当收集完图像数据后，要对图像数据分块处理。说到分块，不得不先提一下jpeg的图像数据的组织方式。在前面讲到DRI标记段的时候，会记录一个间隔，表明在解码图像数据的时候需要遇到多少个mcu才进行一次复位操作。</p>
+<h4 id="mcu">mcu</h4>
+<p>mcu（Minimum Coded Unit）是最小编码单元，由若干个du（Data Unit）——数据单元构成。那么问题又来了，一个du是指的什么？</p>
+<p>这个例子里是一个<code>16 * 16</code>的图片，每个像素存放的是YCrCb颜色模型，通常一个颜色分量占用1个字节，那么这里一个像素就占用3个字节，整张图片的像素内容就占用了<code>16 * 16 * 3</code>个字节：</p>
+<pre><code><span class="hljs-built_in">YCrCb,</span> YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, 
+<span class="hljs-built_in">YCrCb,</span> YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb,
+<span class="hljs-built_in">YCrCb,</span> YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb,
+<span class="hljs-built_in">YCrCb,</span> YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb,
+<span class="hljs-built_in">YCrCb,</span> YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb,
+<span class="hljs-built_in">YCrCb,</span> YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb,
+<span class="hljs-built_in">YCrCb,</span> YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb,
+<span class="hljs-built_in">YCrCb,</span> YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb,
+<span class="hljs-built_in">YCrCb,</span> YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb,
+<span class="hljs-built_in">YCrCb,</span> YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb,
+<span class="hljs-built_in">YCrCb,</span> YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb,
+<span class="hljs-built_in">YCrCb,</span> YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb,
+<span class="hljs-built_in">YCrCb,</span> YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb,
+<span class="hljs-built_in">YCrCb,</span> YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb,
+<span class="hljs-built_in">YCrCb,</span> YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb,
+<span class="hljs-built_in">YCrCb,</span> YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb,
+</code></pre><p>一个du是一个固定的<code>8 * 8</code>的矩阵结构，占用<code>8 * 8 * 1</code>个字节，每个du只存相同分量的信息，那么上面这个例子可以拆分成<code>4 * 3</code>个du，这里乘以一个3的含义就在于每个像素包含3个颜色分量。拆分方式如下：</p>
+<pre><code>YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, <span class="hljs-string">||  YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, </span>
+YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, <span class="hljs-string">||  YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb,</span>
+YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, <span class="hljs-string">||  YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb,</span>
+YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, <span class="hljs-string">||  YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb,</span>
+YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, <span class="hljs-string">||  YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb,</span>
+YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, <span class="hljs-string">||  YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb,</span>
+YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, <span class="hljs-string">||  YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb,</span>
+YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, <span class="hljs-string">||  YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb,</span>
+
+==================================================================================================================
+
+YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, <span class="hljs-string">||  YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb,</span>
+YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, <span class="hljs-string">||  YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb,</span>
+YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, <span class="hljs-string">||  YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb,</span>
+YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, <span class="hljs-string">||  YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb,</span>
+YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, <span class="hljs-string">||  YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb,</span>
+YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, <span class="hljs-string">||  YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb,</span>
+YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, <span class="hljs-string">||  YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb,</span>
+YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, <span class="hljs-string">||  YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb, YCrCb,</span>
+</code></pre><p>一个du就是类似如下的矩阵：</p>
+<pre><code><span class="hljs-keyword">Y</span> <span class="hljs-keyword">Y</span> <span class="hljs-keyword">Y</span> <span class="hljs-keyword">Y</span> <span class="hljs-keyword">Y</span> <span class="hljs-keyword">Y</span> <span class="hljs-keyword">Y</span> <span class="hljs-keyword">Y</span>              Cb Cb Cb Cb Cb Cb Cb Cb              Cr Cr Cr Cr Cr Cr Cr Cr
+<span class="hljs-keyword">Y</span> <span class="hljs-keyword">Y</span> <span class="hljs-keyword">Y</span> <span class="hljs-keyword">Y</span> <span class="hljs-keyword">Y</span> <span class="hljs-keyword">Y</span> <span class="hljs-keyword">Y</span> <span class="hljs-keyword">Y</span>              Cb Cb Cb Cb Cb Cb Cb Cb              Cr Cr Cr Cr Cr Cr Cr Cr
+<span class="hljs-keyword">Y</span> <span class="hljs-keyword">Y</span> <span class="hljs-keyword">Y</span> <span class="hljs-keyword">Y</span> <span class="hljs-keyword">Y</span> <span class="hljs-keyword">Y</span> <span class="hljs-keyword">Y</span> <span class="hljs-keyword">Y</span>              Cb Cb Cb Cb Cb Cb Cb Cb              Cr Cr Cr Cr Cr Cr Cr Cr
+<span class="hljs-keyword">Y</span> <span class="hljs-keyword">Y</span> <span class="hljs-keyword">Y</span> <span class="hljs-keyword">Y</span> <span class="hljs-keyword">Y</span> <span class="hljs-keyword">Y</span> <span class="hljs-keyword">Y</span> <span class="hljs-keyword">Y</span>       or     Cb Cb Cb Cb Cb Cb Cb Cb      or      Cr Cr Cr Cr Cr Cr Cr Cr
+<span class="hljs-keyword">Y</span> <span class="hljs-keyword">Y</span> <span class="hljs-keyword">Y</span> <span class="hljs-keyword">Y</span> <span class="hljs-keyword">Y</span> <span class="hljs-keyword">Y</span> <span class="hljs-keyword">Y</span> <span class="hljs-keyword">Y</span>              Cb Cb Cb Cb Cb Cb Cb Cb              Cr Cr Cr Cr Cr Cr Cr Cr
+<span class="hljs-keyword">Y</span> <span class="hljs-keyword">Y</span> <span class="hljs-keyword">Y</span> <span class="hljs-keyword">Y</span> <span class="hljs-keyword">Y</span> <span class="hljs-keyword">Y</span> <span class="hljs-keyword">Y</span> <span class="hljs-keyword">Y</span>              Cb Cb Cb Cb Cb Cb Cb Cb              Cr Cr Cr Cr Cr Cr Cr Cr
+<span class="hljs-keyword">Y</span> <span class="hljs-keyword">Y</span> <span class="hljs-keyword">Y</span> <span class="hljs-keyword">Y</span> <span class="hljs-keyword">Y</span> <span class="hljs-keyword">Y</span> <span class="hljs-keyword">Y</span> <span class="hljs-keyword">Y</span>              Cb Cb Cb Cb Cb Cb Cb Cb              Cr Cr Cr Cr Cr Cr Cr Cr
+<span class="hljs-keyword">Y</span> <span class="hljs-keyword">Y</span> <span class="hljs-keyword">Y</span> <span class="hljs-keyword">Y</span> <span class="hljs-keyword">Y</span> <span class="hljs-keyword">Y</span> <span class="hljs-keyword">Y</span> <span class="hljs-keyword">Y</span>              Cb Cb Cb Cb Cb Cb Cb Cb              Cr Cr Cr Cr Cr Cr Cr Cr
+</code></pre><p>那么，一个mcu里有多少个du呢？这个由上面解析SOF0标记段时得到的各个颜色分量的采样系数来决定的。通常情况下，Y的水平和垂直采样系数都为2，Cr和Cb的水平和垂直采样系数都为1。这也就意味着，一个mcu里<code>Y的du数量 : Cr的du数量 : Cb的du数量</code>为<code>(2 * 2) : (1 * 1) : (1 * 1)</code>，也就是说我们要舍弃一些du，以达到压缩的效果。mcu的宽度和高度取决于采样系数最大的哪个颜色分量，因此通常mcu的宽是2个du大小，高也是2个du大小，如下所示：</p>
+<pre><code>YCrCb, <span class="hljs-keyword">Y</span>, <span class="hljs-keyword">Y</span>, <span class="hljs-keyword">Y</span>, YCrCb, <span class="hljs-keyword">Y</span>, <span class="hljs-keyword">Y</span>, <span class="hljs-keyword">Y</span>, ||  YCrCb, <span class="hljs-keyword">Y</span>, <span class="hljs-keyword">Y</span>, <span class="hljs-keyword">Y</span>, YCrCb, <span class="hljs-keyword">Y</span>, <span class="hljs-keyword">Y</span>, <span class="hljs-keyword">Y</span>,
+YCrCb, <span class="hljs-keyword">Y</span>, <span class="hljs-keyword">Y</span>, <span class="hljs-keyword">Y</span>, YCrCb, <span class="hljs-keyword">Y</span>, <span class="hljs-keyword">Y</span>, <span class="hljs-keyword">Y</span>, ||  YCrCb, <span class="hljs-keyword">Y</span>, <span class="hljs-keyword">Y</span>, <span class="hljs-keyword">Y</span>, YCrCb, <span class="hljs-keyword">Y</span>, <span class="hljs-keyword">Y</span>, <span class="hljs-keyword">Y</span>,
+YCrCb, <span class="hljs-keyword">Y</span>, <span class="hljs-keyword">Y</span>, <span class="hljs-keyword">Y</span>, YCrCb, <span class="hljs-keyword">Y</span>, <span class="hljs-keyword">Y</span>, <span class="hljs-keyword">Y</span>, ||  YCrCb, <span class="hljs-keyword">Y</span>, <span class="hljs-keyword">Y</span>, <span class="hljs-keyword">Y</span>, YCrCb, <span class="hljs-keyword">Y</span>, <span class="hljs-keyword">Y</span>, <span class="hljs-keyword">Y</span>,
+YCrCb, <span class="hljs-keyword">Y</span>, <span class="hljs-keyword">Y</span>, <span class="hljs-keyword">Y</span>, YCrCb, <span class="hljs-keyword">Y</span>, <span class="hljs-keyword">Y</span>, <span class="hljs-keyword">Y</span>, ||  YCrCb, <span class="hljs-keyword">Y</span>, <span class="hljs-keyword">Y</span>, <span class="hljs-keyword">Y</span>, YCrCb, <span class="hljs-keyword">Y</span>, <span class="hljs-keyword">Y</span>, <span class="hljs-keyword">Y</span>,
+YCrCb, <span class="hljs-keyword">Y</span>, <span class="hljs-keyword">Y</span>, <span class="hljs-keyword">Y</span>, YCrCb, <span class="hljs-keyword">Y</span>, <span class="hljs-keyword">Y</span>, <span class="hljs-keyword">Y</span>, ||  YCrCb, <span class="hljs-keyword">Y</span>, <span class="hljs-keyword">Y</span>, <span class="hljs-keyword">Y</span>, YCrCb, <span class="hljs-keyword">Y</span>, <span class="hljs-keyword">Y</span>, <span class="hljs-keyword">Y</span>,
+YCrCb, <span class="hljs-keyword">Y</span>, <span class="hljs-keyword">Y</span>, <span class="hljs-keyword">Y</span>, YCrCb, <span class="hljs-keyword">Y</span>, <span class="hljs-keyword">Y</span>, <span class="hljs-keyword">Y</span>, ||  YCrCb, <span class="hljs-keyword">Y</span>, <span class="hljs-keyword">Y</span>, <span class="hljs-keyword">Y</span>, YCrCb, <span class="hljs-keyword">Y</span>, <span class="hljs-keyword">Y</span>, <span class="hljs-keyword">Y</span>,
+YCrCb, <span class="hljs-keyword">Y</span>, <span class="hljs-keyword">Y</span>, <span class="hljs-keyword">Y</span>, YCrCb, <span class="hljs-keyword">Y</span>, <span class="hljs-keyword">Y</span>, <span class="hljs-keyword">Y</span>, ||  YCrCb, <span class="hljs-keyword">Y</span>, <span class="hljs-keyword">Y</span>, <span class="hljs-keyword">Y</span>, YCrCb, <span class="hljs-keyword">Y</span>, <span class="hljs-keyword">Y</span>, <span class="hljs-keyword">Y</span>,
+YCrCb, <span class="hljs-keyword">Y</span>, <span class="hljs-keyword">Y</span>, <span class="hljs-keyword">Y</span>, YCrCb, <span class="hljs-keyword">Y</span>, <span class="hljs-keyword">Y</span>, <span class="hljs-keyword">Y</span>, ||  YCrCb, <span class="hljs-keyword">Y</span>, <span class="hljs-keyword">Y</span>, <span class="hljs-keyword">Y</span>, YCrCb, <span class="hljs-keyword">Y</span>, <span class="hljs-keyword">Y</span>, <span class="hljs-keyword">Y</span>,
+
+==================================================================
+
+YCrCb, <span class="hljs-keyword">Y</span>, <span class="hljs-keyword">Y</span>, <span class="hljs-keyword">Y</span>, YCrCb, <span class="hljs-keyword">Y</span>, <span class="hljs-keyword">Y</span>, <span class="hljs-keyword">Y</span>, ||  YCrCb, <span class="hljs-keyword">Y</span>, <span class="hljs-keyword">Y</span>, <span class="hljs-keyword">Y</span>, YCrCb, <span class="hljs-keyword">Y</span>, <span class="hljs-keyword">Y</span>, <span class="hljs-keyword">Y</span>,
+YCrCb, <span class="hljs-keyword">Y</span>, <span class="hljs-keyword">Y</span>, <span class="hljs-keyword">Y</span>, YCrCb, <span class="hljs-keyword">Y</span>, <span class="hljs-keyword">Y</span>, <span class="hljs-keyword">Y</span>, ||  YCrCb, <span class="hljs-keyword">Y</span>, <span class="hljs-keyword">Y</span>, <span class="hljs-keyword">Y</span>, YCrCb, <span class="hljs-keyword">Y</span>, <span class="hljs-keyword">Y</span>, <span class="hljs-keyword">Y</span>,
+YCrCb, <span class="hljs-keyword">Y</span>, <span class="hljs-keyword">Y</span>, <span class="hljs-keyword">Y</span>, YCrCb, <span class="hljs-keyword">Y</span>, <span class="hljs-keyword">Y</span>, <span class="hljs-keyword">Y</span>, ||  YCrCb, <span class="hljs-keyword">Y</span>, <span class="hljs-keyword">Y</span>, <span class="hljs-keyword">Y</span>, YCrCb, <span class="hljs-keyword">Y</span>, <span class="hljs-keyword">Y</span>, <span class="hljs-keyword">Y</span>,
+YCrCb, <span class="hljs-keyword">Y</span>, <span class="hljs-keyword">Y</span>, <span class="hljs-keyword">Y</span>, YCrCb, <span class="hljs-keyword">Y</span>, <span class="hljs-keyword">Y</span>, <span class="hljs-keyword">Y</span>, ||  YCrCb, <span class="hljs-keyword">Y</span>, <span class="hljs-keyword">Y</span>, <span class="hljs-keyword">Y</span>, YCrCb, <span class="hljs-keyword">Y</span>, <span class="hljs-keyword">Y</span>, <span class="hljs-keyword">Y</span>,
+YCrCb, <span class="hljs-keyword">Y</span>, <span class="hljs-keyword">Y</span>, <span class="hljs-keyword">Y</span>, YCrCb, <span class="hljs-keyword">Y</span>, <span class="hljs-keyword">Y</span>, <span class="hljs-keyword">Y</span>, ||  YCrCb, <span class="hljs-keyword">Y</span>, <span class="hljs-keyword">Y</span>, <span class="hljs-keyword">Y</span>, YCrCb, <span class="hljs-keyword">Y</span>, <span class="hljs-keyword">Y</span>, <span class="hljs-keyword">Y</span>,
+YCrCb, <span class="hljs-keyword">Y</span>, <span class="hljs-keyword">Y</span>, <span class="hljs-keyword">Y</span>, YCrCb, <span class="hljs-keyword">Y</span>, <span class="hljs-keyword">Y</span>, <span class="hljs-keyword">Y</span>, ||  YCrCb, <span class="hljs-keyword">Y</span>, <span class="hljs-keyword">Y</span>, <span class="hljs-keyword">Y</span>, YCrCb, <span class="hljs-keyword">Y</span>, <span class="hljs-keyword">Y</span>, <span class="hljs-keyword">Y</span>,
+YCrCb, <span class="hljs-keyword">Y</span>, <span class="hljs-keyword">Y</span>, <span class="hljs-keyword">Y</span>, YCrCb, <span class="hljs-keyword">Y</span>, <span class="hljs-keyword">Y</span>, <span class="hljs-keyword">Y</span>, ||  YCrCb, <span class="hljs-keyword">Y</span>, <span class="hljs-keyword">Y</span>, <span class="hljs-keyword">Y</span>, YCrCb, <span class="hljs-keyword">Y</span>, <span class="hljs-keyword">Y</span>, <span class="hljs-keyword">Y</span>,
+YCrCb, <span class="hljs-keyword">Y</span>, <span class="hljs-keyword">Y</span>, <span class="hljs-keyword">Y</span>, YCrCb, <span class="hljs-keyword">Y</span>, <span class="hljs-keyword">Y</span>, <span class="hljs-keyword">Y</span>, ||  YCrCb, <span class="hljs-keyword">Y</span>, <span class="hljs-keyword">Y</span>, <span class="hljs-keyword">Y</span>, YCrCb, <span class="hljs-keyword">Y</span>, <span class="hljs-keyword">Y</span>, <span class="hljs-keyword">Y</span>,
+</code></pre><p>可以看到，像第2、第3、第4个像素点的CrCb分量已经舍弃了，假如要解析的话这几个像素点就直接应用第1个像素点的CrCb值；以此类推，第6、第7、第8个像素点就直接使用第5个像素点的CrCb值……可以明显的看到，这里对颜色分量的舍弃压缩了一半的图像数据。</p>
+<p>这样，可以得出mcu里总共包含6个du——4个Y分量的du，1个Cr分量的du，1个Cb分量的du。</p>
+<h4 id="-">排列方式</h4>
+<p>mcu和du的排列方式都是自左向右，自上向下。</p>
+<p>假设按照上面解析出来的采样系数，我们可知一个mcu里有6个du，宽高均为16。而这里有一张<code>35 * 35</code>的图片，那么mcu的排列如下：</p>
+<p><p class="image-wrapper"><img src="../../images/jpeg_mcu.jpg" alt="null" title="null"></p></p>
+<p>图中灰色区域是图片的实际大小，里面有9个mcu。我想只看图就能明白了，一个mcu高度为16，而图片高度为35的话，显然2个mcu上不够的，所以在垂直方向需要补齐到足够的mcu才行；同理水平方向也需要补齐。</p>
+<p>mcu里的du排列方式也相似，只是mcu大小本身由du和采样系数决定，不需要做补齐操作：</p>
+<p><p class="image-wrapper"><img src="../../images/jpeg_du1.jpg" alt="null" title="null"></p></p>
+<p><p class="image-wrapper"><img src="../../images/jpeg_du2.jpg" alt="null" title="null"></p></p>
+<p><p class="image-wrapper"><img src="../../images/jpeg_du3.jpg" alt="null" title="null"></p></p>
+<p>拍平后，mcu的存储方式就变成这样<code>du1(Y), du2(Y), du3(Y), du4(Y), du(Cb), du(Cr)</code>，所以我们解析图像数据实际上是先解析出du，然后根据这个规律讲du拼装成mcu，然后再将mcu拼装成图片显示出来。</p>
+<h4 id="-">复位间隔</h4>
+<p>说完mcu和du，说回这个复位间隔问题。每个du里存在着一个比较特别的系数，人称DC系数，这个系数通常存储的是和上一个DC系数的差值，除了第一个DC系数会存真实值（即对DC系数进行了差分编码）。而如果一直存差值的话，会让存储的值越来越大，因为复位其实就是告诉我们这个du里存的不是DC系数的差值，而是真实值。</p>
+<p>至于DC系数是个什么玩意，下面再做说明。</p>
+<h2 id="-">解码</h2>
+<p>解码这里有一个关键点要注意：下面的解码流程都是以1个du为单位进行的。</p>
+<h3 id="-">哈夫曼解码</h3>
+<p>因为对du的最后一个操作上哈夫曼编码，所以解码流程中首先要做的就是哈夫曼解码。而哈夫曼解码过程依赖哈夫曼树，所以还需要先构建出哈夫曼树。</p>
+<h4 id="-">构建哈夫曼树</h4>
+<p>根据先前解析DHT标记段时得到的哈夫曼表内容和不同位数的编码个数就可以构建出哈夫曼树。其中不同位数的编码个数这里用16个字节来存储，每个字节作为一个独立的值来解析，可以将其转化为一个长度为16的数组。</p>
+<p>假设这里我们解析到的值是<code>[0, 1, 2, 0, 5, 9, 13, 3, 0, 1, 5, 2, 1, 0, 0, 0]</code>，那么就代表着哈夫曼编码里编码位数为1的有0个，编码位数为2的有1个，编码位数为3的有2个，编码位数为4的有1个，其它以此类推。这样整个哈夫曼树的编码个数我们也可以知悉，即<code>0 + 1 + 2 + 0 + 5 + 9 + 13 + 3 + 0 + 1 + 5 + 2 + 1 + 0 + 0 + 0</code>个，也就是42个，那么哈夫曼表内容也就占43个字节。</p>
+<p>哈夫曼编码是以0为起点的，接着上面的例子来说，因为编码位数为1的有0个，编码位数为2的有1个，那么这棵哈夫曼树里的第一个编码是<code>00</code>。注意这里是<code>00</code>两位编码，而不是<code>0</code>一位编码，因为这棵哈夫曼树里的第一个编码位数是2位的。后面的编码也很好推了，将上一个编码加1，然后补齐对应的位数即可，整棵树解析出来大概如下表：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">编码</th>
+<th style="text-align:left">值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">00</td>
+<td style="text-align:left">哈夫曼表内容里第1个字节的值</td>
+</tr>
+<tr>
+<td style="text-align:left">010</td>
+<td style="text-align:left">哈夫曼表内容里第2个字节的值</td>
+</tr>
+<tr>
+<td style="text-align:left">011</td>
+<td style="text-align:left">哈夫曼表内容里第3个字节的值</td>
+</tr>
+<tr>
+<td style="text-align:left">10000</td>
+<td style="text-align:left">哈夫曼表内容里第4个字节的值</td>
+</tr>
+<tr>
+<td style="text-align:left">10001</td>
+<td style="text-align:left">哈夫曼表内容里第5个字节的值</td>
+</tr>
+<tr>
+<td style="text-align:left">10010</td>
+<td style="text-align:left">哈夫曼表内容里第6个字节的值</td>
+</tr>
+<tr>
+<td style="text-align:left">10011</td>
+<td style="text-align:left">哈夫曼表内容里第7个字节的值</td>
+</tr>
+<tr>
+<td style="text-align:left">10100</td>
+<td style="text-align:left">哈夫曼表内容里第8个字节的值</td>
+</tr>
+<tr>
+<td style="text-align:left">101010</td>
+<td style="text-align:left">哈夫曼表内容里第9个字节的值</td>
+</tr>
+<tr>
+<td style="text-align:left">101011</td>
+<td style="text-align:left">哈夫曼表内容里第10个字节的值</td>
+</tr>
+<tr>
+<td style="text-align:left">...</td>
+<td style="text-align:left">...</td>
+</tr>
+</tbody>
+</table>
+<p>由例子可以发现，补齐的操作主要是发生在编码位数变化的时候，比如从3位变成5位时，将原本的值加1，如果位数不够则在编码后面补0。所以当上一个编码是<code>011</code>而下一个编码是5位时，要先将<code>011</code>加1得<code>100</code>，然后在编码后面补充2位<code>0</code>，得到的<code>10000</code>便是当前的编码了。代码实现如下：</p>
+<pre><code class="lang-javascript">// 重复字符串若干次
+function repeatString(str, count) {
+    <span class="hljs-built_in">return</span> (<span class="hljs-built_in">new</span> Array(count + <span class="hljs-number">1</span>)).<span class="hljs-built_in">join</span>(str);
+}
+
+// 构建哈夫曼树
+function constructHuffmanTree(chunk, countArray) {
+    <span class="hljs-built_in">let</span> ret = {};
+
+    <span class="hljs-built_in">let</span> <span class="hljs-built_in">last</span>;
+    <span class="hljs-keyword">for</span> (<span class="hljs-built_in">let</span> i = <span class="hljs-number">0</span>, <span class="hljs-built_in">length</span> = countArray.<span class="hljs-built_in">length</span>; i &lt; <span class="hljs-built_in">length</span>; i++) {
+        <span class="hljs-built_in">let</span> count = countArray[i];
+        <span class="hljs-keyword">for</span> (<span class="hljs-built_in">let</span> j = <span class="hljs-number">0</span>; j &lt; count; j++) {
+            <span class="hljs-keyword">if</span> (<span class="hljs-built_in">last</span> === undefined) {
+                // 初始化第一个编码
+                <span class="hljs-built_in">last</span> = repeatString('<span class="hljs-number">0</span>', i + <span class="hljs-number">1</span>);
+            } <span class="hljs-keyword">else</span> {
+                // 将上一个编码+<span class="hljs-number">1</span>
+                <span class="hljs-built_in">let</span> lastLength = <span class="hljs-built_in">last</span>.<span class="hljs-built_in">length</span>;
+                <span class="hljs-built_in">last</span> = (parseInt(<span class="hljs-built_in">last</span>, <span class="hljs-number">2</span>) + <span class="hljs-number">1</span>).toString(<span class="hljs-number">2</span>);
+
+                <span class="hljs-keyword">if</span> (<span class="hljs-built_in">last</span>.<span class="hljs-built_in">length</span> &lt; lastLength) {
+                    // 位数不够前置补<span class="hljs-number">0</span>
+                    <span class="hljs-built_in">last</span> = repeatString('<span class="hljs-number">0</span>', lastLength - <span class="hljs-built_in">last</span>.<span class="hljs-built_in">length</span>) + <span class="hljs-built_in">last</span>;
+                }
+
+                <span class="hljs-keyword">if</span> (<span class="hljs-built_in">last</span>.<span class="hljs-built_in">length</span> &lt; i + <span class="hljs-number">1</span>) {
+                    // 位数不够后置补<span class="hljs-number">0</span>
+                    <span class="hljs-built_in">last</span> = <span class="hljs-built_in">last</span> + repeatString('<span class="hljs-number">0</span>', i + <span class="hljs-number">1</span> - <span class="hljs-built_in">last</span>.<span class="hljs-built_in">length</span>);
+                }
+            }
+
+            ret[<span class="hljs-built_in">last</span>] = {
+                group: <span class="hljs-built_in">last</span>.<span class="hljs-built_in">length</span>,
+                value: chunk.shift()
+            };
+        }
+    }
+
+    <span class="hljs-built_in">return</span> ret;
+}
+</code></pre>
+<h4 id="-">解码</h4>
+<p>有了哈夫曼树，就可以开始哈夫曼解码流程了。前面有说到一个du是<code>8 * 8</code>的大小，但里面不是直接存储的颜色相关值，而是颜色值经过dct变换后的系数。简单来说，存储结构如下：</p>
+<pre><code>DC <span class="hljs-keyword">AC</span> <span class="hljs-keyword">AC</span> <span class="hljs-keyword">AC</span> <span class="hljs-keyword">AC</span> <span class="hljs-keyword">AC</span> <span class="hljs-keyword">AC</span> <span class="hljs-keyword">AC</span>
+<span class="hljs-keyword">AC</span> <span class="hljs-keyword">AC</span> <span class="hljs-keyword">AC</span> <span class="hljs-keyword">AC</span> <span class="hljs-keyword">AC</span> <span class="hljs-keyword">AC</span> <span class="hljs-keyword">AC</span> <span class="hljs-keyword">AC</span>
+<span class="hljs-keyword">AC</span> <span class="hljs-keyword">AC</span> <span class="hljs-keyword">AC</span> <span class="hljs-keyword">AC</span> <span class="hljs-keyword">AC</span> <span class="hljs-keyword">AC</span> <span class="hljs-keyword">AC</span> <span class="hljs-keyword">AC</span>
+<span class="hljs-keyword">AC</span> <span class="hljs-keyword">AC</span> <span class="hljs-keyword">AC</span> <span class="hljs-keyword">AC</span> <span class="hljs-keyword">AC</span> <span class="hljs-keyword">AC</span> <span class="hljs-keyword">AC</span> <span class="hljs-keyword">AC</span>
+<span class="hljs-keyword">AC</span> <span class="hljs-keyword">AC</span> <span class="hljs-keyword">AC</span> <span class="hljs-keyword">AC</span> <span class="hljs-keyword">AC</span> <span class="hljs-keyword">AC</span> <span class="hljs-keyword">AC</span> <span class="hljs-keyword">AC</span>
+<span class="hljs-keyword">AC</span> <span class="hljs-keyword">AC</span> <span class="hljs-keyword">AC</span> <span class="hljs-keyword">AC</span> <span class="hljs-keyword">AC</span> <span class="hljs-keyword">AC</span> <span class="hljs-keyword">AC</span> <span class="hljs-keyword">AC</span>
+<span class="hljs-keyword">AC</span> <span class="hljs-keyword">AC</span> <span class="hljs-keyword">AC</span> <span class="hljs-keyword">AC</span> <span class="hljs-keyword">AC</span> <span class="hljs-keyword">AC</span> <span class="hljs-keyword">AC</span> <span class="hljs-keyword">AC</span>
+<span class="hljs-keyword">AC</span> <span class="hljs-keyword">AC</span> <span class="hljs-keyword">AC</span> <span class="hljs-keyword">AC</span> <span class="hljs-keyword">AC</span> <span class="hljs-keyword">AC</span> <span class="hljs-keyword">AC</span> <span class="hljs-keyword">AC</span>
+</code></pre><p>系数有两种，DC系数和AC系数。DC系数是指du里左上角的那个值，其他系数都是AC系数。实际上DC系数那里也不是真的存DC系数的真实值，而是存储与上一个DC的差值，因为DC系数这里进行了差分编码，这个上面已经解释过，这里就不再赘述了。</p>
+<p>这里要区分两种系数的原因除了DC系数存储差值外，还因为两种系数使用的是不同的哈夫曼树。前面有提到过哈夫曼表最多可以有4张，即可构建出4棵哈夫曼树，分别是：Y分量的DC系数用、Y分量的AC系数用、CrCb分量的DC系数用和CrCb分量的AC系数用。</p>
+<h4 id="dc-">DC系数</h4>
+<p>拿到哈夫曼树和图像数据后解码DC系数的具体流程如下：</p>
+<ol>
+<li>根据哈夫曼树从图像数据中解析出一个被编码的值n。</li>
+<li>从图像数据中取出n位数据，转换成整型数值m。</li>
+<li>根据n、m和上一个DC系数计算出当前的DC系数。</li>
+</ol>
+<p>只看流程有点绕，可以用一个简单点的例子来介绍下这个流程，首先假设哈夫曼树和图像数据如下：</p>
+<pre><code># DC哈夫曼树
+{
+    <span class="hljs-string">'11'</span>: <span class="hljs-number">2</span>,
+    <span class="hljs-string">'100'</span>: <span class="hljs-number">3</span>
+    ...
+}
+
+# AC哈夫曼树
+
+{
+    <span class="hljs-string">'100'</span>: <span class="hljs-number">68</span>,
+    ...
+}
+
+# 图像数据
+<span class="hljs-number">11101000011.</span>..
+</code></pre><p>那么第一步就是要解析出一个被编码的值，遍历一遍哈夫曼树的key可以解析出这个key是11，对应的值n为2。那么就从图像数据中去掉被解析过的key之后再取n位，也就是2位——10，转成对应的m值，也就是2。接下来要根据n和m来计算DC系数，因此我们得知道这么一张表：</p>
+<pre><code><span class="hljs-string">//</span> 层号n               值
+<span class="hljs-string">//</span> 0                   0
+<span class="hljs-string">//</span> 1                 -1, 1
+<span class="hljs-string">//</span> 2             -3, -2, 2, 3
+<span class="hljs-string">//</span> 3        -7, <span class="hljs-string">...</span>, -4, 4, <span class="hljs-string">...</span>, 7
+<span class="hljs-string">//</span> 4       -15, <span class="hljs-string">...</span>, -8, 8, <span class="hljs-string">...</span>, 15
+</code></pre><p>这张表是金字塔式的表，层号n由0开始往下递增，每一层的数字个数就是<code>2^n</code>，范围是<code>1 - 2^n ~ -2^(n - 1)</code>和<code>2^(n - 1) ~ 2^n - 1</code>。上面解析出来的n为2，m也为2，假设上一个DC系数是10，那么当前DC系数就等于上表中第n层的第m个数值再加上上一个DC系数，也就是<code>2 + 10</code>，即12。</p>
+<h4 id="ac-">AC系数</h4>
+<p>AC系数的解码和DC系数类似，但是稍微复杂一点。流程如下：</p>
+<ol>
+<li>根据哈夫曼树从图像数据中解析出一个被编码的值a。</li>
+<li>将a一分为二，前4位转成整型数值z，后4位转成整型数值n。</li>
+<li>判断数值对，如果z和n都为0，则表示当前du后面的全部AC系数都是0；否则继续解析。</li>
+<li>z表示当前AC系数前面有多少个值为0的AC系数，针对这些AC系数就没有解码的必要了，因为它们的值就是0。</li>
+<li>从图像数据中取出n位数据，转换成整型数值m。</li>
+<li>根据n、m计算出当前的AC系数。</li>
+</ol>
+<p>同样用上面的例子来解释一下，假设当前du已经解析出DC系数，值为12，接下来开始解析AC系数：</p>
+<ol>
+<li>取出值a，也就是key为100，值为68。</li>
+<li>将a一分为二，a值为68，转成8位二进制串是01000100，前4位为z值4，后4位为n值4。</li>
+<li>因为z值为4，表示当前AC系数前面有4个值为0的AC系数。</li>
+<li>从图像数据中取出n位数据，也就是4位数据——0011，转成十进制是3，记为m值。</li>
+<li>和DC系数的计算方式差不多，根据n、m和金字塔表得出当前AC系数为-12。</li>
+</ol>
+<p>因为AC系数含有比较多的0，所以再哈夫曼编码的时候就使劲的压缩。像例子中这次AC系数解码，一次性就解出了5个AC系数：<code>0, 0, 0, 0, -12</code>。</p>
+<blockquote>
+<p>PS：1个du里包含1个DC系数和63个AC系数，所以假如已经解析出50个AC系数后遇到了z值和n值都为0的情况，就表示剩下的13个AC系数都是0。</p>
+</blockquote>
+<h3 id="-">反量化</h3>
+<p>反量化的过程很简单，假设为我有一个du和一张量化表，反量化就是将它们对应位置的数值相乘即可：</p>
+<pre><code># du
+<span class="hljs-symbol">DC0</span>, AC1, AC2, AC3, AC4, ...
+
+# 量化表
+<span class="hljs-symbol">Q0</span>, <span class="hljs-built_in">Q1</span>, <span class="hljs-built_in">Q2</span>, <span class="hljs-built_in">Q3</span>, <span class="hljs-built_in">Q4</span>, ...
+
+# 反量化后的结果
+<span class="hljs-symbol">DC0</span> * <span class="hljs-built_in">Q0</span>, AC1 * <span class="hljs-built_in">Q1</span>, AC2 * <span class="hljs-built_in">Q2</span>, AC3 * <span class="hljs-built_in">Q3</span>, AC4 * <span class="hljs-built_in">Q4</span>, ...
+</code></pre><h3 id="zig-zag-">zig-zag反编码</h3>
+<p>什么叫zig-zag编码？假设我们有一个<code>8 * 8</code>的矩阵，做zig-zag编码后会变成一个64位的数组：</p>
+<pre><code> <span class="hljs-number">1</span>  <span class="hljs-number">2</span>  <span class="hljs-number">3</span>  <span class="hljs-number">4</span>  <span class="hljs-number">5</span>  <span class="hljs-number">6</span>  <span class="hljs-number">7</span>  <span class="hljs-number">8</span>
+ <span class="hljs-number">9</span> <span class="hljs-number">10</span> <span class="hljs-number">11</span> <span class="hljs-number">12</span> <span class="hljs-number">13</span> <span class="hljs-number">14</span> <span class="hljs-number">15</span> <span class="hljs-number">16</span>
+<span class="hljs-number">17</span> <span class="hljs-number">18</span> <span class="hljs-number">19</span> <span class="hljs-number">20</span> <span class="hljs-number">21</span> <span class="hljs-number">22</span> <span class="hljs-number">23</span> <span class="hljs-number">24</span>                          <span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">9</span>, <span class="hljs-number">17</span>, <span class="hljs-number">10</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">11</span>, <span class="hljs-number">18</span>, <span class="hljs-number">25</span> <span class="hljs-number">33</span>, <span class="hljs-number">26</span>, <span class="hljs-number">19</span>, <span class="hljs-number">12</span>, <span class="hljs-number">5</span>,
+<span class="hljs-number">25</span> <span class="hljs-number">26</span> <span class="hljs-number">27</span> <span class="hljs-number">28</span> <span class="hljs-number">29</span> <span class="hljs-number">30</span> <span class="hljs-number">31</span> <span class="hljs-number">32</span>     经过zig-zag编码后     <span class="hljs-number">6</span>, <span class="hljs-number">13</span>, <span class="hljs-number">20</span>, <span class="hljs-number">27</span>, <span class="hljs-number">34</span>, <span class="hljs-number">41</span>, <span class="hljs-number">49</span>, <span class="hljs-number">42</span>, <span class="hljs-number">35</span>, <span class="hljs-number">28</span>, <span class="hljs-number">21</span>, <span class="hljs-number">14</span>, <span class="hljs-number">7</span>, <span class="hljs-number">8</span>, 
+<span class="hljs-number">33</span> <span class="hljs-number">34</span> <span class="hljs-number">35</span> <span class="hljs-number">36</span> <span class="hljs-number">37</span> <span class="hljs-number">38</span> <span class="hljs-number">39</span> <span class="hljs-number">40</span>                          <span class="hljs-number">15</span>, <span class="hljs-number">22</span>, ...
+<span class="hljs-number">41</span> <span class="hljs-number">42</span> <span class="hljs-number">43</span> <span class="hljs-number">44</span> <span class="hljs-number">45</span> <span class="hljs-number">46</span> <span class="hljs-number">47</span> <span class="hljs-number">48</span>
+<span class="hljs-number">49</span> <span class="hljs-number">50</span> <span class="hljs-number">51</span> <span class="hljs-number">52</span> <span class="hljs-number">53</span> <span class="hljs-number">54</span> <span class="hljs-number">55</span> <span class="hljs-number">56</span>
+<span class="hljs-number">57</span> <span class="hljs-number">58</span> <span class="hljs-number">59</span> <span class="hljs-number">60</span> <span class="hljs-number">61</span> <span class="hljs-number">62</span> <span class="hljs-number">63</span> <span class="hljs-number">64</span>
+</code></pre><p>用一张图来说明就是：</p>
+<p><p class="image-wrapper"><img src="../../images/jpeg_zigzag.jpg" alt="null" title="null"></p></p>
+<p>zig-zag编码是为了让du中的散列的0变成更加连续，这样的话在进行哈夫曼编码的时候就可以比较好的压缩图像数据了。而zig-zag反编码就是对上述编码进行逆向操作即可：</p>
+<pre><code class="lang-javascript"><span class="hljs-comment">// 用于进行zig-zag编码</span>
+const ZIG_ZAG = [
+    <span class="hljs-number">0</span>,  <span class="hljs-number">1</span>,  <span class="hljs-number">5</span>,  <span class="hljs-number">6</span>,  <span class="hljs-number">14</span>, <span class="hljs-number">15</span>, <span class="hljs-number">27</span>, <span class="hljs-number">28</span>,
+    <span class="hljs-number">2</span>,  <span class="hljs-number">4</span>,  <span class="hljs-number">7</span>,  <span class="hljs-number">13</span>, <span class="hljs-number">16</span>, <span class="hljs-number">26</span>, <span class="hljs-number">29</span>, <span class="hljs-number">42</span>,
+    <span class="hljs-number">3</span>,  <span class="hljs-number">8</span>,  <span class="hljs-number">12</span>, <span class="hljs-number">17</span>, <span class="hljs-number">25</span>, <span class="hljs-number">30</span>, <span class="hljs-number">41</span>, <span class="hljs-number">43</span>,
+    <span class="hljs-number">9</span>,  <span class="hljs-number">11</span>, <span class="hljs-number">18</span>, <span class="hljs-number">24</span>, <span class="hljs-number">31</span>, <span class="hljs-number">40</span>, <span class="hljs-number">44</span>, <span class="hljs-number">53</span>,
+    <span class="hljs-number">10</span>, <span class="hljs-number">19</span>, <span class="hljs-number">23</span>, <span class="hljs-number">32</span>, <span class="hljs-number">39</span>, <span class="hljs-number">45</span>, <span class="hljs-number">52</span>, <span class="hljs-number">54</span>,
+    <span class="hljs-number">20</span>, <span class="hljs-number">22</span>, <span class="hljs-number">33</span>, <span class="hljs-number">38</span>, <span class="hljs-number">46</span>, <span class="hljs-number">51</span>, <span class="hljs-number">55</span>, <span class="hljs-number">60</span>,
+    <span class="hljs-number">21</span>, <span class="hljs-number">34</span>, <span class="hljs-number">37</span>, <span class="hljs-number">47</span>, <span class="hljs-number">50</span>, <span class="hljs-number">56</span>, <span class="hljs-number">59</span>, <span class="hljs-number">61</span>,
+    <span class="hljs-number">35</span>, <span class="hljs-number">36</span>, <span class="hljs-number">48</span>, <span class="hljs-number">49</span>, <span class="hljs-number">57</span>, <span class="hljs-number">58</span>, <span class="hljs-number">62</span>, <span class="hljs-number">63</span>,
+];
+
+function reverseZigZag(input) {
+    let output = [];
+
+    for (let i=<span class="hljs-number">0</span>; i &lt; <span class="hljs-number">64</span>; i++) {
+        output[i] = input[ZIG_ZAG[i]];
+    }
+
+    return output;
+}
+</code></pre>
+<h3 id="-dct-">反dct变换</h3>
+<p>dct变换，即离散余弦变换，傅立叶变换中的一种，要点是可以将任意一个数字信号转换成一个余弦函数组合。</p>
+<p>人眼对图像中低频区域敏感，而对高频区域不敏感。由于dct变换具有很强的“能量集中”特性：大多数的自然信号（包括声音和图像）的能量都集中在dct变换后的低频区域。那么我们就可以对图像的高频区域进行压缩（这部分就会被量化成0，然后被哈夫曼编码压缩）。关于dct更为详细的介绍可以参考<a href="https://en.wikipedia.org/wiki/Discrete_cosine_transform">维基百科</a>，下面仅奉上相关代码：</p>
+<pre><code class="lang-javascript"><span class="hljs-comment">// 矩阵相乘</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">multiplyMatrix</span>(<span class="hljs-params">a, b</span>) </span>{
+    <span class="hljs-comment">// do sth</span>
+}
+
+<span class="hljs-comment">// dct</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">dct</span>(<span class="hljs-params">input</span>) </span>{
+    <span class="hljs-keyword">let</span> transform = []; <span class="hljs-comment">// 变换矩阵</span>
+    <span class="hljs-keyword">let</span> transformT = []; <span class="hljs-comment">// 变换矩阵的转置矩阵</span>
+
+    <span class="hljs-comment">// 初始化矩阵</span>
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">8</span>; i++) {
+        transform[i] = [];
+        transformT[i] = [];
+    }
+
+    <span class="hljs-comment">// 生成变换矩阵</span>
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">8</span>; i++) {
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> j = <span class="hljs-number">0</span>; j &lt; <span class="hljs-number">8</span>; j++) {
+            <span class="hljs-keyword">let</span> a = j === <span class="hljs-number">0</span> ? <span class="hljs-built_in">Math</span>.sqrt(<span class="hljs-number">1</span> / <span class="hljs-number">8</span>) : <span class="hljs-built_in">Math</span>.sqrt(<span class="hljs-number">2</span> / <span class="hljs-number">8</span>);
+
+            transform[i][j] = a * <span class="hljs-built_in">Math</span>.cos(<span class="hljs-built_in">Math</span>.PI * (i + <span class="hljs-number">0.5</span>) * j / <span class="hljs-number">8</span>);
+            transformT[j][i] = transform[i][j];
+        }
+    }
+
+    <span class="hljs-keyword">return</span> multiplyMatrix(multiplyMatrix(transform, input), transformT);
+}
+
+<span class="hljs-comment">// 反dct</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">idct</span>(<span class="hljs-params">input</span>) </span>{
+    <span class="hljs-keyword">let</span> transform = []; <span class="hljs-comment">// 变换矩阵</span>
+    <span class="hljs-keyword">let</span> transformT = []; <span class="hljs-comment">// 变换矩阵的转置矩阵</span>
+
+    <span class="hljs-comment">// 初始化矩阵</span>
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">8</span>; i++) {
+        transform[i] = [];
+        transformT[i] = [];
+    }
+
+    <span class="hljs-comment">// 生成变换矩阵</span>
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">8</span>; i++) {
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> j = <span class="hljs-number">0</span>; j &lt; <span class="hljs-number">8</span>; j++) {
+            <span class="hljs-keyword">let</span> a = j === <span class="hljs-number">0</span> ? <span class="hljs-built_in">Math</span>.sqrt(<span class="hljs-number">1</span> / <span class="hljs-number">8</span>) : <span class="hljs-built_in">Math</span>.sqrt(<span class="hljs-number">2</span> / <span class="hljs-number">8</span>);
+
+            transform[i][j] = a * <span class="hljs-built_in">Math</span>.cos(<span class="hljs-built_in">Math</span>.PI * (i + <span class="hljs-number">0.5</span>) * j / <span class="hljs-number">8</span>);
+            transformT[j][i] = transform[i][j];
+        }
+    }
+
+    <span class="hljs-keyword">return</span> multiplyMatrix(multiplyMatrix(transformT, input), transform);
+}
+</code></pre>
+<p>反dct变换即是dct变换的逆操作。经过反dct变换后一个du的解码就算完成了，当所有du解码完毕后就可以按照上文所写的拼装成mcu，然后再拼装成完整的图像。</p>
+<blockquote>
+<p>PS：关于dct变换和反dct变换，有个更为快速的算法——蝶形算法，相关可参阅文章<a href="http://www.cnblogs.com/xkfz007/archive/2012/07/31/2616791.html">http://www.cnblogs.com/xkfz007/archive/2012/07/31/2616791.html</a>。</p>
+</blockquote>
+<h2 id="-">尾声</h2>
+<p>此文只对jpeg图片的格式做了简单的介绍，我们也知道如何对一张gif图做简单的解析。上面出现的代码只是js代码片段，如果对完整代码有兴趣的同学可以<a href="https://github.com/JuneAndGreen/doimg/blob/master/src/jpeg.js">戳这里</a>。</p>
+<p>参考资料：</p>
+<ul>
+<li><a href="https://www.codingnow.com/2000/download/jpeg.txt">https://www.codingnow.com/2000/download/jpeg.txt</a></li>
+<li><a href="https://en.wikipedia.org/wiki/JPEG">https://en.wikipedia.org/wiki/JPEG</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Discrete_cosine_transform">https://en.wikipedia.org/wiki/Discrete_cosine_transform</a></li>
+</ul>
+          
+    </div>
+</div>
+</body>
+</html>
