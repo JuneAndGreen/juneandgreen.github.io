@@ -6,11 +6,15 @@
 </head>
 <body>
   <button id="btn">下一页</button>
+  <button id="btn2">拉起qq</button>
   <div>you are in web-view</div>
   <script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.3.2.js"></script>
   <script>
     document.getElementById('btn').onclick = function() {
-      wx.miniProgram.navigateTo({url: '/testpages/test2/test2'})
+      wx.miniProgram.navigateTo({url: '/testpages/test2/test2'});
+    }
+    document.getElementById('btn2').onclick = function() {
+      window.open('mqqapi://share/to_fri');
     }
   </script>
 </body>
