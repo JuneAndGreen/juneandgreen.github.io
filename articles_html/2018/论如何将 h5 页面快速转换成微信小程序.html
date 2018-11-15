@@ -374,7 +374,9 @@ pre::-webkit-scrollbar-thumb {
     <div class="article-content">
         <h1 id="-h5-">论如何将 h5 页面快速转换成微信小程序</h1>
 <h2 id="-">前言</h2>
-<p>微信小程序自开放出来到现在也有一段时间了，相信其底层架构也被琢磨得差不多了。微信小程序本身是双线程运行的结构，而 h5 页面是单线程的运行模式，因此两者无法直接互通，微信小程序本身提供了 web-view 组件来支持在微信小程序中嵌入 h5 页面，但是 web-view 组件在使用上还是有一些限制：不支持个人类型与海外类型的小程序、不支持全屏、页面与小程序通信不方便、很多小程序接口无法直接调用等。</p>
+<p>微信小程序自开放出来到现在也有一段时间了，相信其底层架构也被琢磨得差不多了。微信小程序本身是双线程运行的结构，而 h5 页面是单线程的运行模式，因此两者无法直接互通。微信小程序的运行模式如下：</p>
+<p><p class="image-wrapper"><img src="../../images/小程序运行环境.jpg" alt="null" title="null"></p></p>
+<p>微信小程序本身提供了 web-view 组件来支持在微信小程序中嵌入 h5 页面，但是 web-view 组件在使用上还是有一些限制：不支持个人类型与海外类型的小程序、不支持全屏、页面与小程序通信不方便、很多小程序接口无法直接调用等。</p>
 <p>如果无法使用 web-view，这里还有一条路可以走，利用 <strong><a href="https://github.com/wechat-miniprogram/h5-to-miniprogram">h5-to-miniprogram</a></strong> 工具来将 h5 页面转换成小程序。</p>
 <h2 id="-">起步</h2>
 <p>假设你已经有一个 h5 页面，包含四个文件：</p>
@@ -452,7 +454,7 @@ toMiniprogram({
 <p>可以看到参数中的入口配置是一个 key-value 对象，这里的 value 不能理解，就是页面的路径，key 则是页面的名称。例子中这个页面的 key 就是 h5，我们回到上面的配置文件那里就会发现，很多个地方都需要用到这个 key，这个 key 可以作为页面的唯一标识。</p>
 <p>写完构建脚本后，后续就简单很多了，执行：</p>
 <pre><code><span class="hljs-keyword">node</span> <span class="hljs-title">build</span>.js
-</code></pre><p>然后就会看到构建脚本中指定的输出目录—— miniprogram 目录被生成出来。</p>
+</code></pre><p>然后就会看到构建脚本中指定的输出目录—— miniprogram 目录被生成出来。完整的 demo 在这里：<a href="https://github.com/wechat-miniprogram/h5-to-miniprogram-demo">https://github.com/wechat-miniprogram/h5-to-miniprogram-demo</a></p>
 <h2 id="-">使用</h2>
 <p>使用<a href="https://developers.weixin.qq.com/miniprogram/dev/devtools/devtools.html">官方提供的开发者工具</a>打开 miniprogram 目录，可以看到已经基本达到我们想要的效果了：</p>
 <p><p class="image-wrapper"><img src="../../images/h5-to-miniprogram-2.png" alt="null" title="null"></p></p>
@@ -463,6 +465,8 @@ toMiniprogram({
 <p><p class="image-wrapper"><img src="../../images/html解析到dom树方案.jpg" alt="null" title="null"></p></p>
 <p>不管是页面中的静态 html 内容还是使用 innerHTML 等接口动态插入的 html 内容都可以走上面的流程来进行 dom 树的创建。dom 树创建比较简单，只是细节比较多，此处的关键是将创建好的 dom 节点映射到微信小程序的自定义组件，利用自定义组件的特性可以轻易的将我们创建好的 dom 树给渲染出来。</p>
 <p>如果你还不清楚微信小程序的自定义组件是什么的话，可以戳<a href="https://developers.weixin.qq.com/miniprogram/dev/framework/custom-component/">官方文档</a>了解一下。</p>
+<h2 id="-">限制</h2>
+<p>受限于微信小程序本身的运行环境，所以这个转换是无法做到非常完美的，比如动态执行 js 代码、动态插入修改 style 标签等，所以使用此工具后一定要检查转换出来的微信小程序是否符合预期。</p>
 <h2 id="-">尾声</h2>
 <p>本文更多的是为介绍 <a href="https://github.com/wechat-miniprogram/h5-to-miniprogram">h5-to-miniprogram</a> 工具的使用，后续会有更多实现上的介绍，有兴趣的同学可以尝试一下，有什么好的建议可以在 <a href="https://github.com/wechat-miniprogram/h5-to-miniprogram/issues">issues</a> 中提出，也欢迎推送 pull request 帮忙将此工具完善起来~</p>
 <p>好评请 star 噢~</p>
