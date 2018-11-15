@@ -544,19 +544,19 @@ console.log(arr);
 var ret = new Array();
 
 ret.push(arr.shift());
-while (arr.length &gt; <span class="hljs-number">0</span>) {
+<span class="hljs-keyword">while</span> (arr.length &gt; <span class="hljs-number">0</span>) {
     var temp = arr.shift();
-    for (var i = <span class="hljs-number">0</span>; i &lt; ret.length; i++) {
-        if (temp &lt;= ret[i]) {
+    <span class="hljs-keyword">for</span> (var i = <span class="hljs-number">0</span>; i &lt; ret.length; i++) {
+        <span class="hljs-keyword">if</span> (temp &lt;= ret[i]) {
             <span class="hljs-comment">// 找到属于自己的位置并插入</span>
             ret.splice(i, <span class="hljs-number">0</span>, temp);
-            break;
+            <span class="hljs-keyword">break</span>;
         }
 
-        if (i &gt;= (ret.length - <span class="hljs-number">1</span>)) {
+        <span class="hljs-keyword">if</span> (i &gt;= (ret.length - <span class="hljs-number">1</span>)) {
             <span class="hljs-comment">// 没有属于自己的位置，则追加</span>
             ret.push(temp);
-            break;
+            <span class="hljs-keyword">break</span>;
         }
     }
 }

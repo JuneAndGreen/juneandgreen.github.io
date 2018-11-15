@@ -398,7 +398,7 @@ pre::-webkit-scrollbar-thumb {
 <h3 id="const">const</h3>
 <p>const的使用方式和let一样，唯一的区别是，const声明的是常量</p>
 <pre><code class="lang-javascript"><span class="hljs-keyword">const</span> a = <span class="hljs-number">1</span>;
-console.<span class="hljs-built_in">log</span>(a); <span class="hljs-comment">// 输出a</span>
+console.log(a); <span class="hljs-comment">// 输出a</span>
 
 a = <span class="hljs-number">2</span>; <span class="hljs-comment">// 报错，const声明的常量为只读，不可再次赋值</span>
 
@@ -424,10 +424,10 @@ let <span class="hljs-comment">{a=1}</span> = <span class="hljs-comment">{a:2}</
 <span class="hljs-keyword">let</span> {length: len} = <span class="hljs-string">'hi'</span>; <span class="hljs-comment">// 相当于把字符串的length值赋给了len</span>
 </code></pre>
 <h3 id="-">函数参数</h3>
-<pre><code class="lang-javascript">function <span class="hljs-keyword">add</span><span class="bash">([x, y]){
-</span>    console.log(x + y);
+<pre><code class="lang-javascript">function add([<span class="hljs-symbol">x</span>, <span class="hljs-symbol">y</span>]){
+    console.log(<span class="hljs-symbol">x</span> + <span class="hljs-symbol">y</span>);
 }
-<span class="hljs-keyword">add</span><span class="bash">([1, 2]) // 输出3</span>
+add([<span class="hljs-number">1</span>, <span class="hljs-number">2</span>]) <span class="hljs-comment">// 输出3</span>
 </code></pre>
 <h2 id="-">字符串扩展</h2>
 <h3 id="-">模板字符串</h3>
@@ -501,7 +501,7 @@ a.toString(); <span class="hljs-comment">// 输出'Symbol(a)'</span>
 <span class="hljs-built_in">Symbol</span>(<span class="hljs-string">'a'</span>) === <span class="hljs-built_in">Symbol</span>(<span class="hljs-string">'a'</span>); <span class="hljs-comment">// 返回false</span>
 </code></pre>
 <p>Symbol可以转化为字符串和布尔值，无法转化为数值类型</p>
-<pre><code class="lang-javascript"><span class="hljs-built_in">Number</span>(a); <span class="hljs-comment">// 报错</span>
+<pre><code class="lang-javascript"><span class="hljs-constructor">Number(<span class="hljs-params">a</span>)</span>; <span class="hljs-comment">// 报错</span>
 </code></pre>
 <p>可以为Symbol指定同样的key</p>
 <pre><code class="lang-javascript"><span class="hljs-keyword">var</span> a = <span class="hljs-built_in">Symbol</span>.<span class="hljs-keyword">for</span>(<span class="hljs-string">'foo'</span>);
@@ -582,9 +582,9 @@ a.forEach((value, <span class="hljs-built_in">key</span>) =&gt; {}); <span class
 <p>Iterator（迭代器）是一种特殊的对象，使用next方法来遍历对象中的元素</p>
 <pre><code class="lang-javascript">let arr = [<span class="hljs-string">'a'</span>, <span class="hljs-string">'b'</span>];
 let iter = arr[Symbol.iterator](); <span class="hljs-regexp">//</span> 返回数组的迭代器对象
-iter.<span class="hljs-keyword">next</span>(); <span class="hljs-regexp">//</span> 返回{<span class="hljs-symbol">value:</span> <span class="hljs-string">'a'</span>, <span class="hljs-symbol">done:</span> <span class="hljs-keyword">false</span>}
-iter.<span class="hljs-keyword">next</span>(); <span class="hljs-regexp">//</span> 返回{<span class="hljs-symbol">value:</span> <span class="hljs-string">'b'</span>, <span class="hljs-symbol">done:</span> <span class="hljs-keyword">false</span>}
-iter.<span class="hljs-keyword">next</span>(); <span class="hljs-regexp">//</span> 返回{<span class="hljs-symbol">value:</span> undefined, <span class="hljs-symbol">done:</span> <span class="hljs-keyword">true</span>}
+iter.<span class="hljs-keyword">next</span>(); <span class="hljs-regexp">//</span> 返回{<span class="hljs-symbol">value:</span> <span class="hljs-string">'a'</span>, <span class="hljs-symbol">done:</span> <span class="hljs-literal">false</span>}
+iter.<span class="hljs-keyword">next</span>(); <span class="hljs-regexp">//</span> 返回{<span class="hljs-symbol">value:</span> <span class="hljs-string">'b'</span>, <span class="hljs-symbol">done:</span> <span class="hljs-literal">false</span>}
+iter.<span class="hljs-keyword">next</span>(); <span class="hljs-regexp">//</span> 返回{<span class="hljs-symbol">value:</span> undefined, <span class="hljs-symbol">done:</span> <span class="hljs-literal">true</span>}
 </code></pre>
 <p>一个数据结构只要部署了Symbol.iterator属性，就被视为具有Iterator接口，就可以用for...of循环遍历它的元素</p>
 <pre><code class="lang-javascript"><span class="hljs-keyword">for</span>(<span class="hljs-keyword">let</span> <span class="hljs-keyword">val</span> <span class="hljs-keyword">of</span> arr) {

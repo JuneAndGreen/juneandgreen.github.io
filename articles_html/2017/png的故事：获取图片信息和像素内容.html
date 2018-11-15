@@ -388,11 +388,11 @@ pre::-webkit-scrollbar-thumb {
 <p>png的文件头就是png图片的前8个字节，其值为<code>[0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A]</code>，人们常常把这个头称之为“魔数”。玩过linux的同学估计知道，可以使用<code>file</code>命令类判断一个文件是属于格式类型，就算我们把这个文件类型的后缀改得乱七八糟也可以识别出来，用的就是判断“魔数”这个方法。有兴趣的同学还可以使用<code>String.fromCharCode</code>将这个“魔数”转成字符串看看，就知道为什么png会取这个值作为文件头了。</p>
 <p>用代码来判断也很简单：</p>
 <pre><code class="lang-js"><span class="hljs-comment">// 读取指定长度字节</span>
-function <span class="hljs-built_in">readBytes</span>(<span class="hljs-built_in">buffer</span>, <span class="hljs-built_in">begin</span>, length) {
-    <span class="hljs-built_in">return</span> Array.prototype.slice.call(<span class="hljs-built_in">buffer</span>, <span class="hljs-built_in">begin</span>, <span class="hljs-built_in">begin</span> + length);
+<span class="hljs-keyword">function</span> read<span class="hljs-constructor">Bytes(<span class="hljs-params">buffer</span>, <span class="hljs-params">begin</span>, <span class="hljs-params">length</span>)</span> {
+    return <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Array</span>.</span></span>prototype.slice.call(buffer, <span class="hljs-keyword">begin</span>, <span class="hljs-keyword">begin</span> + length);
 }
 
-let header = <span class="hljs-built_in">readBytes</span>(pngBuffer, <span class="hljs-number">0</span>, <span class="hljs-number">8</span>); <span class="hljs-comment">// [0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A]</span>
+<span class="hljs-keyword">let</span> header = read<span class="hljs-constructor">Bytes(<span class="hljs-params">pngBuffer</span>, 0, 8)</span>; <span class="hljs-comment">// [0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A]</span>
 </code></pre>
 <h3 id="-">数据块</h3>
 <p>去掉了png图片等前8个字节，剩下的就是存放png数据的数据块，我们通常称之为<code>chunk</code>。</p>
@@ -563,16 +563,16 @@ let crc = readBytes(<span class="hljs-number">4</span>); <span class="hljs-comme
 <h2 id="-">解析</h2>
 <h3 id="-">解压缩</h3>
 <p>当我们收集完IDAT的所有数据块内容时，我们要先对其进行解压缩：</p>
-<pre><code class="lang-js"><span class="hljs-keyword">const</span> zlib = <span class="hljs-built_in">require</span>(<span class="hljs-string">'zlib'</span>);
+<pre><code class="lang-js">const zlib = require('zlib');
 
-<span class="hljs-keyword">let</span> data = <span class="hljs-keyword">new</span> Buffer(length);
+<span class="hljs-keyword">let</span> data = <span class="hljs-keyword">new</span> <span class="hljs-constructor">Buffer(<span class="hljs-params">length</span>)</span>;
 <span class="hljs-keyword">let</span> index = <span class="hljs-number">0</span>;
-dataChunks.forEach(<span class="hljs-function">(<span class="hljs-params">chunkData</span>) =&gt;</span> {
-    chunkData.forEach(<span class="hljs-function">(<span class="hljs-params">item</span>) =&gt;</span> {data[index++] = item});
+dataChunks.for<span class="hljs-constructor">Each((<span class="hljs-params">chunkData</span>)</span> =&gt; {
+    chunkData.for<span class="hljs-constructor">Each((<span class="hljs-params">item</span>)</span> =&gt; {data<span class="hljs-literal">[<span class="hljs-identifier">index</span><span class="hljs-operator">++</span>]</span> = item});
 });
 
 <span class="hljs-comment">// inflate解压缩</span>
-data = zlib.inflateSync(<span class="hljs-keyword">new</span> Buffer(data));
+data = zlib.inflate<span class="hljs-constructor">Sync(<span class="hljs-params">new</span> Buffer(<span class="hljs-params">data</span>)</span>);
 </code></pre>
 <h3 id="-">扫描</h3>
 <p>上面说过，此次我们只考虑逐行扫描的方式：</p>
@@ -631,8 +631,8 @@ data = zlib.inflateSync(<span class="hljs-keyword">new</span> Buffer(data));
 <p>比如说有这么一个数组<code>[99, 100, 100, 102, 103]</code>，我们可以将其转存为<code>[99, 1, 0, 2, 1]</code>。转存的规则就是以数组第1位为标准值，标准值存储原始数据，后续均存储以前1位数据的差值。</p>
 <p>当我们使用了差分编码后，再进行<strong>deflate</strong>压缩的话，效果会更好（deflate压缩是LZ77延伸出来的一种算法，压缩频繁重复出现的数据段的效果是相当不错的，有兴趣的同学可自行去了解）。</p>
 <p>好，回到正题来讲png的5种过滤类型，首先我们要定义几个变量以便于说明：</p>
-<pre><code>C <span class="hljs-keyword">B
-</span>A X
+<pre><code><span class="hljs-attr">C</span> <span class="hljs-string">B</span>
+<span class="hljs-attr">A</span> <span class="hljs-string">X</span>
 </code></pre><ul>
 <li>X：当前像素。</li>
 <li>A：当前像素点左边的像素。</li>
@@ -643,7 +643,7 @@ data = zlib.inflateSync(<span class="hljs-keyword">new</span> Buffer(data));
 <p>这个没啥好解释的，就是完全不做任何过滤。</p>
 <pre><code class="lang-js"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">filterNone</span><span class="hljs-params">(scanline, bytesPerPixel, bytesPerRow, offset)</span> {</span>
     <span class="hljs-keyword">for</span>(let <span class="hljs-built_in">i</span>=<span class="hljs-number">0</span>; <span class="hljs-built_in">i</span>&lt;bytesPerRow; <span class="hljs-built_in">i</span>++) {
-        pixelsBuffer[offset + i] = scanline[i];
+        pixelsBuffer[offset + <span class="hljs-built_in">i</span>] = scanline[<span class="hljs-built_in">i</span>];
     }
 }
 </code></pre>
