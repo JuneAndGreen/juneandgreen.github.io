@@ -1,0 +1,516 @@
+</DOCTYPE html>
+<html>
+<head>
+    <title>hooks 在微信小程序中的试验</title>
+    <style type="text/css">
+        html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    font-weight: inherit;
+    font-style: inherit;
+    font-family: inherit;
+    font-size: 100%;
+    vertical-align: baseline;
+}
+
+body {
+    line-height: 1;
+
+    font-family: "microsoft yahei",Arial,Helvetica,sans-serif;
+    font-size: 100%;
+    background: #fff;
+    color: #817c7c;
+    line-height: 1.5;
+}
+
+* {
+    -webkit-margin-before: 0;
+    -webkit-margin-after: 0;
+}
+
+.container {
+    width: 1000px;
+    margin: 0 auto;
+    overflow: hidden;
+    line-height: 1.8;
+    font-size: 14px;
+}
+
+.article-content {
+    padding: 1.5em 4% 5em;
+    color: #413f3f;
+    font-size: 100%;
+}
+
+caption,th,td {
+    text-align: left;
+    font-weight: normal;
+    vertical-align: middle;
+}
+
+a img {
+    border: none;
+}
+
+small {
+    font-size: 80%;
+}
+
+sub,sup {
+    font-size: 75%;
+    line-height: 0;
+    position: relative;
+    vertical-align: baseline;
+}
+
+sup {
+    top: -.5em;
+    padding-left: .3em;
+}
+
+sub {
+    bottom: -.25em;
+}
+
+a {
+    text-decoration: none;
+    color: #2ca6cb;
+}
+
+a:hover {
+    color: #d14;
+}
+
+h1 {
+    font-size: 200%;
+    line-height: 1.5em;
+    padding-bottom: .3em;
+    border-bottom: 2px solid #dbdbdb;
+}
+
+h2 {
+    margin-top: 2.6em;
+    padding-left: 20px;
+    font-size: 160%;
+    line-height: 1.2em;
+    border-left: 4px solid #2ca6cb;
+}
+
+h2:first-child {
+  margin-top: 1.5em;
+}
+
+h3 {
+    font-size: 140%;
+    line-height: 1em;
+    margin-top: 1.3em;
+}
+
+h1, h2 {
+    position: relative;
+    margin-top: 1.5em;
+    margin-bottom: 1em;
+}
+
+h4 {
+  font-weight: bold;
+  font-size: 110%;
+}
+
+h4, h5, h6 {
+    margin-top: .8em;
+    font-size: 130%;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: #333;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+h1 >code, h2 >code, h3 >code, h4 >code, h5 >code, h6 >code {
+    color: #a3a3a3;
+}
+
+hr {
+    border: 1px solid #dbdbdb;
+}
+
+strong {
+    font-weight: bold;
+}
+
+em {
+    font-style: italic;
+}
+
+acronym, abbr {
+    border-bottom: 1px dotted;
+}
+
+blockquote {
+    border-left: .2em solid #aaa;
+    margin: 1em;
+    padding: .7em;
+    line-height: 1.5;
+    font-size: 100%;
+    color: #808080;
+    background-color: #f8f8f8;
+}
+
+blockquote footer {
+    background: #fafafa;
+    padding: 0;
+    margin: 0;
+    font-size: 80%;
+    line-height: 1em;
+}
+
+blockquote cite {
+    font-style: italic;
+    padding-left: .5em;
+}
+
+blockquote p {
+    margin: 0;
+}
+
+ul, ol {
+    list-style: none;
+    padding-left: 3em;
+    font-size: 105%;
+    padding-top: .7em;
+}
+
+ul li {
+    list-style: disc;
+    text-align: match-parent;
+}
+
+ol li {
+    list-style-type: decimal;
+}
+
+dl dt {
+    font-weight: blod;
+}
+
+ul li>code, ol li>code, p code, strong code, em code, table th>code, table td>code {
+    font-family: Monaco,Menlo,Consolas,Courier New,monospace;
+    background: #eee;
+    color: #d14;
+    border: 1px solid #d6d6d6;
+    padding: 0 5px;
+    margin: 0 2px;
+    font-size: 90%;
+    white-space: nowrap;
+    text-shadow: 0 1px #fff;
+    -webkit-border-radius: .25em;
+    -webkit-border-radius: .25em;
+    border-radius: .25em;
+}
+
+p {
+    line-height: 1.5;
+    margin-top: .7em;
+    font-size: 110%;
+    letter-spacing: 1px;
+}
+
+p.image-wrapper {
+    text-align: left;
+}
+
+img, video, figure img {
+    margin: 10px 0;
+    max-width: 100%;
+    height: auto;
+    vertical-align: middle;
+    margin-top: .5em;
+
+    border-radius: 5px;
+    box-shadow: 2px 2px 7px 1px #aaa;
+}
+
+table {    
+    vertical-align: middle;
+    max-width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+    margin-top: 1em;
+    border: 2px solid #cbcbcb;
+    color: #413f3f;
+}
+
+table tbody tr:nth-child(odd) {
+    background-color: #f8f8f8;
+}
+
+table th {
+    font-weight: bold;
+    border: 1px solid #cbcbcb;
+    border-bottom: 2px solid #cbcbcb;
+    padding: .8em;
+    line-height: 1.3em;
+}
+
+table td {
+    border: 1px solid #cbcbcb;
+    padding: .8em;
+    line-height: 1.3em;
+}
+
+pre {
+    background: #2d2d2d;
+    margin: .5em 0;
+    padding: .5em 2%;
+    color: #ccc;
+    line-height: 1.5;
+    font-size: .8em;
+    -webkit-border-radius: .35em;
+    -webkit-border-radius: .35em;
+    border-radius: .35em;
+    word-wrap: break-word;
+    font-family: Monaco,Menlo,Consolas,Courier New,monospace;
+    overflow-x: auto;
+}
+
+
+pre::-webkit-scrollbar, pre::-webkit-scrollbar-track {
+    height: 8px;
+    background-color: transparent;
+}
+pre::-webkit-scrollbar-thumb {
+    height: 8px;
+    background-color: #ddd;
+    border-radius: 4px;
+}
+
+
+.hljs {
+  display: block;
+  overflow-x: auto;
+  padding: 0.5em;
+  color: #abb2bf;
+  background: #282c34;
+}
+
+.hljs-comment,
+.hljs-quote {
+  color: #5c6370;
+  font-style: italic;
+}
+
+.hljs-doctag,
+.hljs-keyword,
+.hljs-formula {
+  color: #c678dd;
+}
+
+.hljs-section,
+.hljs-name,
+.hljs-selector-tag,
+.hljs-deletion,
+.hljs-subst {
+  color: #e06c75;
+}
+
+.hljs-literal {
+  color: #56b6c2;
+}
+
+.hljs-string,
+.hljs-regexp,
+.hljs-addition,
+.hljs-attribute,
+.hljs-meta-string {
+  color: #98c379;
+}
+
+.hljs-built_in,
+.hljs-class .hljs-title {
+  color: #e6c07b;
+}
+
+.hljs-attr,
+.hljs-variable,
+.hljs-template-variable,
+.hljs-type,
+.hljs-selector-class,
+.hljs-selector-attr,
+.hljs-selector-pseudo,
+.hljs-number {
+  color: #d19a66;
+}
+
+.hljs-symbol,
+.hljs-bullet,
+.hljs-link,
+.hljs-meta,
+.hljs-selector-id,
+.hljs-title {
+  color: #61aeee;
+}
+
+.hljs-emphasis {
+  font-style: italic;
+}
+
+.hljs-strong {
+  font-weight: bold;
+}
+
+.hljs-link {
+  text-decoration: underline;
+}
+
+
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="article-content">
+        <h1 id="hooks-">hooks 在微信小程序中的试验</h1>
+<blockquote>
+<p>PS：首先，这不是一个成熟的东西，只是一个实现极其简单的玩具而已。</p>
+</blockquote>
+<h2 id="-">前言</h2>
+<p>前段时间 react hooks 特性刷得沸沸扬扬的，看起来挺有意思的，计不少其他框架也会逐步跟进，所以也来尝试一下能不能用在小程序上。</p>
+<p>react hooks 允许你在函数式组件中使用 state，用一段官方的简单例子概括如下：</p>
+<pre><code class="lang-js"><span class="hljs-keyword">import</span> { useState } <span class="hljs-keyword">from</span> <span class="hljs-string">'react'</span>;
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Example</span>(<span class="hljs-params"></span>) </span>{
+  <span class="hljs-keyword">const</span> [count, setCount] = useState(<span class="hljs-number">0</span>);
+
+  <span class="hljs-keyword">return</span> (
+    <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>You clicked {count} times<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">onClick</span>=<span class="hljs-string">{()</span> =&gt;</span> setCount(count + 1)}&gt;
+        Click me
+      <span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>
+  );
+}
+</code></pre>
+<p>函数式组件本身非常简洁，不维护生命周期和状态，是一个可以让性能得以优化的使用方式。但是在之前这种方式只能用于纯展示组件或者高阶组件等，它很难实现一些交互行为。但是在 hooks 出现之后，你就可以为所欲为了。</p>
+<p>这里有一份官方的文档，不明围观群众有兴趣的可以点进去了解一下：<a href="https://reactjs.org/docs/hooks-intro.html">https://reactjs.org/docs/hooks-intro.html</a>。</p>
+<p>hooks 的使用目前有两个限制：</p>
+<ul>
+<li>只能在函数式组件内或其他自定义 hooks 内使用，不允许在循环、条件或普通 js 函数中调用 hooks。</li>
+<li>只能在顶层调用 hooks 。</li>
+</ul>
+<p>这个限制和 hooks 的实现方式有关，下面小程序 hooks 也会有同样限制，原因应该也是类似的。为了能让开发者更好的使用 hooks，react 官方也提供了一套 eslint 插件来协助我们开发：<a href="https://reactjs.org/docs/hooks-rules.html#eslint-plugin">https://reactjs.org/docs/hooks-rules.html#eslint-plugin</a>。</p>
+<p>下面就来介绍下在小程序中的尝试~</p>
+<h2 id="-">函数式组件</h2>
+<p>小程序没有提供函数式组件，这倒是很好理解，小程序的架构是双线程运行模式，逻辑层执行 js 代码，视图层负责渲染。那么声明在逻辑层的自定义组件要渲染在视图层必须保证来两个线程都存在自定义组件实例并一一对应，这样的架构已经成熟，目前对函数式组件并没有强烈的需求。在基础库不大改的情况下，就算提供了函数式组件也只是提供了另一种新写法而已，本质上的实现没有区别也不能提升什么性能。</p>
+<p>不过也不排除以后小程序会提供一种只负责渲染不维护生命周期不做任何逻辑的特殊组件来优化渲染性能，这种的话本质上就和函数式组件类似了，不过函数式组件较为极端的是在理论上是有办法做到无实例的，这个在小程序中怕是有点困难。</p>
+<p>言归正传，小程序没有提供函数式组件，那么就强行封装出一个写法好了，假设我们有一个自定义组件，它的 js 和 wxml 内容分别是这样的：</p>
+<pre><code class="lang-js"><span class="hljs-comment">// component.js</span>
+<span class="hljs-keyword">const</span> {useState, useEffect, FunctionalComponent} = <span class="hljs-built_in">require</span>(<span class="hljs-string">'miniprogram-hooks'</span>) 
+
+FunctionalComponent(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+  <span class="hljs-keyword">const</span> [count, setCount] = useState(<span class="hljs-number">1</span>)
+
+  useEffect(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'count update: '</span>, count)
+  }, [count])
+
+  <span class="hljs-keyword">const</span> [title, setTitle] = useState(<span class="hljs-string">'click'</span>)
+
+  <span class="hljs-keyword">return</span> {
+    count,
+    title,
+    setCount,
+    setTitle,
+  }
+})
+</code></pre>
+<pre><code class="lang-wxml"><span class="xml"><span class="hljs-comment">&lt;!-- component.wxml --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">view</span>&gt;</span></span><span class="hljs-template-variable">{{count}}</span><span class="xml"><span class="hljs-tag">&lt;/<span class="hljs-name">view</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">bindtap</span>=<span class="hljs-string">"setCount"</span> <span class="hljs-attr">data-arg</span>=<span class="hljs-string">"</span></span></span><span class="hljs-template-variable">{{count + 1}}</span><span class="xml"><span class="hljs-tag"><span class="hljs-string">"</span>&gt;</span></span><span class="hljs-template-variable">{{title}}</span><span class="xml"><span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">bindtap</span>=<span class="hljs-string">"setTitle"</span> <span class="hljs-attr">data-arg</span>=<span class="hljs-string">"</span></span></span><span class="hljs-template-variable">{{title + '(' + count + ')'}}</span><span class="xml"><span class="hljs-tag"><span class="hljs-string">"</span>&gt;</span>update btn text<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span></span>
+</code></pre>
+<p>一个很奇葩的例子，但是能看明白就行。小程序里视图和逻辑分离，不像 react 可以将视图和逻辑写到一起，那么小程序里的函数式组件里想返回一串渲染逻辑就不太科学了，这里就改成返回要用于渲染的 state 和方法。</p>
+<blockquote>
+<p>PS：wxml 里不支持 bindtap=&quot;setCount(count + 1)&quot; 这种写法，所以参数就走 dataset 的方式传入了。</p>
+</blockquote>
+<p>FunctionComponent 函数其实就相当于封装了小程序原有的 Component 构造器，它的实现类似这样：</p>
+<pre><code class="lang-js">function FunctionalComponent(func) {
+  func = typeof func === <span class="hljs-string">'function'</span> ? func : function () {}
+
+  <span class="hljs-comment">// 定义自定义组件</span>
+  <span class="hljs-keyword">return</span> Component({
+    attached() {
+      <span class="hljs-keyword">this</span>._$state = {}
+      <span class="hljs-keyword">this</span>._$effect = {}
+      <span class="hljs-keyword">this</span>._$func = () =&gt; {
+        currentCompInst = <span class="hljs-keyword">this</span> <span class="hljs-comment">// 记录当前的自定义组件实例</span>
+        callIndex = <span class="hljs-number">0</span> <span class="hljs-comment">// 初始化调用序号</span>
+        <span class="hljs-keyword">const</span> newDef = func.call(<span class="hljs-literal">null</span>) || {}
+        currentCompInst = <span class="hljs-literal">null</span>
+
+        <span class="hljs-keyword">const</span> {<span class="hljs-keyword">data</span>, methods} = splitDef(newDef) <span class="hljs-comment">// 拆分 state 和方法</span>
+
+        <span class="hljs-comment">// 设置 methods</span>
+        Object.keys(methods).forEach(key =&gt; {
+          <span class="hljs-keyword">this</span>[key] = methods[key]
+        })
+
+        <span class="hljs-comment">// 设置 data</span>
+        <span class="hljs-keyword">this</span>.setData(<span class="hljs-keyword">data</span>)
+      }
+
+      <span class="hljs-keyword">this</span>._$func()
+    },
+    detached() {
+      <span class="hljs-keyword">this</span>._$state = <span class="hljs-literal">null</span>
+      <span class="hljs-keyword">this</span>._$effect = <span class="hljs-literal">null</span>
+      <span class="hljs-keyword">this</span>._$func = <span class="hljs-literal">null</span>
+    }
+  })
+}
+</code></pre>
+<p>实现很简单，就是在 attached 的时候跑一下传入的函数，拿到 state 和方法后设置到自定义组件实例上就行。其中 currentCompInst 和 callIndex 在 useState 和 useEffect 的实现上会用到，下面来介绍。</p>
+<h2 id="usestate-useeffect">useState 和 useEffect</h2>
+<p>这里的一个难点是，useState 是没有指定变量名的。初次渲染还好，二次渲染的话要找回这个变量就要费一段代码了。</p>
+<blockquote>
+<p>PS：后续的实现除了参考了 react 的 hooks 外，也参考了 <a href="https://github.com/yyx990803/vue-hooks">vue-hooks</a> 的尝试，有兴趣的同学也可以去观摩一下。</p>
+</blockquote>
+<p>这里上面提到的 currentCompInst 和 callIndex，将上一次的变量存储在 currentCompInst 中，用 callIndex 记录调用 useState 和 useEffect 的顺序，这样就可以在二次渲染的时候通过顺序找回上一次使用的变量：</p>
+<pre><code class="lang-js"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">useState</span><span class="hljs-params">(initValue)</span> </span>{
+  <span class="hljs-keyword">if</span> (!currentCompInst) <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> Error(<span class="hljs-string">'component instance not found!'</span>)
+
+  <span class="hljs-keyword">const</span> index = callIndex++
+  <span class="hljs-keyword">const</span> compInst = currentCompInst
+
+  <span class="hljs-keyword">if</span> (compInst._$state[index] === undefined) compInst._$state[index] = initValue
+
+  <span class="hljs-keyword">const</span> updater = <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(evt)</span> </span>{
+    let value = evt
+
+    <span class="hljs-comment">// wxml 事件回调</span>
+    <span class="hljs-keyword">if</span> (typeof evt === <span class="hljs-string">'object'</span> &amp;&amp; evt.target &amp;&amp; evt.currentTarget) {
+      <span class="hljs-keyword">const</span> dataset = evt.currentTarget.dataset
+      value = dataset &amp;&amp; dataset.arg
+    }
+
+    <span class="hljs-comment">// 存入缓存</span>
+    compInst._$state[index] = value
+    compInst._$func()
+  }
+  updater._isUpdater = <span class="hljs-keyword">true</span>
+
+  <span class="hljs-keyword">return</span> [compInst._$state[index], updater]
+}
+</code></pre>
+<p>useEffect 的实现逻辑也类似，这里就不再贴代码了。小程序本身没有提供 render 函数，调 FunctionalComponent 声明函数式组件传入的函数就作为 render 函数来用。每次调 setXXX 方法——也就是上面代码中返回的 updater 的时候，找到原本存储这个 state 的地方存储进去，然后再次执行 render 函数，进行组件的渲染。</p>
+<p>到这里应该就明白了，对于 hooks 使用为什么会有一开始的那两条限制。如果在一些条件、循环等语句内使用 hooks，就无法确保 state 的顺序，再二次渲染时就不一定能找回对应的 state。</p>
+<h2 id="-">尾声</h2>
+<p>完整的代码在 <a href="https://github.com/wechat-miniprogram/miniprogram-hooks">https://github.com/wechat-miniprogram/miniprogram-hooks</a>，不过这终究只是个试验性质的尝试，并不推荐拿来实战，写在这里是为与大家共享~</p>
+          
+    </div>
+</div>
+</body>
+</html>
