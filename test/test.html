@@ -28,7 +28,9 @@
     document.getElementById('btn').onclick = function() {
       var a = document.getElementById('a');
       a.style.transition = '500ms ease 0ms'
+      a.style.webkitTransition = '500ms ease 0ms'
       a.style.transitionProperty = 'transform,opacity';
+      a.style.webkitTransitionProperty = 'transform,opacity';
       a.style.opacity = 1;
 
       setTimeout(function () {
