@@ -5,16 +5,16 @@
   <title>test</title>
   <style>
    #a {
-    width: 560rpx;
-    top: 40%;
+    width: 100px;
+    top: 10%;
     left: 13%;
     background-color: rgba(0, 0, 0, 0.5);
-    height: 80rpx;
-    border-radius: 10rpx;
+    height: 80px;
+    border-radius: 10px;
     position: absolute;
     color: rgb(255, 255, 255);
-    opacity: 1;
-    font-size: 32rpx;
+    opacity: 0;
+    font-size: 32px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -28,6 +28,7 @@
     document.getElementById('btn').onclick = function() {
       var a = document.getElementById('a');
       a.style.cssText = "transition: transform 500ms ease 0ms, opacity;transform-origin: 50% 50% 0px;opacity:1;"
+      // a.style.cssText = "transition: opacity 500ms ease 0ms;opacity:1;"
     }
   </script>
 </body>
