@@ -27,8 +27,13 @@
   <script>
     document.getElementById('btn').onclick = function() {
       var a = document.getElementById('a');
-//       a.style.cssText = "transition: transform 500ms ease 0ms, opacity;transform-origin: 50% 50% 0px;opacity:1;"
-      a.style.cssText = "transition: opacity 500ms ease 0ms;opacity:1;"
+      a.style.transition = '500ms ease 0ms'
+      a.style.transitionProperty = 'transform,opacity';
+      a.style.opacity = 1;
+
+      setTimeout(function () {
+        a.style.opacity = 0;
+      }, 1000);
     }
   </script>
 </body>
