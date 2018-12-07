@@ -414,14 +414,14 @@ pre::-webkit-scrollbar-thumb {
 <span class="hljs-keyword">const</span> path = <span class="hljs-keyword">require</span>(<span class="hljs-string">'path'</span>)
 <span class="hljs-keyword">const</span> simulate = <span class="hljs-keyword">require</span>(<span class="hljs-string">'miniprogram-simulate'</span>)
 
-test(<span class="hljs-string">'comp1'</span>, () =&gt; {
-    <span class="hljs-keyword">const</span> id = simulate.load(path.join(__dirname, <span class="hljs-string">'./comp'</span>)) <span class="hljs-comment">// 此处必须传入绝对路径</span>
-    <span class="hljs-keyword">const</span> comp = simulate.render(id) <span class="hljs-comment">// 渲染成自定义组件树实例</span>
+test(<span class="hljs-string">'comp'</span>, () =&gt; {
+  <span class="hljs-keyword">const</span> id = simulate.load(path.join(__dirname, <span class="hljs-string">'./comp'</span>)) <span class="hljs-comment">// 此处必须传入绝对路径</span>
+  <span class="hljs-keyword">const</span> comp = simulate.render(id) <span class="hljs-comment">// 渲染成自定义组件树实例</span>
 
-    <span class="hljs-keyword">const</span> <span class="hljs-keyword">parent</span> = document.createElement(<span class="hljs-string">'parent-wrapper'</span>) <span class="hljs-comment">// 创建父亲节点</span>
-    comp.attach(<span class="hljs-keyword">parent</span>) <span class="hljs-comment">// attach 到父亲节点上，此时会触发自定义组件的 attached 钩子</span>
+  <span class="hljs-keyword">const</span> <span class="hljs-keyword">parent</span> = document.createElement(<span class="hljs-string">'parent-wrapper'</span>) <span class="hljs-comment">// 创建父亲节点</span>
+  comp.attach(<span class="hljs-keyword">parent</span>) <span class="hljs-comment">// attach 到父亲节点上，此时会触发自定义组件的 attached 钩子</span>
 
-    expect(comp.querySelector(<span class="hljs-string">'.index'</span>).dom.innerHTML).toBe(<span class="hljs-string">'index.properties'</span>) <span class="hljs-comment">// 测试渲染结果</span>
+  expect(comp.querySelector(<span class="hljs-string">'.index'</span>).dom.innerHTML).toBe(<span class="hljs-string">'index.properties'</span>) <span class="hljs-comment">// 测试渲染结果</span>
 })
 </code></pre>
 <p>使用方式很简单，本文只是个引子，更多详细的用法请移步到 <a href="https://github.com/wechat-miniprogram/miniprogram-simulate">github 仓库</a>上查阅。</p>
