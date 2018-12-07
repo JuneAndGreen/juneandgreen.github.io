@@ -387,7 +387,7 @@ pre::-webkit-scrollbar-thumb {
 <p>PS：目前虽然 exparser 已经发布到 npm，但是仍然只是混淆压缩后到代码，属于半开源状态，不建议开发者直接使用。</p>
 </blockquote>
 <h2 id="-">使用</h2>
-<p><a href="https://github.com/wechat-miniprogram/miniprogram-simulate">miniprogram-simulate</a> 本是自定义组件脚手架 <a href="https://github.com/wechat-miniprogram/miniprogram-custom-component">https://github.com/wechat-miniprogram/miniprogram-custom-component</a> 中的一部分，现单独抽离出来，方便开发者们作更多的使用选择（脚手架中默认使用 jest 来搭配使用，直接使用此工具集则可以搭配其他想要使用的测试框架，比如 mocha 等）。</p>
+<p><a href="https://github.com/wechat-miniprogram/miniprogram-simulate">miniprogram-simulate</a> 本是自定义组件脚手架 <a href="https://github.com/wechat-miniprogram/miniprogram-custom-component">miniprogram-custom-component</a> 中的一部分，现单独抽离出来，方便开发者们作更多的使用选择（脚手架中默认使用 jest 来搭配使用，直接使用此工具集则可以搭配其他想要使用的测试框架，比如 mocha 等）。</p>
 <p>下述只简单介绍下用法，首先安装此工具集：</p>
 <pre><code>npm install --<span class="hljs-built_in">save</span>-<span class="hljs-built_in">dev</span> miniprogram-simulate
 </code></pre><p>然后此工具集必须搭配其他测试框架和 jsdom 来使用，比如 jest。因为 jest 内置有 jsdom，所以也就不需要额外安装 jsdom 了，以下面一个自定义组件作为例子：</p>

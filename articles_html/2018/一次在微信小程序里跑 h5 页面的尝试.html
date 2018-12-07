@@ -441,10 +441,10 @@ pre::-webkit-scrollbar-thumb {
 <p>body 节点同样是用上面例子中的 element 自定义组件来渲染，修改下 element 自定义组件的 js 文件：</p>
 <pre><code class="lang-js"><span class="hljs-comment">// element.js</span>
 Component({
-    data: {
+    <span class="hljs-keyword">data</span>: {
         children: [].
     },
-    <span class="hljs-built_in">attached</span>() {
+    attached() {
         <span class="hljs-keyword">const</span> nodeId = <span class="hljs-keyword">this</span>.dataset.privateNodeId <span class="hljs-comment">// 节点 id</span>
     }
 })
@@ -460,10 +460,10 @@ Component({
 <p>根据这个逻辑修改一下上述例子中的 element 自定义组件的代码：</p>
 <pre><code class="lang-js"><span class="hljs-comment">// element.js</span>
 Component({
-    data: {
+    <span class="hljs-keyword">data</span>: {
         children: [].
     },
-    <span class="hljs-built_in">attached</span>() {
+    attached() {
         <span class="hljs-keyword">const</span> nodeId = <span class="hljs-keyword">this</span>.dataset.privateNodeId <span class="hljs-comment">// 节点 id</span>
         <span class="hljs-keyword">const</span> domNode = getDomNode(nodeId) <span class="hljs-comment">// 根据节点 id 找到 dom 节点</span>
         <span class="hljs-keyword">const</span> children = domNode.children <span class="hljs-comment">// 拿到子节点列表</span>
