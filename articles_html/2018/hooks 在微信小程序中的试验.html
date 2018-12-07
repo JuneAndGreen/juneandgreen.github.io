@@ -437,29 +437,29 @@ FunctionalComponent(<span class="hljs-function"><span class="hljs-keyword">funct
 <p>PS：wxml 里不支持 bindtap=&quot;setCount(count + 1)&quot; 这种写法，所以参数就走 dataset 的方式传入了。</p>
 </blockquote>
 <p>FunctionComponent 函数其实就相当于封装了小程序原有的 Component 构造器，它的实现类似这样：</p>
-<pre><code class="lang-js">function FunctionalComponent(func) {
-  func = typeof func === <span class="hljs-string">'function'</span> ? func : function () {}
+<pre><code class="lang-js"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">FunctionalComponent</span>(<span class="hljs-params">func</span>) </span>{
+  func = <span class="hljs-keyword">typeof</span> func === <span class="hljs-string">'function'</span> ? func : <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{}
 
   <span class="hljs-comment">// 定义自定义组件</span>
   <span class="hljs-keyword">return</span> Component({
     attached() {
       <span class="hljs-keyword">this</span>._$state = {}
       <span class="hljs-keyword">this</span>._$effect = {}
-      <span class="hljs-keyword">this</span>._$func = () =&gt; {
+      <span class="hljs-keyword">this</span>._$func = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
         currentCompInst = <span class="hljs-keyword">this</span> <span class="hljs-comment">// 记录当前的自定义组件实例</span>
         callIndex = <span class="hljs-number">0</span> <span class="hljs-comment">// 初始化调用序号</span>
         <span class="hljs-keyword">const</span> newDef = func.call(<span class="hljs-literal">null</span>) || {}
         currentCompInst = <span class="hljs-literal">null</span>
 
-        <span class="hljs-keyword">const</span> {<span class="hljs-keyword">data</span>, methods} = splitDef(newDef) <span class="hljs-comment">// 拆分 state 和方法</span>
+        <span class="hljs-keyword">const</span> {data, methods} = splitDef(newDef) <span class="hljs-comment">// 拆分 state 和方法</span>
 
         <span class="hljs-comment">// 设置 methods</span>
-        Object.keys(methods).forEach(key =&gt; {
+        <span class="hljs-built_in">Object</span>.keys(methods).forEach(<span class="hljs-function"><span class="hljs-params">key</span> =&gt;</span> {
           <span class="hljs-keyword">this</span>[key] = methods[key]
         })
 
         <span class="hljs-comment">// 设置 data</span>
-        <span class="hljs-keyword">this</span>.setData(<span class="hljs-keyword">data</span>)
+        <span class="hljs-keyword">this</span>.setData(data)
       }
 
       <span class="hljs-keyword">this</span>._$func()

@@ -1,0 +1,434 @@
+</DOCTYPE html>
+<html>
+<head>
+    <title>论如何进行小程序自定义组件的单元测试</title>
+    <style type="text/css">
+        html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    font-weight: inherit;
+    font-style: inherit;
+    font-family: inherit;
+    font-size: 100%;
+    vertical-align: baseline;
+}
+
+body {
+    line-height: 1;
+
+    font-family: "microsoft yahei",Arial,Helvetica,sans-serif;
+    font-size: 100%;
+    background: #fff;
+    color: #817c7c;
+    line-height: 1.5;
+}
+
+* {
+    -webkit-margin-before: 0;
+    -webkit-margin-after: 0;
+}
+
+.container {
+    width: 1000px;
+    margin: 0 auto;
+    overflow: hidden;
+    line-height: 1.8;
+    font-size: 14px;
+}
+
+.article-content {
+    padding: 1.5em 4% 5em;
+    color: #413f3f;
+    font-size: 100%;
+}
+
+caption,th,td {
+    text-align: left;
+    font-weight: normal;
+    vertical-align: middle;
+}
+
+a img {
+    border: none;
+}
+
+small {
+    font-size: 80%;
+}
+
+sub,sup {
+    font-size: 75%;
+    line-height: 0;
+    position: relative;
+    vertical-align: baseline;
+}
+
+sup {
+    top: -.5em;
+    padding-left: .3em;
+}
+
+sub {
+    bottom: -.25em;
+}
+
+a {
+    text-decoration: none;
+    color: #2ca6cb;
+}
+
+a:hover {
+    color: #d14;
+}
+
+h1 {
+    font-size: 200%;
+    line-height: 1.5em;
+    padding-bottom: .3em;
+    border-bottom: 2px solid #dbdbdb;
+}
+
+h2 {
+    margin-top: 2.6em;
+    padding-left: 20px;
+    font-size: 160%;
+    line-height: 1.2em;
+    border-left: 4px solid #2ca6cb;
+}
+
+h2:first-child {
+  margin-top: 1.5em;
+}
+
+h3 {
+    font-size: 140%;
+    line-height: 1em;
+    margin-top: 1.3em;
+}
+
+h1, h2 {
+    position: relative;
+    margin-top: 1.5em;
+    margin-bottom: 1em;
+}
+
+h4 {
+  font-weight: bold;
+  font-size: 110%;
+}
+
+h4, h5, h6 {
+    margin-top: .8em;
+    font-size: 130%;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: #333;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+h1 >code, h2 >code, h3 >code, h4 >code, h5 >code, h6 >code {
+    color: #a3a3a3;
+}
+
+hr {
+    border: 1px solid #dbdbdb;
+}
+
+strong {
+    font-weight: bold;
+}
+
+em {
+    font-style: italic;
+}
+
+acronym, abbr {
+    border-bottom: 1px dotted;
+}
+
+blockquote {
+    border-left: .2em solid #aaa;
+    margin: 1em;
+    padding: .7em;
+    line-height: 1.5;
+    font-size: 100%;
+    color: #808080;
+    background-color: #f8f8f8;
+}
+
+blockquote footer {
+    background: #fafafa;
+    padding: 0;
+    margin: 0;
+    font-size: 80%;
+    line-height: 1em;
+}
+
+blockquote cite {
+    font-style: italic;
+    padding-left: .5em;
+}
+
+blockquote p {
+    margin: 0;
+}
+
+ul, ol {
+    list-style: none;
+    padding-left: 3em;
+    font-size: 105%;
+    padding-top: .7em;
+}
+
+ul li {
+    list-style: disc;
+    text-align: match-parent;
+}
+
+ol li {
+    list-style-type: decimal;
+}
+
+dl dt {
+    font-weight: blod;
+}
+
+ul li>code, ol li>code, p code, strong code, em code, table th>code, table td>code {
+    font-family: Monaco,Menlo,Consolas,Courier New,monospace;
+    background: #eee;
+    color: #d14;
+    border: 1px solid #d6d6d6;
+    padding: 0 5px;
+    margin: 0 2px;
+    font-size: 90%;
+    white-space: nowrap;
+    text-shadow: 0 1px #fff;
+    -webkit-border-radius: .25em;
+    -webkit-border-radius: .25em;
+    border-radius: .25em;
+}
+
+p {
+    line-height: 1.5;
+    margin-top: .7em;
+    font-size: 110%;
+    letter-spacing: 1px;
+}
+
+p.image-wrapper {
+    text-align: left;
+}
+
+img, video, figure img {
+    margin: 10px 0;
+    max-width: 100%;
+    height: auto;
+    vertical-align: middle;
+    margin-top: .5em;
+
+    border-radius: 5px;
+    box-shadow: 2px 2px 7px 1px #aaa;
+}
+
+table {    
+    vertical-align: middle;
+    max-width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+    margin-top: 1em;
+    border: 2px solid #cbcbcb;
+    color: #413f3f;
+}
+
+table tbody tr:nth-child(odd) {
+    background-color: #f8f8f8;
+}
+
+table th {
+    font-weight: bold;
+    border: 1px solid #cbcbcb;
+    border-bottom: 2px solid #cbcbcb;
+    padding: .8em;
+    line-height: 1.3em;
+}
+
+table td {
+    border: 1px solid #cbcbcb;
+    padding: .8em;
+    line-height: 1.3em;
+}
+
+pre {
+    background: #2d2d2d;
+    margin: .5em 0;
+    padding: .5em 2%;
+    color: #ccc;
+    line-height: 1.5;
+    font-size: .8em;
+    -webkit-border-radius: .35em;
+    -webkit-border-radius: .35em;
+    border-radius: .35em;
+    word-wrap: break-word;
+    font-family: Monaco,Menlo,Consolas,Courier New,monospace;
+    overflow-x: auto;
+}
+
+
+pre::-webkit-scrollbar, pre::-webkit-scrollbar-track {
+    height: 8px;
+    background-color: transparent;
+}
+pre::-webkit-scrollbar-thumb {
+    height: 8px;
+    background-color: #ddd;
+    border-radius: 4px;
+}
+
+
+.hljs {
+  display: block;
+  overflow-x: auto;
+  padding: 0.5em;
+  color: #abb2bf;
+  background: #282c34;
+}
+
+.hljs-comment,
+.hljs-quote {
+  color: #5c6370;
+  font-style: italic;
+}
+
+.hljs-doctag,
+.hljs-keyword,
+.hljs-formula {
+  color: #c678dd;
+}
+
+.hljs-section,
+.hljs-name,
+.hljs-selector-tag,
+.hljs-deletion,
+.hljs-subst {
+  color: #e06c75;
+}
+
+.hljs-literal {
+  color: #56b6c2;
+}
+
+.hljs-string,
+.hljs-regexp,
+.hljs-addition,
+.hljs-attribute,
+.hljs-meta-string {
+  color: #98c379;
+}
+
+.hljs-built_in,
+.hljs-class .hljs-title {
+  color: #e6c07b;
+}
+
+.hljs-attr,
+.hljs-variable,
+.hljs-template-variable,
+.hljs-type,
+.hljs-selector-class,
+.hljs-selector-attr,
+.hljs-selector-pseudo,
+.hljs-number {
+  color: #d19a66;
+}
+
+.hljs-symbol,
+.hljs-bullet,
+.hljs-link,
+.hljs-meta,
+.hljs-selector-id,
+.hljs-title {
+  color: #61aeee;
+}
+
+.hljs-emphasis {
+  font-style: italic;
+}
+
+.hljs-strong {
+  font-weight: bold;
+}
+
+.hljs-link {
+  text-decoration: underline;
+}
+
+
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="article-content">
+        <h1 id="-">论如何进行小程序自定义组件的单元测试</h1>
+<h2 id="-">前言</h2>
+<p>自从小程序自定义组件和 npm 功能面世之后，组件化和开源思想逐步开始萌芽了。我们可以将一些通用的部件，如自定义导航栏之类的封装到一个自定义组件中，然后借由 npm 平台开源出去给其他开发者使用，这样可以省去很多劳动。相信各位开发老爷们应该或多或少都有过使用开源包的经历，但是在使用前，这个开源包得能赢取我们的信任，一个很重要的指标就是单元测试通过率和覆盖率。</p>
+<p>但是因为小程序独特的运行环境和不完全开源的基础款，使得对小程序自定义组件的单元测试稍微有点困难。目前市面上无论是 vue 还是 react，这些组件化框架都有一套完善的单元测试解决方案，但是对于小程序自定义组件来说却寥寥无几，因此这个工具集——<a href="https://github.com/JuneAndGreen">miniprogram-simulate</a>便应运而生了。</p>
+<h2 id="-">痛点</h2>
+<p>闲话不多说，我们先看下小程序的运行机制：</p>
+<p><p class="image-wrapper"><img src="../../images/小程序运行环境.jpg" alt="null" title="null"></p></p>
+<p>可以看出，小程序自定义组件是渲染与逻辑脱离，想在逻辑层拿到渲染的结果进而进行对比测试是很难办到的。而且目前小程序的环境并不开放，想要完整构造模拟出小程序的运行环境也不太科学。另外我们这边只是需要对小程序的自定义组件做单元测试，对于小程序中很多非自定义组件相关的功能可以不考虑，而且在性能上也不那么苛求，所以一个思路是调整底层运行机制，将双线程合并为一个线程，将 wxml、wxss 的解析器改成纯 js 实现。</p>
+<h2 id="-">实现</h2>
+<p>只是有思路还不够，在实现过程中还是有一些坎的。比如要如何比较好的模拟出小程序自定义组件的各种特性和功能呢？自己实现也不是不行，问题在于维护的成本，如果小程序自定义组件实现了一个功能，测试工具还得更新一下。另外如果在实现上略有差池的话，可能小程序端的一个小调整对于测试工具都可能是伤筋动骨式的改造。所以这里直接将小程序自定义组件的最核心模块—— exparser 从基础库中抽离出来。</p>
+<p>exparser 是自定义组件系统的内核，是一个完整独立的模块，不依赖于基础库中其他模块。它完全脱离于小程序的 api 和运行机制体系，所以无论是单线程还是双线程机制都可以使用。exparser 提供的是自定义组件系统最底层的接口，测试工具将其进行二次封装成自定义组件测试环境。如果基础库有关于自定义组件的更新，如果是底层改造，则直接更新 exparser 模块即可；如果只是外层改造，那基本上是暴露接口层面的调整，也不必作太多大范围的调整。</p>
+<blockquote>
+<p>PS：目前虽然 exparser 已经发布到 npm，但是仍然只是混淆压缩后到代码，属于半开源状态，不建议开发者直接使用。</p>
+</blockquote>
+<h2 id="-">使用</h2>
+<p><a href="https://github.com/wechat-miniprogram/miniprogram-simulate">miniprogram-simulate</a> 本是自定义组件脚手架 <a href="https://github.com/wechat-miniprogram/miniprogram-custom-component">https://github.com/wechat-miniprogram/miniprogram-custom-component</a> 中的一部分，现单独抽离出来，方便开发者们作更多的使用选择（脚手架中默认使用 jest 来搭配使用，直接使用此工具集则可以搭配其他想要使用的测试框架，比如 mocha 等）。</p>
+<p>下述只简单介绍下用法，首先安装此工具集：</p>
+<pre><code>npm install --<span class="hljs-built_in">save</span>-<span class="hljs-built_in">dev</span> miniprogram-simulate
+</code></pre><p>然后此工具集必须搭配其他测试框架和 jsdom 来使用，比如 jest。因为 jest 内置有 jsdom，所以也就不需要额外安装 jsdom 了，以下面一个自定义组件作为例子：</p>
+<pre><code class="lang-html"><span class="xml"><span class="hljs-comment">&lt;!-- 自定义组件：comp.wxml --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">view</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"index"</span>&gt;</span></span><span class="hljs-template-variable">{{prop}}</span><span class="xml"><span class="hljs-tag">&lt;/<span class="hljs-name">view</span>&gt;</span></span>
+</code></pre>
+<pre><code class="lang-css"><span class="hljs-comment">/* 自定义组件：comp.wxss */</span>
+<span class="hljs-selector-class">.index</span> {
+  <span class="hljs-attribute">color</span>: green;
+}
+</code></pre>
+<pre><code class="lang-js"><span class="hljs-comment">// 自定义组件 comp.js</span>
+<span class="hljs-selector-tag">Component</span>({
+  <span class="hljs-attribute">properties</span>: {
+    <span class="hljs-attribute">prop</span>: {
+      <span class="hljs-attribute">type</span>: String,
+      <span class="hljs-attribute">value</span>: <span class="hljs-string">'index.properties'</span>
+    },
+  },
+})
+</code></pre>
+<p>这是一个极其简单的自定义组件，然后我们在 comp.test.js 里这样编写测试用例：</p>
+<pre><code class="lang-js"><span class="hljs-comment">// 自定义组件 comp 的测试用例：comp.test.js</span>
+<span class="hljs-keyword">const</span> path = <span class="hljs-keyword">require</span>(<span class="hljs-string">'path'</span>)
+<span class="hljs-keyword">const</span> simulate = <span class="hljs-keyword">require</span>(<span class="hljs-string">'miniprogram-simulate'</span>)
+
+test(<span class="hljs-string">'comp1'</span>, () =&gt; {
+    <span class="hljs-keyword">const</span> id = simulate.load(path.join(__dirname, <span class="hljs-string">'./comp'</span>)) <span class="hljs-comment">// 此处必须传入绝对路径</span>
+    <span class="hljs-keyword">const</span> comp = simulate.render(id) <span class="hljs-comment">// 渲染成自定义组件树实例</span>
+
+    <span class="hljs-keyword">const</span> <span class="hljs-keyword">parent</span> = document.createElement(<span class="hljs-string">'parent-wrapper'</span>) <span class="hljs-comment">// 创建父亲节点</span>
+    comp.attach(<span class="hljs-keyword">parent</span>) <span class="hljs-comment">// attach 到父亲节点上，此时会触发自定义组件的 attached 钩子</span>
+
+    expect(comp.querySelector(<span class="hljs-string">'.index'</span>).dom.innerHTML).toBe(<span class="hljs-string">'index.properties'</span>) <span class="hljs-comment">// 测试渲染结果</span>
+})
+</code></pre>
+<p>使用方式很简单，本文只是个引子，更多详细的用法请移步到 <a href="https://github.com/wechat-miniprogram/miniprogram-simulate">github 仓库</a>上查阅。</p>
+<h2 id="-">尾声</h2>
+<p>要想判断一个自定义组件的质量如何，其中最简单的方法就是看单元测试的表现，想要别人使用你的自定义组件，质量把关很重要，目前 miniprogram-simulate 已经实现了最基本的功能，其他功能也在尽力施工中，有什么好的建议或者使用上遇到什么问题也可以提 <a href="https://github.com/wechat-miniprogram/miniprogram-simulate/issues">issue</a>。如果好评请 star 噢~</p>
+          
+    </div>
+</div>
+</body>
+</html>

@@ -486,7 +486,7 @@ alert(b); <span class="hljs-comment">// error</span>
 }
 </code></pre>
 <p>在函数add创建时，它的作用域链中会填入一个全局对象，该全局对象包含了所有全局变量。函数add的作用域将会在执行时用到。例如执行如下代码：</p>
-<pre><code class="lang-javascript">var total = add(<span class="hljs-number">5</span>, <span class="hljs-number">10</span>);
+<pre><code class="lang-javascript"><span class="hljs-keyword">var</span> total = <span class="hljs-keyword">add</span>(<span class="hljs-number">5</span>, <span class="hljs-number">10</span>);
 </code></pre>
 <p>执行此函数时会创建一个称为“运行期上下文”的内部对象，运行期上下文定义了函数执行时的环境。每个运行期上下文都有自己的作用域链，用于标识符解析，当运行期上下文被创建时，而它的作用域链初始化为当前运行函数的[[Scope]]所包含的对象。</p>
 <p>这些值按照它们出现在函数中的顺序被复制到运行期上下文的作用域链中。它们共同组成了一个新的对象，叫“活动对象”，该对象包含了函数的所有局部变量、命名参数、参数集合以及this，然后此对象会被推入作用域链的前端，当运行期上下文被销毁，活动对象也随之销毁。</p>
@@ -581,24 +581,23 @@ onsubmit <span class="hljs-string">| 表单被提交时触发</span>
 </code></pre><h3 id="-">事件调度（事件循环）</h3>
 <h3 id="-">事件监听</h3>
 <pre><code class="lang-javascript"><span class="hljs-comment">/* 添加事件监听 */</span>
-var eventName = 'click';
-var callback = <span class="hljs-keyword">function</span><span class="hljs-literal">()</span> {};
+<span class="hljs-keyword">var</span> eventName = <span class="hljs-string">'click'</span>;
+<span class="hljs-keyword">var</span> callback = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{};
 
-<span class="hljs-keyword">if</span>(window.addEventListener) {
-    window.add<span class="hljs-constructor">EventListener(<span class="hljs-params">eventName</span>, <span class="hljs-params">callback</span>)</span>;
+<span class="hljs-keyword">if</span>(<span class="hljs-built_in">window</span>.addEventListener) {
+    <span class="hljs-built_in">window</span>.addEventListener(eventName, callback);
 } <span class="hljs-keyword">else</span> {
     <span class="hljs-comment">// IE8以下</span>
-    window.attach<span class="hljs-constructor">Event('<span class="hljs-params">on</span>' + <span class="hljs-params">eventName</span>, <span class="hljs-params">callback</span>)</span>;
+    <span class="hljs-built_in">window</span>.attachEvent(<span class="hljs-string">'on'</span> + eventName, callback);
 }
 
 <span class="hljs-comment">/* 删除事件监听 */</span>
-<span class="hljs-keyword">if</span>(window.removeEventListener) {
-    window.remove<span class="hljs-constructor">EventListener(<span class="hljs-params">eventName</span>, <span class="hljs-params">callback</span>)</span>;
+<span class="hljs-keyword">if</span>(<span class="hljs-built_in">window</span>.removeEventListener) {
+    <span class="hljs-built_in">window</span>.removeEventListener(eventName, callback);
 } <span class="hljs-keyword">else</span> {
     <span class="hljs-comment">// IE8以下</span>
-    window.detach<span class="hljs-constructor">Event('<span class="hljs-params">on</span>' + <span class="hljs-params">eventName</span>, <span class="hljs-params">callback</span>)</span>;
+    <span class="hljs-built_in">window</span>.detachEvent(<span class="hljs-string">'on'</span> + eventName, callback);
 }
-
 </code></pre>
 <p>其中标准的addEventListener是允许第三个参数userCapture，表示事件进行的阶段，true为捕获阶段，false为冒泡阶段，默认为false。</p>
 <h3 id="-">监听回调事件对象信息</h3>
@@ -629,19 +628,19 @@ var callback = <span class="hljs-keyword">function</span><span class="hljs-liter
 <h3 id="-">自定义事件</h3>
 <p>先存储事件句柄，待触发事件时遍历事件句柄并逐个调用。</p>
 <pre><code class="lang-javascript"><span class="hljs-comment">// 创建事件</span>
-var evt = <span class="hljs-keyword">new</span> <span class="hljs-constructor">Event('<span class="hljs-params">xxx</span>')</span>;
+<span class="hljs-keyword">var</span> evt = <span class="hljs-keyword">new</span> Event(<span class="hljs-string">'xxx'</span>);
 <span class="hljs-comment">// 创建携带更多信息的事件</span>
-var evt = <span class="hljs-keyword">new</span> <span class="hljs-constructor">CustomEvent('<span class="hljs-params">xxx</span>', {'<span class="hljs-params">aa</span>': 1})</span>;
+<span class="hljs-keyword">var</span> evt = <span class="hljs-keyword">new</span> CustomEvent(<span class="hljs-string">'xxx'</span>, {<span class="hljs-string">'aa'</span>: <span class="hljs-number">1</span>});
 <span class="hljs-comment">// 过时的创建事件方法</span>
-var evt = document.create<span class="hljs-constructor">Event('Event')</span>;
-evt.init<span class="hljs-constructor">Event('<span class="hljs-params">xxx</span>', <span class="hljs-params">true</span>, <span class="hljs-params">true</span>)</span>;
+<span class="hljs-keyword">var</span> evt = <span class="hljs-built_in">document</span>.createEvent(<span class="hljs-string">'Event'</span>);
+evt.initEvent(<span class="hljs-string">'xxx'</span>, <span class="hljs-keyword">true</span>, <span class="hljs-keyword">true</span>);
 <span class="hljs-comment">// IE8以下创建事件</span>
-var evt = document.create<span class="hljs-constructor">EventObject()</span>;
+<span class="hljs-keyword">var</span> evt = <span class="hljs-built_in">document</span>.createEventObject();
 
 <span class="hljs-comment">// 触发事件</span>
-elem.dispatch<span class="hljs-constructor">Event(<span class="hljs-params">evt</span>)</span>;
+elem.dispatchEvent(evt);
 <span class="hljs-comment">// IE8以下触发事件</span>
-elem.fire<span class="hljs-constructor">Event('<span class="hljs-params">onxxx</span>', <span class="hljs-params">evt</span>)</span>;
+elem.fireEvent(<span class="hljs-string">'onxxx'</span>, evt);
 
 <span class="hljs-comment">// 事件监听，和其他事件监听方式一样</span>
 </code></pre>
@@ -696,41 +695,41 @@ element.classList.toggle(<span class="hljs-string">'xxx'</span>); <span class="h
 <h3 id="-">响应式网站布局</h3>
 <p>使用媒体查询实现，可以多端共用一套页面，不过需要多端页面结构必须一致，对于移动端可能需要冗余一些请求。</p>
 <h2 id="cookie-">Cookie操作</h2>
-<pre><code class="lang-javascript">// 取Cookies
-<span class="hljs-keyword">function</span> getCookie(<span class="hljs-type">name</span>) {
-    var <span class="hljs-keyword">value</span> = document.cookie.match(<span class="hljs-built_in">new</span> RegExp(<span class="hljs-string">'(^| )'</span> + <span class="hljs-type">name</span> + <span class="hljs-string">'=([^;]*)(;|$)'</span>));
-    <span class="hljs-keyword">if</span>(<span class="hljs-keyword">value</span> != <span class="hljs-keyword">null</span>) <span class="hljs-keyword">return</span> unescape(<span class="hljs-keyword">value</span>[<span class="hljs-number">2</span>]); // unescape函数进行解码
+<pre><code class="lang-javascript"><span class="hljs-comment">// 取Cookies</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getCookie</span>(<span class="hljs-params">name</span>) </span>{
+    <span class="hljs-keyword">var</span> value = <span class="hljs-built_in">document</span>.cookie.match(<span class="hljs-keyword">new</span> <span class="hljs-built_in">RegExp</span>(<span class="hljs-string">'(^| )'</span> + name + <span class="hljs-string">'=([^;]*)(;|$)'</span>));
+    <span class="hljs-keyword">if</span>(value != <span class="hljs-literal">null</span>) <span class="hljs-keyword">return</span> <span class="hljs-built_in">unescape</span>(value[<span class="hljs-number">2</span>]); <span class="hljs-comment">// unescape函数进行解码</span>
 
-    <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;
+    <span class="hljs-keyword">return</span> <span class="hljs-literal">null</span>;
 }
 
-// 存Cookies
-<span class="hljs-keyword">function</span> setCookie(<span class="hljs-type">name</span>, <span class="hljs-keyword">value</span>, <span class="hljs-type">date</span>, <span class="hljs-keyword">domain</span>, <span class="hljs-type">path</span>) { // <span class="hljs-type">date</span>为过期时间对象
-    var arr = [];
+<span class="hljs-comment">// 存Cookies</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">setCookie</span>(<span class="hljs-params">name, value, date, domain, path</span>) </span>{ <span class="hljs-comment">// date为过期时间对象</span>
+    <span class="hljs-keyword">var</span> arr = [];
 
-    arr.push(<span class="hljs-type">name</span> + <span class="hljs-string">'='</span> + <span class="hljs-keyword">escape</span>(<span class="hljs-keyword">value</span>));
-    <span class="hljs-keyword">if</span>(<span class="hljs-keyword">domain</span>) arr.push(<span class="hljs-string">'domain='</span> + <span class="hljs-keyword">escape</span>(<span class="hljs-keyword">domain</span>));
-    <span class="hljs-keyword">if</span>(<span class="hljs-type">path</span>) arr.push(<span class="hljs-string">'path='</span> + <span class="hljs-keyword">escape</span>(<span class="hljs-type">path</span>));
-    arr.push(<span class="hljs-string">'expires='</span> + <span class="hljs-type">date</span>.toGMTString());
+    arr.push(name + <span class="hljs-string">'='</span> + <span class="hljs-built_in">escape</span>(value));
+    <span class="hljs-keyword">if</span>(domain) arr.push(<span class="hljs-string">'domain='</span> + <span class="hljs-built_in">escape</span>(domain));
+    <span class="hljs-keyword">if</span>(path) arr.push(<span class="hljs-string">'path='</span> + <span class="hljs-built_in">escape</span>(path));
+    arr.push(<span class="hljs-string">'expires='</span> + <span class="hljs-built_in">date</span>.toGMTString());
 
-  document.cookie = arr.<span class="hljs-keyword">join</span>(<span class="hljs-string">';'</span>);
+  <span class="hljs-built_in">document</span>.cookie = arr.join(<span class="hljs-string">';'</span>);
 }
 
-// 删Cookies
-<span class="hljs-keyword">function</span> delCookie(<span class="hljs-type">name</span>, <span class="hljs-keyword">domain</span>, <span class="hljs-type">path</span>) {
-    var dateLine = <span class="hljs-built_in">new</span> <span class="hljs-type">Date</span>();
-    dateLine.setDate(dateLine.getDate() - <span class="hljs-number">1</span>); // 设置过期日期为已过去的时间
+<span class="hljs-comment">// 删Cookies</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">delCookie</span>(<span class="hljs-params">name, domain, path</span>) </span>{
+    <span class="hljs-keyword">var</span> dateLine = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>();
+    dateLine.setDate(dateLine.getDate() - <span class="hljs-number">1</span>); <span class="hljs-comment">// 设置过期日期为已过去的时间</span>
 
-    var dvalue = getCookie(<span class="hljs-type">name</span>);
-    <span class="hljs-keyword">if</span>(dvalue != <span class="hljs-keyword">null</span>) {
-        var arr = [];
+    <span class="hljs-keyword">var</span> dvalue = getCookie(name);
+    <span class="hljs-keyword">if</span>(dvalue != <span class="hljs-literal">null</span>) {
+        <span class="hljs-keyword">var</span> arr = [];
 
-        arr.push(<span class="hljs-type">name</span> + <span class="hljs-string">'='</span> + <span class="hljs-keyword">escape</span>(dvalue));
-        <span class="hljs-keyword">if</span>(<span class="hljs-keyword">domain</span>) arr.push(<span class="hljs-string">'domain='</span> + <span class="hljs-keyword">escape</span>(<span class="hljs-keyword">domain</span>));
-        <span class="hljs-keyword">if</span>(<span class="hljs-type">path</span>) arr.push(<span class="hljs-string">'path='</span> + <span class="hljs-keyword">escape</span>(<span class="hljs-type">path</span>));
+        arr.push(name + <span class="hljs-string">'='</span> + <span class="hljs-built_in">escape</span>(dvalue));
+        <span class="hljs-keyword">if</span>(domain) arr.push(<span class="hljs-string">'domain='</span> + <span class="hljs-built_in">escape</span>(domain));
+        <span class="hljs-keyword">if</span>(path) arr.push(<span class="hljs-string">'path='</span> + <span class="hljs-built_in">escape</span>(path));
         arr.push(<span class="hljs-string">'expires='</span> + dateLine.toGMTString());
 
-        document.cookie = arr.<span class="hljs-keyword">join</span>(<span class="hljs-string">';'</span>);
+        <span class="hljs-built_in">document</span>.cookie = arr.join(<span class="hljs-string">';'</span>);
     }
 }
 </code></pre>
@@ -764,12 +763,12 @@ reg.exec(<span class="hljs-string">'abdcbddtbdddg'</span>); <span class="hljs-re
 </code></pre>
 <h3 id="replace">replace</h3>
 <p>字符串方法，用于替换字符串的某些内容。</p>
-<pre><code class="lang-javascript">var reg = /(\w+)\s(\w+)/ig;
-<span class="hljs-string">'aa bb'</span>.replace(reg, <span class="hljs-string">'$2 $1'</span>); // 返回<span class="hljs-string">'bb aa'</span>
-<span class="hljs-string">'aa bb'</span>.replace(reg, <span class="hljs-keyword">function</span>(<span class="hljs-keyword">all</span>, <span class="hljs-meta">$1</span>, <span class="hljs-meta">$2</span>) {
-    // <span class="hljs-keyword">all</span>表示整个串，<span class="hljs-meta">$1</span>表示第一个捕获，<span class="hljs-meta">$2</span>表示第二个捕获
-    // 返回<span class="hljs-string">'bb aa'</span>
-    <span class="hljs-keyword">return</span> <span class="hljs-meta">$2</span> + <span class="hljs-string">' '</span> + <span class="hljs-meta">$1</span>;
+<pre><code class="lang-javascript">var reg = <span class="hljs-regexp">/(\w+)\s(\w+)/ig</span>;
+<span class="hljs-string">'aa bb'</span>.replace(reg, <span class="hljs-string">'$2 $1'</span>); <span class="hljs-regexp">//</span> 返回<span class="hljs-string">'bb aa'</span>
+<span class="hljs-string">'aa bb'</span>.replace(reg, <span class="hljs-keyword">function</span>(all, <span class="hljs-variable">$1</span>, <span class="hljs-variable">$2</span>) {
+    <span class="hljs-regexp">//</span> all表示整个串，<span class="hljs-variable">$1</span>表示第一个捕获，<span class="hljs-variable">$2</span>表示第二个捕获
+    <span class="hljs-regexp">//</span> 返回<span class="hljs-string">'bb aa'</span>
+    return <span class="hljs-variable">$2</span> + <span class="hljs-string">' '</span> + <span class="hljs-variable">$1</span>;
 });
 </code></pre>
 <h2 id="-">垃圾回收</h2>
@@ -861,10 +860,10 @@ getAllResponseHeaders()      <span class="hljs-string">| 以键值对形式返�
 PS：window.name可以在同一个窗口内一直保存，所以在iframe中修改了window.name，然后将iframe的src改成同域的，父亲就可以通过iframe.contentWindow.name获取。</p>
 <h3 id="-">文件上传</h3>
 <h4 id="-">传统方式</h4>
-<pre><code class="lang-html">&lt;form action="xxx.do" <span class="hljs-keyword">method</span>="post" enctype="multipart/form-data" &gt;
-    &lt;<span class="hljs-keyword">input</span> <span class="hljs-keyword">type</span>="file" id="yyy" <span class="hljs-type">name</span>="yyy"&gt;
-    &lt;<span class="hljs-keyword">input</span> <span class="hljs-keyword">type</span>="submit" <span class="hljs-keyword">value</span>="上传"&gt;
-&lt;/form&gt;
+<pre><code class="lang-html">&lt;<span class="hljs-keyword">form</span> action=<span class="hljs-string">"xxx.do"</span> method=<span class="hljs-string">"post"</span> enctype=<span class="hljs-string">"multipart/form-data"</span> &gt;
+    &lt;<span class="hljs-keyword">input</span> <span class="hljs-keyword">type</span>=<span class="hljs-string">"file"</span> id=<span class="hljs-string">"yyy"</span> name=<span class="hljs-string">"yyy"</span>&gt;
+    &lt;<span class="hljs-keyword">input</span> <span class="hljs-keyword">type</span>=<span class="hljs-string">"submit"</span> value=<span class="hljs-string">"上传"</span>&gt;
+&lt;/<span class="hljs-keyword">form</span>&gt;
 </code></pre>
 <p>以上方式是同步提交，如过想要实现异步提交的话，可用iframe来做。</p>
 <h4 id="html5">HTML5</h4>
@@ -951,7 +950,7 @@ websocket.send(data); <span class="hljs-comment">// data可以为字符串、Blo
 PS：不是所有的浏览器都支持HTML5，所以在资源元素的下面，可以提供一个下载链接或者嵌入视频的flash版本替代，这取决于个人。</p>
 <h3 id="-">桌面提醒</h3>
 <h4 id="-">申请权限</h4>
-<pre><code class="lang-javascript"><span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Notification</span>.</span></span>request<span class="hljs-constructor">Permission(<span class="hljs-params">function</span>(<span class="hljs-params">status</span>)</span> {
+<pre><code class="lang-javascript">Notification.requestPermission(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(status)</span> </span>{
     <span class="hljs-comment">// 此接口用于向浏览器用户申请通知权限，申请方式为弹框申请</span>
     <span class="hljs-comment">// 其中status为granted为用户同意，denied为用户拒绝，default为用户没有做任何许可，因此也不会弹出通知</span>
 });
@@ -1003,26 +1002,26 @@ navigator.geolocation.clearWatch(id); <span class="hljs-comment">// 停止观测
 </code></pre>
 <h3 id="-">文件系统</h3>
 <p>fileReader对象提供了读取用户计算机上文件内容的接口。可使用的对象包括File对象、Blob对象、input元素的filelist或者拖放操作中的dataTransfer等。</p>
-<pre><code class="lang-javascript">var fr = <span class="hljs-keyword">new</span> <span class="hljs-constructor">FileReader()</span>;
+<pre><code class="lang-javascript"><span class="hljs-keyword">var</span> fr = <span class="hljs-function"><span class="hljs-keyword">new</span> <span class="hljs-title">FileReader</span>();
 
-<span class="hljs-comment">/* 方法 */</span>
-fr.abort<span class="hljs-literal">()</span>; <span class="hljs-comment">// 中断读取</span>
-fr.read<span class="hljs-constructor">AsArrayBuffer(<span class="hljs-params">file</span>)</span>; <span class="hljs-comment">// 读取为ArrayBuffer</span>
-fr.read<span class="hljs-constructor">AsBinaryString(<span class="hljs-params">file</span>)</span>; <span class="hljs-comment">// 读取为二进制字符串</span>
-fr.read<span class="hljs-constructor">AsDataURL(<span class="hljs-params">file</span>)</span>; <span class="hljs-comment">// 读取为如data:URL格式的base64字符串</span>
-fr.read<span class="hljs-constructor">AsText(<span class="hljs-params">file</span>)</span>; <span class="hljs-comment">// 读取为纯文本</span>
+/* 方法 */
+<span class="hljs-title">fr</span>.<span class="hljs-title">abort</span>(); <span class="hljs-comment">// 中断读取</span>
+<span class="hljs-title">fr</span>.<span class="hljs-title">readAsArrayBuffer</span>(file); <span class="hljs-comment">// 读取为ArrayBuffer</span>
+<span class="hljs-title">fr</span>.<span class="hljs-title">readAsBinaryString</span>(file); <span class="hljs-comment">// 读取为二进制字符串</span>
+<span class="hljs-title">fr</span>.<span class="hljs-title">readAsDataURL</span>(file); <span class="hljs-comment">// 读取为如data:URL格式的base64字符串</span>
+<span class="hljs-title">fr</span>.<span class="hljs-title">readAsText</span>(file); <span class="hljs-comment">// 读取为纯文本</span>
 
-<span class="hljs-comment">/* 事件 */</span>
-fr.onload = <span class="hljs-keyword">function</span><span class="hljs-literal">()</span> {
+/* 事件 */
+<span class="hljs-title">fr</span>.<span class="hljs-title">onload</span> = <span class="hljs-title">function</span>() {
     <span class="hljs-comment">// 当读取操作成功完成时调用</span>
     <span class="hljs-comment">// fr.result - 读取到的结果</span>
 };
 
-fr.onabort <span class="hljs-comment">// 当读取操作被中止时调用</span>
-fr.onerror <span class="hljs-comment">// 当读取操作发生错误时调用</span>
-fr.onloadend <span class="hljs-comment">// 当读取操作完成时调用,不管是成功还是失败.该处理程序在onload或者onerror之后调用</span>
-fr.onloadstart <span class="hljs-comment">// 当读取操作将要开始之前调用</span>
-fr.onprogress <span class="hljs-comment">// 在读取数据过程中周期性调用</span>
+<span class="hljs-title">fr</span>.<span class="hljs-title">onabort</span> <span class="hljs-comment">// 当读取操作被中止时调用</span>
+<span class="hljs-title">fr</span>.<span class="hljs-title">onerror</span> <span class="hljs-comment">// 当读取操作发生错误时调用</span>
+<span class="hljs-title">fr</span>.<span class="hljs-title">onloadend</span> <span class="hljs-comment">// 当读取操作完成时调用,不管是成功还是失败.该处理程序在onload或者onerror之后调用</span>
+<span class="hljs-title">fr</span>.<span class="hljs-title">onloadstart</span> <span class="hljs-comment">// 当读取操作将要开始之前调用</span>
+<span class="hljs-title">fr</span>.<span class="hljs-title">onprogress</span> <span class="hljs-comment">// 在读取数据过程中周期性调用</span></span>
 </code></pre>
 <h3 id="-">客户端数据库</h3>
 <p>webSql已被弃用，推荐使用indexedDB.</p>
@@ -1033,29 +1032,29 @@ fr.onprogress <span class="hljs-comment">// 在读取数据过程中周期性调
 </ul>
 <p>低版本IE下有一个userData对象实现了类似的接口。</p>
 <p>用法：</p>
-<pre><code>localStorage.set<span class="hljs-constructor">Item('<span class="hljs-params">xxx</span>', '<span class="hljs-params">xxx</span>')</span>;
-var xxx = localStorage.get<span class="hljs-constructor">Item('<span class="hljs-params">xxx</span>')</span>;
-localStorage.remove<span class="hljs-constructor">Item('<span class="hljs-params">xxx</span>')</span>;
-localStorage.clear<span class="hljs-literal">()</span>;
+<pre><code>localStorage.setItem(<span class="hljs-string">'xxx'</span>, <span class="hljs-string">'xxx'</span>);
+<span class="hljs-keyword">var</span> xxx = localStorage.getItem(<span class="hljs-string">'xxx'</span>);
+localStorage.removeItem(<span class="hljs-string">'xxx'</span>);
+localStorage.clear();
 </code></pre><h3 id="-">离线应用缓存</h3>
 <p>使用manifest文件：</p>
 <pre><code class="lang-html">&lt;<span class="hljs-selector-tag">html</span> manifest = <span class="hljs-string">"XX.manifest"</span>&gt;
 </code></pre>
-<pre><code><span class="hljs-meta">#xx.manifest内容如下</span>
+<pre><code><span class="hljs-meta">#</span><span class="bash">xx.manifest内容如下</span>
 CACHE MANIFEST
-<span class="hljs-meta"># 在此标题下列出的文件将在首次下载后进行缓存</span>
-<span class="hljs-meta"># 2016-03-18 v1.0.0</span>
+<span class="hljs-meta">#</span><span class="bash"> 在此标题下列出的文件将在首次下载后进行缓存</span>
+<span class="hljs-meta">#</span><span class="bash"> 2016-03-18 v1.0.0</span>
 /theme.css
 /logo.gif
 /main.js
 
 NETWORK:
-<span class="hljs-meta"># 在此标题下列出的文件需要与服务器的连接，且不会被缓存</span>
+<span class="hljs-meta">#</span><span class="bash"> 在此标题下列出的文件需要与服务器的连接，且不会被缓存</span>
 login.asp
 
 FALLBACK:
-<span class="hljs-meta"># 在此标题下列出的文件规定当页面无法访问时的回退页面（比如 404 页面）</span>
-/<span class="hljs-number">404.</span>html
+<span class="hljs-meta">#</span><span class="bash"> 在此标题下列出的文件规定当页面无法访问时的回退页面（比如 404 页面）</span>
+/404.html
 </code></pre><p>特点：</p>
 <ul>
 <li>manifest有变化才更新，所以文件有变化要修改manifest文件（如修改manifest文件中的时间版本信息）。</li>
@@ -1064,15 +1063,15 @@ FALLBACK:
 </ul>
 <h3 id="-">历史记录管理</h3>
 <p>window.history对象是浏览器提供的一个用于操纵历史记录的接口。</p>
-<pre><code class="lang-javascript">history.forward<span class="hljs-literal">()</span>; <span class="hljs-comment">// 相当于历史记录中的前进</span>
-history.back<span class="hljs-literal">()</span>; <span class="hljs-comment">// 相当于历史记录中的后退</span>
-history.go<span class="hljs-number">(-2)</span>; <span class="hljs-comment">// 相当与历史记录中的后退两次</span>
+<pre><code class="lang-javascript">history.forward(); <span class="hljs-comment">// 相当于历史记录中的前进</span>
+history.back(); <span class="hljs-comment">// 相当于历史记录中的后退</span>
+history.go(<span class="hljs-number">-2</span>); <span class="hljs-comment">// 相当与历史记录中的后退两次</span>
 history.length; <span class="hljs-comment">// 历史记录栈中有多少条记录</span>
 
 <span class="hljs-comment">/* html5中添加 */</span>
-history.push<span class="hljs-constructor">State(<span class="hljs-params">stateObj</span>, <span class="hljs-params">title</span>, <span class="hljs-params">url</span>)</span>; <span class="hljs-comment">// 添加历史记录，常用于单页系统中</span>
-history.replace<span class="hljs-constructor">State(<span class="hljs-params">stateObj</span>, <span class="hljs-params">title</span>, <span class="hljs-params">url</span>)</span>; <span class="hljs-comment">// 替换历史记录，常用于无刷新修改url</span>
-window.onpopstate = <span class="hljs-keyword">function</span><span class="hljs-literal">()</span> {}; <span class="hljs-comment">// 历史记录变化时触发的事件</span>
+history.pushState(stateObj, title, <span class="hljs-built_in">url</span>); <span class="hljs-comment">// 添加历史记录，常用于单页系统中</span>
+history.replaceState(stateObj, title, <span class="hljs-built_in">url</span>); <span class="hljs-comment">// 替换历史记录，常用于无刷新修改url</span>
+<span class="hljs-built_in">window</span>.onpopstate = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{}; <span class="hljs-comment">// 历史记录变化时触发的事件</span>
 </code></pre>
 <h3 id="-">拖拽</h3>
 <h4 id="drop-drag">drop和drag</h4>
@@ -1087,7 +1086,7 @@ dragleave：当拖拽中的鼠标离开元素时触发。监听器需要将作�
 
 drag：这个事件在拖拽源触发。即在拖拽操作中触发dragstart事件的元素。
 
-<span class="hljs-keyword">drop</span>：这个事件在拖拽操作结束释放时于释放元素上触发。一个监听器用来响应接收被拖拽的数据并插入到释放之地。这个事件只有在需要时才触发。当用户取消了拖拽操作时将不触发，例如按下了<span class="hljs-keyword">Escape</span>（ESC）按键，或鼠标在非可释放目标上释放了按键。
+<span class="hljs-built_in">drop</span>：这个事件在拖拽操作结束释放时于释放元素上触发。一个监听器用来响应接收被拖拽的数据并插入到释放之地。这个事件只有在需要时才触发。当用户取消了拖拽操作时将不触发，例如按下了Escape（ESC）按键，或鼠标在非可释放目标上释放了按键。
 
 dragend：拖拽源在拖拽操作结束将得到dragend事件对象，不管操作成功与否。
 </code></pre><p>与事件相关的数据均存放到event.dataTransfer中，通过调用相关的API完成数据操作。</p>
@@ -1147,105 +1146,105 @@ dragend：拖拽源在拖拽操作结束将得到dragend事件对象，不管操
 <span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span>
 </code></pre>
 <h3 id="-api">性能相关API</h3>
-<pre><code class="lang-javascript">var timing = <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Performance</span>.</span></span>timing; <span class="hljs-comment">// 只读，是一个PerformanceTiming对象，包含了页面加载时间相关的性能信息。</span>
-var navinfo = <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Performance</span>.</span></span>navigation; <span class="hljs-comment">// 只读，是一个PerformanceNavigation对象，代表了页面浏览上下文的导航信息，比如大量获取资源的重定向。</span>
+<pre><code class="lang-javascript"><span class="hljs-keyword">var</span> timing = Performance.timing; <span class="hljs-comment">// 只读，是一个PerformanceTiming对象，包含了页面加载时间相关的性能信息。</span>
+<span class="hljs-keyword">var</span> navinfo = Performance.navigation; <span class="hljs-comment">// 只读，是一个PerformanceNavigation对象，代表了页面浏览上下文的导航信息，比如大量获取资源的重定向。</span>
 
-<span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Performance</span>.</span></span>now<span class="hljs-literal">()</span>; <span class="hljs-comment">// 返回一个 DOMHighResTimeStamp 类实例表示距离页面开始请求到现在相差的毫秒数（即 Date.now() - Performance.timing.navigationStart ）。</span>
+Performance.now(); <span class="hljs-comment">// 返回一个 DOMHighResTimeStamp 类实例表示距离页面开始请求到现在相差的毫秒数（即 Date.now() - Performance.timing.navigationStart ）。</span>
 </code></pre>
 <h3 id="canvas">Canvas</h3>
 <p>画布相关，允许我们在页面上绘制图形。画布的坐标已画布左上角为起始点，以像素为单位计算。</p>
 <pre><code class="lang-html">&lt;canvas <span class="hljs-attribute">id</span>=<span class="hljs-string">"canvas"</span> <span class="hljs-attribute">width</span>=<span class="hljs-string">"800"</span> <span class="hljs-attribute">height</span>=<span class="hljs-string">"800"</span>&gt;这里会显示当不支持canvas时的文字&lt;/canvas&gt;
 </code></pre>
 <p>ps: width和height最好在此处指明。</p>
-<pre><code class="lang-javascript">var ctx = canvas.get<span class="hljs-constructor">Context('2d')</span>; <span class="hljs-comment">// 获取画布上下文</span>
+<pre><code class="lang-javascript">var ctx = canvas.getContext(<span class="hljs-string">'2d'</span>); <span class="hljs-comment">// 获取画布上下文</span>
 
 <span class="hljs-comment">/* 绘制矩形 */</span>
-ctx.fill<span class="hljs-constructor">Rect(<span class="hljs-params">x</span>, <span class="hljs-params">y</span>, <span class="hljs-params">width</span>, <span class="hljs-params">height</span>)</span>; <span class="hljs-comment">// 绘制一个填充的矩形</span>
-ctx.stroke<span class="hljs-constructor">Rect(<span class="hljs-params">x</span>, <span class="hljs-params">y</span>, <span class="hljs-params">width</span>, <span class="hljs-params">height</span>)</span>; <span class="hljs-comment">// 绘制一个矩形的边框</span>
-ctx.clear<span class="hljs-constructor">Rect(<span class="hljs-params">x</span>, <span class="hljs-params">y</span>, <span class="hljs-params">width</span>, <span class="hljs-params">height</span>)</span>; <span class="hljs-comment">// 清除指定矩形区域，让清除部分完全透明。</span>
-ctx.rect(x, y, width, height); <span class="hljs-comment">// 绘制一个左上角坐标为（x,y），宽高为width以及height的矩形到当前路径中。当该方法执行的时候，moveTo()方法自动设置坐标参数（0,0）。也就是说，当前笔触自动重置会默认坐标。</span>
+ctx.fillRect(x, y, <span class="hljs-built_in">width</span>, <span class="hljs-built_in">height</span>); <span class="hljs-comment">// 绘制一个填充的矩形</span>
+ctx.strokeRect(x, y, <span class="hljs-built_in">width</span>, <span class="hljs-built_in">height</span>); <span class="hljs-comment">// 绘制一个矩形的边框</span>
+ctx.clearRect(x, y, <span class="hljs-built_in">width</span>, <span class="hljs-built_in">height</span>); <span class="hljs-comment">// 清除指定矩形区域，让清除部分完全透明。</span>
+ctx.<span class="hljs-built_in">rect</span>(x, y, <span class="hljs-built_in">width</span>, <span class="hljs-built_in">height</span>); <span class="hljs-comment">// 绘制一个左上角坐标为（x,y），宽高为width以及height的矩形到当前路径中。当该方法执行的时候，moveTo()方法自动设置坐标参数（0,0）。也就是说，当前笔触自动重置会默认坐标。</span>
 
 <span class="hljs-comment">/* 绘制填充直线图形 */</span>
-ctx.<span class="hljs-keyword">begin</span><span class="hljs-constructor">Path()</span>; <span class="hljs-comment">// 开始路径</span>
-ctx.move<span class="hljs-constructor">To(<span class="hljs-params">x</span>, <span class="hljs-params">y</span>)</span>; <span class="hljs-comment">// 移动</span>
-ctx.line<span class="hljs-constructor">To(<span class="hljs-params">x1</span>, <span class="hljs-params">y1</span>)</span>; <span class="hljs-comment">// 画线</span>
-ctx.line<span class="hljs-constructor">To(<span class="hljs-params">x2</span>, <span class="hljs-params">y2</span>)</span>;
-ctx.fill<span class="hljs-literal">()</span>; <span class="hljs-comment">// 填充封闭图形,所有没有闭合的形状都会自动闭合</span>
+ctx.beginPath(); <span class="hljs-comment">// 开始路径</span>
+ctx.moveTo(x, y); <span class="hljs-comment">// 移动</span>
+ctx.lineTo(x1, y1); <span class="hljs-comment">// 画线</span>
+ctx.lineTo(x2, y2);
+ctx.<span class="hljs-built_in">fill</span>(); <span class="hljs-comment">// 填充封闭图形,所有没有闭合的形状都会自动闭合</span>
 
 <span class="hljs-comment">/* 绘制非填充直线图形 */</span>
-ctx.<span class="hljs-keyword">begin</span><span class="hljs-constructor">Path()</span>;
-ctx.move<span class="hljs-constructor">To(<span class="hljs-params">x</span>, <span class="hljs-params">y</span>)</span>;
-ctx.line<span class="hljs-constructor">To(<span class="hljs-params">x1</span>, <span class="hljs-params">y1</span>)</span>;
-ctx.line<span class="hljs-constructor">To(<span class="hljs-params">x2</span>, <span class="hljs-params">y2</span>)</span>;
-ctx.close<span class="hljs-constructor">Path()</span>; <span class="hljs-comment">// 闭合路径，会把结束点和开始点连接上</span>
-ctx.stroke<span class="hljs-literal">()</span>; <span class="hljs-comment">// 描线</span>
+ctx.beginPath();
+ctx.moveTo(x, y);
+ctx.lineTo(x1, y1);
+ctx.lineTo(x2, y2);
+ctx.closePath(); <span class="hljs-comment">// 闭合路径，会把结束点和开始点连接上</span>
+ctx.<span class="hljs-built_in">stroke</span>(); <span class="hljs-comment">// 描线</span>
 
 <span class="hljs-comment">/* 绘制圆弧 */</span>
-ctx.arc(x, y, radius, startAngle, endAngle, anticlockwise); <span class="hljs-comment">// 画一个以（x,y）为圆心的以radius为半径的圆弧（圆），从startAngle开始到endAngle结束，按照anticlockwise给定的方向（默认为顺时针，即值为true）来生成。注意此处的angle不是角度而是弧度，一个圆的弧度是2*Math.PI</span>
-ctx.arc<span class="hljs-constructor">To(<span class="hljs-params">x1</span>, <span class="hljs-params">y1</span>, <span class="hljs-params">x2</span>, <span class="hljs-params">y2</span>, <span class="hljs-params">radius</span>)</span>; <span class="hljs-comment">// 根据给定的控制点和半径画一段圆弧，再以直线连接两个控制点。</span>
+ctx.<span class="hljs-built_in">arc</span>(x, y, radius, startAngle, endAngle, anticlockwise); <span class="hljs-comment">// 画一个以（x,y）为圆心的以radius为半径的圆弧（圆），从startAngle开始到endAngle结束，按照anticlockwise给定的方向（默认为顺时针，即值为true）来生成。注意此处的angle不是角度而是弧度，一个圆的弧度是2*Math.PI</span>
+ctx.arcTo(x1, y1, x2, y2, radius); <span class="hljs-comment">// 根据给定的控制点和半径画一段圆弧，再以直线连接两个控制点。</span>
 
 <span class="hljs-comment">/* 绘制贝塞尔曲线 */</span>
-ctx.quadratic<span class="hljs-constructor">CurveTo(<span class="hljs-params">cp1x</span>, <span class="hljs-params">cp1y</span>, <span class="hljs-params">x</span>, <span class="hljs-params">y</span>)</span>; <span class="hljs-comment">// 绘制二次贝塞尔曲线，x,y为结束点，cp1x,cp1y为控制点。</span>
-ctx.bezier<span class="hljs-constructor">CurveTo(<span class="hljs-params">cp1x</span>, <span class="hljs-params">cp1y</span>, <span class="hljs-params">cp2x</span>, <span class="hljs-params">cp2y</span>, <span class="hljs-params">x</span>, <span class="hljs-params">y</span>)</span>; <span class="hljs-comment">// 绘制三次贝塞尔曲线，x,y为结束点，cp1x,cp1y为控制点一，cp2x,cp2y为控制点二。</span>
+ctx.quadraticCurveTo(cp1x, cp1y, x, y); <span class="hljs-comment">// 绘制二次贝塞尔曲线，x,y为结束点，cp1x,cp1y为控制点。</span>
+ctx.bezierCurveTo(cp1x, cp1y, cp2x, cp2y, x, y); <span class="hljs-comment">// 绘制三次贝塞尔曲线，x,y为结束点，cp1x,cp1y为控制点一，cp2x,cp2y为控制点二。</span>
 
 <span class="hljs-comment">/* 使用Path2D对象来缓存或记录绘画命令 */</span>
-var circle = <span class="hljs-constructor">Path2D()</span>; <span class="hljs-comment">// 会返回一个新初始化的Path2D对象（可能将某一个路径作为变量——创建一个它的副本，或者将一个包含SVG path数据的字符串作为变量）</span>
-circle.move<span class="hljs-constructor">To(125, 35)</span>;
-circle.arc(<span class="hljs-number">100</span>, <span class="hljs-number">35</span>, <span class="hljs-number">25</span>, <span class="hljs-number">0</span>, <span class="hljs-number">2</span><span class="hljs-operator"> * </span>Math.PI);
+var circle = Path2D(); <span class="hljs-comment">// 会返回一个新初始化的Path2D对象（可能将某一个路径作为变量——创建一个它的副本，或者将一个包含SVG path数据的字符串作为变量）</span>
+circle.moveTo(<span class="hljs-number">125</span>, <span class="hljs-number">35</span>);
+circle.<span class="hljs-built_in">arc</span>(<span class="hljs-number">100</span>, <span class="hljs-number">35</span>, <span class="hljs-number">25</span>, <span class="hljs-number">0</span>, <span class="hljs-number">2</span> * Math.<span class="hljs-literal">PI</span>);
 
-ctx.fill(circle);
+ctx.<span class="hljs-built_in">fill</span>(circle);
 
 <span class="hljs-comment">/* 颜色 */</span>
-ctx.fillStyle = color; <span class="hljs-comment">// 设置图形的填充颜色。</span>
-ctx.strokeStyle = color; <span class="hljs-comment">// 设置图形轮廓的颜色。</span>
+ctx.fillStyle = <span class="hljs-built_in">color</span>; <span class="hljs-comment">// 设置图形的填充颜色。</span>
+ctx.strokeStyle = <span class="hljs-built_in">color</span>; <span class="hljs-comment">// 设置图形轮廓的颜色。</span>
 
 <span class="hljs-comment">/* 透明度 */</span>
 ctx.globalAlpha = <span class="hljs-number">0.2</span>;
 
 <span class="hljs-comment">/* 线条样式 */</span>
 ctx.lineWidth = value; <span class="hljs-comment">// 设置线条宽度，默认为1.0。</span>
-ctx.lineCap = <span class="hljs-keyword">type</span>; <span class="hljs-comment">// 设置线条末端样式，值可为butt，round 和 square，默认是butt。</span>
-ctx.lineJoin = <span class="hljs-keyword">type</span>; <span class="hljs-comment">// 设定线条与线条间接合处的样式，值为round, bevel 和 miter，默认是miter。</span>
+ctx.lineCap = type; <span class="hljs-comment">// 设置线条末端样式，值可为butt，round 和 square，默认是butt。</span>
+ctx.lineJoin = type; <span class="hljs-comment">// 设定线条与线条间接合处的样式，值为round, bevel 和 miter，默认是miter。</span>
 ctx.miterLimit = value; <span class="hljs-comment">// 限制当两条线相交时交接处最大长度；所谓交接处长度（斜接长度）是指线条交接处内角顶点到外角顶点的长度。</span>
-ctx.get<span class="hljs-constructor">LineDash()</span>; <span class="hljs-comment">// 返回一个包含当前虚线样式，长度为非负偶数的数组。</span>
-ctx.set<span class="hljs-constructor">LineDash(<span class="hljs-params">segments</span>)</span>; <span class="hljs-comment">// 设置当前虚线样式。</span>
+ctx.getLineDash(); <span class="hljs-comment">// 返回一个包含当前虚线样式，长度为非负偶数的数组。</span>
+ctx.setLineDash(segments); <span class="hljs-comment">// 设置当前虚线样式。</span>
 ctx.lineDashOffset = value; <span class="hljs-comment">// 设置虚线样式的起始偏移量。</span>
 
 <span class="hljs-comment">/* 渐变 */</span>
-var linear = ctx.create<span class="hljs-constructor">LinearGradient(<span class="hljs-params">x1</span>, <span class="hljs-params">y1</span>, <span class="hljs-params">x2</span>, <span class="hljs-params">y2</span>)</span>; <span class="hljs-comment">// createLinearGradient 方法接受 4 个参数，表示渐变的起点 (x1,y1) 与终点 (x2,y2)。</span>
-var radial = ctx.create<span class="hljs-constructor">RadialGradient(<span class="hljs-params">x1</span>, <span class="hljs-params">y1</span>, <span class="hljs-params">r1</span>, <span class="hljs-params">x2</span>, <span class="hljs-params">y2</span>, <span class="hljs-params">r2</span>)</span>; <span class="hljs-comment">// createRadialGradient 方法接受 6 个参数，前三个定义一个以 (x1,y1) 为原点，半径为 r1 的圆，后三个参数则定义另一个以 (x2,y2) 为原点，半径为 r2 的圆。</span>
-linear.add<span class="hljs-constructor">ColorStop(<span class="hljs-params">position</span>, <span class="hljs-params">color</span>)</span>; <span class="hljs-comment">// addColorStop 方法接受 2 个参数，position 参数必须是一个 0.0 与 1.0 之间的数值，表示渐变中颜色所在的相对位置。例如，0.5 表示颜色会出现在正中间。color 参数必须是一个有效的 CSS 颜色值（如 #FFF， rgba(0,0,0,1)，等等）。</span>
+var linear = ctx.createLinearGradient(x1, y1, x2, y2); <span class="hljs-comment">// createLinearGradient 方法接受 4 个参数，表示渐变的起点 (x1,y1) 与终点 (x2,y2)。</span>
+var radial = ctx.createRadialGradient(x1, y1, r1, x2, y2, r2); <span class="hljs-comment">// createRadialGradient 方法接受 6 个参数，前三个定义一个以 (x1,y1) 为原点，半径为 r1 的圆，后三个参数则定义另一个以 (x2,y2) 为原点，半径为 r2 的圆。</span>
+linear.addColorStop(position, <span class="hljs-built_in">color</span>); <span class="hljs-comment">// addColorStop 方法接受 2 个参数，position 参数必须是一个 0.0 与 1.0 之间的数值，表示渐变中颜色所在的相对位置。例如，0.5 表示颜色会出现在正中间。color 参数必须是一个有效的 CSS 颜色值（如 #FFF， rgba(0,0,0,1)，等等）。</span>
 
 <span class="hljs-comment">/* 图案 */</span>
-var ptrn = ctx.create<span class="hljs-constructor">Pattern(<span class="hljs-params">image</span>, <span class="hljs-params">type</span>)</span>; <span class="hljs-comment">// 该方法接受两个参数。Image 可以是一个 Image 对象的引用，或者另一个 canvas 对象。Type 必须是下面的字符串值之一：repeat，repeat-x，repeat-y 和 no-repeat。</span>
+var ptrn = ctx.createPattern(<span class="hljs-built_in">image</span>, type); <span class="hljs-comment">// 该方法接受两个参数。Image 可以是一个 Image 对象的引用，或者另一个 canvas 对象。Type 必须是下面的字符串值之一：repeat，repeat-x，repeat-y 和 no-repeat。</span>
 ctx.fillStyle = ptrn; <span class="hljs-comment">// 以该图案为背景填充</span>
-ctx.fill<span class="hljs-constructor">Rect(0, 0, 150, 150)</span>;
+ctx.fillRect(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">150</span>, <span class="hljs-number">150</span>);
 
 <span class="hljs-comment">/* 阴影 */</span>
 ctx.shadowOffsetX = <span class="hljs-built_in">float</span>; <span class="hljs-comment">// shadowOffsetX 和 shadowOffsetY 用来设定阴影在 X 和 Y 轴的延伸距离，它们是不受变换矩阵所影响的。负值表示阴影会往上或左延伸，正值则表示会往下或右延伸，它们默认都为 0。</span>
 ctx.shadowOffsetY = <span class="hljs-built_in">float</span>; <span class="hljs-comment">// shadowOffsetX 和 shadowOffsetY 用来设定阴影在 X 和 Y 轴的延伸距离，它们是不受变换矩阵所影响的。负值表示阴影会往上或左延伸，正值则表示会往下或右延伸，它们默认都为 0。</span>
 ctx.shadowBlur = <span class="hljs-built_in">float</span>; <span class="hljs-comment">// shadowBlur 用于设定阴影的模糊程度，其数值并不跟像素数量挂钩，也不受变换矩阵的影响，默认为 0。</span>
-ctx.shadowColor = color; <span class="hljs-comment">// shadowColor 是标准的 CSS 颜色值，用于设定阴影颜色效果，默认是全透明的黑色。</span>
+ctx.shadowColor = <span class="hljs-built_in">color</span>; <span class="hljs-comment">// shadowColor 是标准的 CSS 颜色值，用于设定阴影颜色效果，默认是全透明的黑色。</span>
 
 <span class="hljs-comment">/* 绘制文本 */</span>
-ctx.fill<span class="hljs-constructor">Text(<span class="hljs-params">text</span>, <span class="hljs-params">x</span>, <span class="hljs-params">y</span> [, <span class="hljs-params">maxWidth</span>])</span>; <span class="hljs-comment">// 在指定的(x,y)位置填充指定的文本，绘制的最大宽度是可选的。</span>
-ctx.stroke<span class="hljs-constructor">Text(<span class="hljs-params">text</span>, <span class="hljs-params">x</span>, <span class="hljs-params">y</span> [, <span class="hljs-params">maxWidth</span>])</span>; <span class="hljs-comment">// 在指定的(x,y)位置绘制文本边框，绘制的最大宽度是可选的。</span>
+ctx.fillText(<span class="hljs-built_in">text</span>, x, y [, maxWidth]); <span class="hljs-comment">// 在指定的(x,y)位置填充指定的文本，绘制的最大宽度是可选的。</span>
+ctx.strokeText(<span class="hljs-built_in">text</span>, x, y [, maxWidth]); <span class="hljs-comment">// 在指定的(x,y)位置绘制文本边框，绘制的最大宽度是可选的。</span>
 ctx.font = value; <span class="hljs-comment">// 当前我们用来绘制文本的样式. 这个字符串使用和 CSS font 属性相同的语法. 默认的字体是 10px sans-serif。</span>
-ctx.textAlign = value; <span class="hljs-comment">// 文本对齐选项. 可选的值包括：start, end, left, right or center. 默认值是 start。</span>
+ctx.<span class="hljs-built_in">textAlign</span> = value; <span class="hljs-comment">// 文本对齐选项. 可选的值包括：start, end, left, right or center. 默认值是 start。</span>
 ctx.textBaseline = value; <span class="hljs-comment">// 基线对齐选项. 可选的值包括：top, hanging, middle, alphabetic, ideographic, bottom。默认值是 alphabetic。</span>
 ctx.direction = value; <span class="hljs-comment">// 文本方向。可能的值包括：ltr, rtl, inherit。默认值是 inherit。</span>
-ctx.measure<span class="hljs-constructor">Text('<span class="hljs-params">text</span>')</span>; <span class="hljs-comment">// 将返回一个 TextMetrics对象的宽度、所在像素，这些体现文本特性的属性。</span>
+ctx.measureText(<span class="hljs-string">'text'</span>); <span class="hljs-comment">// 将返回一个 TextMetrics对象的宽度、所在像素，这些体现文本特性的属性。</span>
 
 <span class="hljs-comment">/* 绘制图片 */</span>
-ctx.draw<span class="hljs-constructor">Image(<span class="hljs-params">image</span>, <span class="hljs-params">x</span>, <span class="hljs-params">y</span>[, <span class="hljs-params">width</span>, <span class="hljs-params">height</span>])</span>; <span class="hljs-comment">// 其中 image 是 image 或者 canvas 对象，x 和 y 是其在目标 canvas 里的起始坐标。可传width和height来指明缩放大小。</span>
-ctx.draw<span class="hljs-constructor">Image(<span class="hljs-params">image</span>, <span class="hljs-params">sx</span>, <span class="hljs-params">sy</span>, <span class="hljs-params">sWidth</span>, <span class="hljs-params">sHeight</span>, <span class="hljs-params">dx</span>, <span class="hljs-params">dy</span>, <span class="hljs-params">dWidth</span>, <span class="hljs-params">dHeight</span>)</span>; <span class="hljs-comment">// 用于切片绘制，第一个参数和其它的是相同的，都是一个图像或者另一个 canvas 的引用。其它8个参数中，前4个是定义图像源的切片位置和大小，后4个则是定义切片的目标显示位置和大小。</span>
+ctx.drawImage(<span class="hljs-built_in">image</span>, x, y[, <span class="hljs-built_in">width</span>, <span class="hljs-built_in">height</span>]); <span class="hljs-comment">// 其中 image 是 image 或者 canvas 对象，x 和 y 是其在目标 canvas 里的起始坐标。可传width和height来指明缩放大小。</span>
+ctx.drawImage(<span class="hljs-built_in">image</span>, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight); <span class="hljs-comment">// 用于切片绘制，第一个参数和其它的是相同的，都是一个图像或者另一个 canvas 的引用。其它8个参数中，前4个是定义图像源的切片位置和大小，后4个则是定义切片的目标显示位置和大小。</span>
 </code></pre>
 <p>当然，canvas的api可不止有这么点，具体可参考<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Canvas_API">mdn上的教程</a>。</p>
 <h3 id="web-messaging">Web Messaging</h3>
 <p>postMessage/onMessage通常用于当前窗口与iframe、frame或window.open打开的窗口之间的通信，可跨域。</p>
-<pre><code class="lang-javascript">otherWindow.post<span class="hljs-constructor">Message(<span class="hljs-params">message</span>, <span class="hljs-params">origin</span>)</span>; <span class="hljs-comment">// 发信息，origin为指定的域，不指定或值为'*'表示不限定otherWindow的域</span>
+<pre><code class="lang-javascript">otherWindow.postMessage(message, origin); <span class="hljs-comment">// 发信息，origin为指定的域，不指定或值为'*'表示不限定otherWindow的域</span>
 
-otherWindow.onmessage = <span class="hljs-keyword">function</span>(event) {
+otherWindow.onmessage = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(event)</span> </span>{
     <span class="hljs-comment">// event.data - 发过来的message</span>
     <span class="hljs-comment">// event.origin - 消息来源的域</span>
     <span class="hljs-comment">// event.source - 消息来源的window引用</span>
@@ -1301,7 +1300,7 @@ onmessage = <span class="hljs-function"><span class="hljs-keyword">function</spa
 </code></pre>
 <h4 id="async-html5-">async（HTML5属性）</h4>
 <p>async规定一旦脚本可用，则异步执行。（仅能用于外部脚本）</p>
-<pre><code class="lang-html">&lt;script <span class="hljs-attribute">type</span>=<span class="hljs-string">"text/javascript"</span> <span class="hljs-attribute">src</span>=<span class="hljs-string">"XX.js"</span> <span class="hljs-attribute">async</span>=<span class="hljs-string">"async"</span>&gt;&lt;/script&gt;
+<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"text/javascript"</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"XX.js"</span> <span class="hljs-attr">async</span>=<span class="hljs-string">"async"</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
 </code></pre>
 <h4 id="-">动态追加脚本</h4>
 <p>创建script标签，插入到Dom中，加载完毕后callback</p>
