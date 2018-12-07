@@ -430,8 +430,8 @@ ejs.render(<span class="hljs-string">'$= users.join(" | "); $'</span>, {<span cl
 <h2 id="-">过滤器</h2>
 <h3 id="-">使用</h3>
 <p>针对插入的变量可以使用过滤器对插值进行修饰，使用过滤器的方式如下：</p>
-<pre><code class="lang-html"><span class="xml"><span class="hljs-comment">&lt;!-- users = [</span></span><span class="hljs-template-variable">{ name: 'tj' }</span><span class="xml"><span class="hljs-comment">, </span></span><span class="hljs-template-variable">{ name: 'mape' }</span><span class="xml"><span class="hljs-comment">, </span></span><span class="hljs-template-variable">{ name: 'guillermo' }</span><span class="xml"><span class="hljs-comment">] --&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">%=:</span> <span class="hljs-attr">users</span> | <span class="hljs-attr">map:</span>'<span class="hljs-attr">name</span>' | <span class="hljs-attr">join</span> %&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span></span>
+<pre><code class="lang-html"><span class="xml"><span class="hljs-comment">&lt;!-- users = [{ name: 'tj' }, { name: 'mape' }, { name: 'guillermo' }] --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">%=</span></span></span><span class="perl">: users | <span class="hljs-keyword">map</span>:<span class="hljs-string">'name'</span> | <span class="hljs-keyword">join</span> </span><span class="xml"><span class="hljs-tag">%&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span></span>
 </code></pre>
 <p>输出：</p>
 <pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Tj, Mape, Guillermo<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
@@ -462,8 +462,8 @@ ejs.render(<span class="hljs-string">'$= users.join(" | "); $'</span>, {<span cl
 <li>get:&#39;prop&#39;：取属性值</li>
 </ul>
 <h3 id="-">添加自定义过滤器</h3>
-<pre><code class="lang-javascript">ejs.filters.last = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(obj)</span> {</span>
-  <span class="hljs-keyword">return</span> obj[obj.<span class="hljs-built_in">length</span> - <span class="hljs-number">1</span>];
+<pre><code class="lang-javascript">ejs.filters.last = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(obj)</span> </span>{
+  <span class="hljs-keyword">return</span> obj[obj.length - <span class="hljs-number">1</span>];
 };
 </code></pre>
           

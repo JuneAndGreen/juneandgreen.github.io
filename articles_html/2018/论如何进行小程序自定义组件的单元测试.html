@@ -409,7 +409,9 @@ pre::-webkit-scrollbar-thumb {
   },
 })
 </code></pre>
-<p>这是一个极其简单的自定义组件，然后我们在 comp.test.js 里这样编写测试用例：</p>
+<p>这是一个极其简单的自定义组件，之后我们便可开始在 comp.test.js 里编写测试用例。</p>
+<h3 id="-">起步</h3>
+<p>加载和渲染自定义组是最基础的功能：</p>
 <pre><code class="lang-js"><span class="hljs-comment">// 自定义组件 comp 的测试用例：comp.test.js</span>
 <span class="hljs-keyword">const</span> path = <span class="hljs-keyword">require</span>(<span class="hljs-string">'path'</span>)
 <span class="hljs-keyword">const</span> simulate = <span class="hljs-keyword">require</span>(<span class="hljs-string">'miniprogram-simulate'</span>)
@@ -422,9 +424,52 @@ test(<span class="hljs-string">'comp'</span>, () =&gt; {
   comp.attach(<span class="hljs-keyword">parent</span>) <span class="hljs-comment">// attach 到父亲节点上，此时会触发自定义组件的 attached 钩子</span>
 
   expect(comp.querySelector(<span class="hljs-string">'.index'</span>).dom.innerHTML).toBe(<span class="hljs-string">'index.properties'</span>) <span class="hljs-comment">// 测试渲染结果</span>
+  <span class="hljs-comment">// 执行其他的一些测试逻辑</span>
+
+  comp.detach() <span class="hljs-comment">// 将组件从父亲节点中移除，此时会触发自定义组件的 detached 生命周期</span>
 })
 </code></pre>
-<p>使用方式很简单，本文只是个引子，更多详细的用法请移步到 <a href="https://github.com/wechat-miniprogram/miniprogram-simulate">github 仓库</a>上查阅。</p>
+<h3 id="-">获取数据</h3>
+<p>可以获取自定义组件的数据：</p>
+<pre><code class="lang-js"><span class="hljs-function"><span class="hljs-title">test</span><span class="hljs-params">(<span class="hljs-string">'comp'</span>, ()</span></span> =&gt; {
+    <span class="hljs-comment">// 前略</span>
+
+    <span class="hljs-comment">// 判断组件数据</span>
+    expect(comp.data).toEqual({
+        <span class="hljs-selector-tag">a</span>: <span class="hljs-number">111</span>,
+    })
+})
+</code></pre>
+<h3 id="-">更新数据</h3>
+<p>可以更新自定义组件的数据：</p>
+<pre><code class="lang-js"><span class="hljs-function"><span class="hljs-title">test</span><span class="hljs-params">(<span class="hljs-string">'comp'</span>, ()</span></span> =&gt; {
+    <span class="hljs-comment">// 前略</span>
+
+    <span class="hljs-comment">// 更新组件数据</span>
+    comp.setData({
+        <span class="hljs-selector-tag">a</span>: <span class="hljs-number">123</span>,
+    })
+})
+</code></pre>
+<h3 id="-">获取子组件</h3>
+<p>可以获取自定义组件的子组件：</p>
+<pre><code class="lang-js"><span class="hljs-function"><span class="hljs-title">test</span><span class="hljs-params">(<span class="hljs-string">'comp'</span>, ()</span></span> =&gt; {
+    <span class="hljs-comment">// 前略</span>
+
+    const childComp = comp.querySelector(<span class="hljs-string">'#child-id'</span>)
+    expect(childComp<span class="hljs-selector-class">.dom</span><span class="hljs-selector-class">.innerHTML</span>).toBe(<span class="hljs-string">'&lt;div&gt;child&lt;/div&gt;'</span>)
+})
+</code></pre>
+<h3 id="-">触发事件</h3>
+<p>可以模拟触发自定义组件的事件：</p>
+<pre><code class="lang-js"><span class="hljs-function"><span class="hljs-title">test</span><span class="hljs-params">(<span class="hljs-string">'comp'</span>, ()</span></span> =&gt; {
+    <span class="hljs-comment">// 前略</span>
+
+    comp.dispatchEvent(<span class="hljs-string">'touchstart'</span>) <span class="hljs-comment">// 触发组件的 touchstart 事件</span>
+    childComp.dispatchEvent(<span class="hljs-string">'tap'</span>) <span class="hljs-comment">// 触发子组件的 tap 事件</span>
+})
+</code></pre>
+<p>至此，应该能大概了解到这个工具集的用途。这些只是简单的使用介绍，本文只是个引子，更多详细的用法请移步到 <a href="https://github.com/wechat-miniprogram/miniprogram-simulate">github 仓库</a>上查阅。</p>
 <h2 id="-">尾声</h2>
 <p>要想判断一个自定义组件的质量如何，其中最简单的方法就是看单元测试的表现，想要别人使用你的自定义组件，质量把关很重要，目前 miniprogram-simulate 已经实现了最基本的功能，其他功能也在尽力施工中，有什么好的建议或者使用上遇到什么问题也可以提 <a href="https://github.com/wechat-miniprogram/miniprogram-simulate/issues">issue</a>。如果好评请 star 噢~</p>
           

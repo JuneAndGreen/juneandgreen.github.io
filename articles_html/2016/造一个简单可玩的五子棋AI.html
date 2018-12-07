@@ -431,34 +431,34 @@ pre::-webkit-scrollbar-thumb {
 </code></pre>
 <p>然后，我们先把棋盘给绘制出来，所以先实现draw.js里面的功能：</p>
 <pre><code class="lang-javascript"><span class="hljs-comment">/* 绘制棋盘和棋子 */</span>
-<span class="hljs-keywords">var</span> draw = {};
+<span class="hljs-keyword">var</span> draw = {};
 
 <span class="hljs-comment">/* 绘制棋盘 */</span>
-draw.paintTable = (function() {
-    <span class="hljs-keywords">var</span> drawLine = function(context, dir, i) {
-        <span class="hljs-keywords">var</span> <span class="hljs-symbol">x</span>,<span class="hljs-symbol">y</span>;
-        <span class="hljs-keywords">if</span>(dir === <span class="hljs-string">'row'</span>) {
+draw.paintTable = (<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+    <span class="hljs-keyword">var</span> drawLine = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">context, dir, i</span>) </span>{
+        <span class="hljs-keyword">var</span> x,y;
+        <span class="hljs-keyword">if</span>(dir === <span class="hljs-string">'row'</span>) {
             <span class="hljs-comment">// 画横线</span>
-            <span class="hljs-symbol">x</span> = [<span class="hljs-number">0</span>, <span class="hljs-number">640</span>];
-            <span class="hljs-symbol">y</span> = [i, i];
-        } <span class="hljs-keywords">else</span> {
+            x = [<span class="hljs-number">0</span>, <span class="hljs-number">640</span>];
+            y = [i, i];
+        } <span class="hljs-keyword">else</span> {
             <span class="hljs-comment">// 画竖线</span>
-            <span class="hljs-symbol">x</span> = [i, i];
-            <span class="hljs-symbol">y</span> = [<span class="hljs-number">0</span>, <span class="hljs-number">640</span>];
+            x = [i, i];
+            y = [<span class="hljs-number">0</span>, <span class="hljs-number">640</span>];
         }
 
         context.beginPath();
         context.lineWidth = <span class="hljs-string">'4'</span>;
         context.strokeStyle = <span class="hljs-string">'black'</span>;
-        context.moveTo(<span class="hljs-symbol">x</span>[<span class="hljs-number">0</span>], <span class="hljs-symbol">y</span>[<span class="hljs-number">0</span>]);
-        context.lineTo(<span class="hljs-symbol">x</span>[<span class="hljs-number">1</span>], <span class="hljs-symbol">y</span>[<span class="hljs-number">1</span>]);
+        context.moveTo(x[<span class="hljs-number">0</span>], y[<span class="hljs-number">0</span>]);
+        context.lineTo(x[<span class="hljs-number">1</span>], y[<span class="hljs-number">1</span>]);
         context.closePath();
         context.stroke();
     };
-    <span class="hljs-keywords">return</span> function() {
-        <span class="hljs-keywords">var</span> context = window.cache.table;
+    <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+        <span class="hljs-keyword">var</span> context = <span class="hljs-built_in">window</span>.cache.table;
 
-        <span class="hljs-keywords">for</span>(<span class="hljs-keywords">var</span> i=<span class="hljs-number">0</span>; i&lt;=<span class="hljs-number">640</span>; i+=<span class="hljs-number">40</span>) {
+        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">var</span> i=<span class="hljs-number">0</span>; i&lt;=<span class="hljs-number">640</span>; i+=<span class="hljs-number">40</span>) {
             drawLine(context, <span class="hljs-string">'row'</span>, i);
             drawLine(context, <span class="hljs-string">'column'</span>, i);
         }
@@ -467,24 +467,24 @@ draw.paintTable = (function() {
 
 <span class="hljs-comment">/* 绘制棋子 */</span>
 <span class="hljs-comment">/* flag为1表示黑字，flag为2表示白子 */</span>
-draw.drawChess = function(flag, <span class="hljs-symbol">x</span>, <span class="hljs-symbol">y</span>) {
-    <span class="hljs-keywords">var</span> cache = window.cache;
-    <span class="hljs-keywords">var</span> context = cache.table;
-    <span class="hljs-keywords">var</span> iswin = cache.iswin;
+draw.drawChess = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">flag, x, y</span>) </span>{
+    <span class="hljs-keyword">var</span> cache = <span class="hljs-built_in">window</span>.cache;
+    <span class="hljs-keyword">var</span> context = cache.table;
+    <span class="hljs-keyword">var</span> iswin = cache.iswin;
 
-    <span class="hljs-keywords">if</span>(iswin === <span class="hljs-number">1</span>) <span class="hljs-keywords">return</span>; <span class="hljs-comment">// 结束战斗</span>
-    <span class="hljs-keywords">else</span> {
-        <span class="hljs-keywords">if</span>(flag === <span class="hljs-number">1</span>) {
+    <span class="hljs-keyword">if</span>(iswin === <span class="hljs-number">1</span>) <span class="hljs-keyword">return</span>; <span class="hljs-comment">// 结束战斗</span>
+    <span class="hljs-keyword">else</span> {
+        <span class="hljs-keyword">if</span>(flag === <span class="hljs-number">1</span>) {
             <span class="hljs-comment">// 画黑子</span>
-            context.drawImage(cache.black, <span class="hljs-symbol">x</span>*<span class="hljs-number">40</span>+<span class="hljs-number">20</span>, <span class="hljs-symbol">y</span>*<span class="hljs-number">40</span>+<span class="hljs-number">20</span>);
-        } <span class="hljs-keywords">else</span> <span class="hljs-keywords">if</span>(flag === <span class="hljs-number">2</span>) {
+            context.drawImage(cache.black, x*<span class="hljs-number">40</span>+<span class="hljs-number">20</span>, y*<span class="hljs-number">40</span>+<span class="hljs-number">20</span>);
+        } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(flag === <span class="hljs-number">2</span>) {
             <span class="hljs-comment">// 画白子</span>
-            context.drawImage(cache.white, <span class="hljs-symbol">x</span>*<span class="hljs-number">40</span>+<span class="hljs-number">20</span>, <span class="hljs-symbol">y</span>*<span class="hljs-number">40</span>+<span class="hljs-number">20</span>);
+            context.drawImage(cache.white, x*<span class="hljs-number">40</span>+<span class="hljs-number">20</span>, y*<span class="hljs-number">40</span>+<span class="hljs-number">20</span>);
         }
     } 
 }
 
-module.exports = draw;
+<span class="hljs-built_in">module</span>.exports = draw;
 </code></pre>
 <p>draw.js这个模块提供两个接口，一个是<code>paintTable</code>，用于绘制棋盘，另一个是<code>drawChess</code>，用于绘制棋子。而绘制棋盘的接口仅需要在初始化时调用一次即可，因此我们先在src/index.js里编写如下代码：</p>
 <pre><code class="lang-javascript"><span class="hljs-keyword">var</span> initData = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./data.js'</span>); <span class="hljs-comment">// 初始化数据</span>
@@ -574,11 +574,11 @@ draw.paintTable();
 <pre><code class="lang-javascript"><span class="hljs-comment">/* 判断输赢 */</span>
 <span class="hljs-comment">/* flag为1表示黑字，flag为2表示白子 */</span>
 module.exports = function(flag, x, y) {
-    var chessValue = window.cache.chessValue;
-    var count1 = count2 = count3 = count4 = <span class="hljs-number">0</span>; <span class="hljs-comment">//分别表示横向，竖向，正对角线，反对角线方向棋子个数</span>
+    <span class="hljs-keyword">var</span> chessValue = window.cache.chessValue;
+    <span class="hljs-keyword">var</span> count1 = count2 = count3 = count4 = <span class="hljs-number">0</span>; <span class="hljs-comment">//分别表示横向，竖向，正对角线，反对角线方向棋子个数</span>
 
-    var i = j = <span class="hljs-number">0</span>;
-    var hasBlank = <span class="hljs-literal">false</span>; <span class="hljs-comment">// 是否存在空白位</span>
+    <span class="hljs-keyword">var</span> i = j = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">var</span> hasBlank = <span class="hljs-literal">false</span>; <span class="hljs-comment">// 是否存在空白位</span>
     <span class="hljs-keyword">for</span>(i=<span class="hljs-number">0</span>; i&lt;<span class="hljs-number">15</span>; i++) {
         <span class="hljs-keyword">for</span>(j=<span class="hljs-number">0</span>; j&lt;<span class="hljs-number">15</span>; j++) {
             <span class="hljs-keyword">if</span>(!chessValue[i][j]) {
@@ -738,35 +738,35 @@ module.exports = function(flag, x, y) {
 <p>可以做α剪枝的，只有在遍历奇数层节点的时候；可以做β剪枝的，只有在遍历偶数层节点的时候。另外还有一点，这些节点都必须有爷爷节点，只有爷爷节点的权值才能作为α值或β值来比较。</p>
 <h2 id="-">核心代码</h2>
 <p>讲了那么久核心算法的原理，或许大家以为这个算法的代码量一定很庞大吧，其实不然，整个代码也就短短一百多行：</p>
-<pre><code class="lang-javascript">var calcMoney = require(<span class="hljs-string">'./money.js'</span>);
-var judgeWin = require(<span class="hljs-string">'./judge.js'</span>);
-var draw = require(<span class="hljs-string">'./draw.js'</span>);
-var calc = {};
+<pre><code class="lang-javascript"><span class="hljs-keyword">var</span> calcMoney = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./money.js'</span>);
+<span class="hljs-keyword">var</span> judgeWin = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./judge.js'</span>);
+<span class="hljs-keyword">var</span> draw = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./draw.js'</span>);
+<span class="hljs-keyword">var</span> calc = {};
 
 <span class="hljs-comment">/* ai选择位置并落子 */</span>
-module.exports = (function() {
-    var cache = window.cache;
-    var chessValue = cache.chessValue;
+<span class="hljs-built_in">module</span>.exports = (<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+    <span class="hljs-keyword">var</span> cache = <span class="hljs-built_in">window</span>.cache;
+    <span class="hljs-keyword">var</span> chessValue = cache.chessValue;
 
     <span class="hljs-comment">/* 求棋盘最高分 */</span>
-    var calculmaxvalue = function() {
-        var maxvalue = [<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>]; <span class="hljs-comment">// 分别表示价值，坐标x，坐标y</span>
+    <span class="hljs-keyword">var</span> calculmaxvalue = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+        <span class="hljs-keyword">var</span> maxvalue = [<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>]; <span class="hljs-comment">// 分别表示价值，坐标x，坐标y</span>
 
-        <span class="hljs-keyword">for</span>(var i=<span class="hljs-number">0</span>; i&lt;<span class="hljs-number">15</span>; i++)
-            <span class="hljs-keyword">for</span>(var j=<span class="hljs-number">0</span>; j&lt;<span class="hljs-number">15</span>; j++)
+        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">var</span> i=<span class="hljs-number">0</span>; i&lt;<span class="hljs-number">15</span>; i++)
+            <span class="hljs-keyword">for</span>(<span class="hljs-keyword">var</span> j=<span class="hljs-number">0</span>; j&lt;<span class="hljs-number">15</span>; j++)
                 maxvalue[<span class="hljs-number">0</span>] += calcMoney(i, j);
 
         <span class="hljs-keyword">return</span> maxvalue;
     }
     <span class="hljs-comment">/* 分别表示递归终止标志(搜索博弈树层数)，落子为谁，α值和β值 */</span>
     <span class="hljs-comment">/* 目前仅遍历三层，根节点（第一层） ----&gt; AI白子下（第二层） ----&gt; 玩家黑子下（第三层）*/</span>
-    var seapo = function(flag, chess, aa, bb) {
-        var i = <span class="hljs-number">0</span>, j = <span class="hljs-number">0</span>;
-        var buff; <span class="hljs-comment">// 分别表示价值，坐标x，坐标y</span>
-        var fin = [<span class="hljs-number">-1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>];
+    <span class="hljs-keyword">var</span> seapo = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">flag, chess, aa, bb</span>) </span>{
+        <span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>, j = <span class="hljs-number">0</span>;
+        <span class="hljs-keyword">var</span> buff; <span class="hljs-comment">// 分别表示价值，坐标x，坐标y</span>
+        <span class="hljs-keyword">var</span> fin = [<span class="hljs-number">-1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>];
         <span class="hljs-comment">// 用于存储同层级的α和β值</span>
-        var atmp = aa;
-        var btmp = bb;
+        <span class="hljs-keyword">var</span> atmp = aa;
+        <span class="hljs-keyword">var</span> btmp = bb;
 
         <span class="hljs-keyword">if</span>(flag === <span class="hljs-number">2</span>) <span class="hljs-keyword">return</span> calculmaxvalue(); <span class="hljs-comment">// 到达叶子结点，计算棋盘权值</span>
 
@@ -776,7 +776,7 @@ module.exports = (function() {
                 <span class="hljs-keyword">if</span>(chess === <span class="hljs-number">1</span>) {
                     <span class="hljs-comment">// 此时轮到黑子下</span>
 
-                    var thisMoney = calcMoney(i, j);
+                    <span class="hljs-keyword">var</span> thisMoney = calcMoney(i, j);
                     <span class="hljs-keyword">if</span>(thisMoney === <span class="hljs-number">0</span>) <span class="hljs-keyword">continue</span>; <span class="hljs-comment">// 此处无价值可言</span>
 
                     chessValue[i][j] = <span class="hljs-number">1</span>; <span class="hljs-comment">// 假设在此位置落黑子</span>
@@ -797,7 +797,7 @@ module.exports = (function() {
                 } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span>(chess === <span class="hljs-number">2</span>) {
                     <span class="hljs-comment">// 此时轮到白子下</span>
 
-                    var thisMoney = calcMoney(i, j);
+                    <span class="hljs-keyword">var</span> thisMoney = calcMoney(i, j);
                     <span class="hljs-keyword">if</span>(thisMoney === <span class="hljs-number">0</span>) <span class="hljs-keyword">continue</span>; <span class="hljs-comment">// 此处无价值可言</span>
                     <span class="hljs-keyword">if</span>(thisMoney &gt;= <span class="hljs-number">99999</span> || thisMoney &lt;= <span class="hljs-number">-50000</span>) {
                         <span class="hljs-comment">// 当此处为必须落子的点（自己在此落子即赢或对方在此落子即输）</span>
@@ -828,11 +828,11 @@ module.exports = (function() {
         <span class="hljs-keyword">return</span> fin;
     }
 
-    <span class="hljs-keyword">return</span> function() {
-        var value=[<span class="hljs-number">-1</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>]; <span class="hljs-comment">// 分别表示价值，坐标x，坐标y和距离</span>
-        var leng = <span class="hljs-number">0</span>;
-        var x,y;
-        var winjudge;
+    <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+        <span class="hljs-keyword">var</span> value=[<span class="hljs-number">-1</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>]; <span class="hljs-comment">// 分别表示价值，坐标x，坐标y和距离</span>
+        <span class="hljs-keyword">var</span> leng = <span class="hljs-number">0</span>;
+        <span class="hljs-keyword">var</span> x,y;
+        <span class="hljs-keyword">var</span> winjudge;
 
         <span class="hljs-keyword">if</span>(cache.iswin==<span class="hljs-number">1</span>) <span class="hljs-keyword">return</span>;
 

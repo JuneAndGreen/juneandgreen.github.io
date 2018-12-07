@@ -430,27 +430,27 @@ pre::-webkit-scrollbar-thumb {
 </table>
 <p>图像宽高不必说，这里要注意的是解析的方式。宽高都是两个字节的，以小端法存储，故解析的时候需要将这两个字节的数据调换一下再转成数字。比如图像宽度这里存放的数据是<code>00000000 00100000</code>，假如我们直接转成数字是32，但是不对的；正确的解析方式是将两个字节调换一下，变成<code>00100000 00000000</code>再去解析，得出的图像宽度实际是<strong>8192</strong>才对。</p>
 <pre><code class="lang-javascript"><span class="hljs-comment">// 数字转8位二进制字符串</span>
-<span class="hljs-keyword">function</span> number<span class="hljs-constructor">ToString(<span class="hljs-params">num</span>)</span> {
-    num = num.<span class="hljs-keyword">to</span><span class="hljs-constructor">String(2)</span>.split('');
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">numberToString</span>(<span class="hljs-params">num</span>) </span>{
+    num = num.toString(<span class="hljs-number">2</span>).split(<span class="hljs-string">''</span>);
 
     <span class="hljs-keyword">while</span>(num.length &lt; <span class="hljs-number">8</span>) {
         num.unshift(<span class="hljs-number">0</span>);
     }
 
-    return num.join('');
+    <span class="hljs-keyword">return</span> num.join(<span class="hljs-string">''</span>);
 }
 
 <span class="hljs-comment">// 读取8位无符号整型数</span>
-<span class="hljs-keyword">function</span> read<span class="hljs-constructor">Int8(<span class="hljs-params">buffer</span>, <span class="hljs-params">offset</span>)</span> {
-    offset = offset<span class="hljs-operator"> || </span><span class="hljs-number">0</span>;
-    return buffer<span class="hljs-literal">[<span class="hljs-identifier">offset</span>]</span> &lt;&lt; <span class="hljs-number">0</span>;
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">readInt8</span>(<span class="hljs-params">buffer, offset</span>) </span>{
+    offset = offset || <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">return</span> buffer[offset] &lt;&lt; <span class="hljs-number">0</span>;
 }
 
-<span class="hljs-keyword">let</span> chunk = read<span class="hljs-constructor">Bytes(7)</span>; <span class="hljs-comment">// 逻辑屏幕标识符块数据，共7个字节</span>
+<span class="hljs-keyword">let</span> chunk = readBytes(<span class="hljs-number">7</span>); <span class="hljs-comment">// 逻辑屏幕标识符块数据，共7个字节</span>
 
 <span class="hljs-comment">// 需要调换过来读取</span>
-<span class="hljs-keyword">let</span> width = parse<span class="hljs-constructor">Int(<span class="hljs-params">numberToString</span>(<span class="hljs-params">readInt8</span>(<span class="hljs-params">chunk</span>, 1)</span>) + number<span class="hljs-constructor">ToString(<span class="hljs-params">readInt8</span>(<span class="hljs-params">chunk</span>)</span>), <span class="hljs-number">2</span>); <span class="hljs-comment">// 宽</span>
-<span class="hljs-keyword">let</span> height = parse<span class="hljs-constructor">Int(<span class="hljs-params">numberToString</span>(<span class="hljs-params">readInt8</span>(<span class="hljs-params">chunk</span>, 3)</span>) + number<span class="hljs-constructor">ToString(<span class="hljs-params">readInt8</span>(<span class="hljs-params">chunk</span>, 2)</span>), <span class="hljs-number">2</span>); <span class="hljs-comment">// 高</span>
+<span class="hljs-keyword">let</span> width = <span class="hljs-built_in">parseInt</span>(numberToString(readInt8(chunk, <span class="hljs-number">1</span>)) + numberToString(readInt8(chunk)), <span class="hljs-number">2</span>); <span class="hljs-comment">// 宽</span>
+<span class="hljs-keyword">let</span> height = <span class="hljs-built_in">parseInt</span>(numberToString(readInt8(chunk, <span class="hljs-number">3</span>)) + numberToString(readInt8(chunk, <span class="hljs-number">2</span>)), <span class="hljs-number">2</span>); <span class="hljs-comment">// 高</span>
 </code></pre>
 <p>全局颜色列表标志和分类标志只用1位表示，相当于就是一个布尔值。其中全局颜色列表标志若为1，则表示存在全局颜色列表块；分类标志若为1，则表示全局颜色列表块里的颜色会按重要性进行排列（即使用的频率）。图像深度表示每个像素点占用的位数，其他几个字段看名称就能了解，这里就不做解释（像素宽高比目前也几乎不再支持，可忽略）。</p>
 <h3 id="-">全局颜色列表</h3>
@@ -458,9 +458,9 @@ pre::-webkit-scrollbar-thumb {
 <pre><code class="lang-javascript"><span class="hljs-keyword">let</span> globalColorTableFlag; <span class="hljs-comment">// 全局颜色列表标志</span>
 <span class="hljs-keyword">let</span> globalColorTableSize; <span class="hljs-comment">// 全局颜色列表大小</span>
 
-<span class="hljs-keyword">if</span> (globalColorTableFlag<span class="hljs-operator"> === </span><span class="hljs-number">1</span>) {
-    <span class="hljs-keyword">let</span> length = <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Math</span>.</span></span>pow(<span class="hljs-number">2</span>, globalColorTableSize + <span class="hljs-number">1</span>)<span class="hljs-operator"> * </span><span class="hljs-number">3</span>;
-    <span class="hljs-keyword">let</span> globalColorTable = read<span class="hljs-constructor">Bytes(<span class="hljs-params">length</span>)</span>; <span class="hljs-comment">// 全局颜色列表</span>
+<span class="hljs-keyword">if</span> (globalColorTableFlag === <span class="hljs-number">1</span>) {
+    <span class="hljs-keyword">let</span> length = <span class="hljs-built_in">Math</span>.pow(<span class="hljs-number">2</span>, globalColorTableSize + <span class="hljs-number">1</span>) * <span class="hljs-number">3</span>;
+    <span class="hljs-keyword">let</span> globalColorTable = readBytes(length); <span class="hljs-comment">// 全局颜色列表</span>
 }
 </code></pre>
 <h3 id="-">子图像</h3>
@@ -523,17 +523,17 @@ pre::-webkit-scrollbar-thumb {
 <p>扩展块头固定为0x21，扩展块尾固定为0x00。扩展块中间包含若干个扩展块子块，在解析扩展块子块时需要一直循环直到遇到扩展块尾才结束，用代码简单表示如下：</p>
 <pre><code class="lang-javascript">let extSign; <span class="hljs-comment">// 扩展块标识</span>
 
-let head = readBytes(<span class="hljs-number">2</span>); <span class="hljs-comment">// 读取两个字节</span>
-<span class="hljs-keyword">if</span> (head[<span class="hljs-number">0</span>] === <span class="hljs-number">0x21</span> &amp;&amp; head[<span class="hljs-number">1</span>] === extSign) {
-    let next = readBytes(<span class="hljs-number">1</span>)[<span class="hljs-number">0</span>]; <span class="hljs-comment">// 读取一个字节</span>
+let head = <span class="hljs-keyword">readBytes</span>(<span class="hljs-number">2</span>); <span class="hljs-comment">// 读取两个字节</span>
+<span class="hljs-keyword">if</span> (head[<span class="hljs-number">0</span>] === <span class="hljs-number">0</span>x21 &amp;&amp; head[<span class="hljs-number">1</span>] === extSign) {
+    let <span class="hljs-keyword">next</span> = <span class="hljs-keyword">readBytes</span>(<span class="hljs-number">1</span>)[<span class="hljs-number">0</span>]; <span class="hljs-comment">// 读取一个字节</span>
 
-    <span class="hljs-keyword">while</span> (next !== <span class="hljs-number">0x00</span>) {
+    <span class="hljs-keyword">while</span> (<span class="hljs-keyword">next</span> !== <span class="hljs-number">0</span>x00) {
         <span class="hljs-comment">// 当还没遇到扩展块尾，则一直循环下去 </span>
 
-        <span class="hljs-keyword">this</span>.readBytes(next); <span class="hljs-comment">// 读取扩展块子块</span>
+        <span class="hljs-keyword">this</span>.<span class="hljs-keyword">readBytes</span>(<span class="hljs-keyword">next</span>); <span class="hljs-comment">// 读取扩展块子块</span>
         <span class="hljs-comment">// do somethind</span>
 
-        next = readBytes(<span class="hljs-number">1</span>)[<span class="hljs-number">0</span>]; <span class="hljs-comment">// 读取一个字节</span>
+        <span class="hljs-keyword">next</span> = <span class="hljs-keyword">readBytes</span>(<span class="hljs-number">1</span>)[<span class="hljs-number">0</span>]; <span class="hljs-comment">// 读取一个字节</span>
     }
 }
 </code></pre>
@@ -717,36 +717,36 @@ let head = readBytes(<span class="hljs-number">2</span>); <span class="hljs-comm
 </table>
 <p>图像数据和扩展块结构相似，里面包含若干个子图像数据块，需要循环解析子图像数据块直到遇到图像数据尾才结束。LZW压缩算法码长用于对子图像数据解压缩用，图像数据尾则固定为0x00。</p>
 <p>整个解析流程大致如下：</p>
-<pre><code class="lang-javascript">let graphicsControlExtension; <span class="hljs-comment">// 图像控制扩展块</span>
-let LZWMinimumCodeSize = readBytes(<span class="hljs-number">1</span>)[<span class="hljs-number">0</span>]; <span class="hljs-comment">// 读取一个字节</span>
-let isTransparent = graphicsControlExtension.transparentColorFlag === <span class="hljs-number">1</span>; <span class="hljs-comment">// 是否支持透明像素</span>
-let transparentIndex = graphicsControlExtension.transparentColorIndex; <span class="hljs-comment">// 透明像素索引</span>
+<pre><code class="lang-javascript"><span class="hljs-keyword">let</span> graphicsControlExtension; <span class="hljs-comment">// 图像控制扩展块</span>
+<span class="hljs-keyword">let</span> LZWMinimumCodeSize = readBytes(<span class="hljs-number">1</span>)[<span class="hljs-number">0</span>]; <span class="hljs-comment">// 读取一个字节</span>
+<span class="hljs-keyword">let</span> isTransparent = graphicsControlExtension.transparentColorFlag === <span class="hljs-number">1</span>; <span class="hljs-comment">// 是否支持透明像素</span>
+<span class="hljs-keyword">let</span> transparentIndex = graphicsControlExtension.transparentColorIndex; <span class="hljs-comment">// 透明像素索引</span>
 
-let buffer = []; <span class="hljs-comment">// 用于存放子图像二进制数据</span>
+<span class="hljs-keyword">let</span> buffer = []; <span class="hljs-comment">// 用于存放子图像二进制数据</span>
 
-let next = readBytes(<span class="hljs-number">1</span>)[<span class="hljs-number">0</span>]; <span class="hljs-comment">// 读取一个字节</span>
+<span class="hljs-keyword">let</span> next = readBytes(<span class="hljs-number">1</span>)[<span class="hljs-number">0</span>]; <span class="hljs-comment">// 读取一个字节</span>
 
-<span class="hljs-keyword">while</span> (next !== <span class="hljs-number">0x00</span>) {
-    buffer = buffer.concat(Array.<span class="hljs-keyword">from</span>(readBytes(next))); <span class="hljs-comment">// 读取数据块</span>
+while (next !== <span class="hljs-number">0x00</span>) {
+    buffer = buffer.concat(Array.from(readBytes(next))); <span class="hljs-comment">// 读取数据块</span>
 
-    next = <span class="hljs-keyword">this</span>.readBytes(<span class="hljs-number">1</span>)[<span class="hljs-number">0</span>]; <span class="hljs-comment">// 读取一个字节</span>
+    next = this.readBytes(<span class="hljs-number">1</span>)[<span class="hljs-number">0</span>]; <span class="hljs-comment">// 读取一个字节</span>
 }
 
 <span class="hljs-comment">// LZW解压缩</span>
-let output = lzwDecode(LZWMinimumCodeSize, buffer);
+<span class="hljs-keyword">let</span> output = lzwDecode(LZWMinimumCodeSize, buffer);
 
 <span class="hljs-comment">// 转换像素色值</span>
-let colorTable = localColorTable || globalColorTable; <span class="hljs-comment">// 颜色列表，优先取局部，若没有局部则取全局</span>
-let pixelsBuffer = []; <span class="hljs-comment">// 用于存放像素颜色数据</span>
-output.forEach(index =&gt; {
-    index = parseInt(index, <span class="hljs-number">10</span>);
+<span class="hljs-keyword">let</span> colorTable = localColorTable || globalColorTable; <span class="hljs-comment">// 颜色列表，优先取局部，若没有局部则取全局</span>
+<span class="hljs-keyword">let</span> pixelsBuffer = []; <span class="hljs-comment">// 用于存放像素颜色数据</span>
+output.forEach(<span class="hljs-keyword">index</span> =&gt; {
+    <span class="hljs-keyword">index</span> = parseInt(<span class="hljs-keyword">index</span>, <span class="hljs-number">10</span>);
 
     <span class="hljs-comment">// rgba 色值</span>
     pixelsBuffer.push([
-        colorTable[index * <span class="hljs-number">3</span>],
-        colorTable[index * <span class="hljs-number">3</span> + <span class="hljs-number">1</span>],
-        colorTable[index * <span class="hljs-number">3</span> + <span class="hljs-number">2</span>],
-        isTransparent &amp;&amp; index === transparentIndex ? <span class="hljs-number">0</span> : <span class="hljs-number">1</span> <span class="hljs-comment">// alpha通道，表示是否透明</span>
+        colorTable[<span class="hljs-keyword">index</span> * <span class="hljs-number">3</span>],
+        colorTable[<span class="hljs-keyword">index</span> * <span class="hljs-number">3</span> + <span class="hljs-number">1</span>],
+        colorTable[<span class="hljs-keyword">index</span> * <span class="hljs-number">3</span> + <span class="hljs-number">2</span>],
+        isTransparent &amp;&amp; <span class="hljs-keyword">index</span> === transparentIndex ? <span class="hljs-number">0</span> : <span class="hljs-number">1</span> <span class="hljs-comment">// alpha通道，表示是否透明</span>
     ]);
 });
 </code></pre>
@@ -779,7 +779,7 @@ output.forEach(index =&gt; {
 <span class="hljs-comment">()</span>  <span class="hljs-comment">()</span>  <span class="hljs-comment">()</span>  <span class="hljs-comment">()</span>        <span class="hljs-number">5</span>   <span class="hljs-number">6</span>   <span class="hljs-number">7</span>   <span class="hljs-number">8</span>          <span class="hljs-number">5</span>   <span class="hljs-number">6</span>   <span class="hljs-number">7</span>   <span class="hljs-number">8</span>         <span class="hljs-number">5</span>   <span class="hljs-number">6</span>   <span class="hljs-number">7</span>   <span class="hljs-number">8</span> 
 <span class="hljs-comment">()</span>  <span class="hljs-comment">()</span>  <span class="hljs-comment">()</span>  <span class="hljs-comment">()</span>        <span class="hljs-comment">()</span>  <span class="hljs-comment">()</span>  <span class="hljs-comment">()</span>  <span class="hljs-comment">()</span>         <span class="hljs-comment">()</span>  <span class="hljs-comment">()</span>  <span class="hljs-comment">()</span>  <span class="hljs-comment">()</span>        <span class="hljs-number">25</span>  <span class="hljs-number">26</span>  <span class="hljs-number">27</span>  <span class="hljs-number">28</span> 
 <span class="hljs-comment">()</span>  <span class="hljs-comment">()</span>  <span class="hljs-comment">()</span>  <span class="hljs-comment">()</span>        <span class="hljs-comment">()</span>  <span class="hljs-comment">()</span>  <span class="hljs-comment">()</span>  <span class="hljs-comment">()</span>         <span class="hljs-number">13</span>  <span class="hljs-number">14</span>  <span class="hljs-number">15</span>  <span class="hljs-number">16</span>        <span class="hljs-number">13</span>  <span class="hljs-number">14</span>  <span class="hljs-number">15</span>  <span class="hljs-number">16</span>
-<span class="hljs-comment">()</span>  <span class="hljs-comment">()</span>  <span class="hljs-comment">()</span>  <span class="hljs-comment">()</span>        <span class="hljs-comment">()</span>  <span class="hljs-comment">()</span>  <span class="hljs-comment">()</span>  <span class="hljs-comment">()</span>         <span class="hljs-comment">()</span>  <span class="hljs-comment">()</span>  <span class="hljs-comment">()</span>  <span class="hljs-comment">()</span>        <span class="hljs-number">29</span>  <span class="hljs-number">30</span>  <span class="hljs-number">31</span>  <span class="hljs-number">32</span> 
+<span class="hljs-comment">()</span>  <span class="hljs-comment">()</span>  <span class="hljs-comment">()</span>  <span class="hljs-comment">()</span>        <span class="hljs-comment">()</span>  <span class="hljs-comment">()</span>  <span class="hljs-comment">()</span>  <span class="hljs-comment">()</span>         <span class="hljs-comment">()</span>  <span class="hljs-comment">()</span>  <span class="hljs-comment">()</span>  <span class="hljs-comment">()</span>        <span class="hljs-number">29</span>  <span class="hljs-number">30</span>  <span class="hljs-number">31</span>  <span class="hljs-number">32</span>
 </code></pre><p>用代码来实现，如下：</p>
 <pre><code class="lang-javascript">// 扫描图片
 <span class="hljs-built_in">let</span> imageDescriptor; // 图像标识符

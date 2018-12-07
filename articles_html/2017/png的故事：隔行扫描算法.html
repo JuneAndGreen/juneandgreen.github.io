@@ -450,7 +450,7 @@ let incY = [<span class="hljs-number">8</span>, <span class="hljs-number">8</spa
 let offset = <span class="hljs-number">0</span>; <span class="hljs-comment">// 记录小图开始位置</span>
 
 <span class="hljs-comment">// 7次扫描</span>
-<span class="hljs-keyword">for</span>(let i=<span class="hljs-number">0</span>; i&lt;<span class="hljs-number">7</span>; i++) {
+for(let i=<span class="hljs-number">0</span>; i&lt;<span class="hljs-number">7</span>; i++) {
         <span class="hljs-comment">// 子图像信息</span>
         let subWidth = Math.ceil((width - startY[i]) / incY[i], <span class="hljs-number">10</span>); <span class="hljs-comment">// 小图宽度</span>
         let subHeight = Math.ceil((height - startX[i]) / incX[i], <span class="hljs-number">10</span>); <span class="hljs-comment">// 小图高度</span>
@@ -459,14 +459,14 @@ let offset = <span class="hljs-number">0</span>; <span class="hljs-comment">// �
         let subData = data.slice(offset, offsetEnd); <span class="hljs-comment">// 小图像素数据</span>
 
         <span class="hljs-comment">// 对小图进行普通的逐行扫描</span>
-        let subPixelsBuffer = <span class="hljs-keyword">this</span>.<span class="hljs-built_in">int</span>erlaceNone(subData, subWidth, subHeight, bytesPerPixel, subBytesPerRow);
+        let subPixelsBuffer = this.interlaceNone(subData, subWidth, subHeight, bytesPerPixel, subBytesPerRow);
         let subOffset = <span class="hljs-number">0</span>;
 
         <span class="hljs-comment">// 像素归位</span>
-        <span class="hljs-keyword">for</span>(let x=startX[i]; x&lt;height; x+=incX[i]) {
-                <span class="hljs-keyword">for</span>(let y=startY[i]; y&lt;width; y+=incY[i]) {
+        for(let x=startX[i]; x&lt;height; x+=incX[i]) {
+                for(let y=startY[i]; y&lt;width; y+=incY[i]) {
                         <span class="hljs-comment">// 逐个像素拷贝回原本所在的位置</span>
-                        <span class="hljs-keyword">for</span>(let z=<span class="hljs-number">0</span>; z&lt;bytesPerPixel; z++) {
+                        for(let z=<span class="hljs-number">0</span>; z&lt;bytesPerPixel; z++) {
                                 pixelsBuffer[(x * width + y) * bytesPerPixel + z] = subPixelsBuffer[subOffset++] &amp; <span class="hljs-number">0xFF</span>;
                         }
                 }
@@ -475,7 +475,7 @@ let offset = <span class="hljs-number">0</span>; <span class="hljs-comment">// �
         offset = offsetEnd; <span class="hljs-comment">// 置为下一张小图的开始位置</span>
 }
 
-<span class="hljs-keyword">return</span> pixelsBuffer;
+return pixelsBuffer;
 </code></pre>
 <h2 id="-">尾声</h2>
 <p>整个Adam7隔行扫描的流程大概就是这样：</p>
