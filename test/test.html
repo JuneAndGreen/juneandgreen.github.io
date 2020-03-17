@@ -24,6 +24,7 @@
 <body>
   <button id="btn">触发</button>
   <div id="a"></div>
+  <div id="b" style="width: 200px; height: 200px; background: #ccc;" contenteditable="true"></div>
   <script>
     document.getElementById('btn').onclick = function() {
       var a = document.getElementById('a');
@@ -37,6 +38,10 @@
         a.style.opacity = 0;
       }, 1000);
     }
+    
+    setTimeout(function() {
+      document.getElementById('b').focus();
+    }, 1000);
   </script>
 </body>
 </html>
